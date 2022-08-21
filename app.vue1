@@ -1,0 +1,24 @@
+<template>
+  <!-- <NuxtLayout> -->
+     <!-- <NuxtPage /> -->
+    <!-- <div>
+      <div class="p-4">
+        {{data}}
+        <button class="btn">Hello daisyUI</button>
+      </div>
+      <div class="flex flex-row justify-center text-green-500 font-bold">pages - index.vue</div>
+      <button class="btn btn-primary">Button</button>
+      <TheHeader />
+     
+    </div> -->
+  <!-- </NuxtLayout> -->
+   <NuxtWelcome />
+</template>
+<script setup lang="ts">
+import { useNuxtApp } from '#app'
+console.log(useNuxtApp);
+
+let { $axios } = useNuxtApp()
+const axios = $axios()
+let {data} = await axios.get('https://v1.hitokoto.cn/')
+</script>

@@ -1,0 +1,17 @@
+// plugins/myPiniaPlugin.js
+import { PiniaPluginContext } from 'pinia'
+import { Plugin } from '@nuxt/types'
+
+function MyPiniaPlugin({ store }: PiniaPluginContext) {
+  store.$subscribe((mutation) => {
+    // 在存储变化的时候执行
+    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
+  })
+
+  return { creationTime: new Date() }
+}
+
+const myPlugin: Plugin = ({ pinia }) {
+  pinia.use(MyPiniaPlugin);
+}
+export default myPlugin

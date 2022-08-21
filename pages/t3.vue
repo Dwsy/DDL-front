@@ -1,0 +1,3 @@
+<template>
+  <h1>t3</h1>
+</template>

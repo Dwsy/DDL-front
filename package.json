@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.15.8",
+    "@nuxt/typescript-build": "^2.1.0",
+    "@nuxtjs/composition-api": "^0.33.1",
+    "@pinia/nuxt": "^0.4.1",
+    "autoprefixer": "^10.4.8",
+    "nuxt": "3.0.0-rc.8",
+    "postcss": "^8.4.16",
+    "prettier": "^2.5.1",
+    "sass": "^1.54.5",
+    "sass-loader": "12.6.0",
+    "vfonts": "^0.0.3"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.0.96",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/supabase": "^0.1.23",
+    "axios": "^0.27.2",
+    "highlight.js": "^11.3.1",
+    "mdi": "^2.2.43",
+    "pinia": "^2.0.20",
+    "vuetify": "^3.0.0-beta.8"
+  }
+}
