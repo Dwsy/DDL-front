@@ -1,32 +1,37 @@
 <template>
-    <div>
-        <!-- <Header /> -->
-        <slot />
-    </div>
+  <div>
+    <!-- App.vue -->
+
+    <v-app>
+      <v-navigation-drawer app v-model="layout.drawer">
+        <slot name="drawer"></slot>
+      </v-navigation-drawer>
+
+      <v-app-bar app>
+        <slot name="appbar"></slot>
+        <!-- -->
+      </v-app-bar>
+
+      <!-- Sizes your content based upon application components -->
+      <v-main>
+
+        <!-- Provides the application the proper gutter -->
+        <v-container fluid>
+
+          <!-- If using vue-router -->
+          <slot/>
+        </v-container>
+      </v-main>
+
+      <v-footer app>
+        <slot name="footer"></slot>
+        <!-- -->
+      </v-footer>
+    </v-app>
+
+  </div>
 </template>
 <script setup lang="ts">
-import { use } from 'h3';
-import { useUser } from '~~/stores/User';
-// if(typeof window === 'undefined'){
-//     console.log(1);
-    
-// }else{
-//     console.log(2);
-
-// }
-let user = useUser()
-if (typeof window !== 'undefined') {
-    let localToken = window.localStorage.getItem("token")
-    if (localToken !== null&&localToken !=='') {
-        user.setToken(localToken)
-        user.setUser(window.localStorage.getItem("user"))
-        user.setIsLogn(true)
-        // 后端接口判断
-    }
-    console.log("browser");
-    
-}else{
-    console.log("NODE");
-}
-
+import {useLayout} from '~~/stores/layout';
+let layout = useLayout()
 </script>

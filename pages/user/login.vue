@@ -22,6 +22,9 @@
 
 <script setup lang="ts">
 import { useUser } from "~~/stores/User";
+definePageMeta({
+  layout: false
+})
 const User = useUser();
 const login = () => {
     User.setIsLogn(true)
@@ -36,4 +39,8 @@ const reset = () => {
     localStorage.clear()
     console.log("logout");
 }
+onMounted(()=>{
+  console.log("onMounted11111111111111111111111111111")
+})
+
 </script>

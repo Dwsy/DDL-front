@@ -5,11 +5,8 @@
   </v-list-group>
 </div> -->
 <div>
-  <h1>
-    {{route.params.id}}
-  </h1>
-<pre v-if="data['content']!==null">
-  {{data['content']['text']}}
+<pre>
+  {{r}}
 </pre>
 </div>
 </template>
@@ -17,7 +14,7 @@
 
 <script setup lang="ts">
 import { useNuxtApp } from '#app'
-import { getById } from "~~/api/useApiTest"
+// import { getById } from "~~/api/useApiTest"
 import { useFetchResponse } from "~~/composables/useFetchResponse"
 let route = useRoute()
 console.log(route.params.id);
@@ -32,7 +29,7 @@ let body = {
   params: null,
 }
 const {data} = await useAsyncData(body.url, () => $fetch(body.url))
-console.log(data.value);
+let r = data.value['content']['text']
 // const {data} = await useAsyncData('byid', () =>  useFetchResponse(body))
 // console.log(data.value);
 

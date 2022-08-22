@@ -1,20 +1,15 @@
 <template>
   <div>
-    <h1>Index page</h1>
-    <nuxt-link to="/test">
-      <h2>test</h2>
-    </nuxt-link>
-    <nuxt-link to="/t1">
-      <h4>t1</h4>
-    </nuxt-link>
-    <nuxt-link to="/t2">
-      <h2>t2</h2>
-    </nuxt-link>
-    <nuxt-link to="/t3">
-      <h2>t3</h2>
-    </nuxt-link>
-        <nuxt-link to="/user/login">
-      <h2>login</h2>
-    </nuxt-link>
+    <div v-for="i in data['data']">
+      <h1>---------------</h1>
+      <nuxt-link :to="'/article/' + i.contentsId._id">
+        {{ i.title }}
+      </nuxt-link>
+    </div>
   </div>
 </template>
+<script setup lang="ts">
+let url = "https://nestapi.dwsy.link/api/fields?query=%7B%22limit%22:8,%22page%22:1,%22sort%22:%22-_id%22,%22populate%22:%22tag+classification%22%7D"
+const { data, pending, refresh } = await useAsyncData('doc', () => $fetch(url))
+let r = data.value['data']
+</script>

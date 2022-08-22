@@ -27,19 +27,29 @@ export default defineNuxtConfig({
     //   buildModules: ["@pinia/nuxt"],
     modules: [
         // '@nuxtjs/tailwindcss',
-        "@pinia/nuxt",
+        [
+            '@pinia/nuxt',
+            {
+                autoImports: [
+                    // automatically imports `usePinia()`
+                    'defineStore',
+                    // automatically imports `usePinia()` as `usePiniaStore()`
+                    ['defineStore', 'definePiniaStore'],
+                ],
+            },
+        ],
         // "@nuxtjs/supabase",
         // ['@nuxtjs/axios',{proxyHeaders:false}]
     ],
     supabase: {},
     // build modules
-    buildModules: [
-        // '@nuxtjs/composition-api/module',
-        '@pinia/nuxt'
-
-        // "@vueuse/nuxt",
-        // "@nuxtjs/axios",
-    ],
+    // buildModules: [
+    //     // '@nuxtjs/composition-api/module',
+    //     '@pinia/nuxt'
+    //
+    //     // "@vueuse/nuxt",
+    //     // "@nuxtjs/axios",
+    // ],
     // publicRuntimeConfig: {
     //     axios: {
     //         baseURL:
