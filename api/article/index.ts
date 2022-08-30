@@ -1,0 +1,1 @@
+export const fieldList="article/article/field/list"

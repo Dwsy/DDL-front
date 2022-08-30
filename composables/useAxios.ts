@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { useUser } from "../stores/User";
+import axios, { AxiosInstance, AxiosRequestConfig,AxiosResponse } from "axios";
+import { useUser } from "~~/stores/User";
 
 // import message from "../components/utils/message";
 export const BASE_URL = process.env.BASE_URL
@@ -59,4 +59,28 @@ Axios.interceptors.response.use(
     }
 );
 
-export default Axios;
+
+
+
+export const useGet = async (url: string, params?: object) => {
+    let r: AxiosResponse = undefined
+    try {
+        r = await Axios.get(url, { params: params })
+    } catch (error) {
+        r = error
+    }
+    return r;
+};
+
+export const usePost = async (url: string, data?: object) => {
+    let r: AxiosResponse = undefined
+    try {
+        r = await Axios.post(url, data)
+    } catch (error) {
+        r = error
+    }
+    return r;
+};
+
+export { get, post };
+

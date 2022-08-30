@@ -2,6 +2,8 @@ import { defineNuxtConfig } from 'nuxt'
 // import axios from 'axios'
 // import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
+console.log(process.env.BASE_URL);
+
 export default defineNuxtConfig({
     meta: {},
     intlify: {
@@ -50,14 +52,15 @@ export default defineNuxtConfig({
     //     // "@vueuse/nuxt",
     //     // "@nuxtjs/axios",
     // ],
-    // publicRuntimeConfig: {
-    //     axios: {
-    //         baseURL:
-    //             process.env.NODE_ENV === "production"
-    //                 ? "/api"
-    //                 : "http://localhost:7000/api",
-    //     },
-    // },
+    publicRuntimeConfig: {
+        axios: {
+            baseURL:
+                process.env.NODE_ENV === process.env.BASE_URL
+        },
+        app: {
+            baseURL: process.env.BASE_URL
+        }
+    },
     build: {
         postcss: {
             postcssOptions: {

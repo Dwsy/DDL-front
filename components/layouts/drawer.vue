@@ -81,15 +81,15 @@ let items= reactive([
   {
     icon: "mdi-flag-variant-outline",
     text: "文章归档",
-    link: "/archives",
+    link: "",
   },
   {
     icon: "mdi-timeline-clock-outline ",
     text: "时光机",
-    link: "/cross",
+    link: "",
   },
-  { icon: "mdi-image", text: "相册", link: "/image" },
-  { icon: "mdi-tag-multiple-outline", text: "Tag", link: "/tag" },
+  { icon: "mdi-image", text: "相册", link: "" },
+  { icon: "mdi-tag-multiple-outline", text: "Tag", link: "" },
   {
     icon: "mdi-chevron-up",
     "icon-alt": "mdi-chevron-down",
@@ -100,17 +100,17 @@ let items= reactive([
   {
     icon: "mdi-account-multiple-outline",
     text: "友情链接",
-    link: "/firend",
+    link: "",
   },
   {
     icon: "mdi-infinity",
     text: "infinitynewtab",
-    link: "/infinitynewtab",
+    link: "",
   },
   {
     icon: "mdi-information-variant",
     text: "关于",
-    link: "/about",
+    link: "",
   },
 ])
 </script>
