@@ -6,7 +6,7 @@
       <h1>---------------</h1>
       <!-- <nuxt-link :to="'/article/' + i.contentsId._id"> -->
       {{  i  }}
-      <!-- </nuxt-link> -->
+      <!-- </nuxt-link> gitest-->
     </div>
   </div>
 </template>
