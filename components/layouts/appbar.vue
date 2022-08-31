@@ -8,19 +8,19 @@
       text
       transition="fade-transition"
   >
-    <v-icon v-if="$vuetify.theme.dark"
+    <v-icon v-if="theme.global.current.value.dark"
     >mdi-white-balance-sunny
     </v-icon
     >
-    <v-icon v-if="!$vuetify.theme.dark">mdi-weather-night</v-icon>
+    <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
   </v-btn>
   <v-btn icon>
     <v-icon>mdi-bell-circle</v-icon>
   </v-btn>
-  <v-btn v-show="toc&&!pc" class="tocbtn"
+  <!-- <v-btn v-show="toc&&!pc" class="tocbtn"
          @click="showToc" icon>
     <v-icon>mdi-table-of-contents</v-icon>
-  </v-btn>
+  </v-btn> -->
 </template>
 
 <script setup lang="ts">

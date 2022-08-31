@@ -14,7 +14,7 @@
 
 </template>
 <script setup lang="ts">
-import {useUser} from '~~/stores/User';
+import {useUser} from '~~/stores/user';
 let user = useUser()
 if (typeof window !== 'undefined') {
   let localToken = window.localStorage.getItem("token")

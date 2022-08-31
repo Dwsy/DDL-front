@@ -25,8 +25,12 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/supabase": "^0.1.23",
     "axios": "^0.27.2",
+    "base64-js": "^1.5.1",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.5",
     "dotenv": "^16.0.1",
     "highlight.js": "^11.3.1",
+    "jsencrypt": "^3.2.1",
     "mdi": "^2.2.43",
     "pinia": "^2.0.20",
     "vuetify": "^3.0.0-beta.8"

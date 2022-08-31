@@ -1,5 +1,22 @@
-export const useApiFetch = (url, options = {}) => {
-    console.log("fetch:" + process.env.BASE_URL + url);
+import http from '../utils/fetch'
 
-    return $fetch(process.env.BASE_URL + url, options)
+
+export const useApiFetch = (url, options = {}) => {
+
+    return $fetch("http://localhost/" + url, options)
+    // return apiFetch(url,options)
+}
+
+
+
+export const useFetchGet = (params?: { size?: number, page?: number }) => {
+    return http.GET('/app/v1/tags', params)
+}
+
+export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
+    return http.GET('article/group/list', params)
+}
+
+export const useFetchGetArticleList = (params?: { size?: number, page?: number }) => {
+    return http.GET('article/article/field/list', params)
 }

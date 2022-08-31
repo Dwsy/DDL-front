@@ -1,10 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { useUser } from "../stores/User";
+import { useUser } from "../stores/user";
 
 // import message from "../components/utils/message";
 export const BASE_URL = process.env.BASE_URL
 const Axios = axios.create({
-    baseURL: BASE_URL||"http://api.local.com/"
+    baseURL: BASE_URL||"http://localhost/"
 });
 
 Axios.interceptors.request.use(

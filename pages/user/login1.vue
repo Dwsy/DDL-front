@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUser } from "~~/stores/User";
+import { useUser } from "~~/stores/user";
 definePageMeta({
   layout: false
 })

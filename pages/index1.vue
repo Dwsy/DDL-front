@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Index page</h1>
-    <nuxt-link to="/test">
+    <nuxt-link to="/">
       <h2>test</h2>
     </nuxt-link>
     <nuxt-link to="/t1">
