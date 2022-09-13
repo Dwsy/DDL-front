@@ -23,7 +23,7 @@
 </template>
 <script setup lang="ts">
 
-import {tokeTest,baseUrlTest} from "~~/api/useApiTest"
+// import {tokeTest,baseUrlTest} from "~~/api/useApiTest"
 import { ref } from 'vue';
 let r = ref(null)
 let count = ref<number>(0)

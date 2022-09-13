@@ -1,8 +1,8 @@
 import { _AsyncData } from 'nuxt/dist/app/composables/asyncData'
 const fetch = (url: string, options?: any): Promise<any> => {
     const { $config } = useNuxtApp()
-
-    const reqUrl = $config.public.app.baseURL + url // 你的接口地址
+    
+    const reqUrl = $config.public.app.baseURL + url+"?timestamp="+new Date().getTime() // 你的接口地址
 
     // rc.5开始默认缓存请求，需要设置initialCache为false，如果为true则需要设置一个唯一的key
     // 如果需要统一加参数可以options.params.token = 'xxx'
@@ -10,9 +10,10 @@ const fetch = (url: string, options?: any): Promise<any> => {
         useFetch(reqUrl,
             {
                 ...options,
-                initialCache: true,
+                // initialCache: true,
                 key: reqUrl,
-                mode: 'cors'
+                // mode: 'cors',
+                // lazy:true
             })
             .then(({ data, error }: _AsyncData<any, any>) => {
                 if (error.value) {
@@ -44,7 +45,10 @@ export default new class Http {
     GET(url: string, params?: any): Promise<any> {
         console.info("GET:" + url);
 
-        return fetch(url, { method: 'get', params })
+        return fetch(url, {
+            method: 'get',
+            params,
+        })
     }
 
     POST(url: string, body?: any): Promise<any> {

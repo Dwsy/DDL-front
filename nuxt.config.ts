@@ -25,14 +25,14 @@ export default defineNuxtConfig({
     //     },
     // },
     // css: ["~/assets/css/tailwind.css"],
-    css: ['vuetify/lib/styles/main.sass', 'mdi/css/materialdesignicons.min.css'],
+    css: ['vuetify/lib/styles/main.sass', '@mdi/font/css/materialdesignicons.css'],
     //   buildModules: ["@pinia/nuxt"],
     modules: [
         // '@nuxtjs/tailwindcss',
         [
             '@pinia/nuxt',
             {
-                autoImports: [
+                addImports: [
                     // automatically imports `usePinia()`
                     'defineStore',
                     // automatically imports `usePinia()` as `usePiniaStore()`
@@ -43,6 +43,16 @@ export default defineNuxtConfig({
         // "@nuxtjs/supabase",
         // ['@nuxtjs/axios',{proxyHeaders:false}]
     ],
+    imports: {
+        dirs: [
+          // Scan top-level modules
+          'composables',
+          // ... or scan modules nested one level deep with a specific name and file extension
+          'composables/*/index.{ts,js,mjs,mts}',
+          // ... or scan all modules within given directory
+          'composables/**'
+        ]
+      },
     supabase: {},
     // build modules
     // buildModules: [

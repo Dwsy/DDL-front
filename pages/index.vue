@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <Group></Group>
     <List></List>
   </div>

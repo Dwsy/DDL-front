@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { fieldList } from "~~/api/article/index"
+
 const data = await useFetchGetArticleList()
 let {content} = data.data
 

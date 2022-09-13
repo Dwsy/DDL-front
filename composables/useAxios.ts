@@ -11,7 +11,7 @@ Axios.interceptors.request.use(
     (conflg: AxiosRequestConfig) => {
         const User = useUser();
         const token = User.token;
-        console.log("++++interceptors++++");
+        // console.log("++++interceptors++++");
         // let token = window.localStorage.getItem("token")
         const flag: any = conflg || {};
         // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"

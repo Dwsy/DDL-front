@@ -1,4 +1,5 @@
 <template>
+<div>
   <NuxtLayout>
     <template #appbar>
       <LayoutsAppbar/>
@@ -9,8 +10,10 @@
     <template #footer>
       <LayoutsFooter/>
     </template>
-    <NuxtPage :key="$route.fullPath"></NuxtPage>
+    <NuxtPage :key="$route.fullPath"/>
   </NuxtLayout>
+
+</div>
 
 </template>
 <script setup lang="ts">

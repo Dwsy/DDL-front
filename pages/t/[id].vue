@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { useNuxtApp } from '#app'
 // import { getById } from "~~/api/useApiTest"
-import { useFetchResponse } from "~~/composables/useFetchResponse"
+// import { useFetchResponse } from "~~/composables/useFetchResponse"
 let route = useRoute()
 console.log(route.params.id);
 

@@ -18,15 +18,17 @@
         <!-- Provides the application the proper gutter -->
         <v-container fluid>
 
-          <!-- If using vue-router -->
+          <!-- If using 123 vue-router -->
           <slot/>
         </v-container>
-      </v-main>
 
-      <v-footer app>
+        <v-footer app>
         <slot name="footer"></slot>
         <!-- -->
       </v-footer>
+      </v-main>
+
+
     </v-app>
 
   </div>
