@@ -13,6 +13,6 @@
 <script setup lang="ts">
 
 const data = await useFetchGetArticleList()
-let {content} = data.data
+let {content} = data.data||null
 
 </script>

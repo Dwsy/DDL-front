@@ -10,8 +10,8 @@ const fetch = (url: string, options?: any): Promise<any> => {
         useFetch(reqUrl,
             {
                 ...options,
-                // initialCache: true,
-                key: reqUrl,
+                initialCache: false,
+                // key: reqUrl,
                 // mode: 'cors',
                 // lazy:true
             })

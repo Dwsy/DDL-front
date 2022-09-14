@@ -82,5 +82,5 @@ export const usePost = async (url: string, data?: object) => {
     return r;
 };
 
-export { get, post };
+// export { get, post };
 

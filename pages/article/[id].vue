@@ -10,14 +10,18 @@
     <div>
       <h1>comment</h1>
       <div v-for="i in comment.content">
-        <p v-if="i.childComments != null">
-        <p>1级评论{{ i.text }}</p>
+        <div v-if="i.childComments != null">
+
+        <div>
+          <h1>1级评论{{ i.text }}</h1>
+          <div v-for="c in i.childComments">
+            2级评论{{ c.text }}
+          </div>
+        </div>
         <p>===================================</p>
-        <p v-for="c in i.childComments">
-          2级评论{{ c.text }}
-        <p>=============================================================================</p>
-        </p>
-        </p>
+
+
+        </div>
         <p v-else>"暂无评论"</p>
       </div>
 
