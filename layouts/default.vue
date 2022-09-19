@@ -5,12 +5,13 @@
     <v-app>
       <v-navigation-drawer app v-model="layout.drawer">
         <slot name="drawer"></slot>
-      </v-navigation-drawer>
-
-      <v-app-bar app>
+        <v-app-bar app>
         <slot name="appbar"></slot>
         <!-- -->
       </v-app-bar>
+      </v-navigation-drawer>
+
+
 
       <!-- Sizes your content based upon application components -->
       <v-main>
@@ -20,10 +21,11 @@
 
           <!-- If using 123 vue-router -->
           <slot/>
+          <slot name="footer"></slot>
         </v-container>
 
         <v-footer app>
-        <slot name="footer"></slot>
+
         <!-- -->
       </v-footer>
       </v-main>

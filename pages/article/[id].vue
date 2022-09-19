@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <div v-html="data">
+    <div v-html="content">
     </div>
 
     <h1>content</h1>
@@ -12,13 +12,13 @@
       <div v-for="i in comment.content">
         <div v-if="i.childComments != null">
 
-        <div>
-          <h1>1级评论{{ i.text }}</h1>
-          <div v-for="c in i.childComments">
-            2级评论{{ c.text }}
+          <div>
+            <h1>1级评论{{ i.text }}</h1>
+            <div v-for="c in i.childComments">
+              2级评论{{ c.text }}
+            </div>
           </div>
-        </div>
-        <p>===================================</p>
+          <p>===================================</p>
 
 
         </div>
@@ -40,17 +40,16 @@ let route = useRoute()
 // let url = "http://localhost/article/article/field/9"
 // const d = await useAsyncData(url, () => $fetch(url))
 
-let { data } = await useFetchGetArticleField(route.params.id)
-console.log(data);
 
-let html = await useFetchGetArticleContent(route.params.id, {
-  type: 0
-})
-html = html.data
+let { data: content } = await useFetchGetArticleField(route.params.id)
+let { data: html } = await useFetchGetArticleContent(route.params.id, { type: 1 })
+let { data: comment } = await useFetchGetArticleComment(route.params.id)
 
-let c =await useFetchGetArticleComment(route.params.id)
 
-let comment = c.data
+
+
+
+
 
 
 </script>

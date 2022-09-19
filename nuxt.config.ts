@@ -1,7 +1,4 @@
-import { defineNuxtConfig } from 'nuxt'
-// import axios from 'axios'
-// import type { AxiosInstance, AxiosRequestConfig } from 'axios'
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
+
 console.log(process.env.BASE_URL);
 
 export default defineNuxtConfig({

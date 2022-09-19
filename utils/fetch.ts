@@ -1,5 +1,5 @@
 import { _AsyncData } from 'nuxt/dist/app/composables/asyncData'
-const fetch = (url: string, options?: any): Promise<any> => {
+const Cfetch = (url: string, options?: any): Promise<any> => {
     const { $config } = useNuxtApp()
     
     const reqUrl = $config.public.app.baseURL + url+"?timestamp="+new Date().getTime() // 你的接口地址
@@ -11,6 +11,7 @@ const fetch = (url: string, options?: any): Promise<any> => {
             {
                 ...options,
                 initialCache: false,
+                // initialCache: true,
                 // key: reqUrl,
                 // mode: 'cors',
                 // lazy:true
@@ -45,21 +46,21 @@ export default new class Http {
     GET(url: string, params?: any): Promise<any> {
         console.info("GET:" + url);
 
-        return fetch(url, {
+        return Cfetch(url, {
             method: 'get',
             params,
         })
     }
 
     POST(url: string, body?: any): Promise<any> {
-        return fetch(url, { method: 'post', body })
+        return Cfetch(url, { method: 'post', body })
     }
 
     PUT(url: string, body?: any): Promise<any> {
-        return fetch(url, { method: 'put', body })
+        return Cfetch(url, { method: 'put', body })
     }
 
     DELETE(url: string, body?: any): Promise<any> {
-        return fetch(url, { method: 'delete', body })
+        return Cfetch(url, { method: 'delete', body })
     }
 }

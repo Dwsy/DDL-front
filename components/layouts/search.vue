@@ -29,7 +29,7 @@
 </template>
 <script setup>
 import {onMounted, watch} from 'vue'
-import {useRouter} from 'nuxt/app'
+import {useRouter} from '#app'
 import {useFethGetSearchSuggestion} from '~/composables/Api/search'
 let Router=  useRouter()
 let model =ref(null)
