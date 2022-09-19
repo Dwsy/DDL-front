@@ -3,12 +3,13 @@
     <!-- App.vue -->
 
     <v-app>
-      <v-navigation-drawer app v-model="layout.drawer">
-        <slot name="drawer"></slot>
-        <v-app-bar app>
-        <slot name="appbar"></slot>
+      <v-app-bar app>
+          <slot name="appbar"></slot>
         <!-- -->
       </v-app-bar>
+      <v-navigation-drawer app v-model="layout.drawer">
+        <slot name="drawer"></slot>
+
       </v-navigation-drawer>
 
 

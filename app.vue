@@ -1,5 +1,5 @@
 <template>
-<div>
+
   <NuxtLayout>
     <template #appbar>
       <LayoutsAppbar/>
@@ -13,21 +13,21 @@
     <NuxtPage :key="$route.fullPath"/>
   </NuxtLayout>
 
-</div>
+
 
 </template>
 <script setup lang="ts">
-import {useUser} from '~~/stores/user';
-let user = useUser()
+// import {useUser} from '~~/stores/user';
+// let user = useUser()
 if (typeof window !== 'undefined') {
-  let localToken = window.localStorage.getItem("token")
-  if (localToken !== null && localToken !== '') {
-    user.setToken(localToken)
-    user.setUser(window.localStorage.getItem("user"))
-    user.setIsLogn(true)
-    // 后端接口判断
-  }
-  console.log("browser");
+  // let localToken = window.localStorage.getItem("token")
+  // if (localToken !== null && localToken !== '') {
+  //   user.setToken(localToken)
+  //   user.setUser(window.localStorage.getItem("user"))
+  //   user.setIsLogn(true)
+  //   // 后端接口判断
+  // }
+  // console.log("browser");
 
 } else {
   console.log("NODE");
