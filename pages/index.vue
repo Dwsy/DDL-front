@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <Group></Group>
-    <List></List>
-  </div>
+  {{paramId}}
 </template>
   
-<script setup lang="ts">
-import List from "~~/components/article/index/list.vue";
-import Group from "~~/components/article/index/group.vue";
-
-
+<script setup lang=ts >
+let paramId = useRoute().params.id
+let Router=  useRouter()
+if (paramId==undefined) {
+  Router.push('/article')
+}else{
+  Router.push('/paramId')
+}
 </script>
   
-<style lang="scss" scoped>
+<style scoped>
+
 </style>

@@ -26,3 +26,7 @@ export const useFetchGetArticleComment = (id,params?: { size?: number, page?: nu
 export const useFetchGetArticleTagListByGroupId = (id?,params?: { order?: string, properties?: string }) => {
     return http.GET('article/tag/group/list/'+id, params)
 }
+
+export const useFetchGetArticleTagList = (params?: { order?: string, properties?: string }) => {
+    return http.GET('article/tag/list/', params)
+}

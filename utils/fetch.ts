@@ -20,6 +20,8 @@ const fetch = (url: string, options?: any): Promise<any> => {
       }
       const value = data.value
       if (!value) {
+        console.log(value);
+        
         // 这里处理错你自定义的错误，例如code !== 1
         throw createError({
           statusCode: 500,

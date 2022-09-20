@@ -5,12 +5,12 @@
     </v-toolbar-title>
 
     <v-col cols="10">
-      <v-avatar size="50px" class="img-full">
+      <!-- <v-avatar size="50px" class="img-full">
         <img
             alt="Avatar"
             src="https://q.qlogo.cn/g?b=qq&nk=1521986032&s=100"
         />
-      </v-avatar>
+      </v-avatar> -->
 <!--      <sub>{{ greetings }}</sub>-->
 <!--      <div @click="upyy">-->
 <!--        <sub>{{ yy.hitokoto }}</sub-->

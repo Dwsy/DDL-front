@@ -17,19 +17,20 @@
 
 </template>
 <script setup lang="ts">
-// import {useUser} from '~~/stores/user';
-// let user = useUser()
-if (typeof window !== 'undefined') {
-  // let localToken = window.localStorage.getItem("token")
-  // if (localToken !== null && localToken !== '') {
-  //   user.setToken(localToken)
-  //   user.setUser(window.localStorage.getItem("user"))
-  //   user.setIsLogn(true)
-  //   // 后端接口判断
-  // }
-  // console.log("browser");
-
-} else {
+import {useUser} from '~~/stores/user';
+let user = useUser()
+onMounted(()=>{
+  let localToken = window.localStorage.getItem("token")
+  if (localToken !== null && localToken !== '') {
+    user.setToken(localToken)
+    user.setUser(window.localStorage.getItem("user"))
+    user.setIsLogn(true)
+    // 后端接口判断
+  }
+})
+if (typeof window === 'undefined') {
   console.log("NODE");
+} else {
+
 }
 </script>

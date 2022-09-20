@@ -1,9 +1,4 @@
 <template>
-  <div >
-
-
-
-
 
    <v-autocomplete
        v-model="model"
@@ -23,9 +18,6 @@
        return-object
    ></v-autocomplete>
 
-
-
-  </div>
 </template>
 <script setup>
 import {onMounted, watch} from 'vue'
@@ -37,6 +29,9 @@ let text = ref('')
 let sug = ref(null)
 let isLoading = ref(false)
 const suggestion = async () => {
+  if(text.value.length===''){
+    return
+  }
   isLoading.value = true
   sug.value = (await useFethGetSearchSuggestion(text.value)).data
   isLoading.value = false

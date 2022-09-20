@@ -1,30 +1,64 @@
 <template>
   <div>
-    <h1>Group</h1>
-    <div  v-for="i in group">
-        <v-btn @click="changeGroup(i.id)" >
-          {{ i.name}}
-        </v-btn>
-    </div>
-    
+    <v-row>
+      <span class="pt-3 px-4 text-body-1">分类:</span>
+      <v-chip-group v-bind:model-value="selectionGroup" mandatory>
+        <v-chip @click="changeGroup(0)">
+          综合
+        </v-chip>
+        <v-chip label v-for="g in groupData" :key="g.id" @click="changeGroup(g.id)" variant="outlined">
+          {{ g.name}}
+        </v-chip>
+      </v-chip-group>
+    </v-row>
+
     <div>
-      <h1>Tag</h1>
-      {{ tag }}
+      <v-divider class="my-2"></v-divider>
+      <v-row>
+        <span class="pt-3 px-4 text-body-1">标签:</span>
+        <v-chip-group v-bind:model-value="selectionTag" mandatory>
+          <v-chip>
+            推荐
+          </v-chip>
+          <v-chip v-for="tag in tags" :key="tag.id" @click="changeTag(tag.id)">
+            {{ tag.name}}
+          </v-chip>
+        </v-chip-group>
+      </v-row>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+let selectionGroup = ref(null)
+let selectionTag = ref(null)
+let tags = ref(null)
+const { data: groupData } = await useFetchGetArticleGroupList()
+tags.value = (await useFetchGetArticleTagList()).data
 
+onMounted(async () => {
+  selectionGroup.value = 0
+  selectionTag.value = 0
+  // changeGroup(groupData[0].id)
+})
+const changeGroup = async (id: number) => {
+  // selectionGroup.value = id
+  if (id == 0) {
+    tags.value = (await useFetchGetArticleTagList()).data
+    return
+  }
+  tags.value = (await useFetchGetArticleTagListByGroupId(id)).data
+  selectionTag.value = 0
+  console.log(selectionTag.value);
 
-
-
-const { data } = await useAsyncData('glist', () => useApiFetch("article/group/list"))
-// const group =await useFetchGetArticleGroupList()
-const group = data.value['data']
-const tag = ref(null)
-const changeGroup= async (id:number)=>{
-  tag.value = (await useFetchGetArticleTagListByGroupId(id)).data
 }
+const changeTag = (id: Number) => { }
+
 
 </script>
+
+<style scoped>
+.v-chip--selected {
+  color: #9b59b6;
+}
+</style>
