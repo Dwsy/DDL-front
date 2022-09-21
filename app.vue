@@ -34,3 +34,10 @@ if (typeof window === 'undefined') {
 
 }
 </script>
+
+<style>
+a{
+  text-decoration: none;
+  color: inherit;
+}
+</style>

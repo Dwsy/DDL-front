@@ -131,6 +131,7 @@ export interface searchContent {
   upNum: number;
   downNum: number;
   suggestion?: any;
+  createTime?: string
 }
 </script>
 <style scoped>

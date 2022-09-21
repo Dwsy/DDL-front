@@ -6,7 +6,7 @@
           <v-col class="px-4" cols="4">
             <div class="text-subtitle-1">
               <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>
-              {{user.nickname}} | <span class="text-subtitle-2">{{dateFliter(createTime,"YYYY-MM-DD")}}</span>
+              {{user.nickname}} | <span class="text-subtitle-2">{{dataFilter(createTime,"YYYY-MM-DD")}}</span>
               <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
                 <span class="text-subtitle-2 link" to="/tag"> /
                   {{tag.name}}
@@ -100,8 +100,5 @@ export interface ArticleGroup {
 </script>
 
 <style scoped>
-:deep(a) {
-  text-decoration: none;
-  color: inherit;
-}
+
 </style> 

@@ -10,23 +10,15 @@
 
     </v-navigation-drawer>
 
-    <v-row>
-      <v-col xl="1" lg="1" md="0" sm="0" xs="0"></v-col>
+    <v-main>
+      <v-container>
+        <slot />
+        <slot name="footer"></slot>
+      </v-container>
 
-      <v-col xl="10" lg="10" md="10" sm="12" xs="12">
-        <v-main>
-          <v-container>
-            <slot />
-            <slot name="footer"></slot>
-          </v-container>
-
-          <v-footer>
-          </v-footer>
-        </v-main>
-      </v-col>
-
-      <v-col xl="1" lg="1" md="1" sm="0" xs="0"></v-col>
-    </v-row>
+      <v-footer>
+      </v-footer>
+    </v-main>
 
 
   </v-app>

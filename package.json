@@ -16,7 +16,6 @@
     "@vueuse/nuxt": "^9.2.0",
     "autoprefixer": "^10.4.11",
     "nuxt": "3.0.0-rc.10",
-    "postcss": "^8.4.16",
     "prettier": "^2.5.1",
     "sass": "^1.54.8",
     "sass-loader": "13.0.2",
@@ -34,6 +33,7 @@
     "jsencrypt": "^3.2.1",
     "mdi": "^2.2.43",
     "pinia": "^2.0.22",
+    "postcss": "^8.4.16",
     "vuetify": "^3.0.0-beta.11"
   }
 }
