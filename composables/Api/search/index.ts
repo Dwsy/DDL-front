@@ -5,7 +5,7 @@ import {useGet} from '~/composables/useAxios'
 
 
 
-export const useAxiosGetSearchArticle = (query,params?: { size?: number, page?: number }) => {
+export const useAxiosGetSearchArticle = (query,params?: { size?: number, page?: number,order?:string,properties?:string }) => {
     return useGet('search/article/'+query, params)
 }
 

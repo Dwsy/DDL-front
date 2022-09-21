@@ -20,7 +20,7 @@
           <v-chip>
             推荐
           </v-chip>
-          <v-chip v-for="tag in tags" :key="tag.id" @click="changeTag(tag.id)">
+          <v-chip v-for="tag in tags" :key="tag.id" @click="emit('selectTag', tag.id)">
             {{ tag.name}}
           </v-chip>
         </v-chip-group>
@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(["selectTag"])
 let selectionGroup = ref(null)
 let selectionTag = ref(null)
 let tags = ref(null)
@@ -52,7 +53,7 @@ const changeGroup = async (id: number) => {
   console.log(selectionTag.value);
 
 }
-const changeTag = (id: Number) => { }
+const changeTag = (id: Number) => {}
 
 
 </script>

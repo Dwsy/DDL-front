@@ -1,9 +1,9 @@
 <template>
 
   <v-app>
-    <v-app-bar density="compact" elevation="1">
+
       <slot name="appbar"></slot>
-    </v-app-bar>
+
 
     <v-navigation-drawer v-model="layout.drawer">
       <slot name="drawer"></slot>

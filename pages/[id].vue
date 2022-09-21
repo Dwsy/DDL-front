@@ -3,7 +3,7 @@
 
 <template>
     <div>
-      <Group></Group>
+      <!-- <Group></Group> -->
       <!-- <List></List> -->
     </div>
   </template>
