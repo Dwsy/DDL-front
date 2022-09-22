@@ -1,14 +1,12 @@
 import http from '~~/utils/fetch'
-export const fieldList = "article/article/field/list"
-
-
+import {useGet, usePost} from '~/composables/useAxios'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
     return http.GET('article/group/list', params)
 }
 
-export const useFetchGetArticleList = (params?: 
-    { size?: number, page?: number, tagId?: string, order?: string, properties?: string }) => {
+export const useFetchGetArticleList = (params?:
+                                           { size?: number, page?: number, tagId?: string, order?: string, properties?: string }) => {
     return http.GET('article/article/field/list', params)
 }
 
@@ -20,9 +18,14 @@ export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
     return http.GET('article/article/content/' + id, params)
 }
 
+//----
 export const useFetchGetArticleComment = (id, params?: { size?: number, page?: number }) => {
     return http.GET('article/comment/' + id, params)
 }
+export const useAxiosGetArticleComment = (id, params?: { size?: number, page?: number }) => {
+    return useGet('article/comment/' + id, params)
+}
+//----
 
 export const useFetchGetArticleTagListByGroupId = (id?, params?: { order?: string, properties?: string }) => {
     return http.GET('article/tag/group/list/' + id, params)
@@ -31,3 +34,24 @@ export const useFetchGetArticleTagListByGroupId = (id?, params?: { order?: strin
 export const useFetchGetArticleTagList = (params?: { order?: string, properties?: string }) => {
     return http.GET('article/tag/list/', params)
 }
+
+//----
+export interface ArticleCommentAction {
+    actionCommentId: number;
+    actionUserId?: number;
+    articleFieldId: number;
+    commentType?: commentType;
+}
+
+export enum commentType {
+    comment, comment_comment, up, down, cancel,
+    upToDown,
+    downToUp
+}
+
+export const useAxiosPostActionArticleComment = (body: ArticleCommentAction) => {
+    console.log(body.commentType)
+    return usePost('article/comment/action', body)
+}
+
+//----

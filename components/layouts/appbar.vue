@@ -5,17 +5,19 @@
     <v-row>
       <v-col sm="1" md="4" cols="4" offset="3">
 
-          <Search />
+        <Search/>
 
       </v-col>
 
 
       <v-col class="pt-4" offset="3">
-        <v-btn icon>
-          <v-icon>
-            mdi-account
-          </v-icon>
-        </v-btn>
+        <nuxt-link to="/user/login">
+          <v-btn icon>
+            <v-icon>
+              mdi-account
+            </v-icon>
+          </v-btn>
+        </nuxt-link>
         <v-btn icon>
           <v-icon>mdi-bell-circle</v-icon>
         </v-btn>
@@ -27,7 +29,6 @@
       </v-col>
 
 
-
     </v-row>
   </v-app-bar>
 
@@ -35,9 +36,10 @@
 </template>
 
 <script setup lang="ts">
-import { useLayout } from '~~/stores/layout';
-import { useTheme } from "vuetify";
-import Search from './search.vue';
+import {useLayout} from '~~/stores/layout'
+import {useTheme} from 'vuetify'
+import Search from './search.vue'
+
 let theme = useTheme()
 let layout = useLayout()
 const switchTheme = () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'

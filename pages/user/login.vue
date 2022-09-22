@@ -1,83 +1,93 @@
 <template>
 
-    <div>
+  <div>
+    <v-row>
+      <v-col cols="4"></v-col>
+      <v-col cols="6">
         <v-form v-model="valid">
-            <v-container>
-                <v-row>
-                    <v-col cols="12" md="4">
-                        <v-text-field v-model="username" label="username" required></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="4">
-                        <v-text-field v-model="password" label="password" required></v-text-field>
-                    </v-col>
-                </v-row>
-            </v-container>
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field v-model="username" label="username" required></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field v-model="password" label="password" type="password" required></v-text-field>
+              </v-col>
+            </v-row>
+            <v-btn color="secondary" @click="login">login</v-btn>
+          </v-container>
         </v-form>
-        <v-btn color="secondary" @click="login">login</v-btn>
-        <div>
-            1
-            {{  payload  }}
-        </div>
+        <v-col cols="3"></v-col>
+
+      </v-col>
+    </v-row>
+    <div>
+      <span>
+        payload::{{ payload }}
+      </span>
+      <span>
+        {{User.token}}
+      </span>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { FetchResult } from "#app";
-import { useUser } from "~~/stores/user";
+
+import {useUser} from '~~/stores/user'
 // import tool from "~~/utils/tool"
-import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js'
+import {rsaEncrypt} from '~/composables/useTools'
+
 definePageMeta({
-    layout: false
+  // layout: false
 })
-let valid = ref(null)
-let username = ref("dwsy")
-let password = ref(123)
-let payload = ref(null)
-let t = ref<string>()
-const User = useUser();
-let Router=  useRouter()
+const valid = ref(null)
+const username = ref('Dwsy')
+const password = ref()
+const payload = ref(null)
+const publicKey = ref()
+const t = ref<string>()
+const User = useUser()
+let Router = useRouter()
+let RsdEncrypt:Function=undefined
+onMounted(() => {
+
+})
+
+
 const login = async () => {
-    User.setIsLogn(true)
-    let up = {
-        username: username.value,
-        password: password.value
-    }
-    const r = await usePost("au/authority/token", up)
-    const publicKey = await useGet("au/authority/rsa-pks")
-    // const r = await useGet("/au/")
-    // const r = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //         // 'Content-Type': 'application/x-www-form-urlencoded',
-    //     }
-    // });
-    t.value = r.data["token"]
-    console.log(t.value);
-    
-    let token=t.value
-    console.log(token.split(".")[1]);
 
-    payload.value = JSON.parse(CryptoJS.enc.Base64.parse(token.split(".")[1]).toString(CryptoJS.enc.Utf8))
-    console.log(payload);
 
-    console.log(publicKey.data['data'] || null);
+  publicKey.value = (await useGet('au/authority/rsa-pks')).data['data']
+  console.log('publicKey', publicKey.value)
+  console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
+  let uap = {
+    username: username.value,
+    password: rsaEncrypt(publicKey.value, password.value)
+  }
+  const r = await usePost('au/authority/token', uap)
+  t.value = r.data['token']
+  let token = t.value
+  payload.value = JSON.parse(CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8))
+  console.log(token.split('.')[1])
+  console.log(payload)
 
-    User.setToken(token)
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", token.split(".")[1]);
-    User.setUser(token.split(".")[1])
-    console.log("login");
-    Router.push('/')
+  User.setToken(token)
+  localStorage.setItem('token', token)
+  localStorage.setItem('user', token.split('.')[1])
+  User.setUser(token.split('.')[1])
+  console.log('login')
+  User.setIsLogn(true)
+  Router.push('/')
 }
 const reset = () => {
-    User.$reset()
-    localStorage.clear()
-    console.log("logout");
+  User.$reset()
+  localStorage.clear()
+  console.log('logout')
 }
-onMounted(() => {
-})
+
 </script>
 
