@@ -26,10 +26,14 @@
 <script setup lang="ts">
 import List, {articleListData} from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
 onMounted(() => {
   document.body.onscroll = loadingWin
+})
+onUnmounted(()=>{
+  document.body.onscroll = null
 })
 // const page = ref(1)
 const params = ref({size: 8, page: 1, tagId: null, order: null, properties: null})
@@ -71,6 +75,7 @@ const loadingMore = async () => {
   if (params.value.page >= Number(totalPages.value)) {
     if (listContent.value.length > 8) {
       alert.value = true
+      document.body.onscroll = null
     }
     return
   }

@@ -1,10 +1,12 @@
 import axios, { AxiosInstance, AxiosRequestConfig,AxiosResponse } from "axios";
 import { useUser } from "~~/stores/user";
+import {useNuxtApp} from '#app'
 
 // import message from "../components/utils/message";
-export const BASE_URL = process.env.BASE_URL
+// const { $config  } = useNuxtApp()
+// console.log($config)
 const Axios = axios.create({
-    baseURL: BASE_URL||"http://localhost/"
+    baseURL: "http://localhost/"
 });
 
 Axios.interceptors.request.use(

@@ -6,7 +6,7 @@
           <v-col class="px-4" cols="4">
             <div class="text-subtitle-1">
               <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>
-              {{user.nickname}} | <span class="text-subtitle-2">{{dataFilter(createTime,"YYYY-MM-DD")}}</span>
+              {{user.nickname}} | <span class="text-subtitle-2">{{dateFilter(createTime,"YYYY-MM-DD")}}</span>
               <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
                 <span class="text-subtitle-2 link" to="/tag"> /
                   {{tag.name}}
@@ -38,6 +38,7 @@
   </div>
 </template>
 <script setup lang=ts >
+import {dateFilter} from "#imports";
 // import { articleListData } from '~~/types/article';
 let imgList = ["https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.jpg",
   "https://tva1.sinaimg.cn/large/005NWBIgly1go8137lfsdj30rx0rw0up.jpg",

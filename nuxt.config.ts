@@ -1,19 +1,30 @@
-
-console.log(process.env.BASE_URL);
+console.log(process.env.BASE_URL)
 
 export default defineNuxtConfig({
-    meta: {},
-    intlify: {
-        localeDir: "locales",
-        vueI18n: {},
+    app: {
+        head: {
+            meta: [],
+            noscript: [],
+            style: [],
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1',
+            script: [
+                {src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js'}
+            ],
+            link: [
+                {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css'}
+            ],
+        },
     },
+
+
     vite: {
         // logLevel: "info",
         optimizeDeps: {
-            include: ["vue", "pinia"],
+            include: ['vue', 'pinia'],
         },
         define: {
-            "process.env.DEBUG": "false",
+            'process.env.DEBUG': 'false',
         },
     },
     // css: ["~/assets/css/tailwind.css"],
@@ -28,17 +39,17 @@ export default defineNuxtConfig({
                     ['defineStore', 'definePiniaStore'],
                 ],
             },
-            
+
         ],
         '@vueuse/nuxt',
     ],
     imports: {
         dirs: [
-          'composables',
-          'composables/*/index.{ts,js,mjs,mts}',
-          'composables/**'
+            'composables',
+            'composables/*/index.{ts,js,mjs,mts}',
+            'composables/**'
         ]
-      },
+    },
     supabase: {},
     publicRuntimeConfig: {
         axios: {
@@ -57,6 +68,6 @@ export default defineNuxtConfig({
         //         },
         //     },
         // },
-        transpile: ["vuetify"],
+        transpile: ['vuetify'],
     },
 })

@@ -22,18 +22,23 @@ export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
 export const useFetchGetArticleComment = (id, params?: { size?: number, page?: number }) => {
     return http.GET('article/comment/' + id, params)
 }
-export const useAxiosGetArticleComment = (id, params?: { size?: number, page?: number }) => {
+export const useAxiosGetArticleComment = (id, params?: {properties?:string,order?:string, size?: number, page?: number }) => {
     return useGet('article/comment/' + id, params)
 }
+
 //----
-
-export const useFetchGetArticleTagListByGroupId = (id?, params?: { order?: string, properties?: string }) => {
-    return http.GET('article/tag/group/list/' + id, params)
+export interface ReplyArticleCommentBody {
+    articleFieldId: number;
+    parentCommentId: number;
+    parentUserId: number;
+    text: string;
 }
 
-export const useFetchGetArticleTagList = (params?: { order?: string, properties?: string }) => {
-    return http.GET('article/tag/list/', params)
+
+export const useAxiosPostReplyArticleComment = (body: ReplyArticleCommentBody) => {
+    return usePost('article/comment', body)
 }
+
 
 //----
 export interface ArticleCommentAction {
@@ -55,3 +60,11 @@ export const useAxiosPostActionArticleComment = (body: ArticleCommentAction) => 
 }
 
 //----
+
+export const useFetchGetArticleTagListByGroupId = (id?, params?: { order?: string, properties?: string }) => {
+    return http.GET('article/tag/group/list/' + id, params)
+}
+
+export const useFetchGetArticleTagList = (params?: { order?: string, properties?: string }) => {
+    return http.GET('article/tag/list/', params)
+}
