@@ -20,12 +20,13 @@ import {useUser} from '~~/stores/user'
 import {onMounted} from 'vue'
 
 let user = useUser()
-onMounted(() => {
+onMounted(async () => {
   let localToken = window.localStorage.getItem('token')
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)
-    user.setUser(window.localStorage.getItem('user'))
+    user.setUser(JSON.parse(window.localStorage.getItem('user')))
     user.setIsLogin(true)
+    await user.getUserAvatar()
     // 后端接口判断
   }
 })

@@ -8,7 +8,7 @@
             <v-row>
               <v-col>
               <span class="text-h5 pl-4">
-                {{ field.title }}
+                {{ articleStore.articleField.title }}
               </span>
               </v-col>
             </v-row>
@@ -16,27 +16,31 @@
             <v-row>
               <v-col cols="1" class="mr-lg-5 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
                 <v-avatar size="x-large">
-                  <v-img :src="field.user.userInfo.avatar"></v-img>
+                  <v-img :src="articleStore.articleField.user.userInfo.avatar"></v-img>
                 </v-avatar>
               </v-col>
               <v-col cols="5" class="ml-n1 mt-1">
                 <v-row>
                   <v-col class="ml-n8 ">
-                    <span>{{ field.user.nickname }}</span>
-                    <span class="pl-3">Level:{{ field.user.level }}</span>
+                    <span>{{ articleStore.articleField.user.nickname }}</span>
+                    <span class="pl-3">Level:{{ articleStore.articleField.user.level }}</span>
 
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col class="ml-n8 mt-n3 d-none d-sm-flex" style="color:#8a919f">
-                    <span>  {{ dateFilter(field.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
-                    <span>阅读量：{{ field.viewNum }}</span>
+                    <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
+                    <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                   </v-col>
                 </v-row>
               </v-col>
               <v-col class="mt-2">
-                <v-btn class="float-end mx-4" color="blue lighten-3">
+
+                <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
+                  <span style="color: white">已关注</span>
+                </v-btn>
+                <v-btn v-else class="float-end mx-4" color="blue lighten-3">
                   <span style="color: white">关注</span>
                 </v-btn>
               </v-col>
@@ -44,8 +48,8 @@
             <v-row class="d-flex d-sm-none mx-4">
               <v-col>
                 <v-col class="ml-n8 mt-n3 " style="color:#8a919f">
-                  <span>  {{ dateFilter(field.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
-                  <span>阅读量：{{ field.viewNum }}</span>
+                  <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
+                  <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                 </v-col>
               </v-col>
             </v-row>
@@ -53,7 +57,7 @@
 
           <v-divider class="my-4"></v-divider>
 
-          <div v-html="articleStore.contentHtml" :class="markdownTheme" class=" js-toc-content"></div>
+          <div v-html="articleStore.contentHtml" :class="articleStore.markdownTheme" class=" js-toc-content"></div>
 
         </div>
         <v-divider class="mt-8 mb-6"></v-divider>
@@ -62,14 +66,14 @@
           <v-col>
             <v-chip class="mr-6" color="primary" label>
               <v-icon left>mdi-format-list-group</v-icon>
-              分组：{{ field.articleGroup.name }}
+              分组：{{ articleStore.articleField.articleGroup.name }}
             </v-chip>
             <div class="my-3  d-md-none"></div>
             <v-chip class="mr-2" color="pink lighten-1" label>
               <v-icon left>mdi-tag</v-icon>
               <span>标签</span>
             </v-chip>
-            <v-chip class="mr-1" v-for="tag in field.articleTags" :key="tag.id">
+            <v-chip class="mr-1" v-for="tag in articleStore.articleField.articleTags" :key="tag.id">
               <nuxt-link :to="`/article/tag/${tag.id}`">
                 {{ tag.name }}
               </nuxt-link>
@@ -86,7 +90,7 @@
 
             <v-col cols="1" class="d-none d-md-flex">
               <v-avatar size="x-large">
-                <v-img :src="field.user.userInfo.avatar"></v-img>
+                <v-img :src="user.userInfo.avatar"></v-img>
               </v-avatar>
             </v-col>
             <v-col class="ml-xl-n8 ml-lg-n2">
@@ -101,11 +105,11 @@
             <v-divider class="mb-6 mt-n4"></v-divider>
           </v-row>
 
-          <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改-->
+          <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
+
           <!--          Uncaught (in promise) TypeError: Cannot read properties of null (reading 'parentNode')-->
           <!--          <v-row>-->
           <!--            <v-col>-->
-          <!--              <div class="text-start">-->
           <!--                <v-menu location="bottom" nudge-bottom>-->
           <!--                  <template v-slot:activator="{ props }">-->
           <!--                    <v-btn-->
@@ -218,7 +222,9 @@
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
                               <br class="d-sm-none"/>
-                              <span class="mr-4">{{ dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
+                              <span class="mr-4">{{
+                                  dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm')
+                                }}</span>
                               <v-divider></v-divider>
                               <div>
                                 <v-row class="mt-1">
@@ -233,7 +239,7 @@
                                       <v-icon
                                           :icon="articleCommentStore.getCommentActionIcon(commentType.up,index,Cindex)"
                                           :color="articleCommentStore.getCommentActionColor(commentType.up,index,Cindex)"></v-icon>
-                                      <span v-if="childComment.upNum>0">
+                                      <span v-if="childComment.upNum> 0">
                                     {{ childComment.upNum }}
                                   </span>
                                     </v-btn>
@@ -242,7 +248,7 @@
                                       <v-icon
                                           :icon="articleCommentStore.getCommentActionIcon(commentType.down,index,Cindex)"
                                           :color="articleCommentStore.getCommentActionColor(commentType.down,index,Cindex)"></v-icon>
-                                      <span v-if="childComment.downNum>0">
+                                      <span v-if="childComment.downNum> 0">
                                     {{ childComment.downNum }}
                                   </span>
                                     </v-btn>
@@ -290,35 +296,37 @@
 
           </div>
 
-
         </div>
-
 
       </v-col>
       <v-col class="toc">
         <div class="js-toc">
         </div>
       </v-col>
-
     </v-row>
 
-
+    <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <div class="side-toolbar1">
-      <v-chip-group>
-        <v-chip class="mr-6" label>
-          <v-icon left>mdi-thumb-up-outline</v-icon>
-          {{ field.upNum }}
-        </v-chip>
-        <v-chip class="mr-6" label>
-          <v-icon left>mdi-thumb-down-outline</v-icon>
-          {{ field.downNum }}
-        </v-chip>
-        <v-chip class="mr-6" label>
-          <v-icon left>mdi-cards-heart-outline</v-icon>
-          {{ field.downNum }}
-        </v-chip>
-      </v-chip-group>
-
+      <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
+             @click="articleStore.ActionArticle(commentType.up)">
+        <v-icon :icon="articleStore.getArticleActionIcon(commentType.up)"></v-icon>
+        <span v-if="articleStore.articleField.upNum>0">
+          {{ articleStore.articleField.upNum }}
+        </span>
+      </v-btn>
+      <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
+             @click="articleStore.ActionArticle(commentType.down)">
+        <v-icon :icon="articleStore.getArticleActionIcon(commentType.down)"></v-icon>
+        <span v-if="articleStore.articleField.downNum>0">
+          {{ articleStore.articleField.downNum }}
+        </span>
+      </v-btn>
+      <v-btn class="mr-3" rounded plain elevation="0" outlined size="small">
+        <v-icon icon="mdi-cards-heart-outline"></v-icon>
+        <span v-if="articleStore.articleField.collectNum>0">
+          {{ articleStore.articleField.collectNum }}
+        </span>
+      </v-btn>
     </div>
   </div>
 
@@ -329,21 +337,19 @@
 //todo 夜间模式
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
-import {
-  ArticleCommentAction,
-  commentType, ReplyArticleCommentBody,
-  useAxiosGetArticleComment,
-  useAxiosPostActionArticleComment, useAxiosPostReplyArticleComment, useFetchGetArticleContent, useFetchGetArticleField
-} from '~/composables/Api/article'
+import {commentType, useFetchGetArticleContent, useFetchGetArticleField} from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref} from 'vue'
-import ignore from 'ignore'
-import {useRoute, watch} from '#imports'
-import {onBeforeRouteLeave, onBeforeRouteUpdate} from 'vue-router'
-import {useArticleStore, ArticleField} from '~/stores/article/articleStore'
-import {useArticleCommentStore, CommentContent} from '~/stores/article/articleCommentStore'
+import {useRoute, dateFilter} from '#imports'
+import {onBeforeRouteUpdate} from 'vue-router'
+import {useArticleStore} from '~/stores/article/articleStore'
+import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
+import {useUser} from '~/stores/user'
 
 let route = useRoute()
 let aid = route.params.aid
+
+let user = useUser()
+
 let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
 
@@ -351,28 +357,16 @@ let ArticleField = await useFetchGetArticleField(aid)
 articleStore.articleField = ArticleField.data
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
-let field: ArticleField
-field = articleStore.articleField
 
-let loadingComment = false
-let CommentContentList = ref<CommentContent[]>()
-
-const mdThemeName = ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights']
-let markdownTheme = ref('')
 
 const ReplyComment = articleCommentStore.ReplyComment
-const replyCommentText = ref(articleCommentStore.replyCommentText)
-const showCommentMenu = ref(false)
-const CommentMenuList = ref([])
-const selectCommentMenu = ref(1)
+
 
 const message = ref('')
 const showMessage = ref(false)
 
 onMounted(async () => {
-  let r = Math.ceil(Math.random() * mdThemeName.length) - 1
-  markdownTheme.value = 'markdown-body-' + mdThemeName[r]
-  console.log('onMounted')
+  await articleStore.init()
   hljs.highlightAll()
   if (route.hash) {
     const el = document.querySelector(route.hash)
@@ -383,9 +377,7 @@ onMounted(async () => {
   setTimeout(() => {
     createToc()
   }, 100)
-  CommentMenuList.value = ['按热读 ↓', '按时间 ↑', '按时间 ↓']
-  await articleCommentStore.init(field)
-
+  await articleCommentStore.init(articleStore.articleField)
 
 })
 
@@ -407,79 +399,27 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
 })
 
+// const follow = async () => {
+//   if (articleStore.articleField.isFollow) {
+//     await articleStore.unFollow()
+//   } else {
+//     await articleStore.follow()
+//   }
+// }
 
 const createToc = () => {
-  // // toc()
-  // // const element = document.getElementsByClassName("article-content")
-  // let tocbotJS = document.createElement('script')
-  // tocbotJS.src = 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.0/tocbot.min.js'
-  // document.body.append(tocbotJS)
-  // // @ts-ignore
-  // tocbotJS.onload = tocbotJS.onreadystatechange = function () {
-  //   if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-  //     //do something here!
-  //     // @ts-ignore
-  //
-  //   }
-  //   // @ts-ignore
-  //   tocbotJS = tocbotJS.onreadystatechange = null
-  // }
   // @ts-ignore
   tocbot.init({
-    // Where to render the table of contents.
     tocSelector: '.js-toc',
-    // Where to grab the headings to build the table of contents.
     contentSelector: '.js-toc-content',
-    // Which headings to grab inside of the contentSelector element.
     headingSelector: 'h1, h2, h3,h4',
-    // For headings inside relative or absolute positioned containers within content.
     hasInnerContainers: false,
-    // includeHtml: true,
     includeTitleTags: false,
     scrollSmoothOffset: -50,
     scrollSmooth: true,
     scrollSmoothDuration: 500,
   })
 }
-
-
-// const loadComment = async (properties?: string, order?, page?: number) => {
-//   loadingComment.value = true
-//   let params = {
-//     properties: properties,
-//     order: order,
-//     page: page
-//   }
-//   let {data: commentData} = await useAxiosGetArticleComment(aid, params)
-//   CommentContentList.value = commentData.data.content
-//   for (let commentContent of CommentContentList.value) {
-//     commentContent.replyCommentText = ref('')
-//     commentContent.childComments.forEach(childComment => {
-//       childComment.replyCommentText = ref('')
-//     })
-//   }
-//   loadingComment.value = false
-// }
-
-// const clickSelectCommentMenu = (index: number) => {
-//   selectCommentMenu.value = index
-//   switch (index) {
-//     case 0:
-//       loadComment('upNum', 'desc')
-//       break
-//     case 1:
-//       loadComment('createTime', 'asc')
-//       break
-//     case 2:
-//       loadComment('createTime', 'desc')
-//       break
-//   }
-// }
-
-
-
-
-
 
 
 </script>
@@ -498,10 +438,11 @@ const createToc = () => {
   border-width: 1px
   border-color: rgba(136, 136, 136, 0.49)
 </style>
+
 <style lang="css">
-/*.article-content p{*/
-/*  font-size: 20px;*/
-/*}*/
+.article-content p {
+  font-size: 20px;
+}
 
 .toc::-webkit-scrollbar {
   width: 0 !important;
@@ -533,7 +474,7 @@ const createToc = () => {
   bottom: 30px;
   right: 0;
   /*width: 200px;*/
-  padding: 20px;
+  padding: 30px;
 }
 
 .v-container {

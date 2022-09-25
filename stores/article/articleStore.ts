@@ -9,35 +9,116 @@ import {
     useFetchGetArticleField
 } from '#imports'
 import {useRoute} from '#imports'
+import {useAxiosGetArticleAction} from '~/composables/Api/article'
 
 
 export const useArticleStore = defineStore('ArticleStore', {
     state: (): Iarticle => ({
         articleField: null,
         contentHtml: null,
-        // commentList: [],
+        mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
+        markdownTheme: '',
+        follow: false,
     }),
     getters: {},
     actions: {
-        async init(aid) {
+        async init() {
+            let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
+            this.articleField.thumb = response.data.thumb
+            //todo 收藏
+            this.follow = response.data.follow
+            if (this.articleField.markdownTheme !== undefined) {
+                this.getMarkdownThemeName(this.articleField.markdownTheme)
+            } else {
+                this.getMarkdownThemeName()
+            }
+        },
+        getMarkdownThemeName(index?: number) {
+            if (index !== undefined) {
+                this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
+
+            } else {
+                this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+            }
+            console.log('this.markdownTheme', this.markdownTheme)
 
         },
+        async ActionArticle(CommentType: commentType) {
+            const body = {
+                actionCommentId: -1,//-1代表对文章的操作
+                articleFieldId: this.articleField.id,
+                commentType: CommentType,
+            }
+            let {data: actionData} = await useAxiosPostActionArticleComment(body)
+            if (actionData.code !== 0) {
+                alert(actionData.msg)
+                return
+            }
+            let retType: commentType = actionData.data
+            switch (retType) {
+                case commentType.up:
+                    this.articleField.upNum++
+                    this.articleField.thumb = commentType.up
+                    break
+                case commentType.down:
+                    this.articleField.downNum++
+                    this.articleField.thumb = commentType.down
+                    break
+                case commentType.upToDown:
+                    this.articleField.upNum--
+                    this.articleField.downNum++
+                    this.articleField.thumb = commentType.down
+                    break
+                case commentType.downToUp:
+                    this.articleField.upNum++
+                    this.articleField.downNum--
+                    this.articleField.thumb = commentType.up
+                    break
+                case commentType.comment:
+                    break
+                case commentType.comment_comment:
+                    break
+                case commentType.cancel:
+                    if (CommentType === commentType.up) {
+                        this.articleField.upNum--
+                        this.articleField.thumb = commentType.cancel
+                    } else {
+                        this.articleField.downNum--
+                        this.articleField.thumb = commentType.cancel
+                    }
+                    break
+            }
+            this.articleField.upNum = Math.max(this.articleField.upNum, 0)
+            this.articleField.downNum = Math.max(this.articleField.downNum, 0)
+        },
+        getArticleActionIcon(action: commentType) {
+            if (this.articleField.thumb === action) {
+                if (action === commentType.up) {
+                    return 'mdi-thumb-up'
+                } else {
+                    return 'mdi-thumb-down'
+                }
+            } else {
+                if (action === commentType.up) {
+                    return 'mdi-thumb-up-outline'
+                } else {
+                    return 'mdi-thumb-down-outline'
+                }
+            }
+        }
 
-    },
-
+    }
 })
 
 interface Iarticle {
     articleField: Ref<ArticleField>;
     contentHtml: string;
-    // commentList: CommentContent[];
+    mdThemeNameList: Array<string>,
+    markdownTheme: string
+    follow: boolean
+
 }
 
-// interface Iarticle{
-//     articleField:Ref<ArticleField>;
-//     contentHtml:Ref<string>;
-//     // commentList:Ref<CommentContent[]>;
-// }
 
 interface UserInfo {
     id: number;
@@ -84,6 +165,10 @@ export interface ArticleField {
     banner: string;
     articleTags: ArticleTags;
     articleGroup: ArticleGroup;
+    //自定义
+    thumb: commentType;
+    collect: boolean;
+    // follow: boolean;
 }
 
 //--

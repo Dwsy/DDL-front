@@ -24,12 +24,12 @@
       </v-col>
     </v-row>
     <div>
-      <span>
+      <div class="my-5">
         payload::{{ payload }}
-      </span>
-      <span>
-        {{User.token}}
-      </span>
+      </div>
+      <div>
+        {{ User.token }}
+      </div>
     </div>
   </div>
 </template>
@@ -77,11 +77,11 @@ const login = async () => {
 
   User.setToken(token)
   localStorage.setItem('token', token)
-  localStorage.setItem('user', token.split('.')[1])
+  localStorage.setItem('user', JSON.stringify(payload.value['ddl-user']))
   User.setUser(token.split('.')[1])
   console.log('login')
   User.setIsLogin(true)
-  Router.push('/')
+  // Router.push('/')
 }
 const reset = () => {
   User.$reset()

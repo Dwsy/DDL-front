@@ -49,13 +49,16 @@ export interface ArticleCommentAction {
 }
 
 export enum commentType {
-    comment, comment_comment, up, down, cancel,
-    upToDown,
-    downToUp
+    comment, comment_comment,
+    up, down, cancel,
+    upToDown, downToUp
+}
+
+export const useAxiosGetArticleAction = (aid: number) => {
+    return useGet('article/article/field/action/' + aid, null)
 }
 
 export const useAxiosPostActionArticleComment = (body: ArticleCommentAction) => {
-    console.log(body.commentType)
     return usePost('article/comment/action', body)
 }
 

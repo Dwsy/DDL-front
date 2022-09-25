@@ -16,26 +16,24 @@ import {useRoute} from '#imports'
 export const useArticleCommentStore = defineStore('ArticleCommentStore', {
     state: () => {
         return {
-            // commentList: ref<CommentContent[]>(),
             commentList: [],
             loadingComment: true,
             aid: null,
             replyCommentText: '',
-            field: null
+            field: null,
+            selectCommentMenu: 1,
+            CommentMenuList: ['按热读 ↓', '按时间 ↑', '按时间 ↓'],
+            showCommentMenu: false,
         }
     },
     getters: {},
     actions: {
         async init(field) {
             this.field = field
-            console.log('init')
-            console.log(this.commentList)
-            console.log('init')
             this.aid = useRoute().params.aid
             await this.loadComment()
         },
         async loadComment(properties?: string, order?, page?: number) {
-            console.log('loadComment:', this.aid)
             this.loadingComment = true
             let params = {
                 properties: properties,
@@ -335,6 +333,20 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                         })
                     }
                 })
+            }
+        },
+        clickSelectCommentMenu(index: number) {
+            this.selectCommentMenu = index
+            switch (index) {
+                case 0:
+                    this.loadComment('upNum', 'desc')
+                    break
+                case 1:
+                    this.loadComment('createTime', 'asc')
+                    break
+                case 2:
+                    this.loadComment('createTime', 'desc')
+                    break
             }
         }
     },
