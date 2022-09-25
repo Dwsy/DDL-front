@@ -26,8 +26,8 @@ definePageMeta({
 })
 const User = useUser();
 const login = () => {
-    User.setIsLogn(true)
-    User.setToken("eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE")
+    User.setIsLogin(true)
+  User.setToken('eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE')
     localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE");
     localStorage.setItem("user", "Dwsy");
     User.setUser("Dwsy")

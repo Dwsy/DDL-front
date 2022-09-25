@@ -27,18 +27,16 @@ export default defineNuxtConfig({
             'process.env.DEBUG': 'false',
         },
     },
-    // css: ["~/assets/css/tailwind.css"],
-    // css: ['vuetify/lib/styles/main.sass', '@mdi/font/css/materialdesignicons.css'],
     css: ['vuetify/lib/styles/main.sass'],
     modules: [
         [
             '@pinia/nuxt',
-            {
-                addImports: [
-                    'defineStore',
-                    ['defineStore', 'definePiniaStore'],
-                ],
-            },
+            // {
+            //     addImports: [
+            //         'defineStore',
+            //         ['defineStore', 'definePiniaStore'],
+            //     ],
+            // },
 
         ],
         '@vueuse/nuxt',
@@ -50,7 +48,7 @@ export default defineNuxtConfig({
             'composables/**'
         ]
     },
-    supabase: {},
+    // supabase: {},
     publicRuntimeConfig: {
         axios: {
             baseURL:
@@ -61,13 +59,13 @@ export default defineNuxtConfig({
         }
     },
     build: {
-        // postcss: {
-        //     postcssOptions: {
-        //         plugins: {
-        //             autoprefixer: {},
-        //         },
-        //     },
-        // },
+        postcss: {
+            postcssOptions: {
+                plugins: {
+                    autoprefixer: {},
+                },
+            },
+        },
         transpile: ['vuetify'],
     },
 })

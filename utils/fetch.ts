@@ -1,5 +1,6 @@
 import {_AsyncData} from 'nuxt/dist/app/composables/asyncData'
-import { hash } from 'ohash'
+import {hash} from 'ohash'
+import {useFetch, useNuxtApp} from '#app'
 
 const fetch = (url: string, options?: any): Promise<any> => {
   const { $config  } = useNuxtApp()

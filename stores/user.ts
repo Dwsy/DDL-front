@@ -14,8 +14,8 @@ export const useUser = defineStore("user", {
     token: ref<string>(""),
   }),
   actions: {
-    setIsLogn(login: boolean) {
-      this.IsLogin = login;
+    setIsLogin(login: boolean) {
+      this.IsLogin = login
     },
     setToken(token: string) {
       this.token = token;

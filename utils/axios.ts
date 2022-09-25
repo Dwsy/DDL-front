@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { useUser } from "../stores/user";
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios'
+import {useUser} from '~/stores/user'
 
 // import message from "../components/utils/message";
 export const BASE_URL = process.env.BASE_URL

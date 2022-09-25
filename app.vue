@@ -14,30 +14,34 @@
   </NuxtLayout>
 
 
-
 </template>
 <script setup lang="ts">
-import {useUser} from '~~/stores/user';
+import {useUser} from '~~/stores/user'
+import {onMounted} from 'vue'
+
 let user = useUser()
-onMounted(()=>{
-  let localToken = window.localStorage.getItem("token")
+onMounted(() => {
+  let localToken = window.localStorage.getItem('token')
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)
-    user.setUser(window.localStorage.getItem("user"))
-    user.setIsLogn(true)
+    user.setUser(window.localStorage.getItem('user'))
+    user.setIsLogin(true)
     // 后端接口判断
   }
 })
 if (typeof window === 'undefined') {
-  console.log("NODE");
+  console.log('NODE')
 } else {
 
 }
 </script>
 
 <style>
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
+</style>
+<style lang="sass">
+
 </style>

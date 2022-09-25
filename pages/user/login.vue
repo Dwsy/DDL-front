@@ -80,7 +80,7 @@ const login = async () => {
   localStorage.setItem('user', token.split('.')[1])
   User.setUser(token.split('.')[1])
   console.log('login')
-  User.setIsLogn(true)
+  User.setIsLogin(true)
   Router.push('/')
 }
 const reset = () => {
