@@ -2,14 +2,14 @@
 
 
   <div>
-    {{ articleStore.contentHtml }}
+    <v-btn @click="defaultMsg('defaultMsg')">defaultMsg</v-btn>
+    <v-btn @click="successMsg('successMsg')">successMsg</v-btn>
+    <v-btn @click="infoMsg('infoMsg')">infoMsg</v-btn>
+    <v-btn @click="errorMsg('errorMsg')">errorMsg</v-btn>
+    <v-btn @click="warningMsg('warningMsg')">warningMsg</v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useArticleStore} from '~/stores/article/articleStore'
-
-let articleStore = useArticleStore()
-articleStore.init(9)
-
+import {defaultMsg, successMsg, infoMsg, errorMsg, warningMsg} from '#imports'
 </script>

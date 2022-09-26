@@ -6,8 +6,10 @@
         <v-chip @click="changeGroup(0)">
           综合
         </v-chip>
-        <v-chip label v-for="g in groupData" :key="g.id" @click="changeGroup(g.id)" variant="outlined">
-          {{ g.name}}
+        <v-chip label v-for="g in groupData" :key="g.id" @click="changeGroup(g.id)"
+        >
+          <!--          variant="outlined"-->
+          {{ g.name }}
         </v-chip>
       </v-chip-group>
     </v-row>
@@ -17,7 +19,7 @@
       <v-row>
         <span class="pt-3 px-4 text-body-1">标签:</span>
         <v-chip-group v-bind:model-value="selectionTag" mandatory>
-          <v-chip>
+          <v-chip @click="emit('selectTag', 0)">
             推荐
           </v-chip>
           <v-chip v-for="tag in tags" :key="tag.id" @click="emit('selectTag', tag.id)">
@@ -30,11 +32,14 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["selectTag"])
+import {onMounted, ref} from 'vue'
+import {useFetchGetArticleGroupList, useFetchGetArticleTagList, useFetchGetArticleTagListByGroupId} from '#imports'
+
+const emit = defineEmits(['selectTag'])
 let selectionGroup = ref(null)
 let selectionTag = ref(null)
 let tags = ref(null)
-const { data: groupData } = await useFetchGetArticleGroupList()
+const {data: groupData} = await useFetchGetArticleGroupList()
 tags.value = (await useFetchGetArticleTagList()).data
 
 onMounted(async () => {
@@ -50,7 +55,7 @@ const changeGroup = async (id: number) => {
   }
   tags.value = (await useFetchGetArticleTagListByGroupId(id)).data
   selectionTag.value = 0
-  console.log(selectionTag.value);
+  // console.log(selectionTag.value);
 
 }
 const changeTag = (id: Number) => {}

@@ -1,6 +1,6 @@
 import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
-import {useAxiosGetUserInfo} from '~/composables/Api/user'
+import {useAxiosGetUserInfo, useAxiosPostCheck} from '~/composables/Api/user'
 
 // const token = useCookie<{ token: string }>("token");
 interface user {
@@ -37,14 +37,18 @@ export const useUser = defineStore('user', {
         setUser(user: any) {
             this.user = user
         },
-        async getUserAvatar() {
+        async getUserInfo() {
+            console.log('getUserInfo')
             if (this.user) {
                 let {data} = await useAxiosGetUserInfo()
                 if (data.code === 0) {
                     this.userInfo = data.data
                 }
             }
-        }
+        },
+        async CheckIn() {
+            return await useAxiosPostCheck()
+        },
 
     },
 })

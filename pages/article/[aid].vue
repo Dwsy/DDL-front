@@ -50,20 +50,24 @@
           <v-divider class="my-4"></v-divider>
           <v-row class="my-1">
             <v-col>
-              <span id="T-title" class="text-h4 pl-4">
+              <span class="text-h4 pl-4" id="T-title">
                 {{ articleStore.articleField.title }}
               </span>
             </v-col>
           </v-row>
           <v-divider></v-divider>
 
-          <div v-html="articleStore.contentHtml" :class="articleStore.markdownTheme" class=" js-toc-content"></div>
+          <div v-html="articleStore.contentHtml"
+               :class="articleStore.markdownTheme"
+               class=" js-toc-content"
+               v-intersect="()=>{gotoTitle=true}"
+          ></div>
 
         </div>
         <v-divider class="mt-8 mb-6"></v-divider>
 
         <v-row>
-          <v-col>
+          <v-col id="comments">
             <v-chip class="mr-6" color="primary" label>
               <v-icon left>mdi-format-list-group</v-icon>
               分组：{{ articleStore.articleField.articleGroup.name }}
@@ -84,10 +88,9 @@
         <v-divider class="mt-10 mb-6"></v-divider>
 
 
-        <div class="comment pa-3">
-          <span class="text-h6 ml-2" id="comments">评论</span>
-          <v-row class="mt-5">
-
+        <div class="comment pa-3" v-intersect="()=>{gotoTitle=false}">
+          <span class="text-h6 ml-2" id="comments1">评论</span>
+          <v-row class="mt-5" v-if="user.token">
             <v-col cols="1" class="d-none d-md-flex">
               <v-avatar size="x-large">
                 <v-img :src="user?.userInfo?.avatar"></v-img>
@@ -96,13 +99,21 @@
             <v-col class="ml-xl-n8 ml-lg-n2">
               <v-textarea fluid placeholder="评论点啥吧。" clearable v-model="articleCommentStore.replyCommentText"
                           clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                          rows="4" auto-grow="true">
-
+                          rows="4">
+                <!--                auto-grow-->
               </v-textarea>
               <v-btn class="float-end mx-6 mb-4" color="primary" @click="ReplyComment()">发送</v-btn>
             </v-col>
-
             <v-divider class="mb-6 mt-n4"></v-divider>
+          </v-row>
+          <v-row v-else>
+            <v-col offset="5">
+              <nuxt-link to="/user/login">
+                <v-btn color="pink">
+                  <span style="color: white" class="text-subtitle-1">评论请登陆</span>
+                </v-btn>
+              </nuxt-link>
+            </v-col>
           </v-row>
 
           <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
@@ -192,17 +203,28 @@
                     </span>
                     </v-btn>
 
-                    <v-col v-if="comment.showCommentBox" class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
-                      <v-textarea fluid placeholder="回复点啥吧。" clearable
-                                  v-model="comment.replyCommentText"
-                                  clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                  rows="4" auto-grow="true">
-                      </v-textarea>
+                    <v-col v-if="comment.showCommentBox"
+                           class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
+                      <div v-if="user.token">
+                        <v-textarea fluid placeholder="回复点啥吧。" clearable
+                                    v-model="comment.replyCommentText"
+                                    clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
+                                    rows="4" auto-grow="true">
+                        </v-textarea>
 
-                      <v-btn class="float-end mx-6 mb-4" color="primary"
-                             @click="ReplyComment(comment.user.id,comment.id,index)">发送
-                      </v-btn>
+                        <v-btn class="float-end mx-6 mb-4" color="primary"
+                               @click="ReplyComment(comment.user.id,comment.id,index)">发送
+                        </v-btn>
+                      </div>
+                      <div v-else class="text-center">
+                        <nuxt-link to="/user/login">
+                          <v-btn>
+                            登陆
+                          </v-btn>
+                        </nuxt-link>
+                      </div>
                     </v-col>
+
 
                     <v-row>
                       <v-col>
@@ -261,15 +283,24 @@
                                     <v-col v-if="childComment.showCommentBox"
                                            class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
 
-                                      <v-textarea fluid placeholder="回复点啥吧。" clearable
-                                                  v-model="childComment.replyCommentText"
-                                                  clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                                  rows="4" auto-grow="true">
+                                      <div v-if="user.token">
+                                        <v-textarea fluid placeholder="回复点啥吧。" clearable
+                                                    v-model="childComment.replyCommentText"
+                                                    clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
+                                                    rows="4" auto-grow="true">
 
-                                      </v-textarea>
-                                      <v-btn class="float-end mx-6 mb-4" color="primary"
-                                             @click="ReplyComment(comment.user.id,comment.id,index,Cindex)">发送
-                                      </v-btn>
+                                        </v-textarea>
+                                        <v-btn class="float-end mx-6 mb-4" color="primary"
+                                               @click="ReplyComment(comment.user.id,comment.id,index,Cindex)">发送
+                                        </v-btn>
+                                      </div>
+                                      <div v-else class="text-center">
+                                        <nuxt-link to="/user/login">
+                                          <v-btn>
+                                            登陆
+                                          </v-btn>
+                                        </nuxt-link>
+                                      </div>
                                     </v-col>
                                     <v-row>
 
@@ -304,16 +335,21 @@
         </div>
       </v-col>
     </v-row>
+    <!--    https://vuetifyjs.com/zh-Hans/components/floating-action-buttons/#section-5c0f578b630994ae-->
+    <!--    <v-speed-dial></v-speed-dial> todo 移动端要这个效果但是vuetify3还没这个组件-->
 
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <div class="side-toolbar1">
+      {{ gotoTitle }}
       <a href="#comments" v-if="!gotoTitle">
-        <v-btn rounded elevation="0" @click="gotoTitle=!gotoTitle" outlined>
+        <v-btn rounded elevation="0" @click="()=>{gotoTitle=false}"
+               size="small" class="mr-3" outlined>
           <v-icon>mdi-message-reply-text-outline</v-icon>
         </v-btn>
       </a>
       <a href="#T-title" v-else>
-        <v-btn rounded elevation="0" @click="gotoTitle=!gotoTitle" outlined>
+        <v-btn rounded elevation="0" @click="()=>{gotoTitle=true}"
+               size="small" class="mr-3" outlined>
           <v-icon>mdi-arrow-up-circle-outline</v-icon>
         </v-btn>
       </a>
@@ -345,8 +381,9 @@
 
 <script setup lang="ts">
 import hljs from 'highlight.js'
+// import vCode from '~/utils/HljsLine'
 import 'highlight.js/styles/atom-one-light.css'
-import 'highlight.js/styles/atom-one-dark.css'
+// import 'highlight.js/styles/atom-one-dark.css'
 import {commentType, useFetchGetArticleContent, useFetchGetArticleField} from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, watch} from 'vue'
 import {useRoute, dateFilter} from '#imports'
@@ -355,7 +392,7 @@ import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUser} from '~/stores/user'
 import {useTheme} from 'vuetify'
-
+//todo 移动端适配
 let route = useRoute()
 let aid = route.params.aid
 
@@ -383,13 +420,13 @@ onMounted(async () => {
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
     articleStore.markdownTheme = articleStore.markdownThemeDark
-    console.log('d')
   } else {
     articleStore.markdownTheme = articleStore.markdownThemeLight
-    console.log('l')
   }
-  console.log('articleStore.markdownTheme', articleStore.markdownTheme)
+  // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   hljs.highlightAll()
+  // hljsLine(document)
+  // console.log(hljs)
   if (route.hash) {
     const el = document.querySelector(route.hash)
     if (el) {
@@ -414,7 +451,7 @@ onUnmounted(() => {
   articleStore.$reset()
   articleCommentStore.$reset()
 })
-
+// todo 返回滚动位置
 onBeforeRouteUpdate(async (to, from, next) => {
   if (to.hash) {
     if (to.path !== from.path) {
@@ -423,6 +460,8 @@ onBeforeRouteUpdate(async (to, from, next) => {
       return
     }
   } else {
+    console.log(to)
+    console.log(from)
     next()
   }
 })
@@ -434,6 +473,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 //     await articleStore.follow()
 //   }
 // }
+
 
 const createToc = () => {
   // @ts-ignore
@@ -512,5 +552,76 @@ const createToc = () => {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* 语法高亮 */
+.hljs-container {
+  position: relative;
+  display: block;
+  width: 600px;
+  padding: 30px 5px 2px;
+  overflow-x: hidden;
+  line-height: 20px;
+  text-align: left;
+  background: #21252b;
+  box-shadow: 0 10px 30px 0 rgb(0 0 0 / 40%);
+}
+
+code {
+  font-size: 18px !important;
+}
+
+/** 3个点 */
+/*.hljs-container::before {*/
+/*  position: absolute;*/
+/*  top: 10px;*/
+/*  left: 15px;*/
+/*  width: 12px;*/
+/*  height: 12px;*/
+/*  overflow: visible;*/
+/*  font-weight: 700;*/
+/*  font-size: 16px;*/
+/*  line-height: 12px;*/
+/*  white-space: nowrap;*/
+/*  text-indent: 75px;*/
+/*  background-color: #fc625d;*/
+/*  border-radius: 16px;*/
+/*  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;*/
+/*  content: attr(codetype);*/
+/*}*/
+
+/** 滚动条 */
+:deep(.hljs) {
+  overflow-x: auto;
+}
+
+:deep(.hljs::-webkit-scrollbar) {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+:deep(.hljs::-webkit-scrollbar-thumb) {
+  height: 30px !important;
+  background: #d1d8e6;
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 19px;
+  opacity: 0.8;
+}
+
+:deep(.hljs::-webkit-scrollbar-thumb:hover) {
+  background: #a5b3cf;
+  background-clip: content-box;
+  border: 2px solid transparent;
+}
+
+:deep(.hljs::-webkit-scrollbar-track-piece) {
+  width: 30px;
+  height: 30px;
+  background: #333;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
 }
 </style>

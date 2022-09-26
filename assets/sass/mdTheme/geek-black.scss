@@ -7,7 +7,7 @@ $size-4: $size-base * 4;
 $size-5: $size-base * 5;
 
 // 普通文本 font-size
-$font-size-base: 14px;
+$font-size-base: 18px;
 $font-size-lg: $font-size-base + 6px;
 $font-size-md: $font-size-base + 4px;
 $font-size-sm: $font-size-base + 2px;
@@ -57,7 +57,7 @@ $color-border-4: rgb(246, 246, 246);
 
 //$color-background-1: rgb(255, 255, 255);
 $color-background-1: rgb(33, 33, 34);
-$color-background-2: rgb(241, 241, 241);
+$color-background-2: rgba(0, 0, 0, 0);
 $color-background-3: rgb(251, 251, 251);
 
 $color-emphasize-base: rgb(239, 112, 96);
@@ -148,6 +148,7 @@ $line-space: 22px;
     line-height: $line-height-lg;
     margin-top: $margin-padding-sm;
     margin-bottom: $margin-padding-sm;
+    color: #38b48b;
   }
 
   img {
@@ -216,7 +217,7 @@ $line-space: 22px;
       display: block;
       overflow-x: auto;
       color: $color-text-5;
-      background: #272822;
+      background: #1e1e1e;
 
       &::-webkit-scrollbar {
         height: 10px;

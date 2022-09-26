@@ -10,7 +10,7 @@ import {
     useFetchGetArticleContent,
     useFetchGetArticleField
 } from '~/composables/Api/article'
-import {useRoute} from '#imports'
+import {successMsg, useRoute, warningMsg} from '#imports'
 
 
 export const useArticleCommentStore = defineStore('ArticleCommentStore', {
@@ -66,7 +66,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 parentUserId = this.field.user.id
             }
             if (text === '' || text === undefined) {
-                alert('评论内容不能为空')
+                warningMsg('评论内容不能为空')
                 return
             }
             if (parentCommentId === undefined) {
@@ -80,7 +80,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             }
             let {data: ReplyCommentRetData} = await useAxiosPostReplyArticleComment(body)
             if (ReplyCommentRetData.code === 0) {
-                alert('评论成功')
+                successMsg('评论成功')
                 if (pIndexId !== undefined) {
                     if (cIndexId !== undefined) {
                         this.commentList[pIndexId].childComments[cIndexId].replyCommentText = ''

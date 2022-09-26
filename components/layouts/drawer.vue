@@ -25,16 +25,14 @@
           v-if="item.children"
           :key="item.text"
           v-model="item.model"
-          :prepend-icon="
-                            item.model ? item.icon : item['icon-alt']
-                        "
-          append-icon=""
+
+          :append-icon="item.model ? item.icon : item['icon-alt']"
       >
         <template v-slot:activator>
 
-            <v-list-item-title>
-              {{ item.text }}
-            </v-list-item-title>
+          <v-list-item-title>
+            {{ item.text }}
+          </v-list-item-title>
 
         </template>
 

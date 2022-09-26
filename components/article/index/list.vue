@@ -3,13 +3,16 @@
 
       <v-card elevation="1" hover outlined transition="scroll-y-transition">
         <v-row no-gutters>
-          <v-col class="px-4" cols="4">
+          <v-col class="pl-2" cols="4">
             <div class="text-subtitle-1">
-              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>
-              {{user.nickname}} | <span class="text-subtitle-2">{{dateFilter(createTime,"YYYY-MM-DD")}}</span>
+              <v-avatar class=" mr-2 ma-1">
+                <v-img :src="user.userInfo.avatar"></v-img>
+              </v-avatar>
+              <!--              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>-->
+              {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>
               <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
                 <span class="text-subtitle-2 link" to="/tag"> /
-                  {{tag.name}}
+                  {{ tag.name }}
                 </span>
               </nuxt-link>
             </div>
@@ -23,12 +26,15 @@
               <v-row>
                 <v-col>
                   <v-card-title>{{title}}</v-card-title>
-                  <v-card-text>{{summary}}</v-card-text>
+                  <v-card-text class="overflow-hidden ml-3 mb-3"
+                               style="max-height: 75px;font-size: 19px;line-height:25px">{{ summary }}
+                  </v-card-text>
                 </v-col>
               </v-row>
             </v-col>
             <v-col offset="2">
-              <v-img :src="imgList[0]" transition="slide-y-reverse-transition" max-height="150" class="my-n3" :aspect-ratio="1"></v-img>
+              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"
+                     max-height="150" class="my-n3" :aspect-ratio="1"></v-img>
             </v-col>
           </v-row>
         </v-card>
@@ -39,6 +45,7 @@
 </template>
 <script setup lang=ts >
 import {dateFilter} from "#imports";
+//todo 改用pinia
 // import { articleListData } from '~~/types/article';
 let imgList = ["https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.jpg",
   "https://tva1.sinaimg.cn/large/005NWBIgly1go8137lfsdj30rx0rw0up.jpg",

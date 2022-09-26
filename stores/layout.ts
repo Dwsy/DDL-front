@@ -1,21 +1,31 @@
-import { ref, Ref } from "vue";
-import { defineStore } from "pinia";
-import { useTheme } from 'vuetify'
-import {th} from "vuetify/locale";
-interface layout{
-    drawer:Ref<boolean>,
-    themeName:string
+import {ref, Ref} from 'vue'
+import {defineStore} from 'pinia'
+import {ThemeInstance} from 'vuetify'
+
+interface layout {
+    drawer: Ref<boolean>,
+    themeName: Ref<string>
 }
+
 // const theme = useTheme()
-export const useLayout = defineStore("layout", {
+export const useLayout = defineStore('layout', {
     state: (): layout => ({
         drawer: ref<boolean>(true),
-        themeName:"dark"
+        themeName: ref('')
     }),
+    getters: {
+        getThemeName() {
+            return this.themeName
+        }
+    },
     actions: {
         switchDrawer() {
-            this.drawer = !this.drawer;
+            this.drawer = !this.drawer
             console.log(this.drawer)
+        },
+        switchTheme(theme: ThemeInstance) {
+            // console.log("theme:",theme.global.name.value)
+            theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
         },
         // setThemeDark(){
         //     theme.global.name.value="dark"
@@ -26,4 +36,5 @@ export const useLayout = defineStore("layout", {
         // switchTheme(){
         // }
     },
+
 });

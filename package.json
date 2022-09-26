@@ -22,6 +22,7 @@
     "vfonts": "^0.1.0"
   },
   "dependencies": {
+    "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/font": "^7.0.96",
     "@peculiar/webcrypto": "^1.4.0",
     "@vueuse/core": "^9.2.0",
@@ -36,6 +37,7 @@
     "node-rsa": "^1.1.1",
     "pinia": "^2.0.22",
     "postcss": "^8.4.16",
+    "vue-toastification": "^2.0.0-rc.5",
     "vuetify": "^3.0.0-beta.11"
   }
 }

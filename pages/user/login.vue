@@ -24,6 +24,7 @@
       </v-col>
     </v-row>
     <div>
+      <v-btn @click="check()">签到</v-btn>
       <div class="my-5">
         payload::{{ payload }}
       </div>
@@ -40,6 +41,8 @@ import {useUser} from '~~/stores/user'
 // import tool from "~~/utils/tool"
 import CryptoJS from 'crypto-js'
 import {rsaEncrypt} from '~/composables/useTools'
+import {onMounted, ref} from 'vue'
+import {useGet, usePost, useRouter} from '#imports'
 
 definePageMeta({
   // layout: false
@@ -56,8 +59,10 @@ let RsdEncrypt:Function=undefined
 onMounted(() => {
 
 })
-
-
+const check = async () => {
+  let {data} = await User.CheckIn()
+  console.log(data)
+}
 const login = async () => {
 
 
@@ -81,6 +86,7 @@ const login = async () => {
   User.setUser(token.split('.')[1])
   console.log('login')
   User.setIsLogin(true)
+  await User.getUserInfo()
   // Router.push('/')
 }
 const reset = () => {
