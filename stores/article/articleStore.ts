@@ -17,7 +17,10 @@ export const useArticleStore = defineStore('ArticleStore', {
         articleField: null,
         contentHtml: null,
         mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
+        mdThemeNameListDark: ['geek-black'],
         markdownTheme: '',
+        markdownThemeLight: '',
+        markdownThemeDark: '',
         follow: false,
     }),
     getters: {},
@@ -35,12 +38,18 @@ export const useArticleStore = defineStore('ArticleStore', {
         },
         getMarkdownThemeName(index?: number) {
             if (index !== undefined) {
-                this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
+                // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
+                this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[index]
+                this.markdownThemeDark = 'markdown-body-' + this.mdThemeNameListDark[index]
 
             } else {
-                this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+                // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+                this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+                this.markdownThemeDark = 'markdown-body-' +
+                    this.mdThemeNameListDark[Math.ceil(Math.random() * Math.max(1, this.mdThemeNameListDark.length)) - 1]
             }
-            console.log('this.markdownTheme', this.markdownTheme)
+            console.log('this.markdownThemeLight', this.markdownThemeLight)
+            console.log('this.markdownThemeDark', this.markdownThemeDark)
 
         },
         async ActionArticle(CommentType: commentType) {
@@ -111,10 +120,13 @@ export const useArticleStore = defineStore('ArticleStore', {
 })
 
 interface Iarticle {
-    articleField: Ref<ArticleField>;
-    contentHtml: string;
-    mdThemeNameList: Array<string>,
+    articleField: Ref<ArticleField>
+    contentHtml: string
+    mdThemeNameList: Array<string>
+    mdThemeNameListDark: Array<string>
     markdownTheme: string
+    markdownThemeDark: string
+    markdownThemeLight: string
     follow: boolean
 
 }

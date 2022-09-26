@@ -5,14 +5,7 @@
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
         <div class="pt-4">
           <div>
-            <v-row>
-              <v-col>
-              <span class="text-h5 pl-4">
-                {{ articleStore.articleField.title }}
-              </span>
-              </v-col>
-            </v-row>
-            <v-divider class="mt-2 mb-3"></v-divider>
+
             <v-row>
               <v-col cols="1" class="mr-lg-5 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
                 <v-avatar size="x-large">
@@ -54,8 +47,15 @@
               </v-col>
             </v-row>
           </div>
-
           <v-divider class="my-4"></v-divider>
+          <v-row class="my-1">
+            <v-col>
+              <span id="T-title" class="text-h4 pl-4">
+                {{ articleStore.articleField.title }}
+              </span>
+            </v-col>
+          </v-row>
+          <v-divider></v-divider>
 
           <div v-html="articleStore.contentHtml" :class="articleStore.markdownTheme" class=" js-toc-content"></div>
 
@@ -85,12 +85,12 @@
 
 
         <div class="comment pa-3">
-          <span class="text-h6 ml-2">评论</span>
+          <span class="text-h6 ml-2" id="comments">评论</span>
           <v-row class="mt-5">
 
             <v-col cols="1" class="d-none d-md-flex">
               <v-avatar size="x-large">
-                <v-img :src="user.userInfo.avatar"></v-img>
+                <v-img :src="user?.userInfo?.avatar"></v-img>
               </v-avatar>
             </v-col>
             <v-col class="ml-xl-n8 ml-lg-n2">
@@ -153,8 +153,8 @@
               </v-col>
 
 
-              <v-col class="ml-xl-n8 ">
-                #{{ index + 1 }}:{{ comment.id }}
+              <v-col class="ml-xl-n8 " :id="`comments-${comment.id}`">
+                #{{ index + 1 }}
                 <span>{{ comment.user.nickname }}</span>
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none"/>
@@ -217,8 +217,8 @@
                             </v-col>
 
 
-                            <v-col class="ml-xl-n8">
-                              #{{ Cindex + 1 }}:{{ childComment.id }}
+                            <v-col class="ml-xl-n8" :id="`comments-${childComment.id}`">
+                              #{{ Cindex + 1 }}
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
                               <br class="d-sm-none"/>
@@ -307,6 +307,16 @@
 
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <div class="side-toolbar1">
+      <a href="#comments" v-if="!gotoTitle">
+        <v-btn rounded elevation="0" @click="gotoTitle=!gotoTitle" outlined>
+          <v-icon>mdi-message-reply-text-outline</v-icon>
+        </v-btn>
+      </a>
+      <a href="#T-title" v-else>
+        <v-btn rounded elevation="0" @click="gotoTitle=!gotoTitle" outlined>
+          <v-icon>mdi-arrow-up-circle-outline</v-icon>
+        </v-btn>
+      </a>
       <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
              @click="articleStore.ActionArticle(commentType.up)">
         <v-icon :icon="articleStore.getArticleActionIcon(commentType.up)"></v-icon>
@@ -334,19 +344,22 @@
 
 
 <script setup lang="ts">
-//todo 夜间模式
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
+import 'highlight.js/styles/atom-one-dark.css'
 import {commentType, useFetchGetArticleContent, useFetchGetArticleField} from '~/composables/Api/article'
-import {onMounted, onUnmounted, ref} from 'vue'
+import {onMounted, onUnmounted, ref, watch} from 'vue'
 import {useRoute, dateFilter} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUser} from '~/stores/user'
+import {useTheme} from 'vuetify'
 
 let route = useRoute()
 let aid = route.params.aid
+
+let theme = useTheme()
 
 let user = useUser()
 
@@ -361,12 +374,21 @@ articleStore.contentHtml = ArticleContent.data
 
 const ReplyComment = articleCommentStore.ReplyComment
 
+const gotoTitle = ref(false)
 
 const message = ref('')
 const showMessage = ref(false)
 
 onMounted(async () => {
   await articleStore.init()
+  if (theme.global.name.value === 'dark') {
+    articleStore.markdownTheme = articleStore.markdownThemeDark
+    console.log('d')
+  } else {
+    articleStore.markdownTheme = articleStore.markdownThemeLight
+    console.log('l')
+  }
+  console.log('articleStore.markdownTheme', articleStore.markdownTheme)
   hljs.highlightAll()
   if (route.hash) {
     const el = document.querySelector(route.hash)
@@ -378,7 +400,13 @@ onMounted(async () => {
     createToc()
   }, 100)
   await articleCommentStore.init(articleStore.articleField)
-
+  watch(theme.global.name, (val) => {
+    if (val === 'dark') {
+      articleStore.markdownTheme = articleStore.markdownThemeDark
+    } else {
+      articleStore.markdownTheme = articleStore.markdownThemeLight
+    }
+  })
 })
 
 onUnmounted(() => {
@@ -415,9 +443,9 @@ const createToc = () => {
     headingSelector: 'h1, h2, h3,h4',
     hasInnerContainers: false,
     includeTitleTags: false,
-    scrollSmoothOffset: -50,
-    scrollSmooth: true,
-    scrollSmoothDuration: 500,
+    // scrollSmoothOffset: 80,
+    scrollSmooth: false,
+    // scrollSmoothDuration: 500,
   })
 }
 
@@ -432,6 +460,7 @@ const createToc = () => {
 @import "../../assets/sass/mdTheme/smart-blue.css"
 @import "../../assets/sass/mdTheme/juejin"
 @import "../../assets/sass/mdTheme/devui-blue"
+@import "../../assets/sass/mdTheme/geek-black"
 
 .comment
   border-style: solid
@@ -452,7 +481,7 @@ const createToc = () => {
 .toc {
   position: sticky;
   top: 10%;
-  height: 500px;
+  height: 700px;
   font-size: 17px;
   overflow: hidden;
   overflow-y: auto;
@@ -474,10 +503,14 @@ const createToc = () => {
   bottom: 30px;
   right: 0;
   /*width: 200px;*/
-  padding: 30px;
+  padding: 10px;
 }
 
 .v-container {
   max-width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 </style>
