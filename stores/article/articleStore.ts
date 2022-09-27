@@ -18,7 +18,7 @@ export const useArticleStore = defineStore('ArticleStore', {
         contentHtml: null,
         mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
         mdThemeNameListDark: ['geek-black'],
-        markdownTheme: '',
+        markdownTheme: null,
         markdownThemeLight: '',
         markdownThemeDark: '',
         follow: false,

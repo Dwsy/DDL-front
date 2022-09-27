@@ -56,16 +56,17 @@
         </v-list-item>
       </v-list-group>
 
-      <v-list-item v-else :key="item.text" :to="item.link" link>
-        <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-action>
+      <v-list-item v-else :key="item.text" :to="item.link"
+                   :prepend-icon="item.icon">
+        <!--        <v-list-item-action>-->
+        <!--          <v-icon>{{ item.icon }}</v-icon>-->
+        <!--        </v-list-item-action>-->
 
 
-          <v-list-item-title>
-            {{ item.text }}
-            <v-divider></v-divider>
-          </v-list-item-title>
+        <v-list-item-title>
+          {{ item.text }}
+          <v-divider></v-divider>
+        </v-list-item-title>
 
       </v-list-item>
     </template>

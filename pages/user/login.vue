@@ -83,7 +83,7 @@ const login = async () => {
   User.setToken(token)
   localStorage.setItem('token', token)
   localStorage.setItem('user', JSON.stringify(payload.value['ddl-user']))
-  User.setUser(token.split('.')[1])
+  User.setUser(payload.value['ddl-user'])
   console.log('login')
   User.setIsLogin(true)
   await User.getUserInfo()

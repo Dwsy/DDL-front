@@ -6,7 +6,7 @@ import {useAxiosGetUserInfo, useAxiosPostCheck} from '~/composables/Api/user'
 interface user {
     IsLogin: Ref<boolean>;
     token: Ref<string>;
-    user: any;
+    user: tokenMsg;
     userInfo: UserInfo
 }
 
@@ -18,11 +18,19 @@ interface UserInfo {
     birth: any;
 }
 
+interface tokenMsg {
+    id: number;
+    username: string;
+    nickname: string;
+    level: number;
+}
+
+
 export const useUser = defineStore('user', {
     state: (): user => {
         return {
             IsLogin: ref<boolean>(false),
-            user: {},
+            user: null,
             token: ref<string>(''),
             userInfo: null
         }

@@ -49,6 +49,7 @@ const alert = ref(false)
 const indexTop = ref(0)
 
 onMounted(() => {
+  document.title = '文章'
   document.body.onscroll = loadingWin
 })
 onUnmounted(() => {

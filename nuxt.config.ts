@@ -15,8 +15,8 @@ export default defineNuxtConfig({
                 {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css'}
             ],
         },
+        // keepalive:true
     },
-
 
     vite: {
         // logLevel: "info",

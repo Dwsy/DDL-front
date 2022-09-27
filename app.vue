@@ -11,11 +11,14 @@
       <LayoutsFooter/>
     </template>
     <NuxtPage :key="$route.fullPath"/>
+
   </NuxtLayout>
 
 
 </template>
 <script setup lang="ts">
+import {definePageMeta} from '#imports'
+
 import {useUser} from '~~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {useLayout} from '~/stores/layout'

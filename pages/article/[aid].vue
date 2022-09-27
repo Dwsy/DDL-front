@@ -58,10 +58,17 @@
           <v-divider></v-divider>
 
           <div v-html="articleStore.contentHtml"
+               v-show="articleStore.markdownTheme"
                :class="articleStore.markdownTheme"
                class=" js-toc-content"
-               v-intersect="()=>{gotoTitle=true}"
+
           ></div>
+          <!--          v-intersect="()=>{gotoTitle=true}"-->
+          <div v-show="!articleStore.markdownTheme" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
+            <span>
+              加载中...
+            </span>
+          </div>
 
         </div>
         <v-divider class="mt-8 mb-6"></v-divider>
@@ -87,8 +94,7 @@
 
         <v-divider class="mt-10 mb-6"></v-divider>
 
-
-        <div class="comment pa-3" v-intersect="()=>{gotoTitle=false}">
+        <div class="comment pa-3" v-intersect="onIntersect">
           <span class="text-h6 ml-2" id="comments1">评论</span>
           <v-row class="mt-5" v-if="user.token">
             <v-col cols="1" class="d-none d-md-flex">
@@ -147,8 +153,19 @@
           <!--          </v-row>-->
 
 
-          <div v-if="articleCommentStore.loadingComment" class="text-h4 text-center">
-          <span>
+          <div v-if="articleCommentStore.loadingComment"
+               class="text-h3 my-16 text-center">
+            <!--            <v-sheet-->
+            <!--                color="grey"-->
+            <!--                class="pa-3"-->
+            <!--            >-->
+            <!--              <v-skeleton-loader-->
+            <!--                  class="mx-auto"-->
+            <!--                  max-width="300"-->
+            <!--                  type="card"-->
+            <!--              ></v-skeleton-loader>-->
+            <!--            </v-sheet>-->
+            <span>
             加载中...
           </span>
           </div>
@@ -340,15 +357,14 @@
 
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <div class="side-toolbar1">
-      {{ gotoTitle }}
       <a href="#comments" v-if="!gotoTitle">
-        <v-btn rounded elevation="0" @click="()=>{gotoTitle=false}"
+        <v-btn rounded elevation="0" @click="()=>{gotoTitle.value=true}"
                size="small" class="mr-3" outlined>
           <v-icon>mdi-message-reply-text-outline</v-icon>
         </v-btn>
       </a>
       <a href="#T-title" v-else>
-        <v-btn rounded elevation="0" @click="()=>{gotoTitle=true}"
+        <v-btn rounded elevation="0" @click="()=>{gotoTitle.value=false}"
                size="small" class="mr-3" outlined>
           <v-icon>mdi-arrow-up-circle-outline</v-icon>
         </v-btn>
@@ -417,6 +433,7 @@ const message = ref('')
 const showMessage = ref(false)
 
 onMounted(async () => {
+  document.title = articleStore.articleField.title
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
     articleStore.markdownTheme = articleStore.markdownThemeDark
@@ -425,8 +442,6 @@ onMounted(async () => {
   }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   hljs.highlightAll()
-  // hljsLine(document)
-  // console.log(hljs)
   if (route.hash) {
     const el = document.querySelector(route.hash)
     if (el) {
@@ -474,7 +489,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 //   }
 // }
 
-
+const onIntersect = (entries) => gotoTitle.value = !!entries
 const createToc = () => {
   // @ts-ignore
   tocbot.init({

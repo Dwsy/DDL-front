@@ -101,6 +101,7 @@ const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
+  document.title = '搜索:' + Route.params.query
   let {data: searchRet} = await useAxiosGetSearchArticle(Route.params.query, params.value)
   totalElements.value = searchRet.data.totalElements
   searchListContent.value = searchRet.data.content
