@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import {el} from 'vuetify/locale'
 
 export const dateFilter = (val: any, format = 'YYYY-MM-DD hh:mm:ss') => {
     if (!isNaN(val)) {
@@ -43,4 +44,8 @@ function str2ab(str) {
         bufView[i] = str.charCodeAt(i)
     }
     return buf
+}
+
+export function isNumber(str) {
+    return /^\d+$/.test(str)
 }

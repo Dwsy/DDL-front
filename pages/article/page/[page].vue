@@ -20,7 +20,8 @@
 <script setup lang="ts">
 // 搜索引擎 分页模式 SEO
 import List, { articleListData } from "~~/components/article/index/list.vue";
-import Group from "~~/components/article/index/group.vue";
+import Group from '~~/components/article/index/group.vue'
+import {onMounted, watch} from 'vue'
 
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
@@ -30,14 +31,16 @@ import Group from "~~/components/article/index/group.vue";
 const p = useRoute().params.page
 const urlPage = ref(Number(p))
 
-watch(urlPage, async (p) => {
-  params.value.page = p
-  // useRouter().push(`/`)
-  window.scrollTo(0, 0)
-  useRouter().push(`/article/page/${p}`)
+onMounted(() => {
+  watch(urlPage, async (p) => {
+    params.value.page = p
+    // useRouter().push(`/`)
+    window.scrollTo(0, 0)
+    useRouter().push(`/article/page/${p}`)
 
-  // const data = (await useFetchGetArticleList(params.value)).data
-  // listContent.value = data.content
+    // const data = (await useFetchGetArticleList(params.value)).data
+    // listContent.value = data.content
+  })
 })
 const params = ref({ size: 8, page: urlPage.value, tagId: null, order: null, properties: null })
 const { data: listData } = await useFetchGetArticleList(params.value)

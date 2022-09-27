@@ -10,7 +10,9 @@
     <template #footer>
       <LayoutsFooter/>
     </template>
+
     <NuxtPage :key="$route.fullPath"/>
+
 
   </NuxtLayout>
 
@@ -33,6 +35,7 @@ onMounted(async () => {
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
+    console.log('user1111', JSON.parse(window.localStorage.getItem('user')))
     user.setIsLogin(true)
     await user.getUserInfo()
     // 后端接口判断

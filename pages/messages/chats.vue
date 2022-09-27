@@ -1,9 +1,6 @@
 <template>
   <keep-alive>
     <div>
-      <nuxt-link to="/messages/chats/1">
-        <v-btn></v-btn>
-      </nuxt-link>
       <v-row class="mt-6">
         <v-col cols="3">
           <v-list density="compact">
@@ -12,7 +9,7 @@
                 v-for="(item, i) in chatsStore.chatsList"
                 :key="item.id"
                 :value="item"
-                :to="`/messages/chats/${item.id}`"
+                :to="`/messages/chats/${item.chatUserId}`"
                 active-color="pink"
                 rounded="xl"
             >
@@ -29,14 +26,14 @@
         </v-col>
         <v-divider vertical></v-divider>
         <v-col>
-          <keep-alive :max="10">
+          <keep-alive>
             <NuxtPage :key="$route.fullPath"/>
           </keep-alive>
         </v-col>
         <v-divider vertical></v-divider>
-        <v-col>
-          3
-        </v-col>
+        <!--        <v-col cols="1">-->
+        <!--          3-->
+        <!--        </v-col>-->
       </v-row>
     </div>
   </keep-alive>
@@ -45,7 +42,18 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted} from 'vue'
 import {useChatsStore} from '~/stores/messages/chatsStore'
+import {definePageMeta} from '#imports'
+import {useHead} from '#head'
 
+useHead({
+  title: '私信列表',
+  link: [
+    {rel: 'stylesheet', href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css'}
+  ]
+})
+definePageMeta({
+  keepalive: true
+})
 const chatsStore = useChatsStore()
 onMounted(async () => {
   console.log('onMounted')

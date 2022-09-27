@@ -16,5 +16,5 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 // fixme 会报[Vue warn]: A plugin must either be a function or an object with an "install" function.
 //    但是可以用
-    nuxtApp.vueApp.use(VueToastificationPlugin, options)
+//     nuxtApp.vueApp.use(VueToastificationPlugin, options)
 })

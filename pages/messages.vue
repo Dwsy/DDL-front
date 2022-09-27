@@ -27,9 +27,7 @@
 
       <v-divider vertical></v-divider>
       <v-col xl="9" lg="9" md="10" sm="9" xs="12">
-        <keep-alive :max="10">
-          <NuxtPage :key="$route.fullPath"/>
-        </keep-alive>
+        <NuxtPage :key="$route.fullPath"/>
       </v-col>
       <v-col cols="1">
         3
@@ -46,7 +44,9 @@ import {useChatsStore} from '~/stores/messages/chatsStore'
 import {onMounted} from 'vue'
 import {definePageMeta} from '#imports'
 
-
+definePageMeta({
+  keepalive: true
+})
 const chatsStore = useChatsStore()
 
 let items = [
@@ -58,7 +58,7 @@ let items = [
 ]
 
 onMounted(async () => {
-  console.log('Messsage mounted')
+  console.log('11Messsage mounted')
 })
 
 </script>

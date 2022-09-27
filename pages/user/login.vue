@@ -67,8 +67,8 @@ const login = async () => {
 
 
   publicKey.value = (await useGet('au/authority/rsa-pks')).data['data']
-  console.log('publicKey', publicKey.value)
-  console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
+  // console.log('publicKey', publicKey.value)
+  // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
   let uap = {
     username: username.value,
     password: rsaEncrypt(publicKey.value, password.value)
@@ -76,14 +76,19 @@ const login = async () => {
   const r = await usePost('au/authority/token', uap)
   t.value = r.data['token']
   let token = t.value
-  payload.value = JSON.parse(CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8))
-  console.log(token.split('.')[1])
-  console.log(payload)
+  payload.value =
+      CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8)
+
+  // console.log(token.split('.')[1])
+  // console.log(payload)
 
   User.setToken(token)
   localStorage.setItem('token', token)
-  localStorage.setItem('user', JSON.stringify(payload.value['ddl-user']))
+  localStorage.setItem('user', JSON.parse(payload.value)['ddl-user'])
   User.setUser(payload.value['ddl-user'])
+
+  // console.log("payload.value['ddl-user']\n",JSON.parse(payload.value))
+
   console.log('login')
   User.setIsLogin(true)
   await User.getUserInfo()

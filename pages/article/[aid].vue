@@ -408,6 +408,7 @@ import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUser} from '~/stores/user'
 import {useTheme} from 'vuetify'
+import {useHead} from '#head'
 //todo 移动端适配
 let route = useRoute()
 let aid = route.params.aid
@@ -431,9 +432,10 @@ const gotoTitle = ref(false)
 
 const message = ref('')
 const showMessage = ref(false)
-
+useHead({
+  title: articleStore.articleField.title
+})
 onMounted(async () => {
-  document.title = articleStore.articleField.title
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
     articleStore.markdownTheme = articleStore.markdownThemeDark

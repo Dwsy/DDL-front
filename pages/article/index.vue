@@ -32,6 +32,7 @@ import {onActivated, onMounted, onUnmounted, ref} from 'vue'
 import {useFetchGetArticleList} from '#imports'
 import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
+import {useHead} from '#head'
 //todo 因为做了瀑布流需要加一个 seo 隐藏分页
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
@@ -47,9 +48,10 @@ totalPages.value = listData.totalPages
 const alert = ref(false)
 
 const indexTop = ref(0)
-
+useHead({
+  title: '文章'
+})
 onMounted(() => {
-  document.title = '文章'
   document.body.onscroll = loadingWin
 })
 onUnmounted(() => {
