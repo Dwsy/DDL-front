@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <div>
+    <div id="chats-window">
       <v-row class="mt-6">
         <v-col cols="3">
           <v-list density="compact">
@@ -68,5 +68,9 @@ onUnmounted(() => {
 </script>
 
 <style>
+#chats-window {
+  max-height: 800px;
+}
+
 
 </style>

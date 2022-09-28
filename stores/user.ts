@@ -48,6 +48,8 @@ export const useUser = defineStore('user', {
             this.token = token
         },
         setUser(user: any) {
+            console.log('setUser:', user)
+            console.log('setUserType:', typeof user)
             this.user = user
         },
         async getUserInfo() {

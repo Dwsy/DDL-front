@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 100%">
-    <div style="height: 70%">
+  <div style="height: 90%">
+    <div style="height: 80%">
       <v-divider class="mb-4 "></v-divider>
       <v-row>
         <v-col cols="5" offset="5" class="mr-n4">
@@ -16,15 +16,21 @@
 
 
       <v-divider class="mb-4 mt-2"></v-divider>
-      <div class="lite-chatbox" v-if="chatsStore.chatRecord">
-        <div v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
-          index:{{ index }}
+      <div class="lite-chatbox">
+        <div v-if="!chatsStore.chatRecord">
+          <v-row class="my-n12">
+            <v-col cols="12" class="text-center">
+              <span style="font-size: 18px">加载中...</span>
+            </v-col>
+          </v-row>
+        </div>
+        <div v-else v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
           <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
             <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : '' }}</span>
           </div>
 
           <div v-if="i.toUserId===uid" class="cleft cmsg">
-            <v-row class="my-n16">
+            <v-row class="my-n12">
               <v-col>
                 <v-avatar size="large">
                   <v-img :src="i.chatUserAvatar"></v-img>
@@ -36,7 +42,7 @@
           </div>
 
           <div v-else class="cright cmsg">
-            <v-row>
+            <v-row class="my-n12">
               <v-col>
                 <span class="content" style="font-size: 18px" v-html="i.content"></span>
                 <v-avatar size="large">
@@ -48,13 +54,7 @@
           </div>
         </div>
       </div>
-      <div v-else>
-        <v-row class="my-n12">
-          <v-col cols="12" class="text-center">
-            <span style="font-size: 18px">加载中...</span>
-          </v-col>
-        </v-row>
-      </div>
+
     </div>
 
     <chat-input-box>
@@ -64,9 +64,9 @@
 </template>
 
 <script setup lang="ts">
-import {defaultMsg, definePageMeta, errorMsg, isNumber} from '#imports'
+import {defaultMsg, definePageMeta, errorMsg, isNumber, warningMsg} from '#imports'
 import {useChatsStore} from '~/stores/messages/chatsStore'
-import {nextTick, onMounted, ref, watch} from 'vue'
+import {nextTick, onMounted, onUnmounted, onUpdated, ref, watch} from 'vue'
 import {useRoute} from '#app'
 import {useHead} from '#head'
 import {useUser} from '~/stores/user'
@@ -74,7 +74,6 @@ import {useUser} from '~/stores/user'
 import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
 import ChatInputBox from '~/components/messages/chatInputBox.vue'
-import {GetHistoryMessageParam} from '~/composables/Api/messages/chats'
 // definePageMeta({
 //   keepalive:true,
 //   // pageTransition: AbstractRange
@@ -115,7 +114,6 @@ onMounted(async () => {
       font: '#ffffff'
     }
   }
-
   watch(useTheme().global.name, (val) => {
     if (val === 'dark') {
       toBubbleColor.value = {
@@ -137,21 +135,29 @@ onMounted(async () => {
       }
     }
   })
+
   let user = useUser()
+  //todo 拦截器
+  if (user.token === '') {
+    warningMsg('请先登录')
+    return
+  }
   uid.value = user.user.id
   let userId = route.params.userId
-  chatsStore.chatRecord = undefined
   if (isNumber(userId)) {
-    await chatsStore.pullLastMessage(userId)
+    await chatsStore.pullLastMessage(true, userId)
+    document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
+    await chatsStore.scrollBottom()
   } else {
     errorMsg('路径错误')
   }
-  await chatsStore.scrollBottom()
-  document.title = '私信列表:' + chatsStore.chatRecord[0].chatUserNickname
+  chatsStore.connectWsChannel()
 })
-
+onMounted(() => {
+  chatsStore.totalPages = 0
+})
 const loadMore = async (entries) => {
-  await chatsStore.pullLastMessage()
+  await chatsStore.pullLastMessage(false)
   console.log('loadMore', entries)
 }
 
@@ -192,9 +198,9 @@ const loadMore = async (entries) => {
 }
 
 .lite-chatbox {
-  max-height: 600px;
-  height: 100%;
-  line-height: 100px;
+  max-height: 540px;
+  height: 540px;
+  line-height: 95px;
   overflow: auto;
   overflow-x: hidden;
 }

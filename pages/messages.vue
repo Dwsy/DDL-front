@@ -4,7 +4,7 @@
     <v-row class="box">
       <!--      style="height: calc(100% - 66px)"-->
       <v-divider></v-divider>
-      <v-col cols="2" style="max-width: 200px;height:100%" class="ml-n5 mr-2">
+      <v-col cols="2" style="max-width: 200px;height:90%" class="ml-n5 mr-2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -60,7 +60,7 @@ let items = [
 
 onMounted(() => {
   layout.showFooter = false
-  console.log('11Messsage mounted')
+  // console.log('11Messsage mounted')
 })
 onUnmounted(() => {
   layout.showFooter = true

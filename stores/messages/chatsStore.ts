@@ -1,4 +1,4 @@
-import {ref, Ref} from 'vue'
+import {onUnmounted, ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
     GetMessageParam,
@@ -17,6 +17,9 @@ interface ChatsStore {
     chatsToUserId: number
     chatUserNickname: string
     totalPages: number
+    sendMsg: string
+    chatUserAvatar: number
+    chatWsMap: Map<number, WebSocket>
 }
 
 export const useChatsStore = defineStore('chats', {
@@ -27,7 +30,10 @@ export const useChatsStore = defineStore('chats', {
             chatRecordPage: 0,
             chatsToUserId: 0,
             chatUserNickname: '',
-            totalPages: 0
+            chatUserAvatar: 0,
+            totalPages: 0,
+            sendMsg: '',
+            chatWsMap: new Map<number, WebSocket>()
         }
     },
     getters: {},
@@ -47,8 +53,10 @@ export const useChatsStore = defineStore('chats', {
             })
 
         },
-        async pullLastMessage(toUserId?, latest?: number) {
-            if (this.chatRecord == undefined) {
+        async pullLastMessage(init: boolean, toUserId?, latest?: number) {
+            console.log('拉取最新消息')
+            if (init) {
+                console.log('init')
                 let {data: response} = await UseAxiosGetMessageByLatestId(toUserId)
                 if (response.code === 0) {
                     let ra: Array<ChatRecord> = []
@@ -59,6 +67,7 @@ export const useChatsStore = defineStore('chats', {
                     this.chatRecord = ra.reverse()
                     this.chatUserNickname = this.chatRecord[0].chatUserNickname
                     this.chatsToUserId = toUserId
+                    this.chatUserAvatar = this.chatRecord[0].chatUserAvatar
                     this.chatRecordPage = 1
                     this.totalPages = response.data.totalPages
                 } else {
@@ -66,6 +75,9 @@ export const useChatsStore = defineStore('chats', {
                     return
                 }
             } else {
+                if (this.totalPages === 1) {
+                    return
+                }
                 console.log('this.chatRecordPage', this.chatRecordPage)
                 console.log('this.totalPages', this.totalPages)
                 if (this.chatRecordPage != this.totalPages) {
@@ -88,6 +100,54 @@ export const useChatsStore = defineStore('chats', {
                     return
                 }
             }
+        },
+        connectWsChannel() {
+            if (!('WebSocket' in window)) {
+                console.log('您的浏览器不支持WebSocket')
+                return
+            }
+            let conversationId
+            let user = useUser()
+            if (user.user.id < this.chatsToUserId) {
+                conversationId = user.user.id + '_' + this.chatsToUserId
+            } else {
+                conversationId = this.chatsToUserId + '_' + user.user.id
+            }
+            let auth = false
+            let wsPath = 'ws://localhost:7050/private/message/'
+            if (this.chatWsMap.has(this.chatsToUserId)) {
+                console.log('已经存在连接')
+                return
+            }
+            let ws = new WebSocket(wsPath + conversationId)
+            this.chatWsMap.set(this.chatsToUserId, ws)
+            let count = 0
+            let authMsg: wsMessage = {
+                type: 0,
+                content: user.token,
+            }
+            ws.onopen = function () {
+                console.log('连接成功')
+                ws.send(JSON.stringify(authMsg))
+            }
+            ws.onmessage = (event) => {
+                if (!auth) {
+                    if (event.data === '鉴权成功') {
+                        auth = true
+                        console.log('鉴权成功')
+                    }
+                } else {
+                    console.log('收到消息' + count++, event.data)
+                    this.receiveMessage(event.data)
+                }
+            }
+            ws.onclose = function () {
+                console.log('连接关闭')
+            }
+            ws.onerror = function () {
+                console.log('连接错误')
+            }
+
         },
 
         // async pullHistoryMessage(toUserId, latest?: number) {
@@ -123,10 +183,11 @@ export const useChatsStore = defineStore('chats', {
             // let element = document.getElementsByClassName('lite-chatbox')[0]
             // element.scrollTo(0, element.scrollHeight)
         },
-        async sendMessage(content: string) {
-            let {data: response} = await UseAxiosSendMessage(content, this.toUserId)
+        async sendMessage() {
+            let content = this.sendMsg
+            let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
             if (response.code === 0) {
-                let chat: ChatRecord = {
+                let sendMsg: ChatRecord = {
                     chatUserAvatar: undefined,
                     chatUserId: 0,
                     chatUserNickname: undefined,
@@ -139,12 +200,47 @@ export const useChatsStore = defineStore('chats', {
                     status: '0',
                     toUserId: this.toUserId
                 }
-                this.chatRecord.push(chat)
+                this.chatRecord.push(sendMsg)
+                for (let i = 0; i < this.chatsList.length; i++) {
+                    console.log('this.chatsList[i].chatUserId', this.chatsList[i].chatUserId)
+                    console.log('this.chatsToUserId', this.chatsToUserId)
+                    if (this.chatsList[i].chatUserId == this.chatsToUserId) {
+                        console.log('-------')
+                        let temp = this.chatsList[i]
+                        this.chatsList = this.chatsList.filter((item) => item.id !== temp.id)
+                        temp.createTime = sendMsg.createTime
+                        temp.content = '我:' + sendMsg.content
+                        this.chatsList.unshift(temp)
+                        break
+                    }
+                }
                 await this.scrollBottom()
             } else {
                 warningMsg(response.msg)
                 return
             }
+            this.sendMsg = ''
+
+        },
+        async receiveMessage(msg: string) {
+            console.log('receiveMessage', msg)
+            let Message: ChatRecord = JSON.parse(msg)
+            Message.content = decodeURI(urlToLink(Message.content))
+            Message.chatUserNickname = this.chatUserNickname
+            Message.chatUserAvatar = this.chatUserAvatar
+            this.chatRecord.push(Message)
+            for (let i = 0; i < this.chatsList.length; i++) {
+                if (this.chatsList[i].formUserId === Message.formUserId ||
+                    this.chatsList[i].toUserId === Message.formUserId) {
+                    let temp = this.chatsList[i]
+                    this.chatsList = this.chatsList.filter((item) => item.id !== temp.id)
+                    temp.createTime = Message.createTime
+                    temp.content = Message.content
+                    this.chatsList.unshift(temp)
+                    break
+                }
+            }
+            await this.scrollBottom()
         }
     }
 })
@@ -191,4 +287,9 @@ interface ChatsListData {
     chatUserAvatar: string
     content: string
     status: string
+}
+
+interface wsMessage {
+    type: 0 | 1
+    content: string
 }

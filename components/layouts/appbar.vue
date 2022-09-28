@@ -29,6 +29,9 @@
 
           <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
         </v-btn>
+        <!--        <a href="#comments">-->
+        <!--          #comments-->
+        <!--        </a>-->
       </v-col>
 
 

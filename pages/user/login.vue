@@ -85,11 +85,11 @@ const login = async () => {
   User.setToken(token)
   localStorage.setItem('token', token)
   localStorage.setItem('user', JSON.parse(payload.value)['ddl-user'])
-  User.setUser(payload.value['ddl-user'])
+  User.setUser(JSON.parse(JSON.parse(payload.value)['ddl-user']))
 
+  console.log('login', User.user)
   // console.log("payload.value['ddl-user']\n",JSON.parse(payload.value))
 
-  console.log('login')
   User.setIsLogin(true)
   await User.getUserInfo()
   // Router.push('/')
