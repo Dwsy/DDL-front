@@ -1,17 +1,29 @@
-import {useGet, usePost} from '~/composables/useAxios'
+import {useGet, usePost, usePut} from '~/composables/useAxios'
 
 export const UseAxiosGetPrivateMessageList = () => {
     return useGet('message/private/message/list')
 }
 
-
-export interface GetHistoryMessageParam {
+//latest=0 null拉去最新10条
+export interface GetMessageParam {
     latest: number
     page: number
-    size: number
+    size?: number
 }
 
-export const UseAxiosGetHistoryMessage = (toUserId: number, params?: GetHistoryMessageParam) => {
+export const UseAxiosGetHistoryMessage = (toUserId: number, params?: GetMessageParam) => {
 
     return useGet('message/private/message/pull/' + toUserId, params)
+}
+export const UseAxiosGetMessageByLatestId = (toUserId: number, params?: GetMessageParam) => {
+
+    return useGet('message/private/message/pull/' + toUserId, params)
+}
+
+export const UseAxiosSendMessage = (content: string, toUserId: number) => {
+    const body = {
+        content,
+        toUserId
+    }
+    return usePut('message/private/message/send', body)
 }

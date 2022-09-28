@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" no-gutters>
+  <v-row justify="center" no-gutters v-show="layout.showFooter">
     <v-btn
         v-for="(link, i) in links"
         :key="i"
@@ -22,14 +22,17 @@
 </template>
 
 <script setup lang="ts">
-let links= [
+import {useLayout} from '~/stores/layout'
+
+const layout = useLayout()
+let links = [
   {
-    name: "Home",
-    url: "https://nestblog.dwsy.link",
+    name: 'Home',
+    url: 'https://nestblog.dwsy.link',
   },
   {
-    name: "About Us",
-    url: "1",
+    name: 'About Us',
+    url: '1',
   },
   {
     name: "Admin",

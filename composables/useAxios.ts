@@ -81,8 +81,28 @@ export const usePost = async (url: string, body?: object) => {
     } catch (error) {
         r = error
     }
-    return r;
-};
+    return r
+}
+
+export const usePut = async (url: string, body?: object) => {
+    let r: AxiosResponse = undefined
+    try {
+        r = await Axios.put(url, body)
+    } catch (error) {
+        r = error
+    }
+    return r
+}
+
+export const useDel = async (url: string, body?: object) => {
+    let r: AxiosResponse = undefined
+    try {
+        r = await Axios.delete(url, body)
+    } catch (error) {
+        r = error
+    }
+    return r
+}
 
 // export { get, post };
 

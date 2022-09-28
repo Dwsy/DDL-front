@@ -11,12 +11,12 @@
     </v-navigation-drawer>
 
     <v-main>
-      <v-container>
-        <slot />
+      <v-container id="main-container" class="box">
+        <slot/>
         <slot name="footer"></slot>
       </v-container>
 
-      <v-footer>
+      <v-footer v-show="layout.showFooter">
       </v-footer>
     </v-main>
 

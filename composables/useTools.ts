@@ -8,8 +8,17 @@ export const dateFilter = (val: any, format = 'YYYY-MM-DD hh:mm:ss') => {
     return dayjs(val).format(format)
 }
 
+export const isUrl = (urls: string) => {
+    if (urls.length <= 1) {
+        return false
+    }
+    let regexp = /((http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/ig
+    let url = urls.match(regexp)
+    return url && typeof (url) != 'undefined'
+}
+
 export const rsaEncrypt = (pwd: string, publicKey: string) => {
-    return "ae5dc3bdf77006d2b32b5fe"
+    return 'ae5dc3bdf77006d2b32b5fe'
     // const crypto = new Crypto()
     // const publicKey1 = await crypto.subtle.importKey(
     //     "jwk",
@@ -48,4 +57,36 @@ function str2ab(str) {
 
 export function isNumber(str) {
     return /^\d+$/.test(str)
+}
+
+/**
+ * 转换一段文字中的 url 为 a 标签
+ * @param {String} str 要转换的字符串
+ * @returns {String} linkStr 转换后的字符串
+ */
+export const urlToLink = (str) => {
+    if (!str) {
+        return str
+    }
+
+    // 防止 XSS攻击
+    str = xssFilter(str)
+
+    const re = /(f|ht){1}(tp|tps):\/\/([\w-]+\S)+[\w-]+([\w-?%#&=]*)?(\/[\w- ./?%#&=]*)?/g
+
+    str = str.replace(re, function (url) {
+        return `<a href=${url} target="_blank"> ${url} </a>`
+    })
+    return str
+}
+
+export const xssFilter = (html) => {
+    const divStub = document.createElement('div')
+    if (divStub.textContent !== undefined) {
+        divStub.textContent = html
+    } else {
+        // for ie9-
+        divStub.innerText = html
+    }
+    return divStub.innerHTML
 }

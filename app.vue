@@ -7,9 +7,9 @@
     <template #drawer>
       <LayoutsDrawer/>
     </template>
-    <template #footer>
-      <LayoutsFooter/>
-    </template>
+    <!--    <template #footer>-->
+    <!--      <LayoutsFooter/>-->
+    <!--    </template>-->
 
     <NuxtPage :key="$route.fullPath"/>
 
@@ -35,7 +35,7 @@ onMounted(async () => {
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
-    console.log('user1111', JSON.parse(window.localStorage.getItem('user')))
+    console.log('user::', user.user)
     user.setIsLogin(true)
     await user.getUserInfo()
     // 后端接口判断
@@ -61,6 +61,11 @@ if (typeof window === 'undefined') {
 </script>
 
 <style>
+html {
+  width: 100%;
+  height: 100%;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -84,6 +89,24 @@ a {
   /*position:absolute;*/
   width: 4px
 }
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8f8f8f;
+  background-image: -webkit-linear-gradient(45deg, hsla(0, 0%, 100%, .4) 100%, transparent 0, transparent 0, hsla(0, 0%, 100%, .4) 0, hsla(0, 0%, 100%, .4) 75%, transparent 0, transparent);
+  border-radius: 2em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 2em;
+}
+
 </style>
 <style lang="sass">
 

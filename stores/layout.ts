@@ -4,14 +4,16 @@ import {ThemeInstance} from 'vuetify'
 
 interface layout {
     drawer: Ref<boolean>,
-    themeName: Ref<string>
+    themeName: Ref<string>,
+    showFooter: boolean
 }
 
 // const theme = useTheme()
 export const useLayout = defineStore('layout', {
     state: (): layout => ({
         drawer: ref<boolean>(true),
-        themeName: ref('')
+        themeName: ref(''),
+        showFooter: true
     }),
     getters: {
         getThemeName() {

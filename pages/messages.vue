@@ -1,10 +1,10 @@
 <template>
 
-  <div class="v-container">
-    <v-row>
-
+  <v-container fluid id="message" class="box" style="">
+    <v-row class="box">
+      <!--      style="height: calc(100% - 66px)"-->
       <v-divider></v-divider>
-      <v-col cols="2" style="padding-bottom: 30%;max-width: 200px" class="ml-n5 mr-2">
+      <v-col cols="2" style="max-width: 200px;height:100%" class="ml-n5 mr-2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -33,7 +33,7 @@
         3
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 
 
 </template>
@@ -41,14 +41,15 @@
 <script setup lang="ts">
 
 import {useChatsStore} from '~/stores/messages/chatsStore'
-import {onMounted} from 'vue'
+import {onMounted, onUnmounted} from 'vue'
 import {definePageMeta} from '#imports'
+import {useLayout} from '~/stores/layout'
 
-definePageMeta({
-  keepalive: true
-})
+// definePageMeta({
+//   keepalive: true
+// })
 const chatsStore = useChatsStore()
-
+const layout = useLayout()
 let items = [
   {text: '回复我的', icon: 'mdi-reply', to: '/messages/reply'},
   {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at'},
@@ -57,8 +58,19 @@ let items = [
   {text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats'},
 ]
 
-onMounted(async () => {
+onMounted(() => {
+  layout.showFooter = false
   console.log('11Messsage mounted')
+})
+onUnmounted(() => {
+  layout.showFooter = true
 })
 
 </script>
+
+<style>
+.box {
+  height: 100%;
+}
+
+</style>

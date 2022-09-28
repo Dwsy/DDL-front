@@ -96,7 +96,7 @@
 
         <div class="comment pa-3" v-intersect="onIntersect">
           <span class="text-h6 ml-2" id="comments1">评论</span>
-          <v-row class="mt-5" v-if="user.token">
+          <v-row class="mt-5">
             <v-col cols="1" class="d-none d-md-flex">
               <v-avatar size="x-large">
                 <v-img :src="user?.userInfo?.avatar"></v-img>
@@ -111,15 +111,6 @@
               <v-btn class="float-end mx-6 mb-4" color="primary" @click="ReplyComment()">发送</v-btn>
             </v-col>
             <v-divider class="mb-6 mt-n4"></v-divider>
-          </v-row>
-          <v-row v-else>
-            <v-col offset="5">
-              <nuxt-link to="/user/login">
-                <v-btn color="pink">
-                  <span style="color: white" class="text-subtitle-1">评论请登陆</span>
-                </v-btn>
-              </nuxt-link>
-            </v-col>
           </v-row>
 
           <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
@@ -173,7 +164,7 @@
           <div v-else v-for="(comment,index) in articleCommentStore.commentList" key="comment.id">
             <v-row class="mt-2 mt-lg-3">
 
-              <v-col cols="2" xl="1" lg="1" sm="1" class="mr-1">
+              <v-col cols="1" xl="0" lg="1" sm="1" class="mr-8  mr-xl-n5 mr-lg-n2 d-comment">
                 <v-avatar size="x-large">
                   <v-img :src="comment.user.userInfo.avatar"></v-img>
                 </v-avatar>
@@ -248,7 +239,8 @@
                         <div v-for="(childComment,Cindex) in comment.childComments" key="comment.id">
                           <v-row class="mt-5">
 
-                            <v-col cols="2" class="mr-3 mr-sm-4" xl="1" lg="1" md="1" sm="1">
+                            <v-col cols="2" class="mr-4 mr-sm-4 mr-xl-n5 mr-lg-n2 d-comment" xl="1" lg="1" md="1"
+                                   sm="1">
                               <v-avatar size="x-large">
                                 <v-img
                                     :src="childComment.user.userInfo.avatar"></v-img>
@@ -436,6 +428,9 @@ useHead({
   title: articleStore.articleField.title
 })
 onMounted(async () => {
+  if (user.token === '') {
+    articleCommentStore.replyCommentText = '请先登陆'
+  }
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
     articleStore.markdownTheme = articleStore.markdownThemeDark
@@ -641,4 +636,12 @@ code {
 ::-webkit-scrollbar-button {
   display: none;
 }
+</style>
+<style scoped>
+@media (min-width: 2300px) {
+  .d-comment {
+    margin-right: -40px !important;
+  }
+}
+
 </style>

@@ -1,19 +1,33 @@
 import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
-    GetHistoryMessageParam,
-    UseAxiosGetHistoryMessage,
-    UseAxiosGetPrivateMessageList,
+    GetMessageParam,
+    UseAxiosGetHistoryMessage, UseAxiosGetMessageByLatestId,
+    UseAxiosGetPrivateMessageList, UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
-import {warningMsg} from '#imports'
+import {defaultMsg, nextTick, warningMsg} from '#imports'
 import {useUser} from '~/stores/user'
 import {SymbolKind} from 'vscode-languageserver-types'
+import {urlToLink} from '~/composables/useTools'
+
+interface ChatsStore {
+    chatsList: Ref<ChatsListData[]>
+    chatRecord: Ref<Array<ChatRecord>>
+    chatRecordPage: number
+    chatsToUserId: number
+    chatUserNickname: string
+    totalPages: number
+}
 
 export const useChatsStore = defineStore('chats', {
     state: (): ChatsStore => {
         return {
             chatsList: ref<ChatsListData[]>(),
-            chatRecord: ref<Array<ChatRecord>>()
+            chatRecord: ref<Array<ChatRecord>>(),
+            chatRecordPage: 0,
+            chatsToUserId: 0,
+            chatUserNickname: '',
+            totalPages: 0
         }
     },
     getters: {},
@@ -26,26 +40,112 @@ export const useChatsStore = defineStore('chats', {
                 warningMsg(response.msg)
                 return
             }
-            // this.chatsList.forEach((item) => {
-            //     if (item.toUserId == item.chatUserId) {
-            //         item.content= '我: ' + item.content
-            //     }
-            // })
-            // this.chatsList = response.data.content.filter((item) => item.formUserId==useUser().userInfo.id)
+            this.chatsList.forEach((item) => {
+                if (item.toUserId == item.chatUserId) {
+                    item.content = '我: ' + item.content
+                }
+            })
+
         },
-        async pullHistoryMessage(toUserId, params?: GetHistoryMessageParam) {
-            let {data: response} = await UseAxiosGetHistoryMessage(toUserId, params)
-            console.log(response)
+        async pullLastMessage(toUserId?, latest?: number) {
+            if (this.chatRecord == undefined) {
+                let {data: response} = await UseAxiosGetMessageByLatestId(toUserId)
+                if (response.code === 0) {
+                    let ra: Array<ChatRecord> = []
+                    ra = response.data.content
+                    ra.forEach((item) => {
+                        item.content = decodeURI(urlToLink(item.content))
+                    })
+                    this.chatRecord = ra.reverse()
+                    this.chatUserNickname = this.chatRecord[0].chatUserNickname
+                    this.chatsToUserId = toUserId
+                    this.chatRecordPage = 1
+                    this.totalPages = response.data.totalPages
+                } else {
+                    warningMsg(response.msg)
+                    return
+                }
+            } else {
+                console.log('this.chatRecordPage', this.chatRecordPage)
+                console.log('this.totalPages', this.totalPages)
+                if (this.chatRecordPage != this.totalPages) {
+                    let params: GetMessageParam = {latest: latest, page: this.chatRecordPage += 1,}
+                    console.log('this.chatsToUserId', this.chatsToUserId)
+                    let {data: response} = await UseAxiosGetHistoryMessage(this.chatsToUserId, params)
+                    if (response.code === 0) {
+                        let ra: Array<ChatRecord> = []
+                        ra = response.data.content
+                        ra.forEach((item) => {
+                            item.content = decodeURI(urlToLink(item.content))
+                        })
+                        this.chatRecord.unshift(...ra.reverse())
+                    } else {
+                        warningMsg(response.msg)
+                        return
+                    }
+                } else {
+                    defaultMsg('没有更多消息了')
+                    return
+                }
+            }
+        },
+
+        // async pullHistoryMessage(toUserId, latest?: number) {
+        //     let params: GetMessageParam
+        //     if (latest != null) {
+        //         body = {
+        //             latest, page: this.chatRecordPage + 1,
+        //         }
+        //     }
+        //     let {data: response} = await UseAxiosGetHistoryMessage(toUserId, body)
+        //     if (response.code === 0) {
+        //         let ra: Array<ChatRecord> = []
+        //         ra = response.data.content
+        //         ra.forEach((item) => {
+        //             item.content = decodeURI(urlToLink(item.content))
+        //         })
+        //         if (this.chatRecord == undefined) {
+        //             this.chatRecord = ra.reverse()
+        //             this.chatUserNickname = this.chatRecord[0].chatUserNickname
+        //             this.toUserId = toUserId
+        //         } else {
+        //             console.log('page')
+        //         }
+        //     } else {
+        //         warningMsg(response.msg)
+        //         return
+        //     }
+        // },
+        async scrollBottom() {
+            await nextTick()
+            let div = document.getElementsByClassName('lite-chatbox')[0]
+            div.scrollTop = div.scrollHeight //当前div的滚轮始终保持最下面
+            // let element = document.getElementsByClassName('lite-chatbox')[0]
+            // element.scrollTo(0, element.scrollHeight)
+        },
+        async sendMessage(content: string) {
+            let {data: response} = await UseAxiosSendMessage(content, this.toUserId)
             if (response.code === 0) {
-                this.chatRecord = response.data.content
-                console.log(this.chatRecord)
+                let chat: ChatRecord = {
+                    chatUserAvatar: undefined,
+                    chatUserId: 0,
+                    chatUserNickname: undefined,
+                    content: decodeURI(urlToLink(content)),
+                    createTime: new Date().getTime(),
+                    deleted: false,
+                    formUserId: 0,
+                    id: 0,
+                    lastModifiedTime: 0,
+                    status: '0',
+                    toUserId: this.toUserId
+                }
+                this.chatRecord.push(chat)
+                await this.scrollBottom()
             } else {
                 warningMsg(response.msg)
                 return
             }
-        },
-
-
+        }
     }
 })
 
@@ -58,6 +158,10 @@ interface Response {
 interface ChatsStore {
     chatsList: Ref<ChatsListData[]>
     chatRecord: Ref<Array<ChatRecord>>
+    chatRecordPage: number
+    chatsToUserId: number
+    chatUserNickname: string
+    totalPages: number
 }
 
 interface ChatRecord {

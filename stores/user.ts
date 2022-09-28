@@ -30,7 +30,12 @@ export const useUser = defineStore('user', {
     state: (): user => {
         return {
             IsLogin: ref<boolean>(false),
-            user: null,
+            user: {
+                id: 0,
+                username: '',
+                nickname: '',
+                level: 0
+            },
             token: ref<string>(''),
             userInfo: null
         }
