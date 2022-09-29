@@ -42,11 +42,9 @@ import {useUser} from '~~/stores/user'
 import CryptoJS from 'crypto-js'
 import {rsaEncrypt} from '~/composables/useTools'
 import {onMounted, ref} from 'vue'
-import {useGet, usePost, useRouter} from '#imports'
+import {definePageMeta, useGet, usePost, useRouter} from '#imports'
 
-definePageMeta({
-  // layout: false
-})
+// definePageMeta({ keepalive: {}, })
 const valid = ref(null)
 const username = ref('Dwsy')
 const password = ref()

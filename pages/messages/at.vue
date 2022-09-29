@@ -1,13 +1,14 @@
 <template>
-  <v-text-field></v-text-field>
+<div>@</div>
 </template>
 
 <script setup lang="ts">
 import {definePageMeta} from '#imports'
 
-// definePageMeta({
-//   keepalive: true
-// })
+definePageMeta({
+  // key:route => route.fullPath,
+  keepalive: true
+})
 </script>
 
 <style scoped>

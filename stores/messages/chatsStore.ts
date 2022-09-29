@@ -3,15 +3,15 @@ import {defineStore} from 'pinia'
 import {
     GetMessageParam,
     UseAxiosGetHistoryMessage, UseAxiosGetMessageByLatestId,
-    UseAxiosGetPrivateMessageList, UseAxiosSendMessage,
+    UseAxiosGetPrivateMessageList, UseAxiosPostReadMessageById, UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
-import {defaultMsg, nextTick, warningMsg} from '#imports'
+import {defaultMsg, errorMsg, nextTick, warningMsg} from '#imports'
 import {useUser} from '~/stores/user'
 import {SymbolKind} from 'vscode-languageserver-types'
 import {urlToLink} from '~/composables/useTools'
 
 interface ChatsStore {
-    chatsList: Ref<ChatsListData[]>
+    chatsList: ChatsListData[]
     chatRecord: Ref<Array<ChatRecord>>
     chatRecordPage: number
     chatsToUserId: number
@@ -20,12 +20,14 @@ interface ChatsStore {
     sendMsg: string
     chatUserAvatar: number
     chatWsMap: Map<number, WebSocket>
+    chatWsMsgUnreadNum: Map<number, number>
+    auth: boolean
 }
 
 export const useChatsStore = defineStore('chats', {
     state: (): ChatsStore => {
         return {
-            chatsList: ref<ChatsListData[]>(),
+            chatsList: [],
             chatRecord: ref<Array<ChatRecord>>(),
             chatRecordPage: 0,
             chatsToUserId: 0,
@@ -33,12 +35,16 @@ export const useChatsStore = defineStore('chats', {
             chatUserAvatar: 0,
             totalPages: 0,
             sendMsg: '',
-            chatWsMap: new Map<number, WebSocket>()
+            chatWsMap: new Map<number, WebSocket>(),
+            chatWsMsgUnreadNum: new Map<number, number>(),
+            auth: false
         }
     },
     getters: {},
     actions: {
-        async loadChatsList() {
+        async loadChatsList(refresh = false) {
+            // console.log('this.chatsList.length ', this.chatsList.length)
+            // if (this.chatsList.length === 0) {
             let {data: response} = await UseAxiosGetPrivateMessageList()
             if (response.code === 0) {
                 this.chatsList = response.data.content
@@ -51,12 +57,18 @@ export const useChatsStore = defineStore('chats', {
                     item.content = '我: ' + item.content
                 }
             })
+            this.chatsList.forEach(item => {
+                this.connectWsChannel(Number(item.chatUserId))
+                this.chatWsMsgUnreadNum.set(item.chatUserId, 0)
+            })
+            // }
 
         },
-        async pullLastMessage(init: boolean, toUserId?, latest?: number) {
-            console.log('拉取最新消息')
+        async pullLastMessage(init: boolean, toUserId?: number, latest?: number) {
+            console.log('拉取消息', init, toUserId, latest)
             if (init) {
                 console.log('init')
+                this.chatWsMsgUnreadNum.set(Number(toUserId), 0)
                 let {data: response} = await UseAxiosGetMessageByLatestId(toUserId)
                 if (response.code === 0) {
                     let ra: Array<ChatRecord> = []
@@ -70,6 +82,9 @@ export const useChatsStore = defineStore('chats', {
                     this.chatUserAvatar = this.chatRecord[0].chatUserAvatar
                     this.chatRecordPage = 1
                     this.totalPages = response.data.totalPages
+                    if (response.data.content.length === 1) {
+                        await this.loadChatsList()
+                    }
                 } else {
                     warningMsg(response.msg)
                     return
@@ -78,11 +93,9 @@ export const useChatsStore = defineStore('chats', {
                 if (this.totalPages === 1) {
                     return
                 }
-                console.log('this.chatRecordPage', this.chatRecordPage)
-                console.log('this.totalPages', this.totalPages)
                 if (this.chatRecordPage != this.totalPages) {
                     let params: GetMessageParam = {latest: latest, page: this.chatRecordPage += 1,}
-                    console.log('this.chatsToUserId', this.chatsToUserId)
+                    // console.log('this.chatsToUserId', this.chatsToUserId)
                     let {data: response} = await UseAxiosGetHistoryMessage(this.chatsToUserId, params)
                     if (response.code === 0) {
                         let ra: Array<ChatRecord> = []
@@ -101,26 +114,29 @@ export const useChatsStore = defineStore('chats', {
                 }
             }
         },
-        connectWsChannel() {
+        connectWsChannel(toUserId?: number) {
             if (!('WebSocket' in window)) {
                 console.log('您的浏览器不支持WebSocket')
                 return
             }
             let conversationId
             let user = useUser()
-            if (user.user.id < this.chatsToUserId) {
-                conversationId = user.user.id + '_' + this.chatsToUserId
-            } else {
-                conversationId = this.chatsToUserId + '_' + user.user.id
+            if (toUserId == undefined) {
+                toUserId = this.chatsToUserId
             }
+            if (user.user.id < toUserId) {
+                conversationId = user.user.id + '_' + toUserId
+            } else {
+                conversationId = toUserId + '_' + user.user.id
+            }
+            console.log(conversationId)
             let auth = false
             let wsPath = 'ws://localhost:7050/private/message/'
-            if (this.chatWsMap.has(this.chatsToUserId)) {
-                console.log('已经存在连接')
+            if (this.chatWsMap.has(toUserId)) {
+                // console.log('已经存在连接')
                 return
             }
             let ws = new WebSocket(wsPath + conversationId)
-            this.chatWsMap.set(this.chatsToUserId, ws)
             let count = 0
             let authMsg: wsMessage = {
                 type: 0,
@@ -128,17 +144,35 @@ export const useChatsStore = defineStore('chats', {
             }
             ws.onopen = function () {
                 console.log('连接成功')
-                ws.send(JSON.stringify(authMsg))
             }
             ws.onmessage = (event) => {
-                if (!auth) {
-                    if (event.data === '鉴权成功') {
-                        auth = true
-                        console.log('鉴权成功')
-                    }
-                } else {
-                    console.log('收到消息' + count++, event.data)
+                // console.log('收到消息', event.data)
+                let data = event.data
+                if (data === 'success') {
+                    ws.send(JSON.stringify(authMsg))
+                    return
+                }
+                if (data === '鉴权成功') {
+                    this.chatWsMap.set(toUserId, ws)
+                    console.log('ok!')
+                    return
+                }
+                if (data === '鉴权失败' || data === 'error') {
+                    ws.close()
+                }
+                //json
+                if (data.startsWith('{')) {
                     this.receiveMessage(event.data)
+                }
+                //readMsg
+                if (data.startsWith('r0')) {
+                    let readMsg = data.split('_')
+                    let formUserId = readMsg[2]
+                    let toUserId = readMsg[3]
+                    if (this.chatsToUserId == toUserId) {
+                        this.wsReadMsg(readMsg[1])
+                    }
+                    // todo 不在当前聊天窗口 已读 图标变化
                 }
             }
             ws.onclose = function () {
@@ -187,34 +221,8 @@ export const useChatsStore = defineStore('chats', {
             let content = this.sendMsg
             let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
             if (response.code === 0) {
-                let sendMsg: ChatRecord = {
-                    chatUserAvatar: undefined,
-                    chatUserId: 0,
-                    chatUserNickname: undefined,
-                    content: decodeURI(urlToLink(content)),
-                    createTime: new Date().getTime(),
-                    deleted: false,
-                    formUserId: 0,
-                    id: 0,
-                    lastModifiedTime: 0,
-                    status: '0',
-                    toUserId: this.toUserId
-                }
-                this.chatRecord.push(sendMsg)
-                for (let i = 0; i < this.chatsList.length; i++) {
-                    console.log('this.chatsList[i].chatUserId', this.chatsList[i].chatUserId)
-                    console.log('this.chatsToUserId', this.chatsToUserId)
-                    if (this.chatsList[i].chatUserId == this.chatsToUserId) {
-                        console.log('-------')
-                        let temp = this.chatsList[i]
-                        this.chatsList = this.chatsList.filter((item) => item.id !== temp.id)
-                        temp.createTime = sendMsg.createTime
-                        temp.content = '我:' + sendMsg.content
-                        this.chatsList.unshift(temp)
-                        break
-                    }
-                }
-                await this.scrollBottom()
+
+                // await this.scrollBottom()
             } else {
                 warningMsg(response.msg)
                 return
@@ -223,12 +231,57 @@ export const useChatsStore = defineStore('chats', {
 
         },
         async receiveMessage(msg: string) {
-            console.log('receiveMessage', msg)
             let Message: ChatRecord = JSON.parse(msg)
+            for (let i = 0; i < this.chatsList.length; i++) {
+
+                let temp
+                if (this.chatsList[i].chatUserId == Message.toUserId) {
+                    temp = this.chatsList[i]
+                    temp.content = '我:' + Message.content
+                    this.chatsList = this.chatsList.filter((item) => item.id !== temp.id)
+                    temp.createTime = Message.createTime
+                    this.chatsList.unshift(temp)
+                    break
+
+                } else if (this.chatsList[i].chatUserId == Message.formUserId) {
+                    temp = this.chatsList[i]
+                    temp.content = Message.content
+                    this.chatsList = this.chatsList.filter((item) => item.id !== temp.id)
+                    temp.createTime = Message.createTime
+                    this.chatsList.unshift(temp)
+                    break
+                }
+
+
+            }
             Message.content = decodeURI(urlToLink(Message.content))
             Message.chatUserNickname = this.chatUserNickname
             Message.chatUserAvatar = this.chatUserAvatar
-            this.chatRecord.push(Message)
+            // console.log('this.chatsToUserId', this.chatsToUserId)
+            // console.log('Message.formUserId', Message.formUserId)
+
+            // let sendMsg: ChatRecord = {
+            //     chatUserAvatar: undefined,
+            //     chatUserId: 0,
+            //     chatUserNickname: undefined,
+            //     content: decodeURI(urlToLink(content)),
+            //     createTime: new Date().getTime(),
+            //     deleted: false,
+            //     formUserId: 0,
+            //     id: 0,
+            //     lastModifiedTime: 0,
+            //     status: '0',
+            //     toUserId: this.toUserId
+            // }
+            // this.chatRecord.push(sendMsg)
+
+
+            if (this.chatsToUserId === Message.formUserId ||
+                this.chatsToUserId === Message.toUserId) {
+                this.chatRecord.push(Message)
+                await this.scrollBottom()
+                return
+            }
             for (let i = 0; i < this.chatsList.length; i++) {
                 if (this.chatsList[i].formUserId === Message.formUserId ||
                     this.chatsList[i].toUserId === Message.formUserId) {
@@ -237,10 +290,29 @@ export const useChatsStore = defineStore('chats', {
                     temp.createTime = Message.createTime
                     temp.content = Message.content
                     this.chatsList.unshift(temp)
+                    const unreadNum = this.chatWsMsgUnreadNum
+                    unreadNum.set(Message.formUserId, unreadNum.get(Message.formUserId) + 1)
+                    // console.log('unreadNum.get(this.chatsToUserId)', unreadNum.get(this.chatsToUserId))
                     break
                 }
+
             }
-            await this.scrollBottom()
+
+        },
+        async readMsg(id: number) {
+            if (!await UseAxiosPostReadMessageById(id)) {
+                errorMsg('标记已读失败')
+                return
+            }
+            console.log('已读：', id)
+        },
+        async wsReadMsg(msg: string) {
+            let id = Number(msg)
+            //js 这个find 居然可以直接修改值
+            let temp = this.chatRecord.find((item) => item.id === id)
+            if (temp != undefined) {
+                temp.status = ChatRecordStatus.READ
+            }
         }
     }
 })
@@ -251,14 +323,6 @@ interface Response {
     data: any
 }
 
-interface ChatsStore {
-    chatsList: Ref<ChatsListData[]>
-    chatRecord: Ref<Array<ChatRecord>>
-    chatRecordPage: number
-    chatsToUserId: number
-    chatUserNickname: string
-    totalPages: number
-}
 
 interface ChatRecord {
     id: number;
@@ -271,9 +335,12 @@ interface ChatRecord {
     chatUserId: number;
     chatUserAvatar: any;
     content: string;
-    status: string;
+    status: ChatRecordStatus;
 }
 
+export enum ChatRecordStatus {
+    UNREAD, READ, WITHDRAW
+}
 
 interface ChatsListData {
     id: number

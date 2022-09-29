@@ -27,7 +27,7 @@
 
       <v-divider vertical></v-divider>
       <v-col xl="9" lg="9" md="10" sm="9" xs="12">
-        <NuxtPage :key="$route.fullPath"/>
+        <NuxtPage/>
       </v-col>
       <v-col cols="1">
         3
@@ -45,9 +45,11 @@ import {onMounted, onUnmounted} from 'vue'
 import {definePageMeta} from '#imports'
 import {useLayout} from '~/stores/layout'
 
-// definePageMeta({
-//   keepalive: true
-// })
+definePageMeta({
+  keepalive: true,
+  // key:route => route.fullPath
+})
+
 const chatsStore = useChatsStore()
 const layout = useLayout()
 let items = [
@@ -56,6 +58,7 @@ let items = [
   {text: '受到的赞', icon: 'mdi-thumb-up-outline', to: '/messages/thumb'},
   {text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications'},
   {text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats'},
+  {text: 'test', icon: 'mdi-message-badge-outline', to: '/messages/index1'},
 ]
 
 onMounted(() => {

@@ -21,9 +21,11 @@
         <v-btn icon>
           <v-icon>mdi-bell-circle</v-icon>
         </v-btn>
-        <v-btn icon to="/messages">
-          <v-icon>mdi-message-text-outline</v-icon>
-        </v-btn>
+        <nuxt-link to="/messages">
+          <v-btn>
+            <v-icon>mdi-message-text-outline</v-icon>
+          </v-btn>
+        </nuxt-link>
         <v-btn @click="layout.switchTheme(theme)" text transition="fade-transition">
           <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
 

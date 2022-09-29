@@ -11,7 +11,7 @@
     <!--      <LayoutsFooter/>-->
     <!--    </template>-->
 
-    <NuxtPage :key="$route.fullPath"/>
+    <NuxtPage/>
 
 
   </NuxtLayout>
@@ -26,6 +26,13 @@ import {onMounted, ref, watch, watchEffect} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {useTheme} from 'vuetify'
 
+definePageMeta({
+  key: route => route.fullPath,
+  // keepalive: true,
+  // pageTransition: {
+  //   mode: 'out-in'
+  // },
+})
 
 let user = useUser()
 let theme = useTheme()
@@ -61,10 +68,10 @@ if (typeof window === 'undefined') {
 </script>
 
 <style>
-html {
-  width: 100%;
-  height: 100%;
-}
+/*html {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
 
 a {
   text-decoration: none;

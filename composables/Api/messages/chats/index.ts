@@ -20,6 +20,11 @@ export const UseAxiosGetMessageByLatestId = (toUserId: number, params?: GetMessa
     return useGet('message/private/message/pull/' + toUserId, params)
 }
 
+export const UseAxiosPostReadMessageById = (id: number) => {
+
+    return usePost('message/private/message/read/' + id)
+}
+
 export const UseAxiosSendMessage = (content: string, toUserId: number) => {
     const body = {
         content,

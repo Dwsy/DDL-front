@@ -394,13 +394,17 @@ import 'highlight.js/styles/atom-one-light.css'
 // import 'highlight.js/styles/atom-one-dark.css'
 import {commentType, useFetchGetArticleContent, useFetchGetArticleField} from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, watch} from 'vue'
-import {useRoute, dateFilter} from '#imports'
+import {useRoute, dateFilter, definePageMeta} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUser} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
+
+definePageMeta({
+  keepalive: false
+})
 //todo 移动端适配
 let route = useRoute()
 let aid = route.params.aid

@@ -1,10 +1,10 @@
 <template>
-  <div class="v-container">
 
-    <v-row>
-
+  <v-container fluid id="message" class="box" style="">
+    <v-row class="box">
+      <!--      style="height: calc(100% - 66px)"-->
       <v-divider></v-divider>
-      <v-col cols="2" style="padding-bottom: 30%;max-width: 200px" class="ml-n5 mr-2">
+      <v-col cols="2" style="max-width: 200px;height:90%" class="ml-n5 mr-2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -27,22 +27,27 @@
 
       <v-divider vertical></v-divider>
       <v-col xl="9" lg="9" md="10" sm="9" xs="12">
-        <nuxt-link>
-
-        </nuxt-link>
+        <NuxtPage :key="$route.fullPath"/>
       </v-col>
       <v-col cols="1">
         3
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 
 
 </template>
 
 <script setup lang="ts">
 
+import {useChatsStore} from '~/stores/messages/chatsStore'
+import {onMounted, onUnmounted} from 'vue'
+import {definePageMeta} from '#imports'
+import {useLayout} from '~/stores/layout'
 
+
+const chatsStore = useChatsStore()
+const layout = useLayout()
 let items = [
   {text: '回复我的', icon: 'mdi-reply', to: '/messages/reply'},
   {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at'},
@@ -51,5 +56,19 @@ let items = [
   {text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats'},
 ]
 
+onMounted(() => {
+  layout.showFooter = false
+  // console.log('11Messsage mounted')
+})
+onUnmounted(() => {
+  layout.showFooter = true
+})
 
 </script>
+
+<style>
+.box {
+  height: 100%;
+}
+
+</style>

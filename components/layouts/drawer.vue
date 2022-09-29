@@ -75,17 +75,19 @@
 
 <script setup lang="ts">
 
-let items= reactive([
-  { icon: "mdi-home-outline", text: "博客首页", link: "/" },
+import {reactive} from 'vue'
+
+let items = reactive([
+  {icon: 'mdi-home-outline', text: '文章', link: '/article'},
   {
-    icon: "mdi-flag-variant-outline",
-    text: "文章归档",
-    link: "",
+    icon: 'mdi-flag-variant-outline',
+    text: '文章归档',
+    link: '',
   },
   {
-    icon: "mdi-timeline-clock-outline ",
-    text: "时光机",
-    link: "",
+    icon: 'mdi-timeline-clock-outline ',
+    text: '时光机',
+    link: '',
   },
   { icon: "mdi-image", text: "相册", link: "" },
   { icon: "mdi-tag-multiple-outline", text: "Tag", link: "" },

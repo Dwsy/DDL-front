@@ -1,42 +1,50 @@
 <template>
-  <keep-alive>
-    <div id="chats-window">
-      <v-row class="mt-6">
-        <v-col cols="3">
-          <v-list density="compact">
-            <!--          <v-list-subheader>消息中心</v-list-subheader>-->
-            <v-list-item
-                v-for="(item, i) in chatsStore.chatsList"
-                :key="item.id"
-                :value="item"
-                :to="`/messages/chats/${item.chatUserId}`"
-                active-color="pink"
-                rounded="xl"
-            >
-              <template v-slot:prepend>
+  <div id="chats-window">
+
+    <v-row class="mt-n1">
+      <v-col cols="3">
+        <div class="text-end ">
+          <v-btn icon elevation="0" @click="chatsStore.loadChatsList()">
+            <v-icon>
+              mdi-refresh
+            </v-icon>
+          </v-btn>
+        </div>
+        <v-list density="compact">
+
+          <v-list-item
+              v-for="(item, i) in chatsStore.chatsList"
+              :key="item.id"
+              :value="item"
+              :to="`/messages/chats/${item.chatUserId}`"
+              active-color="pink"
+              rounded="xl"
+          >
+            <template v-slot:prepend>
+              <v-badge color="red"
+                       :model-value="chatsStore.chatWsMsgUnreadNum.get(item.chatUserId)> 0"
+                       :content="chatsStore.chatWsMsgUnreadNum.get(item.chatUserId)">
                 <v-avatar size="x-large">
                   <v-img :src="item.chatUserAvatar"></v-img>
                 </v-avatar>
-              </template>
-              <v-list-item-subtitle v-text="item.chatUserNickname"></v-list-item-subtitle>
-              <v-list-item-title v-text="item.content"></v-list-item-title>
-            </v-list-item>
-          </v-list>
+              </v-badge>
+            </template>
+            <v-list-item-subtitle v-text="item.chatUserNickname"></v-list-item-subtitle>
+            <v-list-item-title v-text="item.content"></v-list-item-title>
+          </v-list-item>
+        </v-list>
 
-        </v-col>
-        <v-divider vertical></v-divider>
-        <v-col>
-          <keep-alive>
-            <NuxtPage :key="$route.fullPath"/>
-          </keep-alive>
-        </v-col>
-        <v-divider vertical></v-divider>
-        <!--        <v-col cols="1">-->
-        <!--          3-->
-        <!--        </v-col>-->
-      </v-row>
-    </div>
-  </keep-alive>
+      </v-col>
+      <v-divider vertical></v-divider>
+      <v-col>
+        <NuxtPage/>
+      </v-col>
+      <v-divider vertical></v-divider>
+      <!--        <v-col cols="1">-->
+      <!--          3-->
+      <!--        </v-col>-->
+    </v-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -45,15 +53,17 @@ import {useChatsStore} from '~/stores/messages/chatsStore'
 import {definePageMeta} from '#imports'
 import {useHead} from '#head'
 
+definePageMeta({
+  // key:route => route.fullPath,
+  keepalive: true
+})
 useHead({
   title: '私信列表',
   link: [
     {rel: 'stylesheet', href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css'}
   ]
 })
-definePageMeta({
-  keepalive: true
-})
+
 const chatsStore = useChatsStore()
 onMounted(async () => {
   console.log('onMounted')

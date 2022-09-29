@@ -5,9 +5,9 @@
 <script setup lang="ts">
 import {definePageMeta} from '#imports'
 
-definePageMeta({
-  keepalive: true
-})
+// definePageMeta({
+//   keepalive: true
+// })
 </script>
 
 <style scoped>

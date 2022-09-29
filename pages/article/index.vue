@@ -1,6 +1,4 @@
 <template>
-
-<keep-alive include='article-index'>
   <v-row>
     <v-col xl="1" lg="1" md="0" sm="0" xs="0"></v-col>
 
@@ -21,7 +19,7 @@
 
     <v-col xl="1" lg="1" md="1" sm="0" xs="0"></v-col>
   </v-row>
-</keep-alive>
+
 
 </template>
 
@@ -29,7 +27,7 @@
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import {onActivated, onMounted, onUnmounted, ref} from 'vue'
-import {useFetchGetArticleList} from '#imports'
+import {definePageMeta, useFetchGetArticleList} from '#imports'
 import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
 import {useHead} from '#head'
@@ -37,6 +35,8 @@ import {useHead} from '#head'
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
 // const page = ref(1)
+
+let a = ref(0)
 const params = ref({size: 8, page: 1, tagId: null, order: null, properties: null})
 
 const {data: listData} = await useFetchGetArticleList(params.value)
