@@ -20,12 +20,12 @@
         </v-row>
         <v-divider class="mx-3"></v-divider>
 
-        <v-card :to="`/article/${id}`" >
+        <v-card target="_blank" :href="`/article/${id}`">
           <v-row>
             <v-col cols="8">
               <v-row>
                 <v-col>
-                  <v-card-title>{{title}}</v-card-title>
+                  <v-card-title>{{ title }}</v-card-title>
                   <v-card-text class="overflow-hidden ml-3 mb-3"
                                style="max-height: 75px;font-size: 19px;line-height:25px">{{ summary }}
                   </v-card-text>

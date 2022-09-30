@@ -66,6 +66,6 @@ export default defineNuxtConfig({
                 },
             },
         },
-        transpile: ['vuetify'],
+        transpile: ['vuetify', 'vue-toastification'],
     },
 })

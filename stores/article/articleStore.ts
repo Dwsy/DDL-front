@@ -26,15 +26,15 @@ export const useArticleStore = defineStore('ArticleStore', {
     getters: {},
     actions: {
         async init() {
-            let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
-            this.articleField.thumb = response.data.thumb
-            //todo 收藏
-            this.follow = response.data.follow
             if (this.articleField.markdownTheme !== undefined) {
                 this.getMarkdownThemeName(this.articleField.markdownTheme)
             } else {
                 this.getMarkdownThemeName()
             }
+            let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
+            this.articleField.thumb = response.data.thumb
+            //todo 收藏
+            this.follow = response.data.follow
         },
         getMarkdownThemeName(index?: number) {
             if (index !== undefined) {

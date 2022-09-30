@@ -1,21 +1,26 @@
-import axios, { AxiosInstance, AxiosRequestConfig,AxiosResponse } from "axios";
-import { useUser } from "~~/stores/user";
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
+import {useUser} from '~~/stores/user'
 import {useNuxtApp} from '#app'
 
 // import message from "../components/utils/message";
 // const { $config  } = useNuxtApp()
 // console.log($config)
+// const Axios = axios.create({
+//     baseURL: "http://localhost/"
+// });
+// export const BASE_URL = process.env.BASE_URL
+// console.log("axios:"+BASE_URL)
+// ip env读不了？
 const Axios = axios.create({
-    baseURL: "http://localhost/"
-});
-
+    baseURL: 'http://192.168.5.11/'
+})
 Axios.interceptors.request.use(
     (conflg: AxiosRequestConfig) => {
-        const User = useUser();
-        const token = User.token;
+        const User = useUser()
+        const token = User.token
         // console.log("++++interceptors++++");
         // let token = window.localStorage.getItem("token")
-        const flag: any = conflg || {};
+        const flag: any = conflg || {}
         // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
         if (Boolean(token)) {
             flag.headers["Authorization"] = "Bearer " + token;

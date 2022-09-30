@@ -4,7 +4,7 @@ import {useUser} from '~/stores/user'
 // import message from "../components/utils/message";
 export const BASE_URL = process.env.BASE_URL
 const Axios = axios.create({
-    baseURL: BASE_URL||"http://localhost/"
+    baseURL: 'http://192.168.5.11/'
 });
 
 Axios.interceptors.request.use(

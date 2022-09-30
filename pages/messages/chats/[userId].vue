@@ -35,7 +35,7 @@
                 <span>撤回了一条消息</span>
               </div>
             </div>
-            <div v-else class="cleft cmsg" v-intersect.once="(e)=>{readMsg(e,i.id);i.status=ChatRecordStatus.READ}">
+            <div v-else class="cleft cmsg" v-intersect.once="(e)=>{readMsg(e,i);i.status=ChatRecordStatus.READ}">
               <v-row class="my-n12">
                 <v-col>
                   <v-avatar size="large">
@@ -187,9 +187,11 @@ const loadMore = async (entries) => {
   console.log('loadMore', entries)
 }
 
-const readMsg = async (e, id) => {
+const readMsg = async (e, msg) => {
   if (e) {
-    await chatsStore.readMsg(id)
+    if (msg.status === ChatRecordStatus.UNREAD) {
+      await chatsStore.readMsg(msg.id)
+    }
   }
 }
 

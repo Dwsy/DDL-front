@@ -72,6 +72,12 @@ if (typeof window === 'undefined') {
 /*  width: 100%;*/
 /*  height: 100%;*/
 /*}*/
+/*html {*/
+/*  scroll-behavior: inherit!important;*/
+/*}*/
+.d-gotoHome {
+  color: #00a0d8;
+}
 
 a {
   text-decoration: none;

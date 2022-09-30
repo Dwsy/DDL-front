@@ -30,7 +30,8 @@ export const useAxiosGetArticleComment = (id, params?: {properties?:string,order
 export interface ReplyArticleCommentBody {
     articleFieldId: number;
     parentCommentId: number;
-    parentUserId: number;
+    replyUserId: number;
+    replyUserCommentId: number
     text: string;
 }
 

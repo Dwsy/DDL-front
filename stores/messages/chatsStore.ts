@@ -1,4 +1,4 @@
-import {onUnmounted, ref, Ref} from 'vue'
+import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
     GetMessageParam,
@@ -7,7 +7,6 @@ import {
 } from '~/composables/Api/messages/chats'
 import {defaultMsg, errorMsg, nextTick, warningMsg} from '#imports'
 import {useUser} from '~/stores/user'
-import {SymbolKind} from 'vscode-languageserver-types'
 import {urlToLink} from '~/composables/useTools'
 
 interface ChatsStore {
@@ -131,7 +130,8 @@ export const useChatsStore = defineStore('chats', {
             }
             console.log(conversationId)
             let auth = false
-            let wsPath = 'ws://localhost:7050/private/message/'
+            // let wsPath = 'ws://localhost:7050/private/message/'
+            let wsPath = 'ws://192.168.5.11:7050/private/message/'
             if (this.chatWsMap.has(toUserId)) {
                 // console.log('已经存在连接')
                 return

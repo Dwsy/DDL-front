@@ -10,7 +10,7 @@
             </v-icon>
           </v-btn>
         </div>
-        <v-list density="compact">
+        <v-list>
 
           <v-list-item
               v-for="(item, i) in chatsStore.chatsList"
@@ -29,8 +29,8 @@
                 </v-avatar>
               </v-badge>
             </template>
-            <v-list-item-subtitle v-text="item.chatUserNickname"></v-list-item-subtitle>
-            <v-list-item-title v-text="item.content"></v-list-item-title>
+            <v-list-item-subtitle class="ml-1" v-text="item.chatUserNickname"></v-list-item-subtitle>
+            <v-list-item-title class="ml-1" v-text="item.content"></v-list-item-title>
           </v-list-item>
         </v-list>
 

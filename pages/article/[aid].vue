@@ -114,34 +114,48 @@
           </v-row>
 
           <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
-
           <!--          Uncaught (in promise) TypeError: Cannot read properties of null (reading 'parentNode')-->
-          <!--          <v-row>-->
-          <!--            <v-col>-->
-          <!--                <v-menu location="bottom" nudge-bottom>-->
-          <!--                  <template v-slot:activator="{ props }">-->
-          <!--                    <v-btn-->
-          <!--                        color="info"-->
-          <!--                        v-bind="props"-->
-          <!--                        prepend-icon="mdi-menu"-->
-          <!--                    >-->
-          <!--                      <span>{{ CommentMenuList[selectCommentMenu] }}</span>-->
-          <!--                    </v-btn>-->
-          <!--                  </template>-->
+          <!--                    <v-row>-->
+          <!--                      <v-col>-->
+          <!--                        <div>-->
+          <!--                          <v-menu location="bottom" nudge-bottom>-->
+          <!--                            <template v-slot:activator="{ props }">-->
+          <!--                              <v-btn-->
+          <!--                                  color="info"-->
+          <!--                                  v-bind="props"-->
+          <!--                                  prepend-icon="mdi-menu"-->
+          <!--                              >-->
+          <!--                                <span>{{ articleCommentStore.selectCommentMenu }}</span>-->
+          <!--                              </v-btn>-->
+          <!--                            </template>-->
 
-          <!--                  <v-list>-->
-          <!--                    <v-list-item-->
-          <!--                        v-for="(item, index) in CommentMenuList"-->
-          <!--                        :key="index"-->
-          <!--                    >-->
-          <!--                      <v-btn elevation="0" @click="clickSelectCommentMenu(index)">{{ item }}</v-btn>-->
-          <!--                    </v-list-item>-->
-          <!--                  </v-list>-->
+          <!--                            <v-list>-->
+          <!--                              <v-list-item-->
+          <!--                                  v-for="(item, index) in articleCommentStore.CommentMenuList"-->
+          <!--                                  :key="index"-->
+          <!--                              >-->
+          <!--                                <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{ item }}</v-btn>-->
+          <!--                              </v-list-item>-->
+          <!--                            </v-list>-->
 
-          <!--                </v-menu>-->
-          <!--              </div>-->
-          <!--            </v-col>-->
-          <!--          </v-row>-->
+          <!--                          </v-menu>-->
+          <!--                        </div>-->
+          <!--                      </v-col>-->
+          <!--                    </v-row>-->
+
+          <v-row>
+            <v-col>
+              <v-list>
+                <v-list-item
+                    v-for="(item, index) in articleCommentStore.CommentMenuList"
+                    :key="index"
+                >
+                  <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{ item }}</v-btn>
+                </v-list-item>
+              </v-list>
+            </v-col>
+
+          </v-row>
 
 
           <div v-if="articleCommentStore.loadingComment"
@@ -160,6 +174,13 @@
             加载中...
           </span>
           </div>
+          <div v-if="articleCommentStore.commentList.length===0">
+            <div class="text-center my-8">
+              <span class="text-h6 ">
+                暂无评论
+              </span>
+            </div>
+          </div>
 
           <div v-else v-for="(comment,index) in articleCommentStore.commentList" key="comment.id">
             <v-row class="mt-2 mt-lg-3">
@@ -172,7 +193,7 @@
               </v-col>
 
 
-              <v-col class="ml-xl-n8 " :id="`comments-${comment.id}`">
+              <v-col class="ml-xl-n8 " :id="`comment-${comment.id}`">
                 #{{ index + 1 }}
                 <span>{{ comment.user.nickname }}</span>
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
@@ -248,7 +269,7 @@
                             </v-col>
 
 
-                            <v-col class="ml-xl-n8" :id="`comments-${childComment.id}`">
+                            <v-col class="ml-xl-n8" :id="`comment-${childComment.id}`">
                               #{{ Cindex + 1 }}
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
@@ -260,7 +281,10 @@
                               <div>
                                 <v-row class="mt-1">
                                   <v-col>
-                                    <span>{{ childComment.text }}</span>
+                                    <div v-if="childComment.replayCommentId===0">{{ childComment.text }}</div>
+
+                                    <div v-else
+                                         v-html="atSrtGotoHome(childComment.text,childComment.parentUserId)"></div>
                                   </v-col>
                                 </v-row>
                                 <v-row>
@@ -300,7 +324,8 @@
 
                                         </v-textarea>
                                         <v-btn class="float-end mx-6 mb-4" color="primary"
-                                               @click="ReplyComment(comment.user.id,comment.id,index,Cindex)">发送
+                                               @click="ReplyComment(childComment.user.id,comment.id,index,Cindex,childComment.id)">
+                                          发送
                                         </v-btn>
                                       </div>
                                       <div v-else class="text-center">
@@ -350,13 +375,13 @@
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <div class="side-toolbar1">
       <a href="#comments" v-if="!gotoTitle">
-        <v-btn rounded elevation="0" @click="()=>{gotoTitle.value=true}"
+        <v-btn rounded elevation="0" @click="gotoTitle=true"
                size="small" class="mr-3" outlined>
           <v-icon>mdi-message-reply-text-outline</v-icon>
         </v-btn>
       </a>
       <a href="#T-title" v-else>
-        <v-btn rounded elevation="0" @click="()=>{gotoTitle.value=false}"
+        <v-btn rounded elevation="0" @click="gotoTitle=false"
                size="small" class="mr-3" outlined>
           <v-icon>mdi-arrow-up-circle-outline</v-icon>
         </v-btn>
@@ -401,6 +426,7 @@ import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUser} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
+import {atSrtGotoHome} from '~/composables/useTools'
 
 definePageMeta({
   keepalive: false
@@ -432,6 +458,7 @@ useHead({
   title: articleStore.articleField.title
 })
 onMounted(async () => {
+  //
   if (user.token === '') {
     articleCommentStore.replyCommentText = '请先登陆'
   }
@@ -443,16 +470,27 @@ onMounted(async () => {
   }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   hljs.highlightAll()
-  if (route.hash) {
+
+  setTimeout(() => {
+    createToc()
+    if (route.hash) {
+      console.log(route.hash)
+      const el = document.querySelector(route.hash)
+      if (el) {
+        el.scrollIntoView()
+      }
+    } else {
+      document.documentElement.scrollTop = 0
+    }
+  }, 300)
+  await articleCommentStore.init(articleStore.articleField)
+  if (route.hash.startsWith('#comment-')) {
+    console.log('goto comment:', route.hash)
     const el = document.querySelector(route.hash)
     if (el) {
       el.scrollIntoView()
     }
   }
-  setTimeout(() => {
-    createToc()
-  }, 100)
-  await articleCommentStore.init(articleStore.articleField)
   watch(theme.global.name, (val) => {
     if (val === 'dark') {
       articleStore.markdownTheme = articleStore.markdownThemeDark
@@ -566,9 +604,9 @@ const createToc = () => {
   max-width: 100%;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/*html {*/
+/*  scroll-behavior: smooth!important;*/
+/*}*/
 
 /* 语法高亮 */
 .hljs-container {

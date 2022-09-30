@@ -35,7 +35,7 @@ onMounted( async () => {
     let {data}=  await baseUrlTest()
     r.value=ref(data)
     console.log("browser");
-    console.log(process);
+    // console.log(process);
     
     // alert(config.process.env.API_BASE_URL)
     // console.log(response.value)

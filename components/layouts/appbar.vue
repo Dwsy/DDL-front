@@ -28,9 +28,11 @@
         </nuxt-link>
         <v-btn @click="layout.switchTheme(theme)" text transition="fade-transition">
           <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
-
           <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
         </v-btn>
+        <v-avatar v-if="user.userInfo">
+          <v-img :src="user.userInfo.avatar"></v-img>
+        </v-avatar>
         <!--        <a href="#comments">-->
         <!--          #comments-->
         <!--        </a>-->
@@ -47,10 +49,11 @@
 import {useLayout} from '~~/stores/layout'
 import {useTheme} from 'vuetify'
 import Search from './search.vue'
+import {useUser} from '~/stores/user'
 
 let theme = useTheme()
 let layout = useLayout()
-
+let user = useUser()
 </script>
 
 <style scoped>

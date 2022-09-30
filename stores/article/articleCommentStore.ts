@@ -24,6 +24,9 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             selectCommentMenu: 1,
             CommentMenuList: ['按热读 ↓', '按时间 ↑', '按时间 ↓'],
             showCommentMenu: false,
+            properties: null,
+            order: null,
+            page: 0,
         }
     },
     getters: {},
@@ -35,9 +38,15 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
         },
         async loadComment(properties?: string, order?, page?: number) {
             this.loadingComment = true
+            if (properties != undefined) {
+                this.properties = properties
+            }
+            if (order != undefined) {
+                this.order = order
+            }
             let params = {
-                properties: properties,
-                order: order,
+                properties: this.properties,
+                order: this.order,
                 page: page
             }
             let {data: commentData} = await useAxiosGetArticleComment(this.aid, params)
@@ -51,7 +60,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             console.log(this.commentList)
             this.loadingComment = false
         },
-        async ReplyComment(parentUserId?: number, parentCommentId?: number, pIndexId?: number, cIndexId?: number) {
+        async ReplyComment(replyUserId?: number, parentCommentId?: number,
+                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: number) {
             let text = null
             if (pIndexId !== undefined) {
                 if (cIndexId !== undefined) {
@@ -62,8 +72,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             } else {
                 text = this.replyCommentText
             }
-            if (parentUserId === undefined) {
-                parentUserId = this.field.user.id
+            if (replyUserId === undefined) {
+                replyUserId = this.field.user.id
             }
             if (text === '' || text === undefined) {
                 warningMsg('评论内容不能为空')
@@ -73,10 +83,11 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 parentCommentId = 0
             }
             let body: ReplyArticleCommentBody = {
-                'articleFieldId': this.field.id,
-                'parentCommentId': parentCommentId,
-                'parentUserId': parentUserId,
-                'text': text
+                articleFieldId: this.field.id,
+                parentCommentId,
+                replyUserId,
+                text,
+                replyUserCommentId
             }
             let {data: ReplyCommentRetData} = await useAxiosPostReplyArticleComment(body)
             if (ReplyCommentRetData.code === 0) {
@@ -90,9 +101,10 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 } else {
                     this.replyCommentText = ''
                 }
-                let {data: commentData} = await useAxiosGetArticleComment(this.aid)
-                this.commentList = commentData.data.content
-                console.log('articleCommentStore.commentList', this.commentList)
+                await this.loadComment('createTime', 'desc')
+                // let {data: commentData} = await useAxiosGetArticleComment(this.aid)
+                // this.commentList = commentData.data.content
+                // console.log('articleCommentStore.commentList', this.commentList)
                 //前端填充2或重新加载后端数据
                 // let newComment: CommentContent = {
                 //   id: 1,
@@ -427,7 +439,7 @@ export interface CommentContent {
     upNum: number;
     downNum: number;
     parentUserId: number;
-    parentCommentId: number;
+    replyUserCommentId: number;
     parentUser: any;
     childComments: CommentContent[];
     ua: string;
