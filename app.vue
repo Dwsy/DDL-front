@@ -1,6 +1,6 @@
 <template>
 
-  <NuxtLayout>
+  <NuxtLayout v-show="show">
     <template #appbar>
       <LayoutsAppbar/>
     </template>
@@ -17,7 +17,9 @@
   </NuxtLayout>
 
 
+
 </template>
+
 <script setup lang="ts">
 import {definePageMeta} from '#imports'
 
@@ -37,7 +39,9 @@ definePageMeta({
 let user = useUser()
 let theme = useTheme()
 let tocLinkColor = ref()
+let show = ref(false)
 onMounted(async () => {
+  show.value = true
   let localToken = window.localStorage.getItem('token')
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)

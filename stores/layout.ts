@@ -5,7 +5,8 @@ import {ThemeInstance} from 'vuetify'
 interface layout {
     drawer: Ref<boolean>,
     themeName: Ref<string>,
-    showFooter: boolean
+    showFooter: boolean,
+    loading: boolean
 }
 
 // const theme = useTheme()
@@ -13,7 +14,8 @@ export const useLayout = defineStore('layout', {
     state: (): layout => ({
         drawer: ref<boolean>(true),
         themeName: ref(''),
-        showFooter: true
+        showFooter: true,
+        loading: true
     }),
     getters: {
         getThemeName() {
