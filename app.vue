@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import {definePageMeta} from '#imports'
 
-import {useUser} from '~~/stores/user'
+import {useUserStore} from '~~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {useTheme} from 'vuetify'
@@ -36,7 +36,7 @@ definePageMeta({
   // },
 })
 
-let user = useUser()
+let user = useUserStore()
 let theme = useTheme()
 let tocLinkColor = ref()
 let show = ref(false)
@@ -47,8 +47,10 @@ onMounted(async () => {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
     console.log('user::', user.user)
-    user.setIsLogin(true)
     await user.getUserInfo()
+    console.log('info::', user.userInfo)
+    user.setIsLogin(true)
+
     // 后端接口判断
   }
   watchEffect(async () => {

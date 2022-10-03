@@ -34,10 +34,13 @@
             <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
             <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
           </v-btn>
-          <v-avatar v-if="user.userInfo" size="small">
-            <v-img :src="user.userInfo.avatar"></v-img>
-          </v-avatar>
-          <nuxt-link v-else to="/user/login">
+
+          <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user.id}`">
+            <v-avatar size="small">
+              <v-img :src="userStore.userInfo?.avatar"></v-img>
+            </v-avatar>
+          </router-link>
+          <nuxt-link to="/user/login">
             <v-btn icon>
               <v-icon>
                 mdi-account
@@ -61,10 +64,11 @@
 import {useLayout} from '~~/stores/layout'
 import {useTheme} from 'vuetify'
 import Search from './search.vue'
-import {useUser} from '~/stores/user'
+import {useUserStore} from '~/stores/user'
+
 let theme = useTheme()
 let layout = useLayout()
-let user = useUser()
+let userStore = useUserStore()
 </script>
 
 <style scoped>

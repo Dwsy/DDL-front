@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 
-import {useUser} from '~~/stores/user'
+import {useUserStore} from '~~/stores/user'
 // import tool from "~~/utils/tool"
 import CryptoJS from 'crypto-js'
 import {rsaEncrypt} from '~/composables/useTools'
@@ -51,7 +51,7 @@ const password = ref()
 const payload = ref(null)
 const publicKey = ref()
 const t = ref<string>()
-const User = useUser()
+const User = useUserStore()
 let Router = useRouter()
 let RsdEncrypt:Function=undefined
 onMounted(() => {

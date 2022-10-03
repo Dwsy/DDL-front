@@ -58,7 +58,7 @@
                 <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
                 <span class="content" style="font-size: 18px" v-html="i.content"></span>
                 <v-avatar size="large">
-                  <v-img :src="useUser().userInfo.avatar"></v-img>
+                  <v-img :src="useUserStore().userInfo.avatar"></v-img>
                 </v-avatar>
 
                 <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
@@ -82,7 +82,7 @@ import {useChatsStore, ChatRecordStatus} from '~/stores/messages/chatsStore'
 import {nextTick, onMounted, onUnmounted, onUpdated, ref, watch} from 'vue'
 import {useRoute} from '#app'
 import {useHead} from '#head'
-import {useUser} from '~/stores/user'
+import {useUserStore} from '~/stores/user'
 
 import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
@@ -157,7 +157,7 @@ onMounted(async () => {
     }
   })
 
-  let user = useUser()
+  let user = useUserStore()
   //todo 拦截器
   if (user.token === '') {
     warningMsg('请先登录')

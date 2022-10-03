@@ -27,7 +27,7 @@
                 <v-col>
                   <v-card-title>{{ title }}</v-card-title>
                   <v-card-text class="overflow-hidden ml-3 mb-3"
-                               style="max-height: 75px;font-size: 19px;line-height:25px">{{ summary }}
+                               style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
                   </v-card-text>
                 </v-col>
               </v-row>

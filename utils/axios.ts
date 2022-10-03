@@ -1,5 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios'
-import {useUser} from '~/stores/user'
+import {useUserStore} from '~/stores/user'
 
 // import message from "../components/utils/message";
 export const BASE_URL = process.env.BASE_URL
@@ -9,8 +9,8 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(
     (conflg: AxiosRequestConfig) => {
-        const User = useUser();
-        const token = User.token;
+        const User = useUserStore()
+        const token = User.token
         console.log("++++interceptors++++");
         // let token = window.localStorage.getItem("token")
         const flag: any = conflg || {};

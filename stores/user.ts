@@ -3,14 +3,14 @@ import {defineStore} from 'pinia'
 import {useAxiosGetUserInfo, useAxiosPostCheck} from '~/composables/Api/user'
 
 // const token = useCookie<{ token: string }>("token");
-interface user {
+export interface user {
     IsLogin: Ref<boolean>;
     token: Ref<string>;
     user: tokenMsg;
     userInfo: UserInfo
 }
 
-interface UserInfo {
+export interface UserInfo {
     id: number;
     avatar: string;
     sign: string;
@@ -26,7 +26,7 @@ interface tokenMsg {
 }
 
 
-export const useUser = defineStore('user', {
+export const useUserStore = defineStore('user', {
     state: (): user => {
         return {
             IsLogin: ref<boolean>(false),
@@ -52,18 +52,24 @@ export const useUser = defineStore('user', {
             console.log('setUserType:', typeof user)
             this.user = user
         },
-        async getUserInfo() {
-            console.log('getUserInfo')
-            if (this.user) {
-                let {data} = await useAxiosGetUserInfo()
-                if (data.code === 0) {
-                    this.userInfo = data.data
+        async getUserInfo(refresh = false) {
+            console.log('getUserInfo', this.userInfo === null)
+            if (refresh || this.userInfo === null) {
+
+                if (this.user) {
+                    let {data} = await useAxiosGetUserInfo()
+                    if (data.code === 0) {
+                        this.userInfo = data.data
+                    }
                 }
+
             }
-        },
+        }
+        ,
         async CheckIn() {
             return await useAxiosPostCheck()
-        },
+        }
+        ,
 
     },
 })

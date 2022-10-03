@@ -1,5 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
-import {useUser} from '~~/stores/user'
+import {useUserStore} from '~~/stores/user'
 import {useNuxtApp} from '#app'
 
 // import message from "../components/utils/message";
@@ -11,12 +11,14 @@ import {useNuxtApp} from '#app'
 // export const BASE_URL = process.env.BASE_URL
 // console.log("axios:"+BASE_URL)
 // ip env读不了？
+// let url = 'http://192.168.5.11/'
+let url = 'http://192.168.5.6/'
 const Axios = axios.create({
-    baseURL: 'http://192.168.5.11/'
+    baseURL: url
 })
 Axios.interceptors.request.use(
     (conflg: AxiosRequestConfig) => {
-        const User = useUser()
+        const User = useUserStore()
         const token = User.token
         // console.log("++++interceptors++++");
         // let token = window.localStorage.getItem("token")

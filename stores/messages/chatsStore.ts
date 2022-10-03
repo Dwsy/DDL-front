@@ -6,7 +6,7 @@ import {
     UseAxiosGetPrivateMessageList, UseAxiosPostReadMessageById, UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
 import {defaultMsg, errorMsg, nextTick, warningMsg} from '#imports'
-import {useUser} from '~/stores/user'
+import {useUserStore} from '~/stores/user'
 import {urlToLink} from '~/composables/useTools'
 
 interface ChatsStore {
@@ -119,7 +119,7 @@ export const useChatsStore = defineStore('chats', {
                 return
             }
             let conversationId
-            let user = useUser()
+            let user = useUserStore()
             if (toUserId == undefined) {
                 toUserId = this.chatsToUserId
             }

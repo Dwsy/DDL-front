@@ -424,7 +424,7 @@ import {useRoute, dateFilter, definePageMeta} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
-import {useUser} from '~/stores/user'
+import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
 import {atSrtGotoHome} from '~/composables/useTools'
@@ -438,7 +438,7 @@ let aid = route.params.aid
 
 let theme = useTheme()
 
-let user = useUser()
+let user = useUserStore()
 
 let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
