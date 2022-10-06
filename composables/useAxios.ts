@@ -81,10 +81,10 @@ export const useGet = async (url: string, params?: object) => {
     return r;
 };
 
-export const usePost = async (url: string, body?: object) => {
+export const usePost = async (url: string, body?: object, config?: AxiosRequestConfig) => {
     let r: AxiosResponse = undefined
     try {
-        r = await Axios.post(url, body)
+        r = await Axios.post(url, body, config)
     } catch (error) {
         r = error
     }

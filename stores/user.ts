@@ -12,7 +12,7 @@ export interface user {
 
 export interface UserInfo {
     id: number;
-    avatar: string;
+    avatar: any;
     sign: string;
     gender: string;
     birth: any;
