@@ -61,9 +61,9 @@ onMounted(async () => {
   console.log(userInfo.value)
 })
 const settingList: setting[] = [{
-  title: '个人信息', icon: 'mdi-account-outline', link: '/user/settings/info'
+  title: '个人信息', icon: 'mdi-card-account-details-outline', link: '/user/settings/info'
 }, {
-  title: '个人资料', icon: 'mdi-account-outline', link: '/user/settings/account'
+  title: '帐号设置', icon: 'mdi-account-cog-outline', link: '/user/settings/account'
 }, {
   title: '个人资料', icon: 'mdi-account-outline', link: ''
 }, {

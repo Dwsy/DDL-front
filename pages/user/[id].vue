@@ -17,7 +17,7 @@
             <v-col cols="6">
               <div class="ml-6">
                 <span class="text-h5">{{ user?.nickname }}</span>
-                <p>Lv：{{ user?.level }}</p>
+                <p>Lv：{{ userInfo?.level }}</p>
                 <span>签名：{{ userInfo?.sign }}</span>
               </div>
             </v-col>

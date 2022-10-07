@@ -12,3 +12,15 @@ export const useAxiosPostUploadAvatar = (file) => {
 export const useAxiosPutUpdateUserInfo = (body) => {
     return usePut('user/info', body)
 }
+
+export const useAxiosGetUserSetting = () => {
+    return useGet('/user/user/setting')
+}
+
+export const useAxiosPostModifyEmail = (captcha: boolean, email: string, code?) => {
+    return usePost('/user/user/modify/email', {
+        captcha,
+        email,
+        code
+    })
+}

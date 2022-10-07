@@ -13,6 +13,8 @@ export interface user {
 export interface UserInfo {
     id: number;
     avatar: any;
+    avatarNew?: any;
+    level: number;
     sign: string;
     gender: string;
     birth: any;

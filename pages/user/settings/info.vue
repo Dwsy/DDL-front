@@ -87,7 +87,7 @@ definePageMeta({
   keepalive: true,
 })
 const userStore = useUserStore()
-let userInfo = ref()
+let userInfo = ref<UserInfo>()
 let user = ref()
 const route = useRoute()
 const uid = route.params.id
