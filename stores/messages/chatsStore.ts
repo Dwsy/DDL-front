@@ -55,11 +55,13 @@ export const useChatsStore = defineStore('chats', {
                 if (item.toUserId == item.chatUserId) {
                     item.content = '我: ' + item.content
                 }
-            })
-            this.chatsList.forEach(item => {
                 this.connectWsChannel(Number(item.chatUserId))
                 this.chatWsMsgUnreadNum.set(item.chatUserId, 0)
             })
+            // this.chatsList.forEach(item => {
+            //     this.connectWsChannel(Number(item.chatUserId))
+            //     this.chatWsMsgUnreadNum.set(item.chatUserId, 0)
+            // })
             // }
 
         },
@@ -172,7 +174,7 @@ export const useChatsStore = defineStore('chats', {
                     if (this.chatsToUserId == toUserId) {
                         this.wsReadMsg(readMsg[1])
                     }
-                    // todo 不在当前聊天窗口 已读 图标变化
+
                 }
             }
             ws.onclose = function () {

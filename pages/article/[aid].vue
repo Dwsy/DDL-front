@@ -31,9 +31,12 @@
               <v-col class="mt-2">
 
                 <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
-                  <span style="color: white">已关注</span>
+                  <span style="color: white" @click="()=>{unFollowUser(articleStore.articleField.user.id)
+                                                          articleStore.follow=false}">已关注</span>
                 </v-btn>
-                <v-btn v-else class="float-end mx-4" color="blue lighten-3">
+                <v-btn v-else class="float-end mx-4" color="blue lighten-3"
+                       @click="()=>{followUser(articleStore.articleField.user.id)
+                                                          articleStore.follow=true}">
                   <span style="color: white">关注</span>
                 </v-btn>
               </v-col>
@@ -428,6 +431,7 @@ import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
 import {atSrtGotoHome} from '~/composables/useTools'
+import {followUser, unFollowUser} from '~/composables/Api/user/following'
 
 definePageMeta({
   keepalive: false
@@ -437,7 +441,6 @@ let route = useRoute()
 let aid = route.params.aid
 
 let theme = useTheme()
-
 let user = useUserStore()
 
 let articleStore = useArticleStore()

@@ -8,8 +8,7 @@
         <div>
 
         </div>
-
-        <v-text-field label="头像URL" v-model="userInfo.avatar">
+        <v-text-field label="头像URL" v-model="userInfo.avatarNew">
           <template v-slot:prepend>
             <v-avatar slot="prepend"
             >
@@ -37,7 +36,7 @@
               v-model="avatarFile"
               label="上传新头像"
           ></v-file-input>
-          <v-btn @click="submitFile()" class="mt-2" elevation="1">上传</v-btn>
+          <v-btn @click="submitFile()" :disabled="disableUploadBtn" class="mt-2" elevation="1">上传</v-btn>
         </v-row>
 
         <!--        prepend-icon="mdi-camera"-->
@@ -81,7 +80,7 @@ import {
   warningMsg
 } from '#imports'
 import {user, UserInfo, useUserStore} from '~/stores/user'
-import {onMounted, ref} from 'vue'
+import {onMounted, ref, watch} from 'vue'
 
 definePageMeta({
   keepalive: true,
@@ -91,6 +90,7 @@ let userInfo = ref<UserInfo>()
 let user = ref()
 const route = useRoute()
 const uid = route.params.id
+const disableUploadBtn = ref(true)
 const rules = [
   value => {
     return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
@@ -104,6 +104,15 @@ onMounted(async () => {
     userInfo.value = JSON.parse(JSON.stringify(userStore.userInfo))
     userInfo.value.avatarNew = userInfo.value.avatar
   }, 200)
+
+  watch(avatarFile, (value) => {
+    if (avatarFile.value.length > 0) {
+      disableUploadBtn.value = false
+    } else {
+      disableUploadBtn.value = true
+    }
+  })
+
 })
 const submitFile = async () => {
   if (avatarFile.value === null) {
@@ -116,6 +125,7 @@ const submitFile = async () => {
     reader.onload = () => {
       userInfo.value.avatarNew = 'https://' + response.data + '?imageMogr2/thumbnail/200x200'
       userInfo.value.avatar = reader.result
+      userStore.userInfo.avatar = userInfo.value.avatarNew
     }
     defaultMsg('上传成功')
 

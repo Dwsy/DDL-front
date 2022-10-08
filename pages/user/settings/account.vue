@@ -3,15 +3,15 @@
     <v-row>
       <v-col cols="1"></v-col>
       <v-col>
-        <div>
+        <div class="mb-4">
           <v-row>
             <v-text-field label="用户邮箱" :disabled="!modifyEmail" v-model="userSetting.email"
                           class="mx-4"></v-text-field>
             <v-text-field label="验证码" v-if="modifyEmail" v-model="modifyEmailCode"></v-text-field>
           </v-row>
           <div class="text-end my-2">
-            <v-btn @click="sendEmailCode()" v-if="modifyEmail">
-              发送验证码
+            <v-btn @click="sendEmailCode()" v-if="modifyEmail" :disabled="disableSendModifyEmailCode">
+              发送验证码{{ disableSendModifyEmailCode ? `:(${disableSendModifyEmailCodeTimeFreeze})` : '' }}
             </v-btn>
             <v-btn @click="saveEmail()">
               {{ modifyEmail ? '保存' : '修改' }}
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import {defaultMsg, definePageMeta, useAxiosGetUserSetting, useAxiosPostModifyEmail} from '#imports'
+import {defaultMsg, definePageMeta, useAxiosGetUserSetting, useAxiosPostModifyEmail, warningMsg} from '#imports'
 import {useUserStore} from '~/stores/user'
 import {onMounted, ref} from 'vue'
 
@@ -43,8 +43,12 @@ interface IUserSetting {
 
 const userSetting = ref<IUserSetting>()
 const modifyPwd = ref(false)
+
 const modifyEmail = ref(false)
 const modifyEmailCode = ref()
+const disableSendModifyEmailCode = ref(false)
+const disableSendModifyEmailCodeTimeFreeze = ref(0)
+
 const modifyPhone = ref(false)
 onMounted(async () => {
   const {data: response} = await useAxiosGetUserSetting()
@@ -61,6 +65,16 @@ const sendEmailCode = async () => {
     const {data: ret} = await useAxiosPostModifyEmail(true, userSetting.value.email)
     if (ret.code === 0) {
       defaultMsg('验证码已发送')
+      disableSendModifyEmailCode.value = true
+      disableSendModifyEmailCodeTimeFreeze.value = 60
+      let interval = setInterval(() => {
+        disableSendModifyEmailCodeTimeFreeze.value--
+      }, 1000)
+      let timeout = setTimeout(() => {
+        disableSendModifyEmailCode.value = false
+        clearInterval(interval)
+      }, 1000 * 60)
+
     }
     return
   }
@@ -75,11 +89,17 @@ const saveEmail = async () => {
 
     const {data: ret} = await useAxiosPostModifyEmail(false, userSetting.value.email, modifyEmailCode.value)
     if (ret.code === 0) {
-      defaultMsg('修改成功')
-      modifyEmail.value = false
+      if (ret.data === 2) {
+        defaultMsg('修改成功')
+        modifyEmail.value = false
+      }
     }
-
-
+    if (ret.code === 100004) {
+      warningMsg('验证码错误')
+    }
+    if (ret.data === 100005) {
+      warningMsg('邮箱未更改')
+    }
   }
 
 }

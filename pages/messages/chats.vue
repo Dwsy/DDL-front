@@ -55,7 +55,8 @@ import {useHead} from '#head'
 
 definePageMeta({
   // key:route => route.fullPath,
-  keepalive: true
+  keepalive: true,
+  pageTransition: false
 })
 useHead({
   title: '私信列表',

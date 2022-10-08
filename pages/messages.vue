@@ -47,6 +47,10 @@ import {useLayout} from '~/stores/layout'
 
 definePageMeta({
   keepalive: true,
+  pageTransition: {
+    name: 'slide-x-reverse-transition',
+    mode: 'in-out',
+  }
   // key:route => route.fullPath
 })
 

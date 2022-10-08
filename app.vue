@@ -30,10 +30,10 @@ import {useTheme} from 'vuetify'
 
 definePageMeta({
   key: route => route.fullPath,
-  // keepalive: true,
-  // pageTransition: {
-  //   mode: 'out-in'
-  // },
+  pageTransition: {
+    name: 'slide-x-reverse-transition',
+    mode: 'out-in',
+  }
 })
 
 let user = useUserStore()
