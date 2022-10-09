@@ -1,5 +1,6 @@
 import http from '~~/utils/fetch'
-import {useGet, usePost} from '~/composables/useAxios'
+import {useDel, useGet, usePost} from '~/composables/useAxios'
+import {collectionData, collectionType} from '~/types/article'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
     return http.GET('article/group/list', params)
@@ -22,7 +23,7 @@ export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
 export const useFetchGetArticleComment = (id, params?: { size?: number, page?: number }) => {
     return http.GET('article/comment/' + id, params)
 }
-export const useAxiosGetArticleComment = (id, params?: {properties?:string,order?:string, size?: number, page?: number }) => {
+export const useAxiosGetArticleComment = (id, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
     return useGet('article/comment/' + id, params)
 }
 
@@ -71,4 +72,35 @@ export const useFetchGetArticleTagListByGroupId = (id?, params?: { order?: strin
 
 export const useFetchGetArticleTagList = (params?: { order?: string, properties?: string }) => {
     return http.GET('article/tag/list/', params)
+}
+
+export const useAxiosGetCollectionGroupList = () => {
+    return useGet('user/collection/group/list')
+}
+// private String groupName;
+// private Long groupId;
+// private int order;
+export const useAxiosPostCreateCollectionGroup = (body: {
+    groupName: string, order: number
+}) => {
+    return usePost('user/collection/group/create', body)
+}
+
+export const useAxiosPostDeleteCollectionGroup = undefined
+
+export const useAxiosPostUpdateCollectionGroup = undefined
+
+export const useAxiosPostAddCollectionToGroup = (body: collectionData) => {
+    return usePost('user/collection/', body)
+}
+
+export const useAxiosCancelCollectionToGroup = (body: collectionData) => {
+    return useDel('user/collection/', body)
+}
+
+export const useAxiosGetArticleCollectionState = (articleId: number) => {
+    return useGet('user/collection/state', {
+        sourceId: articleId,
+        type: 'Article'
+    })
 }

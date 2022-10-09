@@ -33,7 +33,11 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
-import {useFetchGetArticleGroupList, useFetchGetArticleTagList, useFetchGetArticleTagListByGroupId} from '#imports'
+import {
+  useFetchGetArticleGroupList,
+  useFetchGetArticleTagList,
+  useFetchGetArticleTagListByGroupId
+} from '~/composables/Api/article'
 
 const emit = defineEmits(['selectTag'])
 let selectionGroup = ref(null)

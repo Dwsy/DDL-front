@@ -17,15 +17,15 @@ const Axios = axios.create({
     baseURL: url
 })
 Axios.interceptors.request.use(
-    (conflg: AxiosRequestConfig) => {
+    (config: AxiosRequestConfig) => {
         const User = useUserStore()
         const token = User.token
         // console.log("++++interceptors++++");
         // let token = window.localStorage.getItem("token")
-        const flag: any = conflg || {}
+        const flag: any = config || {}
         // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
         if (Boolean(token)) {
-            flag.headers["Authorization"] = "Bearer " + token;
+            flag.headers['Authorization'] = 'Bearer ' + token
             // if (!useUser.IsLogin) {
             //   console.log("ads");
             //   useUser.setIsLogn(true);
@@ -36,7 +36,7 @@ Axios.interceptors.request.use(
             // conflg.headers["Authorization"] = "Bearer" + token;
         }
 
-        return conflg;
+        return config
     },
     (error) => {
         return Promise.reject(error);
@@ -104,7 +104,9 @@ export const usePut = async (url: string, body?: object) => {
 export const useDel = async (url: string, body?: object) => {
     let r: AxiosResponse = undefined
     try {
-        r = await Axios.delete(url, body)
+        r = await Axios.delete(url, {
+            data: body,
+        })
     } catch (error) {
         r = error
     }

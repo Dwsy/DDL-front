@@ -119,61 +119,44 @@
 
           <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
           <!--          Uncaught (in promise) TypeError: Cannot read properties of null (reading 'parentNode')-->
-          <!--                    <v-row>-->
-          <!--                      <v-col>-->
-          <!--                        <div>-->
-          <!--                          <v-menu location="bottom" nudge-bottom>-->
-          <!--                            <template v-slot:activator="{ props }">-->
-          <!--                              <v-btn-->
-          <!--                                  color="info"-->
-          <!--                                  v-bind="props"-->
-          <!--                                  prepend-icon="mdi-menu"-->
-          <!--                              >-->
-          <!--                                <span>{{ articleCommentStore.selectCommentMenu }}</span>-->
-          <!--                              </v-btn>-->
-          <!--                            </template>-->
+          <!--        https://github.com/nuxt/framework/issues/2985#issuecomment-1272257723-->
+          <client-only>
+            <v-row>
+              <v-col>
+                <div>
+                  <v-menu location="bottom" nudge-bottom>
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                          color="info"
+                          v-bind="props"
+                          prepend-icon="mdi-menu"
+                      >
+                        <span>{{ articleCommentStore.CommentMenuList[articleCommentStore.selectCommentMenu] }}</span>
+                      </v-btn>
+                    </template>
 
-          <!--                            <v-list>-->
-          <!--                              <v-list-item-->
-          <!--                                  v-for="(item, index) in articleCommentStore.CommentMenuList"-->
-          <!--                                  :key="index"-->
-          <!--                              >-->
-          <!--                                <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{ item }}</v-btn>-->
-          <!--                              </v-list-item>-->
-          <!--                            </v-list>-->
+                    <v-list>
+                      <v-list-item
+                          v-for="(item, index) in articleCommentStore.CommentMenuList"
+                          :key="index"
+                      >
+                        <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{
+                            item
+                          }}
+                        </v-btn>
+                      </v-list-item>
+                    </v-list>
 
-          <!--                          </v-menu>-->
-          <!--                        </div>-->
-          <!--                      </v-col>-->
-          <!--                    </v-row>-->
-
-          <v-row>
-            <v-col>
-              <v-list>
-                <v-list-item
-                    v-for="(item, index) in articleCommentStore.CommentMenuList"
-                    :key="index"
-                >
-                  <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{ item }}</v-btn>
-                </v-list-item>
-              </v-list>
-            </v-col>
-
-          </v-row>
+                  </v-menu>
+                </div>
+              </v-col>
+            </v-row>
+          </client-only>
 
 
           <div v-if="articleCommentStore.loadingComment"
                class="text-h3 my-16 text-center">
-            <!--            <v-sheet-->
-            <!--                color="grey"-->
-            <!--                class="pa-3"-->
-            <!--            >-->
-            <!--              <v-skeleton-loader-->
-            <!--                  class="mx-auto"-->
-            <!--                  max-width="300"-->
-            <!--                  type="card"-->
-            <!--              ></v-skeleton-loader>-->
-            <!--            </v-sheet>-->
+
             <span>
             加载中...
           </span>
@@ -362,7 +345,6 @@
               <v-divider class="my-2" v-if="index+1!==articleCommentStore.commentList.length"></v-divider>
 
             </v-row>
-
           </div>
 
         </div>
@@ -375,42 +357,123 @@
     </v-row>
     <!--    https://vuetifyjs.com/zh-Hans/components/floating-action-buttons/#section-5c0f578b630994ae-->
     <!--    <v-speed-dial></v-speed-dial> todo 移动端要这个效果但是vuetify3还没这个组件-->
-
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
-    <div class="side-toolbar1">
-      <a href="#comments" v-if="!gotoTitle">
-        <v-btn rounded elevation="0" @click="gotoTitle=true"
-               size="small" class="mr-3" outlined>
-          <v-icon>mdi-message-reply-text-outline</v-icon>
-        </v-btn>
-      </a>
-      <a href="#T-title" v-else>
-        <v-btn rounded elevation="0" @click="gotoTitle=false"
-               size="small" class="mr-3" outlined>
-          <v-icon>mdi-arrow-up-circle-outline</v-icon>
-        </v-btn>
-      </a>
-      <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
-             @click="articleStore.ActionArticle(commentType.up)">
-        <v-icon :icon="articleStore.getArticleActionIcon(commentType.up)"></v-icon>
-        <span v-if="articleStore.articleField.upNum>0">
+    <client-only>
+      <div class="side-toolbar1">
+        <a href="#comments" v-if="!gotoTitle">
+          <v-btn rounded elevation="0" @click="gotoTitle=true"
+                 size="small" class="mr-3" outlined>
+            <v-icon>mdi-message-reply-text-outline</v-icon>
+            <v-tooltip
+                activator="parent"
+                location="top"
+            >评论区
+            </v-tooltip>
+          </v-btn>
+        </a>
+        <a href="#T-title" v-else>
+          <v-btn rounded elevation="0" @click="gotoTitle=false"
+                 size="small" class="mr-3" outlined>
+            <v-icon>mdi-arrow-up-circle-outline</v-icon>
+            <v-tooltip
+                activator="parent"
+                location="top"
+            >回到顶部
+            </v-tooltip>
+          </v-btn>
+        </a>
+        <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
+               @click="articleStore.ActionArticle(commentType.up)">
+          <v-icon :icon="articleStore.getArticleActionIcon(commentType.up)"></v-icon>
+          <span v-if="articleStore.articleField.upNum>0">
           {{ articleStore.articleField.upNum }}
         </span>
-      </v-btn>
-      <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
-             @click="articleStore.ActionArticle(commentType.down)">
-        <v-icon :icon="articleStore.getArticleActionIcon(commentType.down)"></v-icon>
-        <span v-if="articleStore.articleField.downNum>0">
+        </v-btn>
+        <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
+               @click="articleStore.ActionArticle(commentType.down)">
+          <v-icon :icon="articleStore.getArticleActionIcon(commentType.down)"></v-icon>
+          <span v-if="articleStore.articleField.downNum>0">
           {{ articleStore.articleField.downNum }}
         </span>
-      </v-btn>
-      <v-btn class="mr-3" rounded plain elevation="0" outlined size="small">
-        <v-icon icon="mdi-cards-heart-outline"></v-icon>
-        <span v-if="articleStore.articleField.collectNum>0">
+        </v-btn>
+
+
+        <v-dialog
+            v-model="collectionDialog"
+            persistent
+            transition="dialog-bottom-transition"
+        >
+          <template v-slot:activator="{ props }">
+
+            <v-btn v-bind="props" class="mr-3" rounded plain elevation="0" outlined size="small"
+                   @click="collectionArticles()">
+              <v-icon icon="mdi-cards-heart-outline"></v-icon>
+              <span v-if="articleStore.articleField.collectNum>0">
           {{ articleStore.articleField.collectNum }}
         </span>
-      </v-btn>
-    </div>
+              <v-tooltip
+                  activator="parent"
+                  location="top"
+              >收藏
+              </v-tooltip>
+            </v-btn>
+          </template>
+          <div style="margin:auto">
+            <v-card class="text-center" style="width: 600px">
+              <v-card-title>
+                <span class="text-h6 ml-8">添加到收藏夹</span>
+              </v-card-title>
+              {{ selectCollectionGroup }}
+              <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
+                <v-checkbox
+                    v-model="group.select"
+                    :label="group.groupName"
+                    :model-value="group.select"
+                    class="pr-2"
+                    @change="addCollectionToGroup(group.id,group.select)"
+                ></v-checkbox>
+              </div>
+              <v-divider class="my-3"></v-divider>
+              <v-row class="pa-4 ml-2">
+
+                <!--                  <v-form ref="form">-->
+                <!--                    v-model="collectionName"-->
+                <!--                    :rules="collectionNameRules"-->
+                <v-text-field
+                    label="新建分组"
+                    required
+                    append-inner-icon="mdi-check-bold"
+                    @click:append-inner="newCollectionGroup()"
+                    v-model="newCollectionGroupName"
+                ></v-text-field>
+
+              </v-row>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="red-darken-1"
+                    text
+                    @click="collectionDialog = false"
+                >
+                  关闭
+                </v-btn>
+                <v-btn
+                    color="blue-darken-1"
+                    text
+                    @click="collectionDialog = false"
+                >
+                  收藏
+                </v-btn>
+
+              </v-card-actions>
+            </v-card>
+          </div>
+        </v-dialog>
+
+
+      </div>
+    </client-only>
   </div>
 
 </template>
@@ -421,21 +484,31 @@ import hljs from 'highlight.js'
 // import vCode from '~/utils/HljsLine'
 import 'highlight.js/styles/atom-one-light.css'
 // import 'highlight.js/styles/atom-one-dark.css'
-import {commentType, useFetchGetArticleContent, useFetchGetArticleField} from '~/composables/Api/article'
+import {
+  commentType, useAxiosCancelCollectionToGroup, useAxiosGetArticleCollectionState,
+  useAxiosGetCollectionGroupList,
+  useAxiosPostAddCollectionToGroup,
+  useAxiosPostCreateCollectionGroup,
+  useFetchGetArticleContent,
+  useFetchGetArticleField
+} from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, watch} from 'vue'
-import {useRoute, dateFilter, definePageMeta} from '#imports'
+import {definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
-import {atSrtGotoHome} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
+import {collectionData, collectionGroupData, collectionType} from '~/types/article'
+
 
 definePageMeta({
   keepalive: false
 })
+
 //todo 移动端适配
 let route = useRoute()
 let aid = route.params.aid
@@ -458,6 +531,8 @@ const gotoTitle = ref(false)
 
 const message = ref('')
 const showMessage = ref(false)
+
+
 useHead({
   title: articleStore.articleField.title
 })
@@ -502,6 +577,7 @@ onMounted(async () => {
       articleStore.markdownTheme = articleStore.markdownThemeLight
     }
   })
+
 })
 
 onUnmounted(() => {
@@ -524,13 +600,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
 })
 
-// const follow = async () => {
-//   if (articleStore.articleField.isFollow) {
-//     await articleStore.unFollow()
-//   } else {
-//     await articleStore.follow()
-//   }
-// }
 
 const onIntersect = (entries) => gotoTitle.value = !!entries
 const createToc = () => {
@@ -547,6 +616,67 @@ const createToc = () => {
   })
 }
 
+const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
+const collectionDialog = ref(false)
+const selectCollectionGroup = ref<Array<number>>([])
+const collectionArticles = async () => {
+  const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+  const {data: articleCollectionState} = await useAxiosGetArticleCollectionState(Number(aid))
+  if (axiosResponse.code === 0) {
+    collectionGroupList.value = axiosResponse.data
+    if (articleCollectionState.code === 0) {
+      selectCollectionGroup.value = articleCollectionState.data
+      for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
+        for (const iKey in articleCollectionState.data) {
+          if (articleCollectionState.data[iKey] === collectionGroupList.value[i].id) {
+            collectionGroupList.value[i].select = true
+          }
+        }
+      }
+    }
+
+  }
+}
+const newCollectionGroupName = ref('')
+const newCollectionGroup = async () => {
+  let body: any = {
+    groupName: newCollectionGroupName.value
+  }
+  const {data: axiosResponse} = await useAxiosPostCreateCollectionGroup(body)
+  if (axiosResponse.code === 0) {
+    successMsg('创建成功')
+    const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+    if (axiosResponse.code === 0) {
+      collectionGroupList.value = axiosResponse.data
+      newCollectionGroupName.value = ''
+    }
+  } else {
+    errorMsg(axiosResponse.msg)
+  }
+}
+const addCollectionToGroup = async (groupId: number, select: boolean) => {
+  let body: collectionData = {
+    collectionType: collectionType.Article,
+    sourceId: articleStore.articleField.id,
+    groupId
+  }
+  if (select) {
+    const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(body)
+    if (axiosResponse.code === 0) {
+      successMsg('收藏成功')
+    } else {
+      warningMsg(axiosResponse.msg)
+    }
+  } else {
+    const {data: axiosResponse} = await useAxiosCancelCollectionToGroup(body)
+    if (axiosResponse.code === 0) {
+      successMsg('取消收藏成功')
+    } else {
+      errorMsg(axiosResponse.msg)
+    }
+  }
+
+}
 
 </script>
 
