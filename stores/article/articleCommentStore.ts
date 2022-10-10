@@ -3,18 +3,33 @@ import {defineStore} from 'pinia'
 import {
     ArticleCommentAction,
     commentType,
-    ReplyArticleCommentBody,
-    useAxiosGetArticleComment,
+    ReplyArticleCommentBody, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
     useFetchGetArticleContent,
     useFetchGetArticleField
 } from '~/composables/Api/article'
 import {successMsg, useRoute, warningMsg} from '#imports'
+import {Data} from '@nuxtjs/composition-api'
+import {useUserStore} from '~/stores/user'
 
+interface ArticleCommentStore {
+    commentList: CommentContent[];
+    loadingComment: boolean;
+    aid: any;
+    replyCommentText: string;
+    field: any;
+    selectCommentMenu: number;
+    CommentMenuList: string[];
+    showCommentMenu: boolean;
+    properties: any;
+    order: any;
+    page: number;
+    totalPages: number;
+}
 
 export const useArticleCommentStore = defineStore('ArticleCommentStore', {
-    state: () => {
+    state: (): ArticleCommentStore => {
         return {
             commentList: [],
             loadingComment: true,
@@ -26,7 +41,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             showCommentMenu: false,
             properties: null,
             order: null,
-            page: 0,
+            page: 1,
+            totalPages: 0,
         }
     },
     getters: {},
@@ -36,7 +52,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             this.aid = useRoute().params.aid
             await this.loadComment()
         },
-        async loadComment(properties?: string, order?, page?: number) {
+        async loadComment(page?: number, properties?: string, order?) {
             this.loadingComment = true
             if (properties != undefined) {
                 this.properties = properties
@@ -56,12 +72,32 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 commentContent.childComments.forEach(childComment => {
                     childComment.replyCommentText = ref('')
                 })
+                commentContent.childCommentPage = 1
             }
-            console.log(this.commentList)
+            // console.log(this.commentList)
             this.loadingComment = false
+            this.totalPages = commentData.data.totalPages
         },
+        async loadChildComment(pComment, page: number) {
+            const pid = pComment.id
+            console.log('pid', pid)
+            console.log('aid', this.aid)
+            console.log('page', page)
+            let {data: commentData} = await useAxiosGetArticleChildComment(this.aid, pid, {
+                page
+            })
+            if (commentData.code === 0) {
+                pComment.childComments = commentData.data.content
+                pComment.childComments.forEach(childComment => {
+                    childComment.replyCommentText = ref('')
+                })
+                const el = document.querySelector(`#comment-${pid}`)
+                el.scrollIntoView()
+            }
+        },
+
         async ReplyComment(replyUserId?: number, parentCommentId?: number,
-                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: number) {
+                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: number, replyUserCommentName?: string) {
             let text = null
             if (pIndexId !== undefined) {
                 if (cIndexId !== undefined) {
@@ -101,40 +137,48 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 } else {
                     this.replyCommentText = ''
                 }
-                await this.loadComment('createTime', 'desc')
+                if (cIndexId !== undefined) {
+                    const time = new Date().getTime()
+                    const userStore = useUserStore()
+                    const t = `回复@${replyUserCommentName}：` + text
+                    console.log(t)
+                    let newComment: CommentContent = {
+                        childCommentNum: 0,
+                        childCommentPage: 0,
+                        childCommentTotalPages: 0,
+                        childComments: undefined,
+                        createTime: time,
+                        deleted: false,
+                        downNum: 0,
+                        id: time,
+                        lastModifiedTime: time,
+                        parentCommentId: parentCommentId,
+                        parentUser: replyUserId,
+                        parentUserId: replyUserId,
+                        replyCommentText: '',
+                        replyUserCommentId: replyUserCommentId,
+                        showCommentBox: false,
+                        text: t,
+                        ua: navigator.userAgent,
+                        upNum: 0,
+                        user: {
+                            id: userStore.user.id,
+                            nickname: userStore.user.nickname,
+                            userInfo: userStore.userInfo,
+                            level: userStore.user.level,
+                        },
+                        // replayCommentId: 1,
+                        userAction: undefined
+                    }
+                    this.commentList[pIndexId].childComments.push(newComment)
+                } else {
+                    await this.loadComment(this.page, this.properties, this.order)
+                }
+
                 // let {data: commentData} = await useAxiosGetArticleComment(this.aid)
                 // this.commentList = commentData.data.content
                 // console.log('articleCommentStore.commentList', this.commentList)
                 //前端填充2或重新加载后端数据
-                // let newComment: CommentContent = {
-                //   id: 1,
-                //   deleted: false,
-                //   createTime: 1661527565280,
-                //   lastModifiedTime: 1661527565280,
-                //   user: {
-                //     id: 3,
-                //     nickname: 'Dwsy',
-                //     userInfo: {
-                //       id: 3,
-                //       avatar: 'https://gravatar.loli.net/avatar//a0b7b30cbef507e1fad31e75c6a134ee?s=65&r=X&d=',
-                //       sign: 'sign',
-                //       gender: 'FMAIL',
-                //       birth: null
-                //     },
-                //     level: 5
-                //   },
-                //   userAction: 0,
-                //   text:text,
-                //   upNum: 2,
-                //   downNum: 6,
-                //   parentUserId: 0,
-                //   parentCommentId: 0,
-                //   parentUser: null,
-                //   childComments: [],
-                //   ua: 'user-agent',
-                //   showCommentBox: false,
-                //   replyCommentText: ref('')
-                // }
                 // this.commentList.unshift(newComment)
 
             }
@@ -351,13 +395,13 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             this.selectCommentMenu = index
             switch (index) {
                 case 0:
-                    this.loadComment('upNum', 'desc')
+                    this.loadComment(this.page, 'upNum', 'desc')
                     break
                 case 1:
-                    this.loadComment('createTime', 'asc')
+                    this.loadComment(this.page, 'createTime', 'asc')
                     break
                 case 2:
-                    this.loadComment('createTime', 'desc')
+                    this.loadComment(this.page, 'createTime', 'desc')
                     break
             }
         }
@@ -439,12 +483,18 @@ export interface CommentContent {
     upNum: number;
     downNum: number;
     parentUserId: number;
+    parentCommentId: number;
     replyUserCommentId: number;
     parentUser: any;
-    childComments: CommentContent[];
+    childComments: CommentContent;
+    childCommentNum: number;
+    childCommentTotalPages: number;
+    childCommentPage: number;
     ua: string;
     showCommentBox: boolean;
     userAction: commentType;
-    replyCommentText: any
+    replyCommentText: any;
+    loadMore?: boolean;
+    replayCommentId?: number
     // fixme ref 2层不需要value然后极会报错 ？ 先用any了
 }

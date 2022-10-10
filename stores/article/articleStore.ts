@@ -193,22 +193,22 @@ interface UserInfo {
 }
 
 
-interface CommentContent {
-    id: number;
-    deleted: boolean;
-    createTime: number;
-    lastModifiedTime: number;
-    user: User;
-    text: string;
-    upNum: number;
-    downNum: number;
-    parentUserId: number;
-    parentCommentId: number;
-    parentUser: any;
-    childComments: CommentContent[];
-    ua: string;
-    showCommentBox: boolean;
-    userAction: commentType;
-    replyCommentText: any
-    // fixme ref 2层不需要value然后极会报错 ？ 先用any了
-}
+// interface CommentContent {
+//     id: number;
+//     deleted: boolean;
+//     createTime: number;
+//     lastModifiedTime: number;
+//     user: User;
+//     text: string;
+//     upNum: number;
+//     downNum: number;
+//     parentUserId: number;
+//     parentCommentId: number;
+//     parentUser: any;
+//     childComments: CommentContent[];
+//     ua: string;
+//     showCommentBox: boolean;
+//     userAction: commentType;
+//     replyCommentText: any
+//     // fixme ref 2层不需要value然后极会报错 ？ 先用any了
+// }

@@ -181,7 +181,7 @@
 
 
               <v-col class="ml-xl-n8 " :id="`comment-${comment.id}`">
-                #{{ index + 1 }}
+                #{{ index + (articleCommentStore.page - 1) * 8 + 1 }}
                 <span>{{ comment.user.nickname }}</span>
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none"/>
@@ -243,21 +243,22 @@
 
 
                     <v-row>
-                      <v-col>
-                        <div v-for="(childComment,Cindex) in comment.childComments" key="comment.id">
-                          <v-row class="mt-5">
+                      <v-col cols="12">
+                        <div v-for="(childComment,Cindex) in childCommentLimit(comment)" key="comment.id">
 
-                            <v-col cols="2" class="mr-4 mr-sm-4 mr-xl-n5 mr-lg-n2 d-comment" xl="1" lg="1" md="1"
+                          <v-row class="mt-1">
+
+                            <v-col cols="2" class="mr-4 mr-sm-4 mr-xl-n5 mr-lg-n12 d-comment" xl="1" lg="1" md="1"
                                    sm="1">
-                              <v-avatar size="x-large">
+                              <v-avatar>
                                 <v-img
                                     :src="childComment.user.userInfo.avatar"></v-img>
                               </v-avatar>
                             </v-col>
 
 
-                            <v-col class="ml-xl-n8" :id="`comment-${childComment.id}`">
-                              #{{ Cindex + 1 }}
+                            <v-col class="ml-xl-n16" :id="`comment-${childComment.id}`" style="font-size: 70%">
+                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
                               <br class="d-sm-none"/>
@@ -268,7 +269,9 @@
                               <div>
                                 <v-row class="mt-1">
                                   <v-col>
-                                    <div v-if="childComment.replayCommentId===0">{{ childComment.text }}</div>
+                                    childComment.replayCommentId{{ childComment.replyUserCommentId }}
+
+                                    <div v-if="childComment.replyUserCommentId===0">{{ childComment.text }}</div>
 
                                     <div v-else
                                          v-html="atSrtGotoHome(childComment.text,childComment.parentUserId)"></div>
@@ -276,7 +279,7 @@
                                 </v-row>
                                 <v-row>
                                   <v-col>
-                                    <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
+                                    <v-btn rounded plain elevation="0" outlined size="x-small" class="mr-3"
                                            @click="articleCommentStore.ActionComment(commentType.up,childComment.id,index,Cindex)">
                                       <v-icon
                                           :icon="articleCommentStore.getCommentActionIcon(commentType.up,index,Cindex)"
@@ -285,7 +288,7 @@
                                     {{ childComment.upNum }}
                                   </span>
                                     </v-btn>
-                                    <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
+                                    <v-btn class="mr-3" rounded plain elevation="0" outlined size="x-small"
                                            @click="articleCommentStore.ActionComment(commentType.down,childComment.id,index,Cindex)">
                                       <v-icon
                                           :icon="articleCommentStore.getCommentActionIcon(commentType.down,index,Cindex)"
@@ -297,7 +300,7 @@
 
                                     <v-btn rounded plain elevation="0" outlined
                                            @click="articleCommentStore.showCommentBox(index,Cindex)"
-                                           size="small">
+                                           size="x-small">
                                       <v-icon size="large">mdi-reply-outline</v-icon>
                                     </v-btn>
                                     <v-col v-if="childComment.showCommentBox"
@@ -311,7 +314,7 @@
 
                                         </v-textarea>
                                         <v-btn class="float-end mx-6 mb-4" color="primary"
-                                               @click="ReplyComment(childComment.user.id,comment.id,index,Cindex,childComment.id)">
+                                               @click="ReplyComment(childComment.user.id,comment.id,index,Cindex,childComment.id,childComment.user.nickname)">
                                           发送
                                         </v-btn>
                                       </div>
@@ -335,6 +338,29 @@
                             <v-divider class="my-4"></v-divider>
                           </v-row>
 
+                          <v-row>
+                            <div v-if="Cindex===2&&!comment.loadMore&&comment.childCommentNum>3" class="ml-4 pa-4">
+                              <v-btn @click="()=>{comment.loadMore=true}">
+                                查看更多 共{{ comment.childCommentNum }} 条回复
+                              </v-btn>
+                            </div>
+
+                          </v-row>
+
+                        </div>
+                        <div v-if="comment.loadMore"
+                             class="text-start" style="width:30%">
+                          <!--                                            @input="(page)=> {-->
+                          <!--                                             await articleCommentStore.loadChildComment(comment.id,page)-->
+                          <!--                                            }"-->
+                          <!--                                  <v-container class="max-width">-->
+                          <v-pagination v-model="comment.childCommentPage"
+                                        rounded="circle"
+                                        class="my-4"
+                                        @update:modelValue="(page)=> {articleCommentStore.loadChildComment(comment,page)}"
+                                        :length="comment.childCommentTotalPages"></v-pagination>
+                          <!--                                  </v-container>-->
+
                         </div>
                       </v-col>
                     </v-row>
@@ -346,10 +372,20 @@
 
             </v-row>
           </div>
+          <!--          //评论分页-->
+          <v-row>
+            <v-col cols="10">
+              <v-container class="max-width">
+                <v-pagination v-model="articleCommentStore.page"
+                              class="my-4" :length="articleCommentStore.totalPages"></v-pagination>
+              </v-container>
+            </v-col>
+          </v-row>
 
         </div>
 
       </v-col>
+      <!--      目录-->
       <v-col class="toc">
         <div class="js-toc">
         </div>
@@ -358,6 +394,7 @@
     <!--    https://vuetifyjs.com/zh-Hans/components/floating-action-buttons/#section-5c0f578b630994ae-->
     <!--    <v-speed-dial></v-speed-dial> todo 移动端要这个效果但是vuetify3还没这个组件-->
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
+    <!--    侧边按钮-->
     <client-only>
       <div class="side-toolbar1">
         <a href="#comments" v-if="!gotoTitle">
@@ -423,8 +460,9 @@
               <v-card-title>
                 <span class="text-h6 ml-8">添加到收藏夹</span>
               </v-card-title>
-              {{ selectCollectionGroup }}
+              <!--              {{ selectCollectionGroup }}-->
               <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
+
                 <v-checkbox
                     v-model="group.select"
                     :label="group.groupName"
@@ -432,6 +470,10 @@
                     class="pr-2"
                     @change="addCollectionToGroup(group.id,group.select)"
                 ></v-checkbox>
+                <span class="pt-4">
+                  {{ group.collectionNum }} / 999
+                </span>
+
               </div>
               <v-divider class="my-3"></v-divider>
               <v-row class="pa-4 ml-2">
@@ -458,13 +500,13 @@
                 >
                   关闭
                 </v-btn>
-                <v-btn
-                    color="blue-darken-1"
-                    text
-                    @click="collectionDialog = false"
-                >
-                  收藏
-                </v-btn>
+                <!--                <v-btn-->
+                <!--                    color="blue-darken-1"-->
+                <!--                    text-->
+                <!--                    @click="collectionDialog = false"-->
+                <!--                >-->
+                <!--                  收藏-->
+                <!--                </v-btn>-->
 
               </v-card-actions>
             </v-card>
@@ -492,7 +534,7 @@ import {
   useFetchGetArticleContent,
   useFetchGetArticleField
 } from '~/composables/Api/article'
-import {onMounted, onUnmounted, ref, watch} from 'vue'
+import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
 import {definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
@@ -577,6 +619,12 @@ onMounted(async () => {
       articleStore.markdownTheme = articleStore.markdownThemeLight
     }
   })
+  watch(toRef(articleCommentStore, 'page'), async (page) => {
+    await articleCommentStore.loadComment(page)
+    const el = document.querySelector('#comments')
+    el.scrollIntoView()
+  })
+  await loadArticleCollectionState()
 
 })
 
@@ -600,6 +648,13 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
 })
 
+const childCommentLimit = (comments) => {
+  if (comments.loadMore === undefined) {
+    return comments.childComments.slice(0, 3)
+  } else {
+    return comments.childComments
+  }
+}
 
 const onIntersect = (entries) => gotoTitle.value = !!entries
 const createToc = () => {
@@ -619,16 +674,18 @@ const createToc = () => {
 const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
 const collectionDialog = ref(false)
 const selectCollectionGroup = ref<Array<number>>([])
+const articleCollectionState = ref()
 const collectionArticles = async () => {
   const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
-  const {data: articleCollectionState} = await useAxiosGetArticleCollectionState(Number(aid))
   if (axiosResponse.code === 0) {
     collectionGroupList.value = axiosResponse.data
-    if (articleCollectionState.code === 0) {
-      selectCollectionGroup.value = articleCollectionState.data
+    await loadArticleCollectionState()
+    if (articleCollectionState.value.code === 0) {
+      const state = articleCollectionState.value.data
+      // selectCollectionGroup.value = state
       for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
-        for (const iKey in articleCollectionState.data) {
-          if (articleCollectionState.data[iKey] === collectionGroupList.value[i].id) {
+        for (const iKey in state) {
+          if (state[iKey] === collectionGroupList.value[i].id) {
             collectionGroupList.value[i].select = true
           }
         }
@@ -654,6 +711,11 @@ const newCollectionGroup = async () => {
     errorMsg(axiosResponse.msg)
   }
 }
+const loadArticleCollectionState = async () => {
+  console.log('loadArticleCollectionState')
+  const {data: articleCollectionStateData} = await useAxiosGetArticleCollectionState(Number(aid))
+  articleCollectionState.value = articleCollectionStateData
+}
 const addCollectionToGroup = async (groupId: number, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.Article,
@@ -663,7 +725,10 @@ const addCollectionToGroup = async (groupId: number, select: boolean) => {
   if (select) {
     const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(body)
     if (axiosResponse.code === 0) {
+      // await loadArticleCollectionState()
       successMsg('收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
+
     } else {
       warningMsg(axiosResponse.msg)
     }
@@ -671,11 +736,17 @@ const addCollectionToGroup = async (groupId: number, select: boolean) => {
     const {data: axiosResponse} = await useAxiosCancelCollectionToGroup(body)
     if (axiosResponse.code === 0) {
       successMsg('取消收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
     } else {
       errorMsg(axiosResponse.msg)
     }
   }
 
+}
+
+
+const loadChildComment = (n) => {
+  console.log(n)
 }
 
 </script>

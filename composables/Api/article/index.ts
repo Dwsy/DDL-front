@@ -23,9 +23,13 @@ export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
 export const useFetchGetArticleComment = (id, params?: { size?: number, page?: number }) => {
     return http.GET('article/comment/' + id, params)
 }
+export const useAxiosGetArticleChildComment = (aid, pid, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
+    return useGet(`article/comment/child/${aid}-${pid}`, params)
+}
 export const useAxiosGetArticleComment = (id, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
     return useGet('article/comment/' + id, params)
 }
+
 
 //----
 export interface ReplyArticleCommentBody {
