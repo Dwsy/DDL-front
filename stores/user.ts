@@ -57,7 +57,6 @@ export const useUserStore = defineStore('user', {
         async getUserInfo(refresh = false) {
             console.log('getUserInfo', this.userInfo === null)
             if (refresh || this.userInfo === null) {
-
                 if (this.user) {
                     let {data} = await useAxiosGetUserInfo()
                     if (data.code === 0) {
@@ -66,8 +65,7 @@ export const useUserStore = defineStore('user', {
                 }
 
             }
-        }
-        ,
+        },
         async CheckIn() {
             return await useAxiosPostCheck()
         }

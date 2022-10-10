@@ -4,7 +4,7 @@ import {errorMsg, successMsg} from '~/composables/utils/toastification'
 
 
 export const useAxiosPostFollowUser = (fid: number) => {
-    return usePost('user/following/follow', {fid})
+    return usePost('user/follow/following', {fid})
 }
 
 export const followUser = async (fid: number) => {
@@ -26,5 +26,13 @@ export const unFollowUser = async (fid: number) => {
 }
 
 export const useAxiosPostUnFollowUser = (fid: number) => {
-    return usePost('user/following/unfollow', {fid})
+    return usePost('user/follow/unfollow', {fid})
+}
+
+export const useAxiosGetFollowingList = (params?: { size?: number, page?: number }) => {
+    return useGet('user/follow/following/list', params)
+}
+
+export const useAxiosGetFollowerList = (params?: { size?: number, page?: number }) => {
+    return useGet('user/follow/follower/list', params)
 }

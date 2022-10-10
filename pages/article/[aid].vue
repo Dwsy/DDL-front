@@ -257,7 +257,7 @@
                             </v-col>
 
 
-                            <v-col class="ml-xl-n16" :id="`comment-${childComment.id}`" style="font-size: 70%">
+                            <v-col class="ml-xl-n10" :id="`comment-${childComment.id}`" style="font-size: 75%">
                               #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
@@ -269,7 +269,7 @@
                               <div>
                                 <v-row class="mt-1">
                                   <v-col>
-                                    childComment.replayCommentId{{ childComment.replyUserCommentId }}
+
 
                                     <div v-if="childComment.replyUserCommentId===0">{{ childComment.text }}</div>
 

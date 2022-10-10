@@ -44,17 +44,21 @@
   </div>
 </template>
 <script setup lang=ts >
-import {dateFilter} from "#imports";
+import {dateFilter} from '#imports'
+import {articleListData} from '~/types/article'
+
 //todo 改用pinia
 // import { articleListData } from '~~/types/article';
-let imgList = ["https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.jpg",
-  "https://tva1.sinaimg.cn/large/005NWBIgly1go8137lfsdj30rx0rw0up.jpg",
-  "https://tva1.sinaimg.cn/large/005NWBIgly1gomphp0l22j31hc0u0wiq.jpg",
-  "https://tva1.sinaimg.cn/large/005NWBIgly1go8137joftj30pc0oe75u.jpg",
-  "https://tva1.sinaimg.cn/large/005NWBIgly1go8137mdujj30k70k70x2.jpg",
+let imgList = ['https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.jpg',
+  'https://tva1.sinaimg.cn/large/005NWBIgly1go8137lfsdj30rx0rw0up.jpg',
+  'https://tva1.sinaimg.cn/large/005NWBIgly1gomphp0l22j31hc0u0wiq.jpg',
+  'https://tva1.sinaimg.cn/large/005NWBIgly1go8137joftj30pc0oe75u.jpg',
+  'https://tva1.sinaimg.cn/large/005NWBIgly1go8137mdujj30k70k70x2.jpg',
 ]
 
-defineProps<articleListData>()
+defineProps<articleListData>(
+
+)
 
 
 </script>
