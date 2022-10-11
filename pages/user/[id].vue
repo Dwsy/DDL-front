@@ -1,9 +1,10 @@
 <template>
   <v-container>
     <div>
-      userInfo: {{ userInfo }}
+      <!--      userInfo: {{ userInfo }}-->
+      {{ route.query.tab }}
       <v-divider></v-divider>
-      {{ user }}
+      <!--      {{ user }}-->
     </div>
     <v-row v-if="user">
       <v-col offset="1" cols="8">
@@ -85,7 +86,7 @@
               </v-window-item>
 
               <v-window-item value="collect">
-                collect
+                <Collection></Collection>
               </v-window-item>
 
               <v-window-item value="follow">
@@ -148,7 +149,7 @@
 <script setup lang="ts">
 import {useAxiosGetFollowerList, useAxiosGetFollowingList, useRoute, warningMsg} from '#imports'
 import {user, useUserStore} from '~/stores/user'
-import {onMounted, ref, watchEffect} from 'vue'
+import {onMounted, ref, watch, watchEffect} from 'vue'
 import {
   useAxiosGetArticleListByUserId,
   useAxiosGetUserInfoByUid,
@@ -157,20 +158,25 @@ import {
 } from '~/composables/Api/user'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
+import Collection from '~~/components/user/collection.vue'
+import {useRouter} from '#app'
 
 const userStore = useUserStore()
 let userInfo = ref()
 let user = ref()
 const route = useRoute()
+const router = useRouter()
 const uid = route.params.id
 const userNotFount = ref(false)
-const tab = ref('dynamic')
+const tab = ref(route.query.tab || 'dynamic')
 const followTab = ref('following')
 const userArticleList = ref<articleListData[]>()
 const userThumbList = ref<articleListData[]>()
 const userFollowingList = ref()
 const UserFollowerList = ref()
+
 onMounted(async () => {
+  console.log('onMounted')
   setTimeout(async () => {
     const {data: axiosResponse} = await useAxiosGetUserInfoByUid(Number(uid))
     if (axiosResponse.code === 0) {
@@ -182,8 +188,18 @@ onMounted(async () => {
       userNotFount.value = true
     }
   }, 200)
+  watch(tab, async (newTab) => {
+    // console.log('watch tab', newTab)
+    await router.push({
+      query: {
+        tab: newTab
+      }
+    })
+  })
   watchEffect(async () => {
+    // console.log('watchEffect', tab.value)
     const newTab = tab.value
+
     if (newTab === 'article') {
       const {data: axiosResponse} = await useAxiosGetArticleListByUserId(Number(uid))
       if (axiosResponse.code === 0) {

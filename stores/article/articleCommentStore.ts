@@ -486,7 +486,7 @@ export interface CommentContent {
     parentCommentId: number;
     replyUserCommentId: number;
     parentUser: any;
-    childComments: CommentContent;
+    childComments: CommentContent[];
     childCommentNum: number;
     childCommentTotalPages: number;
     childCommentPage: number;

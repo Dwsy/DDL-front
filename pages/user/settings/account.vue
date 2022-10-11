@@ -75,6 +75,8 @@ const sendEmailCode = async () => {
         clearInterval(interval)
       }, 1000 * 60)
 
+    } else {
+      warningMsg(ret.msg)
     }
     return
   }
