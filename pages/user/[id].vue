@@ -46,6 +46,7 @@
           </v-row>
         </v-card>
         <v-divider class="my-2"></v-divider>
+
         <v-card class="mt-1">
           <v-tabs
               v-model="tab"
@@ -59,7 +60,7 @@
             <v-tab value="collect">收藏</v-tab>
             <v-tab value="follow">关注</v-tab>
           </v-tabs>
-
+          <!--//todo double/mounted-->
           <v-card-text>
             <v-window v-model="tab">
               <v-window-item value="dynamic">
@@ -83,7 +84,9 @@
 
               <v-window-item value="answer">
                 answer
+                <test></test>
               </v-window-item>
+
 
               <v-window-item value="collect">
                 <Collection></Collection>
@@ -148,7 +151,7 @@
 
 <script setup lang="ts">
 import {useAxiosGetFollowerList, useAxiosGetFollowingList, useRoute, warningMsg} from '#imports'
-import {user, useUserStore} from '~/stores/user'
+import {user, UserInfo, useUserStore} from '~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {
   useAxiosGetArticleListByUserId,
@@ -159,11 +162,12 @@ import {
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
+import Test from '~~/components/test.vue'
 import {useRouter} from '#app'
 
 const userStore = useUserStore()
-let userInfo = ref()
-let user = ref()
+let userInfo = ref<UserInfo>()
+let user = ref<userData>()
 const route = useRoute()
 const router = useRouter()
 const uid = route.params.id
@@ -176,7 +180,7 @@ const userFollowingList = ref()
 const UserFollowerList = ref()
 
 onMounted(async () => {
-  console.log('onMounted')
+  console.log('user id onMounted')
   setTimeout(async () => {
     const {data: axiosResponse} = await useAxiosGetUserInfoByUid(Number(uid))
     if (axiosResponse.code === 0) {
@@ -196,8 +200,9 @@ onMounted(async () => {
       }
     })
   })
+
   watchEffect(async () => {
-    // console.log('watchEffect', tab.value)
+    console.log('watchEffect', tab.value)
     const newTab = tab.value
 
     if (newTab === 'article') {

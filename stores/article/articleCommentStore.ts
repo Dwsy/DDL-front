@@ -141,7 +141,14 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     const time = new Date().getTime()
                     const userStore = useUserStore()
                     const t = `回复@${replyUserCommentName}：` + text
-                    console.log(t)
+                    // console.log(t)
+                    let commentSerialNumber = 1
+                    //todo 使用后端返回数据
+                    const childComments = this.commentList[pIndexId].childComments
+                    if (childComments.length > 0) {
+                        commentSerialNumber = childComments[childComments.length - 1]
+                            .commentSerialNumber + 1
+                    }
                     let newComment: CommentContent = {
                         childCommentNum: 0,
                         childCommentPage: 0,
@@ -167,6 +174,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                             userInfo: userStore.userInfo,
                             level: userStore.user.level,
                         },
+                        commentSerialNumber,
                         // replayCommentId: 1,
                         userAction: undefined
                     }
@@ -495,6 +503,7 @@ export interface CommentContent {
     userAction: commentType;
     replyCommentText: any;
     loadMore?: boolean;
-    replayCommentId?: number
+    replayCommentId?: number;
+    commentSerialNumber?: number
     // fixme ref 2层不需要value然后极会报错 ？ 先用any了
 }

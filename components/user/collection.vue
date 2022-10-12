@@ -50,6 +50,7 @@
                         color="info"
                         v-bind="props"
                         class="mx-2"
+                        append-icon="mdi-chevron-down"
                     >
                       <span style="font-size: 16px">收藏类型：{{ CollectionTypeZh[selectCollectionType] }}</span>
                     </v-btn>
@@ -71,6 +72,7 @@
                     <v-btn
                         color="info"
                         v-bind="props"
+                        append-icon="mdi-chevron-down"
                     >
                       <!--                      prepend-icon="mdi-menu"-->
                       <span style="font-size: 16px">排序：{{ orderBy[order] }}</span>
@@ -94,7 +96,7 @@
             </v-col>
           </v-row>
         </client-only>
-
+        <v-divider class="mt-1"></v-divider>
         <v-list flat>
           <v-list-item
               v-for="collection in collectionListData"
@@ -103,7 +105,7 @@
               :href="getCollectionTo(collection)"
           >
             <span>
-              <v-chip>{{ collectionTypeToName(collection.collectionType) }}:</v-chip>
+              <v-chip>{{ CollectionTypeZh[collection.collectionType] }}:</v-chip>
               <span class="ml-1">{{ collection.sourceTitle }}</span>
               <span class="text-grey float-right">{{ dateFilter(collection.createTime) }}</span>
               </span>
@@ -147,13 +149,15 @@ const route = useRoute()
 const router = useRouter()
 const uid = Number(route.params.id)
 const collectionGroupList = ref<collectionGroup[]>()
+const gid = ref(Number(route.query.group) || null)
+console.log('??')
 onMounted(async () => {
+  console.log('mounted collection')
   const {data: axiosResponse} = await useAxiosGetCollectionGroupListByUserId(uid)
   if (axiosResponse.code === 0) {
     collectionGroupList.value = axiosResponse.data
     if (gid.value === null) {
       await selectGroup(collectionGroupList.value[0])
-      console.log('13123')
     } else {
       await selectGroup(collectionGroupList.value.find(item => item.id === gid.value))
     }
@@ -165,7 +169,6 @@ onMounted(async () => {
 
 const currentSelectGroup = ref<collectionGroup>()
 const collectionListData = ref<UserCollection[]>()
-const gid = ref(Number(route.query.group) || null)
 const page = ref(1)
 const totalPages = ref(0)
 const order = ref(1)
@@ -223,18 +226,6 @@ const changePage = async (p: number) => {
   await loadCollectionList()
 }
 
-const collectionTypeToName = (collectionType: CollectionType) => {
-  switch (collectionType) {
-    case CollectionType.Article:
-      return '文章'
-    case CollectionType.Question:
-      return '问题'
-    case CollectionType.Comment:
-      return '评论'
-    case CollectionType.Answer:
-      return '回答'
-  }
-}
 </script>
 <style scoped>
 .d-collection-list {

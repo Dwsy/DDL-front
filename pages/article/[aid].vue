@@ -181,7 +181,8 @@
 
 
               <v-col class="ml-xl-n8 " :id="`comment-${comment.id}`">
-                #{{ index + (articleCommentStore.page - 1) * 8 + 1 }}
+                <!--                #{{ index + (articleCommentStore.page - 1) * 8 + 1 }}-->
+                #{{ comment.commentSerialNumber }}
                 <span>{{ comment.user.nickname }}</span>
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none"/>
@@ -258,7 +259,8 @@
 
 
                             <v-col class="ml-xl-n10" :id="`comment-${childComment.id}`" style="font-size: 75%">
-                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}
+                              #{{ childComment.commentSerialNumber }}
+                              <!--                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}-->
                               <span>{{ childComment.user.nickname }}</span>
                               <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
                               <br class="d-sm-none"/>
