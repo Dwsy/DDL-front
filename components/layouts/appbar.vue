@@ -22,7 +22,7 @@
 
         <v-col class="pt-4" offset="3">
 
-          <v-btn icon>
+          <v-btn icon target="_blank" href="/article/creator">
             <v-icon>mdi-fountain-pen-tip</v-icon>
           </v-btn>
           <nuxt-link to="/messages">

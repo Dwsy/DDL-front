@@ -172,7 +172,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                             id: userStore.user.id,
                             nickname: userStore.user.nickname,
                             userInfo: userStore.userInfo,
-                            level: userStore.user.level,
+                            level: userStore.userInfo.level,
                         },
                         commentSerialNumber,
                         // replayCommentId: 1,

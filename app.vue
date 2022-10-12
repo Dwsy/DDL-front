@@ -7,15 +7,15 @@
     <template #drawer>
       <LayoutsDrawer/>
     </template>
-    <!--    <template #footer>-->
-    <!--      <LayoutsFooter/>-->
-    <!--    </template>-->
-
+    <template #footer v-if="layout.showFooter">
+      <LayoutsFooter/>
+    </template>
+    <!--    <v-footer v-show="layout.showFooter">-->
+    <!--    </v-footer>-->
     <NuxtPage/>
 
 
   </NuxtLayout>
-
 
 
 </template>
@@ -38,6 +38,7 @@ definePageMeta({
 
 let user = useUserStore()
 let theme = useTheme()
+const layout = useLayout()
 let tocLinkColor = ref()
 let show = ref(false)
 onMounted(async () => {

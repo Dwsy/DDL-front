@@ -44,6 +44,7 @@ import {definePageMeta, useFetchGetArticleList} from '#imports'
 import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
 import {useHead} from '#head'
+import {useLayout} from '~/stores/layout'
 //todo 因为做了瀑布流需要加一个 seo 隐藏分页
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
@@ -51,6 +52,7 @@ import {useHead} from '#head'
 definePageMeta({
   keepalive: true
 })
+useLayout().showFooter = true
 const showText = ref(false)
 onMounted(() => {
   if (showText.value) return

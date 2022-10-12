@@ -540,18 +540,20 @@ import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
 import {definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
-import {useArticleCommentStore} from '~/stores/article/articleCommentStore'
+import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'
 import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
 import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
+import {useLayout} from '~/stores/layout'
 
 
 definePageMeta({
   keepalive: false
 })
+useLayout().showFooter = true
 
 //todo 移动端适配
 let route = useRoute()
@@ -650,7 +652,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
 })
 
-const childCommentLimit = (comments) => {
+const childCommentLimit = (comments): CommentContent[] => {
   if (comments.loadMore === undefined) {
     return comments.childComments.slice(0, 3)
   } else {

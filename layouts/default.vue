@@ -15,9 +15,7 @@
         <slot/>
         <slot name="footer"></slot>
       </v-container>
-
-      <v-footer v-show="layout.showFooter">
-      </v-footer>
+      
     </v-main>
 
 

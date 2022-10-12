@@ -14,7 +14,7 @@ export const useLayout = defineStore('layout', {
     state: (): layout => ({
         drawer: ref<boolean>(true),
         themeName: ref(''),
-        showFooter: true,
+        showFooter: false,
         loading: true
     }),
     getters: {

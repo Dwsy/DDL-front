@@ -24,7 +24,7 @@ interface tokenMsg {
     id: number;
     username: string;
     nickname: string;
-    level: number;
+    // level: number;
 }
 
 
@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', {
                 id: 0,
                 username: '',
                 nickname: '',
-                level: 0
+                // level: 0
             },
             token: ref<string>(''),
             userInfo: null
