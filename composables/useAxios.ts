@@ -1,6 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 import {useUserStore} from '~~/stores/user'
 import {useNuxtApp} from '#app'
+import {ResponseData} from '~/types/utils/axios'
 
 // import message from "../components/utils/message";
 // const { $config  } = useNuxtApp()
@@ -39,9 +40,9 @@ Axios.interceptors.request.use(
         return config
     },
     (error) => {
-        return Promise.reject(error);
+        return Promise.reject(error)
     }
-);
+)
 
 Axios.interceptors.response.use(
     (response) => {
@@ -51,35 +52,43 @@ Axios.interceptors.response.use(
         // console.log("response");
 
         if (response.status == 200 || response.status == 201) {
-            return Promise.resolve(response);
+            return Promise.resolve(response)
         } else {
-            return Promise.reject(response);
+            return Promise.reject(response)
         }
     },
     (error) => {
         if (error.response.status == 401) {
-            console.log("no token");
+            console.log('no token')
 
             //   message({ type: "error", message: String(error.response.data.message) });
         }
         // console.log(error.response.data);
 
-        return Promise.reject(error.response);
+        return Promise.reject(error.response)
     }
-);
-
-
+)
 
 
 export const useGet = async (url: string, params?: object) => {
-    let r: AxiosResponse = undefined
+    let r = undefined
     try {
-        r = await Axios.get(url, { params: params })
+        r = await Axios.get(url, {params: params})
     } catch (error) {
         r = error
     }
-    return r;
-};
+    return r
+}
+
+export const useGetT = async <T>(url: string, params?: object) => {
+    let r: AxiosResponse<T> = undefined
+    try {
+        r = await Axios.get(url, {params: params})
+    } catch (error) {
+        r = error
+    }
+    return r
+}
 
 export const usePost = async (url: string, body?: object, config?: AxiosRequestConfig) => {
     let r: AxiosResponse = undefined

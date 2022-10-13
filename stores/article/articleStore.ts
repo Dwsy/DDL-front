@@ -10,6 +10,7 @@ import {
 } from '#imports'
 import {useRoute} from '#imports'
 import {useAxiosGetArticleAction} from '~/composables/Api/article'
+import {ArticleSource} from '~/types/article/manageArticle'
 
 
 export const useArticleStore = defineStore('ArticleStore', {
@@ -151,6 +152,8 @@ interface ArticleTags {
     id: string;
     name: string;
     articleNum: number;
+    weight: number;
+    indexPageDisplay: boolean;
     tagInfo: string;
 }
 
@@ -180,6 +183,8 @@ export interface ArticleField {
     //自定义
     thumb: commentType;
     collect: boolean;
+    articleSource: ArticleSource;
+    articleSourceUrl: string
     // follow: boolean;
 }
 

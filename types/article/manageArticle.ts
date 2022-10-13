@@ -24,3 +24,18 @@ export enum ArticleSource {
     translation = ('translation'),
 }
 
+export enum ArticleSourceZh {
+    original = ('原创'),
+    reprint = ('转载'),
+    translation = ('翻译'),
+}
+
+export interface TagSuggestion {
+    id: string;
+    name: string;
+    articleNum: number;
+    groupName: string;
+    indexPageDisplay: boolean;
+}
+
+

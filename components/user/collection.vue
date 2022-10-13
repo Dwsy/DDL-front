@@ -22,7 +22,7 @@
           </v-list-item>
         </v-list>
       </v-col>
-      <v-divider vertical="f"></v-divider>
+      <v-divider vertical="true"></v-divider>
 
       <v-col cols="9" v-if="currentSelectGroup">
         <v-card class="pa-1 mb-2">

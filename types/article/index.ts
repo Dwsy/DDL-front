@@ -33,6 +33,8 @@ export interface ArticleTag {
     id: string;
     name: string;
     articleNum: number;
+    weight: number;
+    indexPageDisplay: boolean;
     tagInfo: string;
 }
 

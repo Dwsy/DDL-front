@@ -1,10 +1,15 @@
-import {useDel, useGet, usePost} from '~/composables/useAxios'
-import {CreateArticleBody} from '~/types/article/manageArticle'
+import {useDel, useGet, usePost, usePut} from '~/composables/useAxios'
+import {CreateArticleBody, TagSuggestion} from '~/types/article/manageArticle'
 import http from '~/utils/fetch'
-import {AxiosRequestConfig} from 'axios'
+import {AxiosRequestConfig, AxiosResponse} from 'axios'
+import {ResponseData} from '~/types/utils/axios'
 
-export const useAxiosCreateArticle = (body: CreateArticleBody) => {
+export const useAxiosPostCreateArticle = (body: CreateArticleBody) => {
     return usePost('article/article', body)
+}
+
+export const useAxiosPutUpdateArticle = (body: CreateArticleBody) => {
+    return usePut('article/article', body)
 }
 
 export const useAxiosGetArticleField = (id) => {
@@ -21,4 +26,9 @@ export const useAxiosPostUploadImg = (file) => {
         'Content-Type': 'multipart/form-data'
     }
     return usePost('file/upload', {file}, config)
+}
+// http://localhost:7080/article/tag/suggestion/re
+//todo 对象解构泛型丢失
+export const useAxiosGetTagSuggestion = (query): Promise<AxiosResponse<ResponseData<TagSuggestion[]>, any>> => {
+    return useGet('search/article/tag/suggestion/' + query)
 }

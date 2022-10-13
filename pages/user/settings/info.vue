@@ -105,12 +105,8 @@ onMounted(async () => {
     userInfo.value.avatarNew = userInfo.value.avatar
   }, 200)
 
-  watch(avatarFile, (value) => {
-    if (avatarFile.value.length > 0) {
-      disableUploadBtn.value = false
-    } else {
-      disableUploadBtn.value = true
-    }
+  watch(avatarFile, () => {
+    disableUploadBtn.value = avatarFile.value.length <= 0
   })
 
 })
@@ -132,8 +128,6 @@ const submitFile = async () => {
   } else {
     warningMsg('上传失败')
   }
-
-  console.log()
 }
 
 const save = async () => {

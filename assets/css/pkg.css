@@ -1,4 +1,7 @@
-/*! LiteWebChat_Frame v2.1.0 | MorFans Lab(c) 2017, BY:SuperPaxxs & Haswikr | https://lab.morfans.cn / Released under the LGPL License */
+.Vue-Toastification__toast {
+    z-index: 99999 !important;
+}
+
 .lite-chatbox {
     padding: 0;
     width: 100%;
@@ -178,3 +181,5 @@
 .lite-chatbox .name .owner {
     background-color: #F2BF25
 }
+
+/*! LiteWebChat_Frame v2.1.0 | MorFans Lab(c) 2017, BY:SuperPaxxs & Haswikr | https://lab.morfans.cn / Released under the LGPL License */

@@ -1,26 +1,26 @@
 <template>
-  <h1>{{ c }}</h1>
-  <h1>{{ stest.test }}</h1>
-  <h1>{{ stest.count }}</h1>
-  <v-btn @click="test()"></v-btn>
-  <v-btn @click="stest.count++"></v-btn>
-  text{{ text }}
-  <v-text-field v-model="text"></v-text-field>
-  <v-text-field v-model="stest.text"></v-text-field>
-  stest.text {{ stest.text }}
+  <div>
+    T2
+    <test-components></test-components>
+    <v-btn @click="()=>{this.location='provide'}">provide</v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {useStest} from '~/stores/storeTest'
-import {ref} from 'vue'
+import {provide, ref} from 'vue'
 
-let stest = useStest()
-let c = stest.test
-let text = ref(stest.text)
-const test = () => {
-  c.a++
-  c.b++
+const location = ref('North Pole')
 
+function updateLocation() {
+  location.value = 'South Pole'
 }
 
+provide('location', {
+  location,
+  updateLocation
+})
 </script>
+
+<style>
+
+</style>

@@ -84,7 +84,7 @@
 
               <v-window-item value="answer">
                 answer
-                <test></test>
+<!--                <test></test>-->
               </v-window-item>
 
 
@@ -162,7 +162,7 @@ import {
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
-import Test from '~~/components/test.vue'
+// import Test from '~~/components/test.vue'
 import {useRouter} from '#app'
 
 const userStore = useUserStore()
