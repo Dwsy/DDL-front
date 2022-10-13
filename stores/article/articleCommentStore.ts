@@ -96,8 +96,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             }
         },
 
-        async ReplyComment(replyUserId?: number, parentCommentId?: number,
-                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: number, replyUserCommentName?: string) {
+        async ReplyComment(replyUserId?: string, parentCommentId?: string,
+                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: string, replyUserCommentName?: string) {
             let text = null
             if (pIndexId !== undefined) {
                 if (cIndexId !== undefined) {
@@ -116,7 +116,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 return
             }
             if (parentCommentId === undefined) {
-                parentCommentId = 0
+                parentCommentId = '0'
             }
             let body: ReplyArticleCommentBody = {
                 articleFieldId: this.field.id,
@@ -157,7 +157,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                         createTime: time,
                         deleted: false,
                         downNum: 0,
-                        id: time,
+                        id: time.toString(),
                         lastModifiedTime: time,
                         parentCommentId: parentCommentId,
                         parentUser: replyUserId,
@@ -238,7 +238,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 }
             }
         },
-        async ActionComment(CommentType: commentType, cid: number, pIndexId: number, cIndexId?: number) {
+        async ActionComment(CommentType: commentType, cid: string, pIndexId: number, cIndexId?: number) {
             let body: ArticleCommentAction = {
                 actionCommentId: cid,
                 articleFieldId: this.field.id,
@@ -425,7 +425,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
 // }
 
 interface UserInfo {
-    id: number;
+    id: string;
     avatar: string;
     sign: string;
     gender: string;
@@ -433,28 +433,28 @@ interface UserInfo {
 }
 
 interface User {
-    id: number;
+    id: string;
     nickname: string;
     userInfo: UserInfo;
     level: number;
 }
 
 interface ArticleTags {
-    id: number;
+    id: string;
     name: string;
     articleNum: number;
     tagInfo: string;
 }
 
 interface ArticleGroup {
-    id: number;
+    id: string;
     name: string;
     info: string;
     articleNum: number;
 }
 
 interface ArticleField {
-    id: number;
+    id: string;
     createTime: number;
     lastModifiedTime: number;
     user: User;
@@ -473,7 +473,7 @@ interface ArticleField {
 
 //--
 interface UserInfo {
-    id: number;
+    id: string;
     avatar: string;
     sign: string;
     gender: string;
@@ -482,7 +482,7 @@ interface UserInfo {
 
 
 export interface CommentContent {
-    id: number;
+    id: string;
     deleted: boolean;
     createTime: number;
     lastModifiedTime: number;
@@ -490,9 +490,9 @@ export interface CommentContent {
     text: string;
     upNum: number;
     downNum: number;
-    parentUserId: number;
-    parentCommentId: number;
-    replyUserCommentId: number;
+    parentUserId: string;
+    parentCommentId: string;
+    replyUserCommentId: string;
     parentUser: any;
     childComments: CommentContent[];
     childCommentNum: number;

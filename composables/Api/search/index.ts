@@ -1,4 +1,3 @@
-import { e } from 'ohmyfetch/dist/error-d4c70d05'
 import http from '~~/utils/fetch'
 import {useGet} from '~/composables/useAxios'
 

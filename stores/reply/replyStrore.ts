@@ -35,17 +35,17 @@ export const useReplyStore = defineStore('replyNotify', {
 })
 
 export interface replyNotify {
-    id: number;
-    fromUserId: number;
-    toUserId: number;
-    articleId: number;
-    commentId: number;
-    questionId: number;
-    answerId: number;
+    id: string;
+    fromUserId: string;
+    toUserId: string;
+    articleId: string;
+    commentId: string;
+    questionId: string;
+    answerId: string;
     notifyType: number;
     formContent: string;
     toContent: string;
-    replayCommentId: number;
+    replayCommentId: string;
     notifyState: NotifyType;
     formUserAvatar: string
     formUserNickname: string

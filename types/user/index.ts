@@ -1,8 +1,8 @@
 interface userData {
-    id: number;
+    id: string;
     nickname: string;
     userInfo: {
-        id: number;
+        id: string;
         avatar: string;
         sign: string;
         gender: string;

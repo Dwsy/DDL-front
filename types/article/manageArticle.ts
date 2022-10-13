@@ -1,9 +1,9 @@
 export interface CreateArticleBody {
     allowComment: boolean;
-    articleGroupId: number;
-    articleId?: number;
+    articleGroupId: string;
+    articleId?: string;
     articleState: ArticleState;
-    articleTagIds: any[];
+    articleTagIds: string[];
     banner: string;
     content: string;
     summary: string;

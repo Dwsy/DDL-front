@@ -51,9 +51,9 @@ onMounted(async () => {
   selectionTag.value = 0
   // changeGroup(groupData[0].id)
 })
-const changeGroup = async (id: number) => {
+const changeGroup = async (id: string) => {
   // selectionGroup.value = id
-  if (id == 0) {
+  if (id == '0') {
     tags.value = (await useFetchGetArticleTagList()).data
     return
   }
@@ -62,7 +62,8 @@ const changeGroup = async (id: number) => {
   // console.log(selectionTag.value);
 
 }
-const changeTag = (id: Number) => {}
+const changeTag = (id: string) => {
+}
 
 
 </script>

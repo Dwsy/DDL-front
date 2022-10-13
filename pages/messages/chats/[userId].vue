@@ -28,7 +28,7 @@
           <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
             <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : '' }}</span>
           </div>
-
+<!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
           <div v-if="i.toUserId===uid">
             <div v-if="i.status===ChatRecordStatus.WITHDRAW">
               <div class="tips">
@@ -106,7 +106,7 @@ const route = useRoute()
 
 const chatsStore = useChatsStore()
 
-const uid = ref(0)
+const uid = ref('')
 
 const loading = ref(true)
 
@@ -164,10 +164,10 @@ onMounted(async () => {
     return
   }
   uid.value = user.user.id
-  let userId = route.params.userId
+  let userId = String(route.params.userId)
   chatsStore.chatRecord = []
   if (isNumber(userId)) {
-    await chatsStore.pullLastMessage(true, Number(userId))
+    await chatsStore.pullLastMessage(true, userId)
     loading.value = false
     document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
     await chatsStore.scrollBottom()

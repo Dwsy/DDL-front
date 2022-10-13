@@ -11,7 +11,7 @@
               <!--              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>-->
               {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>
               <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
-                <span class="text-subtitle-2 link" to="/tag"> /
+                <span class="text-subtitle-2 link"> /
                   {{ tag.name }}
                 </span>
               </nuxt-link>
@@ -80,7 +80,7 @@ export interface articleListData {
   createTime: String;
 }
 export interface UserInfo {
-  id: number;
+  id: string;
   avatar: string;
   sign: string;
   gender: string;
@@ -88,21 +88,21 @@ export interface UserInfo {
 }
 
 export interface User {
-  id: number;
+  id: string;
   nickname: string;
   userInfo: UserInfo;
   level: number;
 }
 
 export interface ArticleTag {
-  id: number;
+  id: string;
   name: string;
   articleNum: number;
   tagInfo: string;
 }
 
 export interface ArticleGroup {
-  id: number;
+  id: string;
   name: string;
   info: string;
   articleNum: number;

@@ -273,7 +273,7 @@
                                   <v-col>
 
 
-                                    <div v-if="childComment.replyUserCommentId===0">{{ childComment.text }}</div>
+                                    <div v-if="childComment.replyUserCommentId==='0'">{{ childComment.text }}</div>
 
                                     <div v-else
                                          v-html="atSrtGotoHome(childComment.text,childComment.parentUserId)"></div>
@@ -557,7 +557,7 @@ useLayout().showFooter = true
 
 //todo 移动端适配
 let route = useRoute()
-let aid = route.params.aid
+let aid = String(route.params.aid)
 
 let theme = useTheme()
 let user = useUserStore()
@@ -717,10 +717,10 @@ const newCollectionGroup = async () => {
 }
 const loadArticleCollectionState = async () => {
   console.log('loadArticleCollectionState')
-  const {data: articleCollectionStateData} = await useAxiosGetArticleCollectionState(Number(aid))
+  const {data: articleCollectionStateData} = await useAxiosGetArticleCollectionState(aid)
   articleCollectionState.value = articleCollectionStateData
 }
-const addCollectionToGroup = async (groupId: number, select: boolean) => {
+const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.Article,
     sourceId: articleStore.articleField.id,

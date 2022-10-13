@@ -11,7 +11,7 @@ export interface user {
 }
 
 export interface UserInfo {
-    id: number;
+    id: string;
     avatar: any;
     avatarNew?: any;
     level: number;
@@ -21,7 +21,7 @@ export interface UserInfo {
 }
 
 interface tokenMsg {
-    id: number;
+    id: string;
     username: string;
     nickname: string;
     // level: number;
@@ -33,7 +33,7 @@ export const useUserStore = defineStore('user', {
         return {
             IsLogin: ref<boolean>(false),
             user: {
-                id: 0,
+                id: '',
                 username: '',
                 nickname: '',
                 // level: 0

@@ -25,7 +25,7 @@
             </v-col>
             <v-col>
               <div class="mx-6 mt-6  text-end">
-                <v-btn to="/user/settings" v-if="useUserStore().user.id===Number(uid)">
+                <v-btn to="/user/settings" v-if="useUserStore().user.id===uid">
                   <div>编辑个人资料</div>
                 </v-btn>
                 <div v-else>
@@ -170,7 +170,7 @@ let userInfo = ref<UserInfo>()
 let user = ref<userData>()
 const route = useRoute()
 const router = useRouter()
-const uid = route.params.id
+const uid = String(route.params.id)
 const userNotFount = ref(false)
 const tab = ref(route.query.tab || 'dynamic')
 const followTab = ref('following')
@@ -182,7 +182,7 @@ const UserFollowerList = ref()
 onMounted(async () => {
   console.log('user id onMounted')
   setTimeout(async () => {
-    const {data: axiosResponse} = await useAxiosGetUserInfoByUid(Number(uid))
+    const {data: axiosResponse} = await useAxiosGetUserInfoByUid(uid)
     if (axiosResponse.code === 0) {
       userInfo.value = axiosResponse.data.userInfo
       user.value = axiosResponse.data

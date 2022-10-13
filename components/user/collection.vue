@@ -147,9 +147,9 @@ import {dateFilter} from '~/composables/useTools'
 
 const route = useRoute()
 const router = useRouter()
-const uid = Number(route.params.id)
+const uid = String(route.params.id)
 const collectionGroupList = ref<collectionGroup[]>()
-const gid = ref(Number(route.query.group) || null)
+const gid = ref(String(route.query.group) || null)
 console.log('??')
 onMounted(async () => {
   console.log('mounted collection')

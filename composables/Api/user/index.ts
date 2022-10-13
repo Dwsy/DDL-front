@@ -4,7 +4,7 @@ import {useGet, usePost} from '~/composables/useAxios'
 export const useAxiosGetUserInfo = () => {
     return useGet('user/info')
 }
-export const useAxiosGetUserInfoByUid = (uid: number) => {
+export const useAxiosGetUserInfoByUid = (uid: string) => {
     return useGet('user/info/' + uid)
 }
 

@@ -15,7 +15,7 @@ export interface articleListData {
 
 export interface UserInfo {
     avatarNew?: string
-    id: number;
+    id: string;
     avatar: string;
     sign: string;
     gender: string;
@@ -23,29 +23,29 @@ export interface UserInfo {
 }
 
 export interface User {
-    id: number;
+    id: string;
     nickname: string;
     userInfo: UserInfo;
     level: number;
 }
 
 export interface ArticleTag {
-    id: number;
+    id: string;
     name: string;
     articleNum: number;
     tagInfo: string;
 }
 
 export interface ArticleGroup {
-    id: number;
+    id: string;
     name: string;
     info: string;
     articleNum: number;
 }
 
 export interface collectionGroupData {
-    id: number;
-    userId: number;
+    id: string;
+    userId: string;
     groupName: string;
     collectionNum: number;
     groupOrder: number;
@@ -61,8 +61,8 @@ export interface collectionGroupData {
 //     private CollectionType collectionType;
 // }
 export interface collectionData {
-    groupId: number
-    sourceId: number
+    groupId: string
+    sourceId: string
     collectionType: collectionType
 }
 

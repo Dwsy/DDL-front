@@ -35,7 +35,6 @@ definePageMeta({
     mode: 'out-in',
   }
 })
-
 let user = useUserStore()
 let theme = useTheme()
 const layout = useLayout()

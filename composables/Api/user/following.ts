@@ -3,11 +3,11 @@ import {useDel, useGet, usePost} from '~/composables/useAxios'
 import {errorMsg, successMsg} from '~/composables/utils/toastification'
 
 
-export const useAxiosPostFollowUser = (fid: number) => {
+export const useAxiosPostFollowUser = (fid: string) => {
     return usePost('user/follow/following', {fid})
 }
 
-export const followUser = async (fid: number) => {
+export const followUser = async (fid: string) => {
     const {data: response} = await useAxiosPostFollowUser(fid)
     if (response.code === 0) {
         successMsg('关注成功')
@@ -16,7 +16,7 @@ export const followUser = async (fid: number) => {
     }
 }
 
-export const unFollowUser = async (fid: number) => {
+export const unFollowUser = async (fid: string) => {
     const {data: response} = await useAxiosPostUnFollowUser(fid)
     if (response.code === 0) {
         successMsg('取消关注成功')
@@ -25,7 +25,7 @@ export const unFollowUser = async (fid: number) => {
     }
 }
 
-export const useAxiosPostUnFollowUser = (fid: number) => {
+export const useAxiosPostUnFollowUser = (fid: string) => {
     return usePost('user/follow/unfollow', {fid})
 }
 

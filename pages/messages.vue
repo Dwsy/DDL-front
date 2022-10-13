@@ -54,7 +54,7 @@ definePageMeta({
   // key:route => route.fullPath
 })
 
-const chatsStore = useChatsStore()
+// const chatsStore = useChatsStore()
 const layout = useLayout()
 let items = [
   {text: '回复我的', icon: 'mdi-reply', to: '/messages/reply'},

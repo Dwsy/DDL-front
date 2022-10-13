@@ -51,8 +51,9 @@
 
 <script setup lang="ts">
 import {definePageMeta} from '#imports'
-import {useThumbStore, NotifyType} from '~/stores/thumb/thumbStrore'
 import {onMounted} from 'vue'
+import {useThumbStore, NotifyType} from '~/stores/thumb/thumbStrore'
+
 
 definePageMeta({
   keepalive: true,

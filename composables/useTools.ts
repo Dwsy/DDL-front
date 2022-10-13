@@ -91,7 +91,7 @@ export const xssFilter = (html) => {
     return divStub.innerHTML
 }
 
-export const atSrtGotoHome = (s: string, userId: number) => {
+export const atSrtGotoHome = (s: string, userId: string) => {
     let str = s.substring(s.indexOf('@'), s.indexOf('：') + 1)
     let linkStr = `<a class="d-gotoHome" href="/user/${userId}" target="_blank">${str}</a>`
     return s.replace(str, linkStr)

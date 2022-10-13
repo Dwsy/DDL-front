@@ -33,10 +33,10 @@ export const useAxiosGetArticleComment = (id, params?: { properties?: string, or
 
 //----
 export interface ReplyArticleCommentBody {
-    articleFieldId: number;
-    parentCommentId: number;
-    replyUserId: number;
-    replyUserCommentId: number
+    articleFieldId: string;
+    parentCommentId: string;
+    replyUserId: string;
+    replyUserCommentId: string
     text: string;
 }
 
@@ -48,9 +48,9 @@ export const useAxiosPostReplyArticleComment = (body: ReplyArticleCommentBody) =
 
 //----
 export interface ArticleCommentAction {
-    actionCommentId: number;
-    actionUserId?: number;
-    articleFieldId: number;
+    actionCommentId: string;
+    actionUserId?: string;
+    articleFieldId: string;
     commentType?: commentType;
 }
 
@@ -60,7 +60,7 @@ export enum commentType {
     upToDown, downToUp
 }
 
-export const useAxiosGetArticleAction = (aid: number) => {
+export const useAxiosGetArticleAction = (aid: string) => {
     return useGet('article/article/field/action/' + aid, null)
 }
 
@@ -102,7 +102,7 @@ export const useAxiosCancelCollectionToGroup = (body: collectionData) => {
     return useDel('user/collection/', body)
 }
 
-export const useAxiosGetArticleCollectionState = (articleId: number) => {
+export const useAxiosGetArticleCollectionState = (articleId: string) => {
     return useGet('user/collection/state', {
         sourceId: articleId,
         type: 'Article'

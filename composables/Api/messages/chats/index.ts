@@ -11,21 +11,21 @@ export interface GetMessageParam {
     size?: number
 }
 
-export const UseAxiosGetHistoryMessage = (toUserId: number, params?: GetMessageParam) => {
+export const UseAxiosGetHistoryMessage = (toUserId: string, params?: GetMessageParam) => {
 
     return useGet('message/private/message/pull/' + toUserId, params)
 }
-export const UseAxiosGetMessageByLatestId = (toUserId: number, params?: GetMessageParam) => {
+export const UseAxiosGetMessageByLatestId = (toUserId: string, params?: GetMessageParam) => {
 
     return useGet('message/private/message/pull/' + toUserId, params)
 }
 
-export const UseAxiosPostReadMessageById = (id: number) => {
+export const UseAxiosPostReadMessageById = (id: string) => {
 
     return usePost('message/private/message/read/' + id)
 }
 
-export const UseAxiosSendMessage = (content: string, toUserId: number) => {
+export const UseAxiosSendMessage = (content: string, toUserId: string) => {
     const body = {
         content,
         toUserId

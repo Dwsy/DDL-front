@@ -1,6 +1,6 @@
 export interface collectionGroup {
-    id: number;
-    userId: number;
+    id: string;
+    string: number;
     groupName: string;
     collectionNum: number;
     groupOrder: number;
@@ -9,10 +9,10 @@ export interface collectionGroup {
 }
 
 export interface UserCollection {
-    id: number;
-    userId: number;
+    id: string;
+    userId: string;
     collectionType: CollectionType;
-    sourceId: number;
+    sourceId: string;
     sourceTitle: string;
     createTime: number
 }

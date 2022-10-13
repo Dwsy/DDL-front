@@ -141,12 +141,12 @@ const loadingMore = async () => {
 <script lang="ts">
 
 export interface TagList {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface searchContent {
-  id: number;
+  id: string;
   userId: string;
   userNickName: string;
   title: string;

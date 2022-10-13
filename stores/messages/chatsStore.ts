@@ -10,32 +10,32 @@ import {useUserStore} from '~/stores/user'
 import {urlToLink} from '~/composables/useTools'
 
 interface ChatsStore {
-    chatsList: ChatsListData[]
+    chatsList: Ref<ChatsListData[]>
     chatRecord: Ref<Array<ChatRecord>>
     chatRecordPage: number
-    chatsToUserId: number
+    chatsToUserId: string
     chatUserNickname: string
     totalPages: number
     sendMsg: string
     chatUserAvatar: number
-    chatWsMap: Map<number, WebSocket>
-    chatWsMsgUnreadNum: Map<number, number>
+    chatWsMap: Map<string, WebSocket>
+    chatWsMsgUnreadNum: Map<string, number>
     auth: boolean
 }
 
 export const useChatsStore = defineStore('chats', {
     state: (): ChatsStore => {
         return {
-            chatsList: [],
+            chatsList: ref<ChatsListData[]>(),
             chatRecord: ref<Array<ChatRecord>>(),
             chatRecordPage: 0,
-            chatsToUserId: 0,
+            chatsToUserId: '0',
             chatUserNickname: '',
             chatUserAvatar: 0,
             totalPages: 0,
             sendMsg: '',
-            chatWsMap: new Map<number, WebSocket>(),
-            chatWsMsgUnreadNum: new Map<number, number>(),
+            chatWsMap: new Map<string, WebSocket>(),
+            chatWsMsgUnreadNum: new Map<string, number>(),
             auth: false
         }
     },
@@ -65,7 +65,7 @@ export const useChatsStore = defineStore('chats', {
             // }
 
         },
-        async pullLastMessage(init: boolean, toUserId?: number, latest?: number) {
+        async pullLastMessage(init: boolean, toUserId?: string, latest?: number) {
             console.log('拉取消息', init, toUserId, latest)
             if (init) {
                 console.log('init')
@@ -125,15 +125,15 @@ export const useChatsStore = defineStore('chats', {
             if (toUserId == undefined) {
                 toUserId = this.chatsToUserId
             }
-            if (user.user.id < toUserId) {
+            if (Number(user.user.id) < Number(toUserId)) {
                 conversationId = user.user.id + '_' + toUserId
             } else {
                 conversationId = toUserId + '_' + user.user.id
             }
             console.log(conversationId)
             let auth = false
-            // let wsPath = 'ws://localhost:7050/private/message/'
-            let wsPath = 'ws://192.168.5.11:7050/private/message/'
+            let wsPath = 'ws://localhost:7050/private/message/'
+            // let wsPath = 'ws://192.168.5.11:7050/private/message/'
             if (this.chatWsMap.has(toUserId)) {
                 // console.log('已经存在连接')
                 return
@@ -301,7 +301,7 @@ export const useChatsStore = defineStore('chats', {
             }
 
         },
-        async readMsg(id: number) {
+        async readMsg(id: string) {
             if (!await UseAxiosPostReadMessageById(id)) {
                 errorMsg('标记已读失败')
                 return
@@ -327,14 +327,14 @@ interface Response {
 
 
 interface ChatRecord {
-    id: number;
+    id: string;
     deleted: boolean;
     createTime: number;
     lastModifiedTime: number;
-    formUserId: number;
-    toUserId: number;
+    formUserId: string;
+    toUserId: string;
     chatUserNickname: any;
-    chatUserId: number;
+    chatUserId: string;
     chatUserAvatar: any;
     content: string;
     status: ChatRecordStatus;
@@ -345,14 +345,14 @@ export enum ChatRecordStatus {
 }
 
 interface ChatsListData {
-    id: number
+    id: string
     deleted: boolean
     createTime: number
     lastModifiedTime: number
-    formUserId: number
-    toUserId: number
+    formUserId: string
+    toUserId: string
     chatUserNickname: string
-    chatUserId: number
+    chatUserId: string
     chatUserAvatar: string
     content: string
     status: string

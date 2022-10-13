@@ -27,25 +27,108 @@
               </v-btn>
             </template>
 
-            <v-card min-width="300">
-              <!--              <v-list>-->
-              <!--                <v-list-item-->
-              <!--                    prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"-->
-              <!--                    title="John Leider"-->
-              <!--                    subtitle="Founder of Vuetify"-->
-              <!--                >-->
-              <!--                  <template v-slot:append>-->
-              <!--                    <v-btn-->
-              <!--                        variant="text"-->
-              <!--                        :class="fav ? 'text-red' : ''"-->
-              <!--                        icon="mdi-heart"-->
-              <!--                        @click="fav = !fav"-->
-              <!--                    ></v-btn>-->
-              <!--                  </template>-->
-              <!--                </v-list-item>-->
-              <!--              </v-list>-->
+            <v-card min-width="550">
+              <div class="px-4 pt-2 ">
+                <div class="text-subtitle-1">
+                  {{ isNew ? '发布' : '更新' }}文章
+                </div>
+                <v-divider class="mb-3"></v-divider>
 
-              <v-divider></v-divider>
+                <v-row>
+                  <span class="pt-3 px-4 text-body-1">分类:</span>
+                  <v-chip-group mandatory v-if="articleGroupList"
+                                v-bind:model-value="articleGroupId">
+                    <v-chip v-for="g in articleGroupList" :key="g.id" :value="g.id"
+                            @click="()=>{this.articleGroupId=g.id}" filter="true">
+                      {{ g.name }}
+                    </v-chip>
+                  </v-chip-group>
+                </v-row>
+                <v-divider class="my-3"></v-divider>
+                <v-row>
+                  <span class="pt-3 px-4 text-body-1">标签:</span>
+                  {{ articleTagIds }}
+                  <v-card>
+                    <v-card-title>
+                      Search for Public APIs
+                    </v-card-title>
+
+                    <v-card-text>
+                      Explore hundreds of free API's ready for consumption! For more information visit
+                      <a
+                          class="text-grey-lighten-3"
+                          href="https://github.com/toddmotto/public-apis"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >the GitHub repository</a>.
+                    </v-card-text>
+
+                    <v-card-text>
+                      <v-autocomplete
+                          v-model="model"
+                          v-model:search="search"
+                          :items="items"
+                          :loading="isLoading"
+                          hide-no-data
+                          hide-selected
+                          item-title="Description"
+                          item-value="API"
+                          label="Public APIs"
+                          placeholder="Start typing to Search"
+                          prepend-icon="mdi-database-search"
+                          return-object
+                      ></v-autocomplete>
+                    </v-card-text>
+
+                    <v-divider></v-divider>
+
+                    <v-expand-transition>
+                      <div v-if="model">
+                        <v-list color="red-lighten-3">
+                          <v-list-item
+                              v-for="(field, i) in fields"
+                              :key="i"
+                          >
+                            <v-list-item-header>
+                              <v-list-item-title>{{ field.value }}</v-list-item-title>
+
+                              <v-list-item-subtitle>{{ field.key }}</v-list-item-subtitle>
+                            </v-list-item-header>
+                          </v-list-item>
+                        </v-list>
+                      </div>
+                    </v-expand-transition>
+
+                    <v-divider v-if="model"></v-divider>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+
+                      <v-btn
+                          :disabled="!model"
+                          variant="outlined"
+                          @click="model = null"
+                      >
+                        Clear
+
+                        <v-icon end>
+                          mdi-close-circle
+                        </v-icon>
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                  <!--                  <v-chip-group multiple v-if="articleTagIds"-->
+                  <!--                                v-bind:model-value="articleTagIds">-->
+                  <!--                    <v-chip v-for="tag in articleTagList" :key="tag.id" :value="tag.id"-->
+                  <!--                            @click="()=>{}" closable="true" close-icon="mdi-close-circle-outline">-->
+                  <!--                      {{ tag.name }}-->
+                  <!--                    </v-chip>-->
+                  <!--                  </v-chip-group>-->
+                </v-row>
+              </div>
+
+
+              <v-divider class="mt-4"></v-divider>
 
               <!--              <v-list>-->
               <!--                <v-list-item>-->
@@ -68,19 +151,10 @@
               <!--              </v-list>-->
 
               <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn
-                    text
-                    @click="menu = false"
-                >
+                <v-btn text @click="menu = false">
                   取消
                 </v-btn>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="menu = false"
-                >
+                <v-btn color="primary" text @click="menu = false">
                   确定
                 </v-btn>
               </v-card-actions>
@@ -89,7 +163,7 @@
         </client-only>
       </div>
       <v-avatar class="mr-8" size="large">
-        <v-img :src="articleFieldData.user.userInfo.avatar"></v-img>
+        <v-img :src="articleFieldData?.user.userInfo.avatar"></v-img>
       </v-avatar>
     </v-row>
     <BytemdEditor :content="content" @change-text="changeText"></BytemdEditor>
@@ -108,8 +182,8 @@ import {
 } from '~/composables/Api/article/manageArticle'
 import {ArticleField} from '~/stores/article/articleStore'
 import {ArticleSource, ArticleState, CreateArticleBody} from '~/types/article/manageArticle'
-import {ArticleGroup} from '~/types/article'
-import {definePageMeta} from '#imports'
+import {ArticleGroup, ArticleTag} from '~/types/article'
+import {definePageMeta, useFetchGetArticleGroupList} from '#imports'
 // import breaks from '@bytemd/plugin-breaks'
 // import highlight from '@bytemd/plugin-highlight'
 // import footnotes from '@bytemd/plugin-footnotes'
@@ -122,16 +196,18 @@ definePageMeta({
 })
 const route = useRoute()
 const isNew = ref(false)
+const menu = ref(false)
 const content = ref('')
-const afId = ref(0)
+const afId = ref('')
 const articleFieldData = ref<ArticleField>()
 const title = ref('')
-const articleGroupId = ref(0)
-const articleTagIds = ref<number[]>()
+const selectionGroup = ref(1)
+const articleGroupId = ref('')
+const articleTagIds = ref([])
 const banner = ref('')
 const summary = ref('')
 const articleGroupList = ref<ArticleGroup[]>()
-const articleTagList = ref<ArticleGroup[]>()
+const articleTagList = ref<ArticleTag[]>()
 const articleSource = ref<ArticleSource>()
 const articleSourceUrl = ref(null)
 onMounted(async () => {
@@ -141,7 +217,7 @@ onMounted(async () => {
     // articleFieldData.value.title = ''
   } else {
     if (route.query.id) {
-      afId.value = Number(route.query.id)
+      afId.value = String(route.query.id)
       const {data: ArticleFieldResponse} = await useAxiosGetArticleField(afId.value)
       if (ArticleFieldResponse.code === 0) {
         articleFieldData.value = ArticleFieldResponse.data
@@ -149,11 +225,18 @@ onMounted(async () => {
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
           title.value = articleFieldData.value.title
+          articleGroupId.value = articleFieldData.value.articleGroup.id
+          articleTagList.value = articleFieldData.value.articleTags
+          articleFieldData.value.articleTags.forEach((tag) => {
+            articleTagIds.value.push(tag.id)
+          })
         }
       }
 
     }
   }
+  const {data: groupData} = await useFetchGetArticleGroupList()
+  articleGroupList.value = groupData
 
 })
 
@@ -199,14 +282,66 @@ const updateArticle = () => {
 <script lang="ts">
 export default {
   data: () => ({
-    fav: true,
-    menu: false,
-    message: false,
-    hints: true,
+    descriptionLimit: 60,
+    entries: [],
+    isLoading: false,
+    model: null,
+    search: null,
   }),
+
+  computed: {
+    fields() {
+      if (!this.model) return []
+
+      return Object.keys(this.model).map(key => {
+        return {
+          key,
+          value: this.model[key] || 'n/a',
+        }
+      })
+    },
+    items() {
+      return this.entries.map(entry => {
+        const Description = entry.Description.length > this.descriptionLimit
+            ? entry.Description.slice(0, this.descriptionLimit) + '...'
+            : entry.Description
+
+        return Object.assign({}, entry, {Description})
+      })
+    },
+  },
+
+  watch: {
+    search(val) {
+      // Items have already been loaded
+      if (this.items.length > 0) return
+
+      // Items have already been requested
+      if (this.isLoading) return
+
+      this.isLoading = true
+
+      // Lazily load input items
+      fetch('https://api.publicapis.org/entries')
+          .then(res => res.json())
+          .then(res => {
+            const {entries} = res
+            this.entries = entries.slice(0, 100)
+            this.count = 100
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .finally(() => (this.isLoading = false))
+    },
+  },
+
+
 }
 </script>
 
 <style scoped>
-
+.v-chip--selected {
+  color: #9b59b6;
+}
 </style>

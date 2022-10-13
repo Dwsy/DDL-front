@@ -6,11 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import 'bytemd/dist/index.css'
-import 'highlight.js/styles/vs.css'
-import 'juejin-markdown-themes/dist/devui-blue.min.css'
-import {Editor} from '@bytemd/vue-next'
-import zhHans from 'bytemd/locales/zh_Hans.json'
 import footnotes from '@bytemd/plugin-footnotes'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import gfm from '@bytemd/plugin-gfm'
@@ -23,6 +18,12 @@ import mermaid from '@bytemd/plugin-mermaid'
 import {onMounted, reactive, ref, watch} from 'vue'
 import {useAxiosPostUploadImg} from '~/composables/Api/article/manageArticle'
 import {successMsg, warningMsg} from '~/composables/utils/toastification'
+import {Editor} from '@bytemd/vue-next'
+import zhHans from 'bytemd/locales/zh_Hans.json'
+import 'bytemd/dist/index.css'
+import 'highlight.js/styles/vs.css'
+import 'juejin-markdown-themes/dist/devui-blue.min.css'
+
 
 let props = defineProps({
   content: {

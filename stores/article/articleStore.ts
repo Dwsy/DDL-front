@@ -54,7 +54,7 @@ export const useArticleStore = defineStore('ArticleStore', {
         },
         async ActionArticle(CommentType: commentType) {
             const body = {
-                actionCommentId: -1,//-1代表对文章的操作
+                actionCommentId: '-1',//-1代表对文章的操作
                 articleFieldId: this.articleField.id,
                 commentType: CommentType,
             }
@@ -133,7 +133,7 @@ interface Iarticle {
 
 
 interface UserInfo {
-    id: number;
+    id: string;
     avatar: string;
     sign: string;
     gender: string;
@@ -141,28 +141,28 @@ interface UserInfo {
 }
 
 interface User {
-    id: number;
+    id: string;
     nickname: string;
     userInfo: UserInfo;
     level: number;
 }
 
 interface ArticleTags {
-    id: number;
+    id: string;
     name: string;
     articleNum: number;
     tagInfo: string;
 }
 
 interface ArticleGroup {
-    id: number;
+    id: string;
     name: string;
     info: string;
     articleNum: number;
 }
 
 export interface ArticleField {
-    id: number;
+    id: string;
     createTime: number;
     lastModifiedTime: number;
     user: User;
@@ -175,7 +175,7 @@ export interface ArticleField {
     upNum: number;
     downNum: number;
     banner: string;
-    articleTags: ArticleTags;
+    articleTags: ArticleTags[];
     articleGroup: ArticleGroup;
     //自定义
     thumb: commentType;
@@ -185,7 +185,7 @@ export interface ArticleField {
 
 //--
 interface UserInfo {
-    id: number;
+    id: string;
     avatar: string;
     sign: string;
     gender: string;
@@ -194,7 +194,7 @@ interface UserInfo {
 
 
 // interface CommentContent {
-//     id: number;
+//     id: string;
 //     deleted: boolean;
 //     createTime: number;
 //     lastModifiedTime: number;
