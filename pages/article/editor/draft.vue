@@ -1,8 +1,9 @@
 <template>
-  <div class="mt-6" v-if="articleGroupId">
+  <div class="mt-6">
+    <!--  <div class="mt-6" v-if="articleGroupId">-->
     <v-row>
-      <v-text-field class="ml-5 " v-model="title" placeholder="输入文章标题..." label="标题"
-                    prepend-icon="mdi-format-title" variant="underlined" clearable>
+      <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
+                    variant="underlined" clearable>
       </v-text-field>
       <div class="mt-2 mr-4">
         <v-btn>手动保存</v-btn>
@@ -18,7 +19,8 @@
           >
             <template v-slot:activator="{ props }">
               <v-btn v-if="isNew" color="blue"
-                     @click="send()">发布
+                     v-bind="props" @click="send()">
+                发布
               </v-btn>
               <v-btn v-else color="#42b732" v-bind="props"
                      class="text-white" @click="send()">
@@ -78,8 +80,8 @@
                         return-object
                         variant="underlined" v-model="articleSourceItem"
               ></v-select>
-              <!--              {{ articleSourceItem }}-->
-              <!--              {{ articleSource }}-->
+              {{ articleSourceItem }}
+              {{ articleSource }}
               <v-text-field v-if="articleSource!==ArticleSource.original"
                             label="来源文章URL" variant="outlined" class="mx-2">
               </v-text-field>
@@ -104,7 +106,7 @@
         </client-only>
       </div>
       <v-avatar class="mr-8" size="large">
-        <v-img :src="articleFieldData?.user.userInfo.avatar"></v-img>
+        <v-img :src="useUserStore().userInfo?.avatar"></v-img>
       </v-avatar>
     </v-row>
     <BytemdEditor :content="content" @change-text="changeText"></BytemdEditor>
@@ -157,8 +159,8 @@ const articleGroupId = ref('')
 const articleTagIds = ref([])
 const banner = ref('')
 const summary = ref('')
-const articleGroupList = ref<ArticleGroup[]>()
-const articleTagList = ref<ArticleTag[]>()
+const articleGroupList = ref<ArticleGroup[]>([])
+const articleTagList = ref<ArticleTag[]>([])
 provide('tagList', {articleTagList})
 const bannerFile = ref<File[]>()
 const disableUploadBtn = ref(true)
@@ -174,6 +176,8 @@ const articleSourceItem = ref<{ text: string, value: ArticleSource }>()
 const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
   return {text: ArticleSourceZh[key], value: key}
 })
+const {data: groupData} = await useFetchGetArticleGroupList()
+articleGroupList.value = groupData
 onMounted(async () => {
   if (route.query.new) {
     isNew.value = true
@@ -210,22 +214,20 @@ onMounted(async () => {
             value: articleFieldData.value.articleSource
           }
           articleSourceUrl.value = articleFieldData.value.articleSourceUrl
-          watchEffect(() => {
-            articleSource.value = articleSourceItem.value.value
-          })
+
         }
       }
     }
   }
+  watchEffect(() => {
+    articleSource.value = articleSourceItem.value.value
+  })
   // watchEffect(() => {
   //   console.log('articleTagList', articleTagList.value)
   //   articleTagList.value.forEach((tag) => {
   //     articleTagIds.value.push(tag.id)
   //   })
   // })
-
-  const {data: groupData} = await useFetchGetArticleGroupList()
-  articleGroupList.value = groupData
   watch(bannerFile, () => {
     disableUploadBtn.value = bannerFile.value.length <= 0
   })
@@ -367,13 +369,32 @@ const cancelChange = () => {
   articleSource.value = beforeChangeState.articleSource
   articleSourceUrl.value = beforeChangeState.articleSourceUrl
 }
+const editorTitleInputLabelFontSize = ref('130%')
+// v-field--active
+onMounted(() => {
+  const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
+  const observer = new MutationObserver((e) => {
+    if (editorTitleInput.classList.contains('v-field--active')) {
+      editorTitleInputLabelFontSize.value = '80%'
+    } else {
+      editorTitleInputLabelFontSize.value = '130%'
+    }
+  })
+  observer.observe(editorTitleInput, {
+    attributes: true
+  })
+})
 </script>
 <script lang="ts">
 
 </script>
 
 <style scoped>
-.v-chip--selected {
+:deep(.v-chip--selected) {
   color: #9b59b6;
+}
+
+:deep(.d-editor-title label) {
+  font-size: v-bind('editorTitleInputLabelFontSize');
 }
 </style>
