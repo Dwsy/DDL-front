@@ -25,7 +25,8 @@ Axios.interceptors.request.use(
         // let token = window.localStorage.getItem("token")
         const flag: any = config || {}
         // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
-        if (Boolean(token)) {
+
+        if (Boolean(token) && !config.url.includes('qiniu.dwsy.link')) {
             flag.headers['Authorization'] = 'Bearer ' + token
             // if (!useUser.IsLogin) {
             //   console.log("ads");
@@ -71,7 +72,7 @@ Axios.interceptors.response.use(
 
 
 export const useGet = async (url: string, params?: object) => {
-    let r = undefined
+    let r: AxiosResponse = undefined
     try {
         r = await Axios.get(url, {params: params})
     } catch (error) {

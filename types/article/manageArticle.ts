@@ -14,8 +14,11 @@ export interface CreateArticleBody {
 
 export enum ArticleState {
     draft = ('draft'),
-    open = ('open'),
+    published = ('published'),
     hide = ('hide'),
+    auditing = ('auditing'),
+    rejected = ('rejected'),
+    all = ('all')
 }
 
 export enum ArticleSource {
@@ -38,4 +41,11 @@ export interface TagSuggestion {
     indexPageDisplay: boolean;
 }
 
-
+export interface GetUserArticleListParams {
+    order?: string;
+    properties?: string;
+    page?: number;
+    size?: number;
+    state: ArticleState;
+    tagId?: string;
+}

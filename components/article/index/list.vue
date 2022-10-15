@@ -33,7 +33,9 @@
               </v-row>
             </v-col>
             <v-col offset="2">
-              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"
+              <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
+              <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
+                     transition="slide-y-reverse-transition"
                      max-height="150" class="my-n3" :aspect-ratio="1"></v-img>
             </v-col>
           </v-row>
@@ -46,6 +48,7 @@
 <script setup lang=ts >
 import {dateFilter} from '#imports'
 import {articleListData} from '~/types/article'
+import {onMounted} from 'vue'
 
 //todo 改用pinia
 // import { articleListData } from '~~/types/article';
@@ -55,9 +58,7 @@ let imgList = ['https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.j
   'https://tva1.sinaimg.cn/large/005NWBIgly1go8137joftj30pc0oe75u.jpg',
   'https://tva1.sinaimg.cn/large/005NWBIgly1go8137mdujj30k70k70x2.jpg',
 ]
-
 defineProps<articleListData>(
-
 )
 
 

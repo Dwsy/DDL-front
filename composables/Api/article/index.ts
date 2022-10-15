@@ -11,6 +11,11 @@ export const useFetchGetArticleList = (params?:
     return http.GET('article/article/field/list', params)
 }
 
+export const useAxiosGetArticleList = (params?:
+                                           { size?: number, page?: number, tagId?: string, order?: string, properties?: string }) => {
+    return useGet('article/article/field/list', params)
+}
+
 export const useFetchGetArticleField = (id) => {
     return http.GET('article/article/field/' + id, null)
 }

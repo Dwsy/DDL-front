@@ -1,7 +1,5 @@
 <template>
-  <div>
-    home//数据统计
-  </div>
+
 </template>
 
 <script setup lang="ts">

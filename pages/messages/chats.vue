@@ -35,11 +35,11 @@
         </v-list>
 
       </v-col>
-      <v-divider vertical></v-divider>
+      <v-divider vertical="true"></v-divider>
       <v-col>
         <NuxtPage/>
       </v-col>
-      <v-divider vertical></v-divider>
+      <v-divider vertical="true"></v-divider>
       <!--        <v-col cols="1">-->
       <!--          3-->
       <!--        </v-col>-->

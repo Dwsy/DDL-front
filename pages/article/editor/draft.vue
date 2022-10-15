@@ -1,5 +1,6 @@
 <template>
   <div class="mt-6">
+    {{ banner }}
     <!--  <div class="mt-6" v-if="articleGroupId">-->
     <v-row>
       <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
@@ -59,6 +60,7 @@
 
 
               <v-row style="width: 90%" class="ml-8 ">
+                {{ disableUploadBtn }}
                 <v-file-input label="选择文章头图" variant="underlined"
                               density="compact" prepend-icon="mdi-camera"
                               v-model="bannerFile"
@@ -180,8 +182,16 @@ const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
 const {data: groupData} = await useFetchGetArticleGroupList()
 articleGroupList.value = groupData
 onMounted(async () => {
-  if (route.query.new) {
+  const routeNew = route.query.new
+
+  if (routeNew === undefined || routeNew) {
     isNew.value = true
+    await router.push({
+      query: {
+        new: 'true'
+      }
+    })
+    // disableUploadBtn.value = false
     // articleFieldData.value = null
     // articleFieldData.value.title = ''
   } else {
@@ -221,7 +231,9 @@ onMounted(async () => {
     }
   }
   watchEffect(() => {
-    articleSource.value = articleSourceItem.value.value
+    if (articleSourceItem.value) {
+      articleSource.value = articleSourceItem.value.value
+    }
   })
   // watchEffect(() => {
   //   console.log('articleTagList', articleTagList.value)
@@ -230,6 +242,8 @@ onMounted(async () => {
   //   })
   // })
   watch(bannerFile, () => {
+    console.log('http://qiniu.dwsy.link/ddl/3073d30591b445ba87be378fdb080a96.jpg')
+    console.log(bannerFile.value)
     disableUploadBtn.value = bannerFile.value.length <= 0
     const reader = new FileReader()
     const file = bannerFile.value[0]

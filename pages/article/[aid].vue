@@ -1,5 +1,5 @@
 <template>
-  <div class="v-container">
+  <div class="v-container abc" v-if="ArticleField.data">
     <v-row class="article-content">
 
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
@@ -537,7 +537,7 @@ import {
   useFetchGetArticleField
 } from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
-import {definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
+import {createError, definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'
@@ -548,6 +548,7 @@ import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {useLayout} from '~/stores/layout'
+import {useRouter} from '#app'
 
 
 definePageMeta({
@@ -561,12 +562,22 @@ let aid = String(route.params.aid)
 
 let theme = useTheme()
 let user = useUserStore()
-
+const router = useRouter()
 let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
 
 let ArticleField = await useFetchGetArticleField(aid)
 articleStore.articleField = ArticleField.data
+if (ArticleField.data == undefined) {
+  router.push('/article')
+  // throw createError({
+  //   statusCode: 404,
+  //   statusMessage: '未找到文章',
+  //   data: 'data',
+  //   fatal: true,
+  //   message: 'Unauthorized'
+  // })
+}
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 

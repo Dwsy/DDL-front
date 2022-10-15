@@ -1,5 +1,5 @@
 import {useDel, useGet, usePost, usePut} from '~/composables/useAxios'
-import {CreateArticleBody, TagSuggestion} from '~/types/article/manageArticle'
+import {CreateArticleBody, GetUserArticleListParams, TagSuggestion} from '~/types/article/manageArticle'
 import http from '~/utils/fetch'
 import {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {ResponseData} from '~/types/utils/axios'
@@ -31,4 +31,12 @@ export const useAxiosPostUploadImg = (file) => {
 //todo 对象解构泛型丢失
 export const useAxiosGetTagSuggestion = (query): Promise<AxiosResponse<ResponseData<TagSuggestion[]>, any>> => {
     return useGet('search/article/tag/suggestion/' + query)
+}
+
+export const useAxiosGetUserArticleList = (params?: GetUserArticleListParams) => {
+    return useGet('article/article/manage/field/list', params)
+}
+
+export const useAxiosGetArticleCountByState = () => {
+    return useGet('article/article/manage/field/num')
 }

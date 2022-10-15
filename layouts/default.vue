@@ -2,7 +2,7 @@
 
   <v-app>
 
-      <slot name="appbar"></slot>
+    <slot name="appbar"></slot>
 
 
     <v-navigation-drawer v-model="layout.drawer">
@@ -11,11 +11,12 @@
     </v-navigation-drawer>
 
     <v-main>
-      <v-container id="main-container" class="box">
+      <!--      id="main-container"-->
+      <v-container fluid id="main-container" class="box">
         <slot/>
         <slot name="footer"></slot>
       </v-container>
-      
+
     </v-main>
 
 
@@ -24,6 +25,7 @@
 
 </template>
 <script setup lang="ts">
-import { useLayout } from '~~/stores/layout';
+import {useLayout} from '~~/stores/layout'
+
 let layout = useLayout()
 </script>
