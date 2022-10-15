@@ -135,6 +135,7 @@ import {
 } from '#imports'
 import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
+import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
 // import breaks from '@bytemd/plugin-breaks'
 // import highlight from '@bytemd/plugin-highlight'
 // import footnotes from '@bytemd/plugin-footnotes'
@@ -230,6 +231,12 @@ onMounted(async () => {
   // })
   watch(bannerFile, () => {
     disableUploadBtn.value = bannerFile.value.length <= 0
+    const reader = new FileReader()
+    const file = bannerFile.value[0]
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      localBannerImg.value = reader.result
+    }
   })
 })
 const rules = {
@@ -346,15 +353,15 @@ const uploadBannerFile = async () => {
   const {data: response} = await useAxiosPostUploadImg(file)
   bannerFileUploading.value = false
   if (response.code === 0) {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      banner.value = 'https://' + response.data + '?imageslim'
-      localBannerImg.value = reader.result
+    const imgUrl = 'https://' + response.data + '?imageslim'
+    const imgBase64 = await getUploadPictureBase64AndAudit(imgUrl, '图片违规上传失败')
+    if (imgBase64) {
+      banner.value = imgUrl
+      localBannerImg.value = imgBase64
+      lastUploadFileName = file.name
+      defaultMsg('上传成功')
+    } else {
     }
-    lastUploadFileName = file.name
-    defaultMsg('上传成功')
-
   } else {
     warningMsg('上传失败')
   }
