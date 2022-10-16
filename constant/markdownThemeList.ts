@@ -1,8 +1,14 @@
 import 'juejin-markdown-themes/dist/vue-pro'
 import {MarkdownTheme, MarkdownThemeNameList} from '~/types/other/markdownTheme'
 
+const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
 export const changeThemes = async (markdownTheme: MarkdownTheme) => {
     let css = null
+
+
+    // console.log(await import('~~/constant/mwebMarkDownThemes/dark/ayuMirage'))
+
+    console.log('markdownTheme.name', markdownTheme.name)
     switch (markdownTheme.name) {
         case 'smartblue':
             css = await import ('juejin-markdown-themes/dist/smartblue')
@@ -70,9 +76,86 @@ export const changeThemes = async (markdownTheme: MarkdownTheme) => {
         case 'Chinese-red':
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
             break
+        //--------------
+        case 'ayuMirage':
+            css = await import('~~/constant/MarkDownThemes/dark/ayuMirage')
+            break
+        case 'charcoal':
+            css = await import('~~/constant/MarkDownThemes/dark/charcoal')
+            break
+        case 'cobalt':
+            css = await import('~~/constant/MarkDownThemes/dark/cobalt')
+            break
+        case 'darkGraphite':
+            css = await import('~~/constant/MarkDownThemes/dark/darkGraphite')
+            break
+        case 'dieci':
+            css = await import('~~/constant/MarkDownThemes/dark/dieci')
+            break
+        case 'dracula':
+            css = await import('~~/constant/MarkDownThemes/dark/dracula')
+            break
+        case 'lighthouse':
+            css = await import('~~/constant/MarkDownThemes/dark/lighthouse')
+            break
+        case 'nord':
+            css = await import('~~/constant/MarkDownThemes/dark/nord')
+            break
+        case 'panic':
+            css = await import('~~/constant/MarkDownThemes/dark/panic')
+            break
+        case 'gotham':
+            css = await import('~~/constant/MarkDownThemes/dark/gotham')
+            break
+        case 'solarizedDark':
+            css = await import('~~/constant/MarkDownThemes/dark/solarizedDark')
+            break
+        case 'toothpaste':
+            css = await import('~~/constant/MarkDownThemes/dark/toothpaste')
+            break
+        case 'ayu':
+            css = await import('~~/constant/MarkDownThemes/light/ayu')
+            break
+        case 'contrast':
+            css = await import('~~/constant/MarkDownThemes/light/contrast')
+            break
+        case 'dBoring':
+            css = await import('~~/constant/MarkDownThemes/light/dBoring')
+            break
+        case 'duotoneHeat':
+            css = await import('~~/constant/MarkDownThemes/light/duotoneHeat')
+            break
+        case 'indigo':
+            css = await import('~~/constant/MarkDownThemes/light/indigo')
+            break
+        case 'larkBoldColor':
+            css = await import('~~/constant/MarkDownThemes/light/larkBoldColor')
+            break
+        case 'gandalf':
+            css = await import('~~/constant/MarkDownThemes/light/gandalf')
+            break
+        case 'lark':
+            css = await import('~~/constant/MarkDownThemes/light/lark')
+            break
+        case 'duotoneLight':
+            css = await import('~~/constant/MarkDownThemes/light/duotoneLight')
+            break
+        case 'oliveDunk':
+            css = await import('~~/constant/MarkDownThemes/light/oliveDunk')
+            break
+        case 'redGraphite':
+            css = await import('~~/constant/MarkDownThemes/light/redGraphite')
+            break
+        case 'solarizedLight':
+            css = await import('~~/constant/MarkDownThemes/light/solarizedLight')
+            break
+        case 'geekBlackDark':
+            css = await import('~~/constant/MarkDownThemes/dark/geekBlackDark')
+            break
         default:
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
     }
+    // console.log(css.default)
     let markdownThemeStyleElement = document.querySelector('#markdownTheme')
     if (markdownThemeStyleElement) {
         markdownThemeStyleElement.innerHTML = css.default
@@ -85,6 +168,11 @@ export const changeThemes = async (markdownTheme: MarkdownTheme) => {
 }
 
 export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {
+    geekBlackDark: {
+        name: 'geekBlackDark',
+        path: '',
+        highlight: ''
+    },
     smartblue: {
         name: 'smartblue',
         path: '',
@@ -195,8 +283,167 @@ export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {
         path: '',
         highlight: ''
     },
+    //---
+    ayu: {
+        name: 'ayu',
+        path: `${mwebThemePath}ayu`,
+        highlight: ''
+    },
+    ayuMirage: {
+        name: 'ayuMirage',
+        path: '',
+        highlight: ''
+    },
+    charcoal: {
+        name: 'charcoal',
+        path: `${mwebThemePath}charcoal`,
+        highlight: ''
+    },
+    cobalt: {
+        name: 'cobalt',
+        path: `${mwebThemePath}cobalt`,
+        highlight: ''
+    },
+    contrast: {
+        name: 'contrast',
+        path: `${mwebThemePath}contrast`,
+        highlight: ''
+    },
+    dBoring: {
+        name: 'dBoring',
+        path: '',
+        highlight: ''
+    },
+    darkGraphite: {
+        name: 'darkGraphite',
+        path: '',
+        highlight: ''
+    },
+    dieci: {
+        name: 'dieci',
+        path: '',
+        highlight: ''
+    },
+    dracula: {
+        name: 'dracula',
+        path: '',
+        highlight: ''
+    },
+    duotoneHeat: {
+        name: 'duotoneHeat',
+        path: '',
+        highlight: ''
+    },
+    duotoneLight: {
+        name: 'duotoneLight',
+        path: '',
+        highlight: ''
+    },
+    gandalf: {
+        name: 'gandalf',
+        path: '',
+        highlight: ''
+    },
+    gotham: {
+        name: 'gotham',
+        path: '',
+        highlight: ''
+    },
+    indigo: {
+        name: 'indigo',
+        path: '',
+        highlight: ''
+    },
+    lark: {
+        name: 'lark',
+        path: '',
+        highlight: ''
+    },
+    larkBoldColor: {
+        name: 'larkBoldColor',
+        path: '',
+        highlight: ''
+    },
+    lighthouse: {
+        name: 'lighthouse',
+        path: '',
+        highlight: ''
+    },
+    nord: {
+        name: 'nord',
+        path: '',
+        highlight: ''
+    },
+    oliveDunk: {
+        name: 'oliveDunk',
+        path: '',
+        highlight: ''
+    },
+    panic: {
+        name: 'panic',
+        path: '',
+        highlight: ''
+    },
+    redGraphite: {
+        name: 'redGraphite',
+        path: '',
+        highlight: ''
+    },
+    solarizedDark: {
+        name: 'solarizedDark',
+        path: '',
+        highlight: ''
+    },
+    solarizedLight: {
+        name: 'solarizedLight',
+        path: '',
+        highlight: ''
+    },
+    toothpaste: {
+        name: 'toothpaste',
+        path: '',
+        highlight: ''
+    }
+
 }
-export const themeNameList = ['smartblue', 'cyanosis', 'channingCyan', 'fancy', 'hydrogen', 'condensedNightPurple', 'greenwillow', 'vGreen', 'vuePro', 'healerReadable', 'mkCute', 'awesomeGreen', 'geekBlack', 'jzman', 'vuepress', 'arknights', 'simplicityGreen', 'scrolls', 'orange', 'devuiBlue', 'nico', 'ChineseRed']
+
+export let themeNameList = ['smartblue', 'cyanosis', 'channingCyan', 'fancy', 'hydrogen', 'condensedNightPurple', 'greenwillow', 'vGreen', 'vuePro', 'healerReadable', 'mkCute', 'awesomeGreen', 'geekBlack', 'jzman', 'vuepress', 'arknights', 'simplicityGreen', 'scrolls', 'orange', 'devuiBlue', 'nico', 'ChineseRed']
+
+
+export let mwebLightNameList = [
+    'ayu',
+    'contrast',
+    'dBoring',
+    'duotoneHeat',
+    'indigo',
+    'larkBoldColor',
+    'gandalf',
+    'lark',
+    'duotoneLight',
+    'oliveDunk',
+    'redGraphite',
+    'solarizedLight'
+]
+
+
+export let mwebDarkList = [
+    'geekBlackDark',
+    'ayuMirage',
+    'charcoal',
+    'cobalt',
+    'darkGraphite',
+    'dieci',
+    'dracula',
+    'lighthouse',
+    'nord',
+    'panic',
+    'gotham',
+    'solarizedDark',
+    'toothpaste'
+]
+// themeNameList.push(...mwebLightNameList)
+// themeNameList.push(...mwebDarkList)
+
 export const themesList: MarkdownTheme[] = [
     {
         name: 'smartblue',
@@ -309,26 +556,3 @@ export const themesList: MarkdownTheme[] = [
         highlight: ''
     },
 ]
-// 主题	作者	License
-// smartblue	Tusi	MIT
-// cyanosis	林小帅	MIT
-// channing-cyan	ChanningHylraised_hands	MIT
-// fancy	冷石 Boy	MIT
-// hydrogen	DawnLck 在掘金	MIT
-// condensed-night-purple	童欧巴	MIT
-// greenwillow	wangly19	MIT
-// 	DawnLck 在掘金	MIT
-// vue-pro	杭州程序员张张	MIT
-// healer-readable	healer	MIT
-// mk-cute	JackySummer	MIT
-// jzman	躬行之	MIT
-// geek-black	林景宜	MIT
-// awesome-green	luffyZh	MIT
-// orange	RudeCrab	MIT
-// scrolls	道道里	MIT
-// simplicity-green	Jason_Guo	MIT
-// arknights	viewweiwu	MIT
-// vuepress	qgh	MIT
-// Chinese-red	Mancuoj	MIT
-// nico	非思不可	MIT
-// devui-blue	DevUI团队	MIT

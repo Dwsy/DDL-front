@@ -1,3 +1,7 @@
+.markdown-body {
+    padding: 0 !important;
+}
+
 .Vue-Toastification__toast {
     z-index: 99999 !important;
 }

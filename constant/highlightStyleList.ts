@@ -52,7 +52,7 @@ export const changeHighlightStyle = async (name: string) => {
         case 'devibeans':
             css = await import ('~~/constant/highlightCJs/devibeans')
             break
-        case 'default':
+        case 'Default':
             css = await import ('~~/constant/highlightCJs/default')
             break
         case 'docco':
@@ -227,7 +227,7 @@ export const changeHighlightStyle = async (name: string) => {
             css = await import ('~~/constant/highlightCJs/xcode')
     }
     let markdownThemeStyleElement = document.querySelector('#highlightStyle')
-    console.log(css)
+    // console.log(css)
     if (markdownThemeStyleElement) {
         markdownThemeStyleElement.innerHTML = css.default
     } else {
@@ -239,6 +239,7 @@ export const changeHighlightStyle = async (name: string) => {
 }
 
 export type HighlightStyleName =
+    string |
     'a11yDark' |
     'a11yLight' |
     'agate' |
@@ -256,7 +257,7 @@ export type HighlightStyleName =
     'colorBrewer' |
     'dark' |
     'devibeans' |
-    'default' |
+    'Default' |
     'docco' |
     'far' |
     'foundation' |
@@ -333,7 +334,7 @@ export const HighlightStyleNameList = [
     'colorBrewer',
     'dark',
     'devibeans',
-    'default',
+    'Default',
     'docco',
     'far',
     'foundation',

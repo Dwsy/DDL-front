@@ -1,3 +1,6 @@
+import {MarkdownTheme, mwebDark} from '~/types/other/markdownTheme'
+import {HighlightStyleName} from '~/constant/highlightStyleList'
+
 export interface CreateArticleBody {
     allowComment: boolean;
     articleGroupId: string;
@@ -10,6 +13,10 @@ export interface CreateArticleBody {
     title: string;
     articleSource: ArticleSource;
     articleSourceUrl?: string;
+    codeHighlightStyle?: HighlightStyleName | string
+    markDownTheme?: MarkdownTheme | string
+    markDownThemeDark?: mwebDark | string
+
 }
 
 export enum ArticleState {

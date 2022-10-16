@@ -30,13 +30,11 @@
                 </v-btn>
                 <div v-else>
                   <v-btn v-if="!user.following" color="#42a5f5"
-                         @click="()=>{followUser(user.id)
-                                      user.following=!user.following}">
+                         @click="subscribe(user)">
                     <div style="color: white">关注</div>
                   </v-btn>
                   <v-btn v-else
-                         @click="()=>{unFollowUser(user.id)
-                                      user.following=!user.following}">
+                         @click="unSubscribe(user)">
                     <div>取消关注</div>
                   </v-btn>
                 </div>
@@ -84,7 +82,7 @@
 
               <v-window-item value="answer">
                 answer
-<!--                <test></test>-->
+                <!--                <test></test>-->
               </v-window-item>
 
 
@@ -258,6 +256,16 @@ onMounted(async () => {
     }
   })
 })
+
+const subscribe = (user: userData) => {
+  followUser(user.id)
+  user.following = !user.following
+}
+
+const unSubscribe = (user: userData) => {
+  unFollowUser(user.id)
+  user.following = !user.following
+}
 </script>
 
 <style scoped>

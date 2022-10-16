@@ -31,12 +31,10 @@
               <v-col class="mt-2">
 
                 <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
-                  <span style="color: white" @click="()=>{unFollowUser(articleStore.articleField.user.id)
-                                                          articleStore.follow=false}">已关注</span>
+                  <span style="color: white" @click="unFollowUser()">已关注</span>
                 </v-btn>
                 <v-btn v-else class="float-end mx-4" color="blue lighten-3"
-                       @click="()=>{followUser(articleStore.articleField.user.id)
-                                                          articleStore.follow=true}">
+                       @click="subscribe()">
                   <span style="color: white">关注</span>
                 </v-btn>
               </v-col>
@@ -59,15 +57,15 @@
             </v-col>
           </v-row>
           <v-divider></v-divider>
-
+          <!--          :class="articleStore.markdownTheme"-->
           <div v-html="articleStore.contentHtml"
-               v-show="articleStore.markdownTheme"
-               :class="articleStore.markdownTheme"
-               class=" js-toc-content"
+               v-show="!articleStore.loading"
+
+               class=" js-toc-content markdown-body"
 
           ></div>
           <!--          v-intersect="()=>{gotoTitle=true}"-->
-          <div v-show="!articleStore.markdownTheme" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
+          <div v-show="articleStore.loading" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
             <span>
               加载中...
             </span>
@@ -604,9 +602,11 @@ onMounted(async () => {
   }
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
-    articleStore.markdownTheme = articleStore.markdownThemeDark
+    await articleStore.changeThemeDark()
+    // articleStore.markdownTheme = articleStore.markdownThemeDark
   } else {
-    articleStore.markdownTheme = articleStore.markdownThemeLight
+    await articleStore.changeThemeLight()
+    // articleStore.markdownTheme = articleStore.markdownThemeLight
   }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   hljs.highlightAll()
@@ -631,13 +631,15 @@ onMounted(async () => {
       el.scrollIntoView()
     }
   }
-  watch(theme.global.name, (val) => {
+
+  watch(theme.global.name, async (val) => {
     if (val === 'dark') {
-      articleStore.markdownTheme = articleStore.markdownThemeDark
+      await articleStore.changeThemeDark()
     } else {
-      articleStore.markdownTheme = articleStore.markdownThemeLight
+      await articleStore.changeThemeLight()
     }
   })
+
   watch(toRef(articleCommentStore, 'page'), async (page) => {
     await articleCommentStore.loadComment(page)
     const el = document.querySelector('#comments')
@@ -761,6 +763,15 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
 
 }
 
+const subscribe = () => {
+  followUser(articleStore.articleField.user.id)
+  articleStore.follow = true
+}
+
+const unsubscribe = () => {
+  unFollowUser(articleStore.articleField.user.id)
+  articleStore.follow = false
+}
 
 const loadChildComment = (n) => {
   console.log(n)
@@ -906,6 +917,10 @@ code {
   .d-comment {
     margin-right: -40px !important;
   }
+}
+
+.markdown-body {
+  padding: 0 !important;
 }
 
 </style>

@@ -1,11 +1,41 @@
 export interface MarkdownTheme {
-    name: string
+    name: MarkdownThemeNameList | string
     path: string
     highlight?: string
 }
 
+export type mwebLight =
+    'ayu' |
+    'contrast' |
+    'dBoring' |
+    'duotoneHeat' |
+    'indigo' |
+    'larkBoldColor' |
+    'gandalf' |
+    'lark' |
+    'duotoneLight' |
+    'oliveDunk' |
+    'redGraphite' |
+    'solarizedLight'
+
+
+export type mwebDark =
+    'geekBlackDark' |
+    'ayuMirage' |
+    'charcoal' |
+    'cobalt' |
+    'darkGraphite' |
+    'dieci' |
+    'dracula' |
+    'lighthouse' |
+    'nord' |
+    'panic' |
+    'gotham' |
+    'solarizedDark' |
+    'toothpaste'
 export type MarkdownThemeNameList =
-    'smartblue'
+    mwebDark | mwebLight
+    | 'smartblue'
     | 'cyanosis'
     | 'channingCyan'
     | 'fancy'

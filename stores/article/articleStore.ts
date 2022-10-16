@@ -9,8 +9,11 @@ import {
     useFetchGetArticleField
 } from '#imports'
 import {useRoute} from '#imports'
+import {themes, changeThemes, themeNameList} from '~~/constant/markdownThemeList'
+import {HighlightStyleNameList, HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
 import {ArticleAction, useAxiosGetArticleAction} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
+import {MarkdownTheme, mwebDark} from '~/types/other/markdownTheme'
 
 
 export const useArticleStore = defineStore('ArticleStore', {
@@ -20,40 +23,60 @@ export const useArticleStore = defineStore('ArticleStore', {
         mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
         mdThemeNameListDark: ['geek-black'],
         markdownTheme: null,
-        markdownThemeLight: '',
-        markdownThemeDark: '',
+        markdownThemeLight: null,
+        markdownThemeDark: null,
         follow: false,
         collect: false,
-        thumb: 0
+        thumb: 0,
+        loading: true
     }),
     getters: {},
     actions: {
         async init() {
-            if (this.articleField.markdownTheme !== undefined) {
-                this.getMarkdownThemeName(this.articleField.markdownTheme)
-            } else {
-                this.getMarkdownThemeName()
-            }
+            // console.log(this.articleField.markDownTheme)
+            // if (this.articleField.markDownTheme !== undefined) {
+            //     await this.changeThemeLight(this.articleField.markDownTheme)
+            // } else {
+            //     await this.changeThemeLight()
+            // }
+            this.markdownThemeLight = this.articleField.markDownTheme
+            this.markdownThemeDark = this.articleField.markDownThemeDark
+            // this.markdownThemeDark
+            // todo darktheme
             let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
             this.thumb = response.data.thumb
-            //todo 收藏
             this.follow = response.data.follow
             this.collect = response.data.collect
         },
-        getMarkdownThemeName(index?: number) {
-            if (index !== undefined) {
-                // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
-                this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[index]
-                this.markdownThemeDark = 'markdown-body-' + this.mdThemeNameListDark[index]
-
+        async changeThemeDark() {
+            if (this.markdownThemeDark === null) {
+                await changeThemes(themes.geekBlack)
+                console.log('geekBlack')
             } else {
-                // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
-                this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
-                this.markdownThemeDark = 'markdown-body-' +
-                    this.mdThemeNameListDark[Math.ceil(Math.random() * Math.max(1, this.mdThemeNameListDark.length)) - 1]
+                await changeThemes(themes[this.markdownThemeDark])
             }
-            console.log('this.markdownThemeLight', this.markdownThemeLight)
-            console.log('this.markdownThemeDark', this.markdownThemeDark)
+            this.loading = false
+        },
+        async changeThemeLight() {
+            if (this.markdownThemeLight === null) {
+                await changeThemes(themes.cyanosis)
+            } else {
+                await changeThemes(themes[this.markdownThemeLight])
+            }
+            this.loading = false
+            // if (index !== undefined) {
+            //     // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
+            //     this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[index]
+            //     this.markdownThemeDark = 'markdown-body-' + this.mdThemeNameListDark[index]
+            //
+            // } else {
+            //     // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+            //     this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
+            //     this.markdownThemeDark = 'markdown-body-' +
+            //         this.mdThemeNameListDark[Math.ceil(Math.random() * Math.max(1, this.mdThemeNameListDark.length)) - 1]
+            // }
+            // console.log('this.markdownThemeLight', this.markdownThemeLight)
+            // console.log('this.markdownThemeDark', this.markdownThemeDark)
 
         },
         async ActionArticle(commentType: CommentType) {
@@ -131,93 +154,97 @@ interface Iarticle extends ArticleAction {
     markdownTheme: string
     markdownThemeDark: string
     markdownThemeLight: string
-    thumb: CommentType;
-    collect: boolean;
-    follow: boolean;
+    thumb: CommentType
+    collect: boolean
+    follow: boolean
+    loading: boolean
 }
 
 
 interface UserInfo {
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth: any;
+    id: string
+    avatar: string
+    sign: string
+    gender: string
+    birth: any
 }
 
 interface User {
-    id: string;
-    nickname: string;
-    userInfo: UserInfo;
-    level: number;
+    id: string
+    nickname: string
+    userInfo: UserInfo
+    level: number
 }
 
 interface ArticleTags {
-    id: string;
-    name: string;
-    articleNum: number;
-    weight: number;
-    indexPageDisplay: boolean;
-    tagInfo: string;
+    id: string
+    name: string
+    articleNum: number
+    weight: number
+    indexPageDisplay: boolean
+    tagInfo: string
 }
 
 interface ArticleGroup {
-    id: string;
-    name: string;
-    info: string;
-    articleNum: number;
+    id: string
+    name: string
+    info: string
+    articleNum: number
 }
 
 export interface ArticleField {
-    id: string;
-    createTime: number;
-    lastModifiedTime: number;
-    user: User;
-    title: string;
-    summary: string;
-    articleState: string;
-    allowComment: boolean;
-    viewNum: number;
-    collectNum: number;
-    upNum: number;
-    downNum: number;
-    banner: string;
-    articleTags: ArticleTags[];
-    articleGroup: ArticleGroup;
+    id: string
+    createTime: number
+    lastModifiedTime: number
+    user: User
+    title: string
+    summary: string
+    articleState: string
+    allowComment: boolean
+    viewNum: number
+    collectNum: number
+    upNum: number
+    downNum: number
+    banner: string
+    articleTags: ArticleTags[]
+    articleGroup: ArticleGroup
     //自定义
-    thumb: CommentType;
-    collect: boolean;
-    articleSource: ArticleSource;
+    thumb: CommentType
+    collect: boolean
+    articleSource: ArticleSource
     articleSourceUrl: string
-    // follow: boolean;
+    markDownTheme: MarkdownTheme | string,
+    markDownThemeDark: mwebDark | string,
+    codeHighlightStyle: HighlightStyleName | string,
+    // follow: boolean
 }
 
 //--
 interface UserInfo {
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth: any;
+    id: string
+    avatar: string
+    sign: string
+    gender: string
+    birth: any
 }
 
 
 // interface CommentContent {
-//     id: string;
-//     deleted: boolean;
-//     createTime: number;
-//     lastModifiedTime: number;
-//     user: User;
-//     text: string;
-//     upNum: number;
-//     downNum: number;
-//     parentUserId: number;
-//     parentCommentId: number;
-//     parentUser: any;
-//     childComments: CommentContent[];
-//     ua: string;
-//     showCommentBox: boolean;
-//     userAction: commentType;
+//     id: string
+//     deleted: boolean
+//     createTime: number
+//     lastModifiedTime: number
+//     user: User
+//     text: string
+//     upNum: number
+//     downNum: number
+//     parentUserId: number
+//     parentCommentId: number
+//     parentUser: any
+//     childComments: CommentContent[]
+//     ua: string
+//     showCommentBox: boolean
+//     userAction: commentType
 //     replyCommentText: any
 //     // fixme ref 2层不需要value然后极会报错 ？ 先用any了
 // }

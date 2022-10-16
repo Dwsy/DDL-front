@@ -40,3 +40,7 @@ import CompB from './t4/b.vue'
 
 const current = shallowRef(CompA)
 </script>
+
+<style lang="scss">
+@import "assets/sass/mdTheme/geek-black";
+</style>
