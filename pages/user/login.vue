@@ -64,14 +64,14 @@ const check = async () => {
 const login = async () => {
 
 
-  publicKey.value = (await useGet('au/authority/rsa-pks')).data['data']
+  publicKey.value = (await useGet<ResponseData<any>>('au/authority/rsa-pks')).data['data']
   // console.log('publicKey', publicKey.value)
   // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
   let uap = {
     username: username.value,
     password: rsaEncrypt(publicKey.value, password.value)
   }
-  const r = await usePost('au/authority/token', uap)
+  const r = await usePost<ResponseData<any>>('au/authority/token', uap)
   t.value = r.data['token']
   let token = t.value
   payload.value =

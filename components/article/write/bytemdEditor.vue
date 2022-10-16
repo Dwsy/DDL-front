@@ -1,6 +1,8 @@
 <template>
   <div class="main">
-    <Editor :uploadImages="uploadImages" class="editor" :value="content" mode='split' :plugins="plugins"
+    <v-btn @click="changeThemes(themes[themeNameList[0]])">test</v-btn>
+    <v-btn @click="changeThemes(themes.jzman)">test1</v-btn>
+    <Editor id="d-Editor" :uploadImages="uploadImages" class="editor" :value="content" mode='split' :plugins="plugins"
             :locale='zhHans' @change="handleChange" placeholder="请输入。"/>
   </div>
 </template>
@@ -17,14 +19,37 @@ import breaks from '@bytemd/plugin-breaks'
 import mermaid from '@bytemd/plugin-mermaid'
 import {onMounted, reactive, ref, watch} from 'vue'
 import {useAxiosPostUploadImg} from '~/composables/Api/article/manageArticle'
-import {successMsg, warningMsg} from '~/composables/utils/toastification'
+import {successMsg, warningMsg} from '#imports'
 import {Editor} from '@bytemd/vue-next'
+import {themes, changeThemes, themeNameList} from '~~/constant/markdownThemeList'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import 'bytemd/dist/index.css'
-import 'highlight.js/styles/vs.css'
-import 'juejin-markdown-themes/dist/devui-blue.min.css'
-
-
+import 'highlight.js/styles/xcode.css'
+// import 'juejin-markdown-themes/dist/arknights.min.css'
+const test1 = async () => {
+  const css = await import ('juejin-markdown-themes/dist/vue-pro')
+  let markdownThemeStyleElement = document.querySelector('#markdownTheme')
+  if (markdownThemeStyleElement) {
+    markdownThemeStyleElement.innerHTML = css.default
+  } else {
+    markdownThemeStyleElement = document.createElement('style')
+    markdownThemeStyleElement.id = 'markdownTheme'
+    markdownThemeStyleElement.innerHTML = css.default
+    document.head.appendChild(markdownThemeStyleElement)
+  }
+}
+const test = async () => {
+  const css = await import ('juejin-markdown-themes/dist/juejin')
+  let markdownThemeStyleElement = document.querySelector('#markdownTheme')
+  if (markdownThemeStyleElement) {
+    markdownThemeStyleElement.innerHTML = css.default
+  } else {
+    markdownThemeStyleElement = document.createElement('style')
+    markdownThemeStyleElement.id = 'markdownTheme'
+    markdownThemeStyleElement.innerHTML = css.default
+    document.head.appendChild(markdownThemeStyleElement)
+  }
+}
 let props = defineProps({
   content: {
     type: String,
@@ -81,7 +106,7 @@ const uploadImages = async (files) => {
   return [
     {
       title: files.map((i) => i.name),
-      url: 'https://' + response.data + '?imageslim'
+      url: 'http://' + response.data + '?imageslim'
     },
   ]
 }

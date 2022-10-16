@@ -5,7 +5,7 @@ import {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {ResponseData} from '~/types/utils/axios'
 
 export const useAxiosPostCreateArticle = (body: CreateArticleBody) => {
-    return usePost('article/article', body)
+    return usePost<ResponseData<any>>('article/article', body)
 }
 
 export const useAxiosPutUpdateArticle = (body: CreateArticleBody) => {
@@ -13,11 +13,11 @@ export const useAxiosPutUpdateArticle = (body: CreateArticleBody) => {
 }
 
 export const useAxiosGetArticleField = (id) => {
-    return useGet('article/article/field/' + id, null)
+    return useGet<ResponseData<any>>('article/article/field/' + id, null)
 }
 
 export const useAxiosGetArticleContent = (id, params?: { type?: number }) => {
-    return useGet('article/article/content/' + id, params)
+    return useGet<ResponseData<any>>('article/article/content/' + id, params)
 }
 
 export const useAxiosPostUploadImg = (file) => {
@@ -25,18 +25,18 @@ export const useAxiosPostUploadImg = (file) => {
     config.headers = {
         'Content-Type': 'multipart/form-data'
     }
-    return usePost('file/upload', {file}, config)
+    return usePost<ResponseData<any>>('file/upload', {file}, config)
 }
 // http://localhost:7080/article/tag/suggestion/re
 //todo 对象解构泛型丢失
 export const useAxiosGetTagSuggestion = (query): Promise<AxiosResponse<ResponseData<TagSuggestion[]>, any>> => {
-    return useGet('search/article/tag/suggestion/' + query)
+    return useGet<ResponseData<any>>('search/article/tag/suggestion/' + query)
 }
 
 export const useAxiosGetUserArticleList = (params?: GetUserArticleListParams) => {
-    return useGet('article/article/manage/field/list', params)
+    return useGet<ResponseData<any>>('article/article/manage/field/list', params)
 }
 
 export const useAxiosGetArticleCountByState = () => {
-    return useGet('article/article/manage/field/num')
+    return useGet<ResponseData<any>>('article/article/manage/field/num')
 }

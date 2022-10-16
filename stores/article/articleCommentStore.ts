@@ -2,7 +2,7 @@ import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
     ArticleCommentAction,
-    commentType,
+    CommentType,
     ReplyArticleCommentBody, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
@@ -191,16 +191,16 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
 
             }
         },
-        getCommentActionIcon(action: commentType, pIndexId: number, cIndexId?: number) {
+        getCommentActionIcon(action: CommentType, pIndexId: number, cIndexId?: number) {
             if (cIndexId === undefined) {
                 if (this.commentList[pIndexId].userAction === action) {
-                    if (action === commentType.up) {
+                    if (action === CommentType.up) {
                         return 'mdi-thumb-up'
                     } else {
                         return 'mdi-thumb-down'
                     }
                 } else {
-                    if (action === commentType.up) {
+                    if (action === CommentType.up) {
                         return 'mdi-thumb-up-outline'
                     } else {
                         return 'mdi-thumb-down-outline'
@@ -208,13 +208,13 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 }
             } else {
                 if (this.commentList[pIndexId].childComments[cIndexId].userAction === action) {
-                    if (action === commentType.up) {
+                    if (action === CommentType.up) {
                         return 'mdi-thumb-up'
                     } else {
                         return 'mdi-thumb-down'
                     }
                 } else {
-                    if (action === commentType.up) {
+                    if (action === CommentType.up) {
                         return 'mdi-thumb-up-outline'
                     } else {
                         return 'mdi-thumb-down-outline'
@@ -223,7 +223,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             }
 
         },
-        getCommentActionColor(action: commentType, pIndexId: number, cIndexId?: number) {
+        getCommentActionColor(action: CommentType, pIndexId: number, cIndexId?: number) {
             if (cIndexId === undefined) {
                 if (this.commentList[pIndexId].userAction === action) {
                     return 'pink lighten-2'
@@ -238,7 +238,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 }
             }
         },
-        async ActionComment(CommentType: commentType, cid: string, pIndexId: number, cIndexId?: number) {
+        async ActionComment(CommentType: CommentType, cid: string, pIndexId: number, cIndexId?: number) {
             let body: ArticleCommentAction = {
                 actionCommentId: cid,
                 articleFieldId: this.field.id,
@@ -251,7 +251,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 alert(actionData.msg)
                 return
             }
-            let retType: commentType = actionData.data
+            let retType: CommentType = actionData.data
             // switch (commentType) {
             //   case commentType.comment:
             //     break
@@ -271,45 +271,45 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             //todo 枚举判断替换成 switch 是不是好一点
             let pComment = this.commentList[pIndexId]
             if (cIndexId === undefined) {
-                if (retType === commentType.upToDown) {
+                if (retType === CommentType.upToDown) {
                     pComment.upNum--
                     pComment.downNum++
-                    pComment.userAction = commentType.down
+                    pComment.userAction = CommentType.down
                     pComment.upNum = Math.max(pComment.upNum, 0)
                     pComment.downNum = Math.max(pComment.downNum, 0)
                     return
                 }
-                if (retType === commentType.downToUp) {
+                if (retType === CommentType.downToUp) {
                     pComment.upNum++
                     pComment.downNum--
-                    pComment.userAction = commentType.up
+                    pComment.userAction = CommentType.up
                     pComment.upNum = Math.max(pComment.upNum, 0)
                     pComment.downNum = Math.max(pComment.downNum, 0)
                     return
                 }
 
-                if (CommentType === commentType.up) {
-                    if (retType === commentType.up) {
+                if (CommentType === CommentType.up) {
+                    if (retType === CommentType.up) {
                         pComment.upNum++
-                        pComment.userAction = commentType.up
+                        pComment.userAction = CommentType.up
                     }
-                    if (retType === commentType.cancel) {
+                    if (retType === CommentType.cancel) {
                         pComment.upNum--
-                        pComment.userAction = commentType.cancel
+                        pComment.userAction = CommentType.cancel
                     }
                     pComment.upNum = Math.max(pComment.upNum, 0)
                     pComment.downNum = Math.max(pComment.downNum, 0)
                     return
                 }
 
-                if (CommentType === commentType.down) {
-                    if (retType === commentType.down) {
+                if (CommentType === CommentType.down) {
+                    if (retType === CommentType.down) {
                         pComment.downNum++
-                        pComment.userAction = commentType.down
+                        pComment.userAction = CommentType.down
                     }
-                    if (retType === commentType.cancel) {
+                    if (retType === CommentType.cancel) {
                         pComment.downNum--
-                        pComment.userAction = commentType.cancel
+                        pComment.userAction = CommentType.cancel
                     }
                     pComment.upNum = Math.max(pComment.upNum, 0)
                     pComment.downNum = Math.max(pComment.downNum, 0)
@@ -318,44 +318,44 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
 
             } else {
                 let cComment = pComment.childComments[cIndexId]
-                if (retType === commentType.upToDown) {
+                if (retType === CommentType.upToDown) {
                     cComment.upNum--
                     cComment.downNum++
-                    cComment.userAction = commentType.down
+                    cComment.userAction = CommentType.down
                     cComment.upNum = Math.max(cComment.upNum, 0)
                     cComment.downNum = Math.max(cComment.downNum, 0)
                     return
                 }
-                if (retType === commentType.downToUp) {
+                if (retType === CommentType.downToUp) {
                     cComment.upNum++
                     cComment.downNum--
-                    cComment.userAction = commentType.up
+                    cComment.userAction = CommentType.up
                     cComment.upNum = Math.max(cComment.upNum, 0)
                     cComment.downNum = Math.max(cComment.downNum, 0)
                     return
                 }
 
-                if (CommentType === commentType.up) {
-                    if (retType === commentType.up) {
+                if (CommentType === CommentType.up) {
+                    if (retType === CommentType.up) {
                         cComment.upNum++
-                        cComment.userAction = commentType.up
+                        cComment.userAction = CommentType.up
                     }
-                    if (retType === commentType.cancel) {
+                    if (retType === CommentType.cancel) {
                         cComment.upNum--
-                        cComment.userAction = commentType.cancel
+                        cComment.userAction = CommentType.cancel
                     }
                     cComment.upNum = Math.max(cComment.upNum, 0)
                     cComment.downNum = Math.max(cComment.downNum, 0)
                     return
                 }
-                if (CommentType === commentType.down) {
-                    if (retType === commentType.down) {
+                if (CommentType === CommentType.down) {
+                    if (retType === CommentType.down) {
                         cComment.downNum++
-                        cComment.userAction = commentType.down
+                        cComment.userAction = CommentType.down
                     }
-                    if (retType === commentType.cancel) {
+                    if (retType === CommentType.cancel) {
                         cComment.downNum--
-                        cComment.userAction = commentType.cancel
+                        cComment.userAction = CommentType.cancel
                     }
                     cComment.upNum = Math.max(cComment.upNum, 0)
                     cComment.downNum = Math.max(cComment.downNum, 0)
@@ -500,7 +500,7 @@ export interface CommentContent {
     childCommentPage: number;
     ua: string;
     showCommentBox: boolean;
-    userAction: commentType;
+    userAction: CommentType;
     replyCommentText: any;
     loadMore?: boolean;
     replayCommentId?: number;

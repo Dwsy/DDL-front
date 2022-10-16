@@ -1,7 +1,7 @@
 import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
-    commentType,
+    CommentType,
     useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
@@ -9,7 +9,7 @@ import {
     useFetchGetArticleField
 } from '#imports'
 import {useRoute} from '#imports'
-import {useAxiosGetArticleAction} from '~/composables/Api/article'
+import {ArticleAction, useAxiosGetArticleAction} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
 
 
@@ -23,6 +23,8 @@ export const useArticleStore = defineStore('ArticleStore', {
         markdownThemeLight: '',
         markdownThemeDark: '',
         follow: false,
+        collect: false,
+        thumb: 0
     }),
     getters: {},
     actions: {
@@ -33,9 +35,10 @@ export const useArticleStore = defineStore('ArticleStore', {
                 this.getMarkdownThemeName()
             }
             let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
-            this.articleField.thumb = response.data.thumb
+            this.thumb = response.data.thumb
             //todo 收藏
             this.follow = response.data.follow
+            this.collect = response.data.collect
         },
         getMarkdownThemeName(index?: number) {
             if (index !== undefined) {
@@ -53,63 +56,63 @@ export const useArticleStore = defineStore('ArticleStore', {
             console.log('this.markdownThemeDark', this.markdownThemeDark)
 
         },
-        async ActionArticle(CommentType: commentType) {
+        async ActionArticle(commentType: CommentType) {
             const body = {
                 actionCommentId: '-1',//-1代表对文章的操作
                 articleFieldId: this.articleField.id,
-                commentType: CommentType,
+                commentType: commentType,
             }
             let {data: actionData} = await useAxiosPostActionArticleComment(body)
             if (actionData.code !== 0) {
                 alert(actionData.msg)
                 return
             }
-            let retType: commentType = actionData.data
+            let retType: CommentType = actionData.data
             switch (retType) {
-                case commentType.up:
+                case CommentType.up:
                     this.articleField.upNum++
-                    this.articleField.thumb = commentType.up
+                    this.thumb = CommentType.up
                     break
-                case commentType.down:
+                case CommentType.down:
                     this.articleField.downNum++
-                    this.articleField.thumb = commentType.down
+                    this.thumb = CommentType.down
                     break
-                case commentType.upToDown:
+                case CommentType.upToDown:
                     this.articleField.upNum--
                     this.articleField.downNum++
-                    this.articleField.thumb = commentType.down
+                    this.thumb = CommentType.down
                     break
-                case commentType.downToUp:
+                case CommentType.downToUp:
                     this.articleField.upNum++
                     this.articleField.downNum--
-                    this.articleField.thumb = commentType.up
+                    this.thumb = CommentType.up
                     break
-                case commentType.comment:
+                case CommentType.comment:
                     break
-                case commentType.comment_comment:
+                case CommentType.comment_comment:
                     break
-                case commentType.cancel:
-                    if (CommentType === commentType.up) {
+                case CommentType.cancel:
+                    if (commentType === CommentType.up) {
                         this.articleField.upNum--
-                        this.articleField.thumb = commentType.cancel
+                        this.thumb = CommentType.cancel
                     } else {
                         this.articleField.downNum--
-                        this.articleField.thumb = commentType.cancel
+                        this.thumb = CommentType.cancel
                     }
                     break
             }
             this.articleField.upNum = Math.max(this.articleField.upNum, 0)
             this.articleField.downNum = Math.max(this.articleField.downNum, 0)
         },
-        getArticleActionIcon(action: commentType) {
-            if (this.articleField.thumb === action) {
-                if (action === commentType.up) {
+        getArticleActionIcon(action: CommentType) {
+            if (this.thumb === action) {
+                if (action === CommentType.up) {
                     return 'mdi-thumb-up'
                 } else {
                     return 'mdi-thumb-down'
                 }
             } else {
-                if (action === commentType.up) {
+                if (action === CommentType.up) {
                     return 'mdi-thumb-up-outline'
                 } else {
                     return 'mdi-thumb-down-outline'
@@ -120,7 +123,7 @@ export const useArticleStore = defineStore('ArticleStore', {
     }
 })
 
-interface Iarticle {
+interface Iarticle extends ArticleAction {
     articleField: Ref<ArticleField>
     contentHtml: string
     mdThemeNameList: Array<string>
@@ -128,8 +131,9 @@ interface Iarticle {
     markdownTheme: string
     markdownThemeDark: string
     markdownThemeLight: string
-    follow: boolean
-
+    thumb: CommentType;
+    collect: boolean;
+    follow: boolean;
 }
 
 
@@ -181,7 +185,7 @@ export interface ArticleField {
     articleTags: ArticleTags[];
     articleGroup: ArticleGroup;
     //自定义
-    thumb: commentType;
+    thumb: CommentType;
     collect: boolean;
     articleSource: ArticleSource;
     articleSourceUrl: string

@@ -196,17 +196,17 @@
                 <v-row>
                   <v-col>
                     <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
-                           @click="articleCommentStore.ActionComment(commentType.up,comment.id,index)">
-                      <v-icon :icon="articleCommentStore.getCommentActionIcon(commentType.up,index)"
-                              :color="articleCommentStore.getCommentActionColor(commentType.up,index)"></v-icon>
+                           @click="articleCommentStore.ActionComment(CommentType.up,comment.id,index)">
+                      <v-icon :icon="articleCommentStore.getCommentActionIcon(CommentType.up,index)"
+                              :color="articleCommentStore.getCommentActionColor(CommentType.up,index)"></v-icon>
                       <span v-if="comment.upNum>0">
                       {{ comment.upNum }}
                     </span>
                     </v-btn>
                     <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
-                           @click="articleCommentStore.ActionComment(commentType.down,comment.id,index)">
-                      <v-icon :icon="articleCommentStore.getCommentActionIcon(commentType.down,index)"
-                              :color="articleCommentStore.getCommentActionColor(commentType.down,index)"></v-icon>
+                           @click="articleCommentStore.ActionComment(CommentType.down,comment.id,index)">
+                      <v-icon :icon="articleCommentStore.getCommentActionIcon(CommentType.down,index)"
+                              :color="articleCommentStore.getCommentActionColor(CommentType.down,index)"></v-icon>
                       <span v-if="comment.downNum>0">
                       {{ comment.downNum }}
                     </span>
@@ -282,19 +282,19 @@
                                 <v-row>
                                   <v-col>
                                     <v-btn rounded plain elevation="0" outlined size="x-small" class="mr-3"
-                                           @click="articleCommentStore.ActionComment(commentType.up,childComment.id,index,Cindex)">
+                                           @click="articleCommentStore.ActionComment(CommentType.up,childComment.id,index,Cindex)">
                                       <v-icon
-                                          :icon="articleCommentStore.getCommentActionIcon(commentType.up,index,Cindex)"
-                                          :color="articleCommentStore.getCommentActionColor(commentType.up,index,Cindex)"></v-icon>
+                                          :icon="articleCommentStore.getCommentActionIcon(CommentType.up,index,Cindex)"
+                                          :color="articleCommentStore.getCommentActionColor(CommentType.up,index,Cindex)"></v-icon>
                                       <span v-if="childComment.upNum> 0">
                                     {{ childComment.upNum }}
                                   </span>
                                     </v-btn>
                                     <v-btn class="mr-3" rounded plain elevation="0" outlined size="x-small"
-                                           @click="articleCommentStore.ActionComment(commentType.down,childComment.id,index,Cindex)">
+                                           @click="articleCommentStore.ActionComment(CommentType.down,childComment.id,index,Cindex)">
                                       <v-icon
-                                          :icon="articleCommentStore.getCommentActionIcon(commentType.down,index,Cindex)"
-                                          :color="articleCommentStore.getCommentActionColor(commentType.down,index,Cindex)"></v-icon>
+                                          :icon="articleCommentStore.getCommentActionIcon(CommentType.down,index,Cindex)"
+                                          :color="articleCommentStore.getCommentActionColor(CommentType.down,index,Cindex)"></v-icon>
                                       <span v-if="childComment.downNum> 0">
                                     {{ childComment.downNum }}
                                   </span>
@@ -422,15 +422,15 @@
           </v-btn>
         </a>
         <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
-               @click="articleStore.ActionArticle(commentType.up)">
-          <v-icon :icon="articleStore.getArticleActionIcon(commentType.up)"></v-icon>
+               @click="articleStore.ActionArticle(CommentType.up)">
+          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.up)"></v-icon>
           <span v-if="articleStore.articleField.upNum>0">
           {{ articleStore.articleField.upNum }}
         </span>
         </v-btn>
         <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
-               @click="articleStore.ActionArticle(commentType.down)">
-          <v-icon :icon="articleStore.getArticleActionIcon(commentType.down)"></v-icon>
+               @click="articleStore.ActionArticle(CommentType.down)">
+          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.down)"></v-icon>
           <span v-if="articleStore.articleField.downNum>0">
           {{ articleStore.articleField.downNum }}
         </span>
@@ -446,7 +446,11 @@
 
             <v-btn v-bind="props" class="mr-3" rounded plain elevation="0" outlined size="small"
                    @click="collectionArticles()">
-              <v-icon icon="mdi-cards-heart-outline"></v-icon>
+              <v-icon v-if="!articleStore.collect"
+                      icon="mdi-cards-heart-outline">
+              </v-icon>
+              <v-icon v-else icon="mdi-cards-heart">
+              </v-icon>
               <span v-if="articleStore.articleField.collectNum>0">
           {{ articleStore.articleField.collectNum }}
         </span>
@@ -529,8 +533,8 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
 // import 'highlight.js/styles/atom-one-dark.css'
 import {
-  commentType, useAxiosCancelCollectionToGroup, useAxiosGetArticleCollectionState,
-  useAxiosGetCollectionGroupList,
+  CommentType, useAxiosCancelCollectionToGroup, useAxiosGetArticleCollectionState,
+  useAxiosGetCollectionGroupList, useAxiosGetCollectionGroupListT,
   useAxiosPostAddCollectionToGroup,
   useAxiosPostCreateCollectionGroup,
   useFetchGetArticleContent,
@@ -554,6 +558,7 @@ import {useRouter} from '#app'
 definePageMeta({
   keepalive: false
 })
+
 useLayout().showFooter = true
 
 //todo 移动端适配
@@ -565,7 +570,7 @@ let user = useUserStore()
 const router = useRouter()
 let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
-
+const articleStoreCollectKey = 'articleStoreCollect'
 let ArticleField = await useFetchGetArticleField(aid)
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
@@ -578,6 +583,10 @@ if (ArticleField.data == undefined) {
   //   message: 'Unauthorized'
   // })
 }
+// console.log('title', ArticleField.data.title)
+useHead({
+  title: ArticleField.data.title || '加载中...'
+})
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 
@@ -588,11 +597,6 @@ const gotoTitle = ref(false)
 
 const message = ref('')
 const showMessage = ref(false)
-
-
-useHead({
-  title: articleStore.articleField.title
-})
 onMounted(async () => {
   //
   if (user.token === '') {
@@ -654,11 +658,9 @@ onBeforeRouteUpdate(async (to, from, next) => {
     if (to.path !== from.path) {
       next()
     } else {
-      return
+      return false
     }
   } else {
-    console.log(to)
-    console.log(from)
     next()
   }
 })

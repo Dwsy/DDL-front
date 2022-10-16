@@ -13,18 +13,19 @@
 
 
 <script setup lang="ts">
-import { useNuxtApp } from '#app'
 // import { getById } from "~~/api/useApiTest"
 // import { useFetchResponse } from "~~/composables/useFetchResponse"
+import {useRoute} from '#app'
+
 let route = useRoute()
-console.log(route.params.id);
+console.log(route.params.id)
 
 // let { $axios } = useNuxtApp()
 // const axios = $axios()
 // const getlist = async () => axios.get("https://nestapi.dwsy.link/api/classification/article/6039284a2684e22ec8291c64")
 let body = {
-  url: "https://nestapi.dwsy.link/api/contents/all/" + route.params.id,
-  methods: "get",
+  url: 'https://nestapi.dwsy.link/api/contents/all/' + route.params.id,
+  methods: 'get',
   body: null,
   params: null,
 }

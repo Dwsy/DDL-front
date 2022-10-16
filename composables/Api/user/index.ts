@@ -2,24 +2,24 @@ import http from '~~/utils/fetch'
 import {useGet, usePost} from '~/composables/useAxios'
 
 export const useAxiosGetUserInfo = () => {
-    return useGet('user/info')
+    return useGet<ResponseData<any>>('user/info')
 }
 export const useAxiosGetUserInfoByUid = (uid: string) => {
-    return useGet('user/info/' + uid)
+    return useGet<ResponseData<any>>('user/info/' + uid)
 }
 
 export const useAxiosPostCheck = () => {
-    return usePost('user/active/check')
+    return usePost<ResponseData<any>>('user/active/check')
 }
 
 export const useAxiosGetArticleListByUserId = (userId, params?:
     { size?: number, page?: number, tagId?: string, order?: string, properties?: string }) => {
-    return useGet('article/article/field/list/' + userId, params)
+    return useGet<ResponseData<any>>('article/article/field/list/' + userId, params)
 }
 
 export const userAxiosGetUserThumbActiveListByUserId = (userId, params?:
     { size?: number, page?: number, tagId?: string, order?: string, properties?: string, type: UserActiveType }) => {
-    return useGet('user/active/thumb/' + userId, params)
+    return useGet<ResponseData<any>>('user/active/thumb/' + userId, params)
 }
 
 export enum UserActiveType {

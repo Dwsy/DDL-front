@@ -1,6 +1,7 @@
 import http from '~~/utils/fetch'
-import {useDel, useGet, usePost} from '~/composables/useAxios'
-import {collectionData, collectionType} from '~/types/article'
+import {useDel, useGet, useGetT, usePost} from '~/composables/useAxios'
+import {collectionData, collectionGroupData, collectionType} from '~/types/article'
+import {ResponseData} from '~/types/utils/axios'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
     return http.GET('article/group/list', params)
@@ -13,7 +14,7 @@ export const useFetchGetArticleList = (params?:
 
 export const useAxiosGetArticleList = (params?:
                                            { size?: number, page?: number, tagId?: string, order?: string, properties?: string }) => {
-    return useGet('article/article/field/list', params)
+    return useGet<ResponseData<any>>('article/article/field/list', params)
 }
 
 export const useFetchGetArticleField = (id) => {
@@ -29,10 +30,10 @@ export const useFetchGetArticleComment = (id, params?: { size?: number, page?: n
     return http.GET('article/comment/' + id, params)
 }
 export const useAxiosGetArticleChildComment = (aid, pid, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
-    return useGet(`article/comment/child/${aid}-${pid}`, params)
+    return useGet<ResponseData<any>>(`article/comment/child/${aid}-${pid}`, params)
 }
 export const useAxiosGetArticleComment = (id, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
-    return useGet('article/comment/' + id, params)
+    return useGet<ResponseData<any>>('article/comment/' + id, params)
 }
 
 
@@ -47,7 +48,7 @@ export interface ReplyArticleCommentBody {
 
 
 export const useAxiosPostReplyArticleComment = (body: ReplyArticleCommentBody) => {
-    return usePost('article/comment', body)
+    return usePost<ResponseData<any>>('article/comment', body)
 }
 
 
@@ -56,21 +57,27 @@ export interface ArticleCommentAction {
     actionCommentId: string;
     actionUserId?: string;
     articleFieldId: string;
-    commentType?: commentType;
+    commentType?: CommentType;
 }
 
-export enum commentType {
+export enum CommentType {
     comment, comment_comment,
     up, down, cancel,
     upToDown, downToUp
 }
 
+export interface ArticleAction {
+    thumb: number;
+    collect: boolean;
+    follow: boolean;
+}
+
 export const useAxiosGetArticleAction = (aid: string) => {
-    return useGet('article/article/field/action/' + aid, null)
+    return useGet<ResponseData<ArticleAction>>('article/article/field/action/' + aid, null)
 }
 
 export const useAxiosPostActionArticleComment = (body: ArticleCommentAction) => {
-    return usePost('article/comment/action', body)
+    return usePost<ResponseData<any>>('article/comment/action', body)
 }
 
 //----
@@ -84,15 +91,20 @@ export const useFetchGetArticleTagList = (params?: { order?: string, properties?
 }
 
 export const useAxiosGetCollectionGroupList = () => {
-    return useGet('user/collection/group/list')
+    return useGet<ResponseData<any>>('user/collection/group/list')
 }
+
+export const useAxiosGetCollectionGroupListT = () => {
+    return useGetT<Array<collectionGroupData>>('user/collection/group/list')
+}
+
 // private String groupName;
 // private Long groupId;
 // private int order;
 export const useAxiosPostCreateCollectionGroup = (body: {
     groupName: string, order: number
 }) => {
-    return usePost('user/collection/group/create', body)
+    return usePost<ResponseData<any>>('user/collection/group/create', body)
 }
 
 export const useAxiosPostDeleteCollectionGroup = undefined
@@ -100,7 +112,7 @@ export const useAxiosPostDeleteCollectionGroup = undefined
 export const useAxiosPostUpdateCollectionGroup = undefined
 
 export const useAxiosPostAddCollectionToGroup = (body: collectionData) => {
-    return usePost('user/collection/', body)
+    return usePost<ResponseData<any>>('user/collection/', body)
 }
 
 export const useAxiosCancelCollectionToGroup = (body: collectionData) => {
@@ -108,7 +120,7 @@ export const useAxiosCancelCollectionToGroup = (body: collectionData) => {
 }
 
 export const useAxiosGetArticleCollectionState = (articleId: string) => {
-    return useGet('user/collection/state', {
+    return useGet<ResponseData<any>>('user/collection/state', {
         sourceId: articleId,
         type: 'Article'
     })

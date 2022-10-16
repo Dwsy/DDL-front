@@ -1,6 +1,6 @@
 <template>
   <div class="mt-6">
-    {{ banner }}
+    <!--    {{ banner }}-->
     <!--  <div class="mt-6" v-if="articleGroupId">-->
     <v-row>
       <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
@@ -82,8 +82,8 @@
                         return-object
                         variant="underlined" v-model="articleSourceItem"
               ></v-select>
-              {{ articleSourceItem }}
-              {{ articleSource }}
+              <!--              {{ articleSourceItem }}-->
+              <!--              {{ articleSource }}-->
               <v-text-field v-if="articleSource!==ArticleSource.original"
                             label="来源文章URL" variant="outlined" class="mx-2">
               </v-text-field>
@@ -182,9 +182,9 @@ const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
 const {data: groupData} = await useFetchGetArticleGroupList()
 articleGroupList.value = groupData
 onMounted(async () => {
-  const routeNew = route.query.new
-
-  if (routeNew === undefined || routeNew) {
+  const id = route.query.id
+  //todo 动态切换主题
+  if (Boolean(id) === false) {
     isNew.value = true
     await router.push({
       query: {
@@ -242,8 +242,8 @@ onMounted(async () => {
   //   })
   // })
   watch(bannerFile, () => {
-    console.log('http://qiniu.dwsy.link/ddl/3073d30591b445ba87be378fdb080a96.jpg')
-    console.log(bannerFile.value)
+    // console.log('http://qiniu.dwsy.link/ddl/3073d30591b445ba87be378fdb080a96.jpg')
+    // console.log(bannerFile.value)
     disableUploadBtn.value = bannerFile.value.length <= 0
     const reader = new FileReader()
     const file = bannerFile.value[0]
@@ -286,7 +286,7 @@ const publishArticle = async () => {
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
-    articleState: ArticleState.open,
+    articleState: ArticleState.published,
     articleTagIds: articleTagIds.value,
     banner: banner.value,
     content: content.value,
@@ -312,7 +312,7 @@ const updateArticle = async () => {
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
-    articleState: ArticleState.open,
+    articleState: ArticleState.published,
     articleTagIds: articleTagIds.value,
     banner: banner.value,
     content: content.value,

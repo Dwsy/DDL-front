@@ -71,7 +71,7 @@ Axios.interceptors.response.use(
 )
 
 
-export const useGet = async (url: string, params?: object) => {
+export const useGet = async <T>(url: string, params?: object) => {
     let r: AxiosResponse = undefined
     try {
         r = await Axios.get(url, {params: params})
@@ -91,8 +91,8 @@ export const useGetT = async <T>(url: string, params?: object) => {
     return r
 }
 
-export const usePost = async (url: string, body?: object, config?: AxiosRequestConfig) => {
-    let r: AxiosResponse = undefined
+export const usePost = async <T>(url: string, body?: object, config?: AxiosRequestConfig) => {
+    let r: AxiosResponse<T> = undefined
     try {
         r = await Axios.post(url, body, config)
     } catch (error) {
