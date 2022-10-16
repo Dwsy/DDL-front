@@ -24,7 +24,7 @@
 </template>
 <script setup lang="ts">
 import {useRouter} from '#app'
-import {useFethGetSearchSuggestion} from '~/composables/Api/search'
+import {useFetchGetSearchSuggestion} from '~/composables/Api/search'
 import {onMounted, watch, ref, inject, watchEffect} from 'vue'
 import {useAxiosGetTagSuggestion} from '~/composables/Api/article/manageArticle'
 import {useFetchGetArticleTagList} from '~/composables/Api/article'

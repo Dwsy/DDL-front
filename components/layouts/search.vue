@@ -10,7 +10,7 @@
 <script setup>
 import {onMounted, ref, watch} from 'vue'
 import {useRouter} from '#app'
-import { useFethGetSearchSuggestion } from '~/composables/Api/search'
+import {useFetchGetSearchSuggestion} from '~/composables/Api/search'
 let Router = useRouter()
 let model = ref(null)
 let text = ref('')
@@ -21,7 +21,7 @@ const suggestion = async () => {
     return
   }
   isLoading.value = true
-  sug.value = (await useFethGetSearchSuggestion(text.value)).data
+  sug.value = (await useFetchGetSearchSuggestion(text.value)).data
   isLoading.value = false
 }
 const query = () => {

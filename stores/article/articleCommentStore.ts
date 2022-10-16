@@ -238,11 +238,11 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 }
             }
         },
-        async ActionComment(CommentType: CommentType, cid: string, pIndexId: number, cIndexId?: number) {
+        async ActionComment(commentType: CommentType, cid: string, pIndexId: number, cIndexId?: number) {
             let body: ArticleCommentAction = {
                 actionCommentId: cid,
                 articleFieldId: this.field.id,
-                commentType: CommentType,
+                commentType: commentType,
             }
             console.log(body)
 
@@ -288,7 +288,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     return
                 }
 
-                if (CommentType === CommentType.up) {
+                if (commentType === CommentType.up) {
                     if (retType === CommentType.up) {
                         pComment.upNum++
                         pComment.userAction = CommentType.up
@@ -302,7 +302,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     return
                 }
 
-                if (CommentType === CommentType.down) {
+                if (commentType === CommentType.down) {
                     if (retType === CommentType.down) {
                         pComment.downNum++
                         pComment.userAction = CommentType.down
@@ -335,7 +335,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     return
                 }
 
-                if (CommentType === CommentType.up) {
+                if (commentType === CommentType.up) {
                     if (retType === CommentType.up) {
                         cComment.upNum++
                         cComment.userAction = CommentType.up
@@ -348,7 +348,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     cComment.downNum = Math.max(cComment.downNum, 0)
                     return
                 }
-                if (CommentType === CommentType.down) {
+                if (commentType === CommentType.down) {
                     if (retType === CommentType.down) {
                         cComment.downNum++
                         cComment.userAction = CommentType.down

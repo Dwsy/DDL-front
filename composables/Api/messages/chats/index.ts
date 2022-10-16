@@ -1,4 +1,5 @@
 import {useGet, usePost, usePut} from '~/composables/useAxios'
+import {ResponseData} from '~/types/utils/axios'
 
 export const UseAxiosGetPrivateMessageList = () => {
     return useGet<ResponseData<any>>('message/private/message/list')

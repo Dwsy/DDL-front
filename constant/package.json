@@ -1,0 +1,18 @@
+{
+  "name": "juejin-markdown-themes",
+  "version": "9.9.9",
+  "main": "highlightCJs/index.js",
+  "license": "MIT",
+  "files": [
+  ],
+  "unpkg": true,
+  "scripts": {
+    "lint": "npx prettier -l *.js *.md",
+    "build": "rm -rf dist && node -r esm build.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+  },
+  "release": {
+  }
+}

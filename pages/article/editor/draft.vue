@@ -105,9 +105,71 @@
               </v-card-actions>
             </v-card>
           </v-menu>
+
+          <v-menu v-model="settingsDialog"
+                  :close-on-content-click="false"
+                  :open-on-click="false">
+            <template v-slot:activator="{ props }">
+              <v-btn color="#9d5b8b" icon="true" size="small" class="ml-2 mr-n4"
+                     v-bind="props" @click="()=>{
+                       this.settingsDialog=!settingsDialog
+                     }">
+                <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
+                <v-icon size="x-large" color="#FFF">mdi-cookie-cog-outline</v-icon>
+                <v-tooltip
+                    activator="parent"
+                    location="bottom"
+                >文章外观设置
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <v-card min-width="450px" style="overflow: hidden">
+              <div class="text-h6 ma-2">
+                文章外观设置
+              </div>
+              <v-divider class="mb-6 mt-n2"></v-divider>
+
+              <v-row class="pa-4 mb-n6">
+
+                <v-select prepend-icon="mdi-progress-pencil"
+                          label="MarkdownTheme" class="mx-2 mt-n5"
+                          :items="themeNameList"
+                          item-title="text" item-value="value"
+                          return-object
+                          variant="underlined" v-model="themeName"
+                ></v-select>
+                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                       @click="()=>{
+                    this.themeName=themeNameList[Math.ceil(Math.random()*themeNameList.length)-1]
+                  }"
+                >随便来一个
+                </v-btn>
+              </v-row>
+              <v-divider class="pb-6"></v-divider>
+
+              <v-row class="pa-4 ">
+
+                <v-select prepend-icon="mdi-code-tags"
+                          label="代码高亮风格" class="mx-2 mt-n5"
+                          :items="HighlightStyleNameList"
+                          item-title="text" item-value="value"
+                          return-object
+                          variant="underlined" v-model="highlightStyle"
+                ></v-select>
+                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                       @click="()=>{
+                    this.highlightStyle=HighlightStyleNameList[Math.ceil(Math.random()*HighlightStyleNameList.length)-1]
+                  }"
+                >随便来一个
+                </v-btn>
+              </v-row>
+            </v-card>
+          </v-menu>
         </client-only>
       </div>
-      <v-avatar class="mr-8" size="large">
+
+
+      <v-avatar class="mr-4 mt-1" size="48">
         <v-img :src="useUserStore().userInfo?.avatar"></v-img>
       </v-avatar>
     </v-row>
@@ -135,6 +197,8 @@ import {
   infoMsg,
   useAxiosPostUploadAvatar, warningMsg, successMsg, errorMsg
 } from '#imports'
+import {themes, changeThemes, themeNameList} from '~~/constant/markdownThemeList'
+import {HighlightStyleNameList, HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
 import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
@@ -181,6 +245,9 @@ const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
 })
 const {data: groupData} = await useFetchGetArticleGroupList()
 articleGroupList.value = groupData
+const settingsDialog = ref(false)
+const themeName = ref('ChineseRed')
+const highlightStyle = ref<string>('xcode')
 onMounted(async () => {
   const id = route.query.id
   //todo 动态切换主题
@@ -234,6 +301,8 @@ onMounted(async () => {
     if (articleSourceItem.value) {
       articleSource.value = articleSourceItem.value.value
     }
+    changeThemes(themes[themeName.value])
+    changeHighlightStyle(highlightStyle.value)
   })
   // watchEffect(() => {
   //   console.log('articleTagList', articleTagList.value)
@@ -252,6 +321,7 @@ onMounted(async () => {
       localBannerImg.value = reader.result
     }
   })
+
 })
 const rules = {
   email: v => !!(v || '').match(/@/) || '请输入有效的电子邮件',

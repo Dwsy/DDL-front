@@ -1,5 +1,6 @@
 import http from '~~/utils/fetch'
 import {useGet, usePost} from '~/composables/useAxios'
+import {ResponseData} from '~/types/utils/axios'
 
 export const useAxiosGetUserInfo = () => {
     return useGet<ResponseData<any>>('user/info')
