@@ -528,7 +528,7 @@
 <script setup lang="ts">
 import hljs from 'highlight.js'
 // import vCode from '~/utils/HljsLine'
-import 'highlight.js/styles/atom-one-light.css'
+// import 'highlight.js/styles/atom-one-light.css'
 // import 'highlight.js/styles/atom-one-dark.css'
 import {
   CommentType, useAxiosCancelCollectionToGroup, useAxiosGetArticleCollectionState,

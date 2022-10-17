@@ -41,6 +41,7 @@ export const useArticleStore = defineStore('ArticleStore', {
             // }
             this.markdownThemeLight = this.articleField.markDownTheme
             this.markdownThemeDark = this.articleField.markDownThemeDark
+            await changeHighlightStyle(this.articleField.codeHighlightStyle)
             // this.markdownThemeDark
             // todo darktheme
             let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
