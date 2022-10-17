@@ -16,7 +16,13 @@ export const useAxiosGetArticleField = (id) => {
     return useGet<ResponseData<any>>('article/article/field/' + id, null)
 }
 
-export const useAxiosGetArticleContent = (id, params?: { type?: number }) => {
+export enum ContentType {
+    html,
+    pure,
+    markdown
+}
+
+export const useAxiosGetArticleContent = (id, params?: { type?: ContentType }) => {
     return useGet<ResponseData<any>>('article/article/content/' + id, params)
 }
 

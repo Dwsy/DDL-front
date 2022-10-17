@@ -129,6 +129,6 @@ const upload = async (files) => {
 <style lang="scss" scoped>
 ::v-deep(.bytemd) {
   z-index: v-bind(bytemdZIndex);
-  height: calc(100vh - 5rem) !important;
+  height: calc(100vh - 4.2rem) !important;
 }
 </style>

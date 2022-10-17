@@ -13,6 +13,7 @@ export default `
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
+  color:azure;
   line-height: 1.5;
   margin-bottom: 8px;
   padding-bottom: 8px;

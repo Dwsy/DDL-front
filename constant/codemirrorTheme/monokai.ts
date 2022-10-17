@@ -52,7 +52,9 @@ export default `/* Based on Sublime Text's Monokai theme */
 }
 
 .cm-s-default span.cm-comment {
-  color: #75715e;
+  // color: #75715e;
+  color: #5fc344;
+  
 }
 
 .cm-s-default span.cm-atom {

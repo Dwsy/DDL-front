@@ -138,7 +138,7 @@
                 ></v-select>
                 {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme()">
+                       @click="randomThemeJuejin()">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -153,7 +153,7 @@
                 ></v-select>
                 {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme()">
+                       @click="randomThemeLight()">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -168,7 +168,7 @@
                 ></v-select>
                 {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme()">
+                       @click="randomThemeDark()">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -209,27 +209,33 @@
 </template>
 
 <script setup lang="ts">
-import {clearError, useRoute, useRouter} from '#app'
-import {onMounted, ref, provide, reactive, toRaw, watch, watchEffect} from 'vue'
+import {useRoute, useRouter} from '#app'
+import {onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
 // import 'bytemd/dist/index.min.css'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
+  ContentType,
   useAxiosGetArticleContent,
-  useAxiosGetArticleField, useAxiosPostCreateArticle, useAxiosPostUploadImg, useAxiosPutUpdateArticle
+  useAxiosGetArticleField,
+  useAxiosPostCreateArticle,
+  useAxiosPostUploadImg,
+  useAxiosPutUpdateArticle
 } from '~/composables/Api/article/manageArticle'
 import {ArticleField} from '~/stores/article/articleStore'
 import {ArticleSource, ArticleSourceZh, ArticleState, CreateArticleBody} from '~/types/article/manageArticle'
 import {ArticleGroup, ArticleTag} from '~/types/article'
 import {
   createError,
-  definePageMeta,
-  useFetchGetArticleGroupList,
   defaultMsg,
+  definePageMeta,
+  errorMsg,
   infoMsg,
-  warningMsg, successMsg, errorMsg
+  successMsg,
+  useFetchGetArticleGroupList,
+  warningMsg
 } from '#imports'
-import {themes, mwebLightNameList, mwebDarkList, changeThemes, themeNameList} from '~~/constant/markdownThemeList'
-import {HighlightStyleNameList, changeHighlightStyle} from '~~/constant/highlightStyleList'
+import {changeThemes, mwebDarkList, mwebLightNameList, themeNameList, themes} from '~~/constant/markdownThemeList'
+import {changeHighlightStyle, HighlightStyleNameList} from '~~/constant/highlightStyleList'
 import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
@@ -320,7 +326,9 @@ onMounted(async () => {
             message: 'Unauthorized'
           })
         }
-        const {data: ContentResponse} = await useAxiosGetArticleContent(afId.value)
+        const {data: ContentResponse} = await useAxiosGetArticleContent(afId.value, {
+          type: ContentType.markdown
+        })
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
           title.value = articleFieldData.value.title
@@ -351,12 +359,14 @@ onMounted(async () => {
       right.style.color = '#FFF'
       let left: HTMLElement = document.querySelector('.bytemd-status-left')
       left.style.color = '#FFF'
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg').forEach((item: HTMLElement) => {
-        item.style.color = '#FFF'
-      })
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg').forEach((item: HTMLElement) => {
-        item.style.color = '#FFF'
-      })
+      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+          .forEach((item: HTMLElement) => {
+            item.style.color = '#FFF'
+          })
+      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+          .forEach((item: HTMLElement) => {
+            item.style.color = '#FFF'
+          })
       // statusLeft.
       let css = await import('~~/constant/codemirrorTheme/monokai')
       let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
@@ -374,12 +384,14 @@ onMounted(async () => {
       right.style.color = '#000'
       let left: HTMLElement = document.querySelector('.bytemd-status-left')
       left.style.color = '#000'
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg').forEach((item: HTMLElement) => {
-        item.style.color = '#000'
-      })
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg').forEach((item: HTMLElement) => {
-        item.style.color = '#000'
-      })
+      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+          .forEach((item: HTMLElement) => {
+            item.style.color = '#000'
+          })
+      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+          .forEach((item: HTMLElement) => {
+            item.style.color = '#000'
+          })
       let css = await import('~~/constant/codemirrorTheme/default')
       let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
       if (markdownThemeStyleElement) {
@@ -568,11 +580,17 @@ const cancelChange = () => {
   articleSourceUrl.value = beforeChangeState.articleSourceUrl
 }
 
-const randomTheme = () => {
+const randomThemeJuejin = () => {
   themeName.value = themeNameList[Math.ceil(Math.random() * themeNameList.length) - 1]
 }
 const randomHighlightStyle = () => {
   highlightStyle.value = HighlightStyleNameList[Math.ceil(Math.random() * HighlightStyleNameList.length) - 1]
+}
+const randomThemeLight = () => {
+  themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]
+}
+const randomThemeDark = () => {
+  darkThemeName.value = mwebDarkList[Math.ceil(Math.random() * mwebDarkList.length) - 1]
 }
 const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active
@@ -607,6 +625,11 @@ onMounted(() => {
 }
 </style>
 
+<style>
+.bytemd-editor .CodeMirror {
+  font-size: 18px !important;
+}
+</style>
 
 <!--<style>-->
 <!--.cm-s-default .cm-header {-->

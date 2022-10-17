@@ -726,8 +726,8 @@ span.CodeMirror-selectedtext {
 }
 
 .bytemd-editor .CodeMirror .CodeMirror-lines {
-    max-width: 800px;
-    margin: 0 auto;
+    /*max-width: 800px;*/
+    /*margin: 0 auto;*/
     padding: 16px 0
 }
 
@@ -743,8 +743,8 @@ span.CodeMirror-selectedtext {
 }
 
 .bytemd-preview .markdown-body {
-    max-width: 800px;
-    margin: 0 auto;
+    /*max-width: 800px;*/
+    /*margin: 0 auto;*/
     padding: 16px 4%
 }
 
