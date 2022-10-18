@@ -55,7 +55,7 @@ const test = () => {
     useRouter().push('/article/9')
   }, 5000)
 
-  ComponentToastMsg('test', TYPE.SUCCESS, JumpPrompt, timeout)
+  ComponentToastMsg('test', TYPE.SUCCESS, JumpPrompt, 5, timeout)
   // const vNode: JSX.Element = (
   //     <div>
   //       更新成功5秒后跳转到文章

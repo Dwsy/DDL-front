@@ -302,9 +302,9 @@ const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
 const {data: groupData} = await useFetchGetArticleGroupList()
 articleGroupList.value = groupData
 const settingsDialog = ref(false)
-const themeName = ref()
-const darkThemeName = ref()
-const highlightStyle = ref<string>()
+const themeName = ref<string>('cyanosis')
+const darkThemeName = ref<string>('geekBlackDark')
+const highlightStyle = ref<string>('xcode')
 onMounted(async () => {
   const id = route.query.id
   if (Boolean(id) === false) {
@@ -324,7 +324,14 @@ onMounted(async () => {
     if (route.query.id) {
       afId.value = String(route.query.id)
       const {data: ArticleFieldResponse} = await useAxiosGetArticleField(afId.value)
-      if (ArticleFieldResponse.code === 0) {
+      //todo 优化
+      if (ArticleFieldResponse.data === null) {
+        await router.push({
+          query: {
+            new: 'true'
+          }
+        })
+      } else if (ArticleFieldResponse.code === 0) {
         articleFieldData.value = ArticleFieldResponse.data
         if (articleFieldData?.value.user.id !== userStore?.user.id) {
           // await clearError({redirect: '/'})
@@ -488,10 +495,10 @@ const publishArticle = async () => {
   if (axiosResponse.code === 0) {
     // successMsg('发布成功')
     const timeout = setTimeout(() => {
-      useRouter().push('/article/' + axiosResponse.data.id)
+      window.location.href = '/article/' + axiosResponse.data
+      // useRouter().push('/article/' + axiosResponse.data.id)
     }, 5000)
-
-    ComponentToastMsg('发布成功5秒后自动跳转到文章', TYPE.SUCCESS, JumpPrompt, timeout)
+    ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout)
   } else {
     errorMsg(axiosResponse.msg)
   }
@@ -523,6 +530,7 @@ const updateArticle = async () => {
   if (axiosResponse.code === 0) {
     // successMsg('更新成功')
     const timeout = setTimeout(async () => {
+      window.location.href = '/article/' + afId.value
       // await useRouter().push('/article/' + afId.value)
     }, 5000)
     ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout)

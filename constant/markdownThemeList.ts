@@ -5,6 +5,8 @@ const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
 export const changeThemes = async (markdownTheme: MarkdownTheme) => {
     let css = null
 
+    const s = new Date().getTime()
+
 
     // console.log(await import('~~/constant/mwebMarkDownThemes/dark/ayuMirage'))
 
@@ -155,16 +157,18 @@ export const changeThemes = async (markdownTheme: MarkdownTheme) => {
         default:
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
     }
-    // console.log(css.default)
+    console.log(css.default)
     let markdownThemeStyleElement = document.querySelector('#markdownTheme')
     if (markdownThemeStyleElement) {
         markdownThemeStyleElement.innerHTML = css.default
     } else {
+        console.log('创建style标签')
         markdownThemeStyleElement = document.createElement('style')
         markdownThemeStyleElement.id = 'markdownTheme'
         markdownThemeStyleElement.innerHTML = css.default
         document.head.appendChild(markdownThemeStyleElement)
     }
+    console.log('markdownThemeStyleElement', new Date().getTime() - s)
 }
 
 export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {

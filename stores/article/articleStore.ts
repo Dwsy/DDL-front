@@ -13,22 +13,22 @@ import {themes, changeThemes, themeNameList} from '~~/constant/markdownThemeList
 import {HighlightStyleNameList, HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
 import {ArticleAction, useAxiosGetArticleAction} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
-import {MarkdownTheme, mwebDark} from '~/types/other/markdownTheme'
+import {MarkdownTheme, MarkdownThemeNameList, mwebDark} from '~/types/other/markdownTheme'
 
 
 export const useArticleStore = defineStore('ArticleStore', {
     state: (): Iarticle => ({
         articleField: null,
         contentHtml: null,
-        mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
-        mdThemeNameListDark: ['geek-black'],
+        // mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
+        // mdThemeNameListDark: ['geek-black'],
         markdownTheme: null,
         markdownThemeLight: null,
         markdownThemeDark: null,
         follow: false,
         collect: false,
         thumb: 0,
-        loading: true
+        loading: false
     }),
     getters: {},
     actions: {
@@ -41,24 +41,23 @@ export const useArticleStore = defineStore('ArticleStore', {
             // }
             this.markdownThemeLight = this.articleField.markDownTheme
             this.markdownThemeDark = this.articleField.markDownThemeDark
-            await changeHighlightStyle(this.articleField.codeHighlightStyle)
             // this.markdownThemeDark
-            // todo darktheme
             let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
             this.thumb = response.data.thumb
             this.follow = response.data.follow
             this.collect = response.data.collect
+            await changeHighlightStyle(this.articleField.codeHighlightStyle)
         },
         async changeThemeDark() {
             if (this.markdownThemeDark === null) {
                 await changeThemes(themes.geekBlack)
-                console.log('geekBlack')
             } else {
                 await changeThemes(themes[this.markdownThemeDark])
             }
             this.loading = false
         },
         async changeThemeLight() {
+            console.log('changeThemeLight')
             if (this.markdownThemeLight === null) {
                 await changeThemes(themes.cyanosis)
             } else {
@@ -150,8 +149,8 @@ export const useArticleStore = defineStore('ArticleStore', {
 interface Iarticle extends ArticleAction {
     articleField: Ref<ArticleField>
     contentHtml: string
-    mdThemeNameList: Array<string>
-    mdThemeNameListDark: Array<string>
+    // mdThemeNameList: Array<string>
+    // mdThemeNameListDark: Array<string>
     markdownTheme: string
     markdownThemeDark: string
     markdownThemeLight: string
@@ -214,7 +213,7 @@ export interface ArticleField {
     collect: boolean
     articleSource: ArticleSource
     articleSourceUrl: string
-    markDownTheme: MarkdownTheme | string,
+    markDownTheme: string | MarkdownThemeNameList,
     markDownThemeDark: mwebDark | string,
     codeHighlightStyle: HighlightStyleName | string,
     // follow: boolean

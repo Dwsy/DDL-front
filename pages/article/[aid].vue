@@ -28,7 +28,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col class="mt-2">
+              <v-col class="mt-2" v-if="user.user.id!==articleStore.articleField.user.id">
 
                 <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
                   <span style="color: white" @click="unFollowUser()">已关注</span>
@@ -37,6 +37,13 @@
                        @click="subscribe()">
                   <span style="color: white">关注</span>
                 </v-btn>
+              </v-col>
+              <v-col class="mt-2" v-else>
+                <a :href="`/article/editor/draft?id=${articleStore.articleField.id}`" target="_blank">
+                  <v-btn class="float-end mx-4" color="blue lighten-3">
+                    <span style="color: white">编辑</span>
+                  </v-btn>
+                </a>
               </v-col>
             </v-row>
             <v-row class="d-flex d-sm-none mx-4">
@@ -551,6 +558,7 @@ import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {useLayout} from '~/stores/layout'
 import {useRouter} from '#app'
+import {changeHighlightStyle} from '~/constant/highlightStyleList'
 
 
 definePageMeta({
@@ -570,6 +578,23 @@ let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
 const articleStoreCollectKey = 'articleStoreCollect'
 let ArticleField = await useFetchGetArticleField(aid)
+// await changeHighlightStyle('xcode')
+useHead({
+  style: [
+    {
+      id: 'highlightStyle',
+    },
+    {
+      id: 'markdownTheme',
+    }
+  ]
+//   style: [
+//     highlightStyle:{
+//
+// }
+//     css = await import ('~~/constant/highlightCJs/vs')
+//   ]
+})
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
   router.push('/article')
@@ -602,15 +627,17 @@ onMounted(async () => {
   }
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
+    const s = new Date().getTime()
     await articleStore.changeThemeDark()
+
     // articleStore.markdownTheme = articleStore.markdownThemeDark
   } else {
+    const s = new Date().getTime()
     await articleStore.changeThemeLight()
+    console.log('light', new Date().getTime() - s)
     // articleStore.markdownTheme = articleStore.markdownThemeLight
   }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
-  hljs.highlightAll()
-
   setTimeout(() => {
     createToc()
     if (route.hash) {
@@ -631,6 +658,7 @@ onMounted(async () => {
       el.scrollIntoView()
     }
   }
+  await loadArticleCollectionState()
 
   watch(theme.global.name, async (val) => {
     if (val === 'dark') {
@@ -645,8 +673,8 @@ onMounted(async () => {
     const el = document.querySelector('#comments')
     el.scrollIntoView()
   })
-  await loadArticleCollectionState()
 
+  hljs.highlightAll()
 })
 
 onUnmounted(() => {
