@@ -27,6 +27,7 @@ import {useUserStore} from '~~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {useTheme} from 'vuetify'
+import '~~/assets/css/main.css'
 
 definePageMeta({
   key: route => route.fullPath,

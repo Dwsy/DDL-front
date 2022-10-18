@@ -527,6 +527,15 @@
 
       </div>
     </client-only>
+
+
+    <!--    <div class="dialog-bg" id="dialog-bg">-->
+    <!--      <div class="img-box" id="img-box">-->
+    <!--        <img src="" alt="">-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+
   </div>
 
 </template>
@@ -558,7 +567,7 @@ import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {useLayout} from '~/stores/layout'
 import {useRouter} from '#app'
-import {changeHighlightStyle} from '~/constant/highlightStyleList'
+import mediumZoom from 'medium-zoom'
 
 
 definePageMeta({
@@ -804,18 +813,29 @@ const unsubscribe = () => {
 const loadChildComment = (n) => {
   console.log(n)
 }
+onMounted(() => {
+  const imgNodes: NodeListOf<HTMLImageElement> = document
+      .querySelector('.markdown-body')
+      .querySelectorAll('img')
+  mediumZoom(imgNodes, {
+    margin: 24,
+    background: 'rgba(0,0,0,0.4)',
+    scrollOffset: 0,
+  })
+
+})
 
 </script>
 
 
 <style lang="sass">
-@import "../../assets/sass/mdTheme/cyanosis"
-@import "../../assets/sass/mdTheme/v-green"
-@import "../../assets/sass/mdTheme/arknights"
-@import "../../assets/sass/mdTheme/smart-blue.css"
-@import "../../assets/sass/mdTheme/juejin"
-@import "../../assets/sass/mdTheme/devui-blue"
-@import "../../assets/sass/mdTheme/geek-black"
+//@import "../../assets/sass/mdTheme/cyanosis"
+//@import "../../assets/sass/mdTheme/v-green"
+//@import "../../assets/sass/mdTheme/arknights"
+//@import "../../assets/sass/mdTheme/smart-blue.css"
+//@import "../../assets/sass/mdTheme/juejin"
+//@import "../../assets/sass/mdTheme/devui-blue"
+//@import "../../assets/sass/mdTheme/geek-black"
 
 .comment
   border-style: solid
@@ -952,3 +972,42 @@ code {
 }
 
 </style>
+
+<!--<style>-->
+<!--.img-select img {-->
+<!--  width: 500px;-->
+<!--  height: 300px;-->
+<!--}-->
+
+<!--.dialog-bg {-->
+<!--  z-index: 9999;-->
+<!--  /*display: none;*/-->
+<!--  /*position: absolute;*/-->
+<!--  /*top: 0;*/-->
+<!--  /*bottom: 0;*/-->
+<!--  /*left: 0;*/-->
+<!--  /*right: 0;*/-->
+<!--  background: rgba(0, 0, 0, 0.7)-->
+<!--}-->
+
+<!--.dialog-bg .img-box {-->
+<!--  /*width: 1165px;*/-->
+<!--  /*height: 650px;*/-->
+<!--  /*position: absolute;*/-->
+<!--  /*left: 50%;*/-->
+<!--  /*top: 50%;*/-->
+<!--  /*margin-left: -582px;*/-->
+<!--  /*margin-top: -340px;*/-->
+<!--}-->
+
+<!--.dialog-bg .img-box img {-->
+<!--  z-index: 9999;-->
+<!--  position: absolute;-->
+<!--  top: 895.263px;-->
+<!--  left: 226.838px;-->
+<!--  /*width: 100%;*/-->
+<!--  /*height: 100%;*/-->
+<!--  transform: scale(1.57314) translate3d(101.834px, 62.4784px, 0px);-->
+<!--}-->
+
+<!--</style>-->

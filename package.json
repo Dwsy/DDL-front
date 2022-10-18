@@ -48,10 +48,12 @@
     "juejin-markdown-themes": "^1.29.3",
     "jwks-rsa": "^2.1.4",
     "mdi": "^2.2.43",
+    "medium-zoom": "^1.0.6",
     "node-rsa": "^1.1.1",
     "npm": "^8.19.2",
     "pinia": "^2.0.22",
     "postcss": "^8.4.16",
+    "vue-easy-lightbox": "^1.9.0",
     "vue-toastification": "^2.0.0-rc.5",
     "vuetify": "^3.0.0-beta.13"
   }
