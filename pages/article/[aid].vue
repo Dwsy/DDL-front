@@ -617,7 +617,7 @@ if (ArticleField.data == undefined) {
 }
 // console.log('title', ArticleField.data.title)
 useHead({
-  title: ArticleField.data.title || '加载中...'
+  title: ArticleField.data?.title || '加载中...'
 })
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
