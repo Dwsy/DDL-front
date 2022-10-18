@@ -28,7 +28,7 @@ export const useArticleStore = defineStore('ArticleStore', {
         follow: false,
         collect: false,
         thumb: 0,
-        loading: false
+        loading: true
     }),
     getters: {},
     actions: {

@@ -3,12 +3,20 @@
     <v-row class="article-content">
 
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
-        <div class="pt-4">
+        <div class="mt-n4">
           <div>
 
+            <v-row class="mb-1">
+              <v-col>
+              <span class="text-h3" id="T-title">
+                {{ articleStore.articleField.title }}
+              </span>
+              </v-col>
+            </v-row>
+            <v-divider class="my-1"></v-divider>
             <v-row>
-              <v-col cols="1" class="mr-lg-5 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
-                <v-avatar size="x-large">
+              <v-col cols="1" class="mr-lg-1 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
+                <v-avatar size="60">
                   <v-img :src="articleStore.articleField.user.userInfo.avatar"></v-img>
                 </v-avatar>
               </v-col>
@@ -56,18 +64,14 @@
             </v-row>
           </div>
           <v-divider class="my-4"></v-divider>
-          <v-row class="my-1">
-            <v-col>
-              <span class="text-h4 pl-4" id="T-title">
-                {{ articleStore.articleField.title }}
-              </span>
-            </v-col>
-          </v-row>
+          <v-img :src="articleStore.articleField.banner"
+                 :aspect-ratio="8/3" cover
+                 class="d-article-banner">
+          </v-img>
           <v-divider></v-divider>
           <!--          :class="articleStore.markdownTheme"-->
           <div v-html="articleStore.contentHtml"
                v-show="!articleStore.loading"
-
                class=" js-toc-content markdown-body"
 
           ></div>
@@ -651,20 +655,28 @@ onMounted(async () => {
     createToc()
     if (route.hash) {
       console.log(route.hash)
-      const el = document.querySelector(route.hash)
+      const el: HTMLElement = document.querySelector(route.hash)
+      el.style.borderBottom = '5px solid'
+      console.log(el.offsetTop)
       if (el) {
-        el.scrollIntoView()
+        el.scrollIntoView({
+          // behavior:'smooth',
+          block: 'center',
+          // inline:'center'
+        })
       }
     } else {
       document.documentElement.scrollTop = 0
     }
-  }, 300)
+  }, 200)
   await articleCommentStore.init(articleStore.articleField)
   if (route.hash.startsWith('#comment-')) {
     console.log('goto comment:', route.hash)
     const el = document.querySelector(route.hash)
     if (el) {
-      el.scrollIntoView()
+      el.scrollIntoView({
+        // behavior:"smooth"
+      })
     }
   }
   await loadArticleCollectionState()
@@ -682,8 +694,19 @@ onMounted(async () => {
     const el = document.querySelector('#comments')
     el.scrollIntoView()
   })
-
-  hljs.highlightAll()
+  const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('pre code')
+  const CodeLength = CodeNodeList.length
+  if (CodeLength > 30) {
+    for (let i = 0; i < 15; i++) {
+      hljs.highlightElement(CodeNodeList[i])
+    }
+    setTimeout(() => {
+      for (let i = 15; i < CodeLength; i++) {
+        hljs.highlightElement(CodeNodeList[i])
+      }
+    }, 1500)
+  }
+  // hljs.highlightAll()
 })
 
 onUnmounted(() => {
@@ -696,8 +719,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
   if (to.hash) {
     if (to.path !== from.path) {
       next()
-    } else {
-      return false
     }
   } else {
     next()
@@ -718,12 +739,11 @@ const createToc = () => {
   tocbot.init({
     tocSelector: '.js-toc',
     contentSelector: '.js-toc-content',
-    headingSelector: 'h1, h2, h3,h4',
-    hasInnerContainers: false,
-    includeTitleTags: false,
-    // scrollSmoothOffset: 80,
-    scrollSmooth: false,
-    // scrollSmoothDuration: 500,
+    headingSelector: 'h1, h2,h3,h4',
+    scrollSmooth: true,
+    scrollSmoothDuration: 500,
+    scrollSmoothOffset: -70,
+    headingsOffset: -20
   })
 }
 
@@ -817,6 +837,19 @@ onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
       .querySelector('.markdown-body')
       .querySelectorAll('img')
+  const interval = setInterval(() => {
+    const bannerElement: HTMLImageElement = document.querySelector('.d-article-banner > img')
+    if (bannerElement) {
+      mediumZoom(bannerElement, {
+        margin: 24,
+        background: 'rgba(0,0,0,0.4)',
+        scrollOffset: 0,
+      })
+      clearInterval(interval)
+    }
+  }, 1000)
+
+
   mediumZoom(imgNodes, {
     margin: 24,
     background: 'rgba(0,0,0,0.4)',
@@ -844,6 +877,10 @@ onMounted(() => {
 </style>
 
 <style lang="css">
+.toc-list-item:hover {
+  color: #00c888;
+}
+
 .article-content p {
   font-size: 20px;
 }

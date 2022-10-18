@@ -1,51 +1,52 @@
 <template>
   <div>
 
-      <v-card elevation="1" hover outlined transition="scroll-y-transition">
-        <v-row no-gutters>
-          <v-col class="pl-2" cols="4">
-            <div class="text-subtitle-1">
-              <v-avatar class=" mr-2 ma-1">
-                <v-img :src="user.userInfo.avatar"></v-img>
-              </v-avatar>
-              <!--              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>-->
-              {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>
-              <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
+    <v-card elevation="1" hover outlined transition="scroll-y-transition">
+      <v-row no-gutters>
+        <v-col class="pl-2" cols="4">
+          <div class="text-subtitle-1">
+            <v-avatar class=" mr-2 ma-1">
+              <v-img :src="user.userInfo.avatar"></v-img>
+            </v-avatar>
+            <!--              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>-->
+            {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>
+            <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
                 <span class="text-subtitle-2 link"> /
                   {{ tag.name }}
                 </span>
-              </nuxt-link>
-            </div>
+            </nuxt-link>
+          </div>
+        </v-col>
+      </v-row>
+      <v-divider class="mx-3"></v-divider>
+
+      <v-card target="_blank" :href="`/article/${id}`">
+        <v-row>
+          <v-col cols="8">
+            <v-row>
+              <v-col>
+                <v-card-title>{{ title }}</v-card-title>
+                <v-card-text class="overflow-hidden ml-3 mb-3"
+                             style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col offset="2">
+            <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
+            <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
+                   transition="slide-y-reverse-transition" :aspect-ratio="4 / 3" cover="true"
+            ></v-img>
+
           </v-col>
         </v-row>
-        <v-divider class="mx-3"></v-divider>
-
-        <v-card target="_blank" :href="`/article/${id}`">
-          <v-row>
-            <v-col cols="8">
-              <v-row>
-                <v-col>
-                  <v-card-title>{{ title }}</v-card-title>
-                  <v-card-text class="overflow-hidden ml-3 mb-3"
-                               style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
-                  </v-card-text>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col offset="2">
-              <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
-              <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
-                     transition="slide-y-reverse-transition"
-                     max-height="150" class="my-n3" :aspect-ratio="1"></v-img>
-            </v-col>
-          </v-row>
-        </v-card>
       </v-card>
+    </v-card>
 
     <v-divider class="my-2"></v-divider>
   </div>
 </template>
-<script setup lang=ts >
+<script setup lang=ts>
 import {dateFilter} from '#imports'
 import {articleListData} from '~/types/article'
 import {onMounted} from 'vue'
@@ -80,6 +81,7 @@ export interface articleListData {
   id: string;
   createTime: String;
 }
+
 export interface UserInfo {
   id: string;
   avatar: string;

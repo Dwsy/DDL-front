@@ -1,0 +1,40 @@
+@import "./purple.scss";
+
+:root {
+  --base-font: Consolas, "Ubuntu Mono", "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --title-font: var(--base-font);
+  --monospace: "Ubuntu Mono", Courier, Monospace !important;
+}
+
+/* Cesno style start */
+
+.cm-s-inner .cm-variable {
+  color: #f39800;
+}
+
+.cm-s-inner .cm-variable-3 {
+  color: #9ed44c;
+  font-weight: bold;
+}
+
+.cm-s-inner .cm-number {
+  color: #e95295;
+}
+
+.cm-s-inner .cm-keyword {
+  color: #bc64a4;
+  font-weight: bold;
+}
+
+.cm-s-inner .cm-def {
+  color: #0094c8;
+}
+
+.cm-s-inner .cm-operator {
+  color: #a59aca;
+  font-weight: bold;
+}
+
+/* .cm-s-inner .cm-atom          {color: #c5c56a; font-weight: bold;} */
+
+/* Cesno style end */

@@ -8,38 +8,35 @@
         <div>
 
         </div>
-        <v-text-field label="头像URL" v-model="userInfo.avatarNew">
-          <template v-slot:prepend>
-            <v-avatar slot="prepend"
-            >
-              <v-img :src="userInfo.avatar"></v-img>
-            </v-avatar>
-          </template>
-          <!--          <template v-slot:append>-->
-
-          <!--            <v-file-input-->
-          <!--                slot="append"-->
-          <!--                label="File input"-->
-          <!--                filled-->
-          <!--                hide-input-->
-          <!--                prepend-icon="mdi-camera"-->
-          <!--            ></v-file-input>-->
-          <!--          </template>-->
-
-
-        </v-text-field>
         <v-row>
-          <v-file-input
-              :rules="rules"
-              accept="image/png, image/jpeg, image/bmp"
-              placeholder="Pick an avatar"
-              v-model="avatarFile"
-              label="上传新头像"
-          ></v-file-input>
-          <v-btn @click="submitFile()" :disabled="disableUploadBtn" class="mt-2" elevation="1">上传</v-btn>
+          <v-text-field label="头像URL" v-model="userInfo.avatarNew">
+            <template v-slot:prepend>
+              <v-avatar slot="prepend"
+                        size="x-large" class="mt-n4"
+              >
+                <v-img :src="userInfo.avatar"></v-img>
+              </v-avatar>
+            </template>
+          </v-text-field>
+          <ImgCutter @cutDown="cutDown" rate="1:1">
+            <template #open>
+              <v-btn color="blue" class="ml-2 mt-2" style="height: 40px">
+                上传新头像
+              </v-btn>
+            </template>
+          </ImgCutter>
         </v-row>
+        <!--        <v-row>-->
+        <!--          <v-file-input-->
+        <!--              :rules="rules"-->
+        <!--              accept="image/png, image/jpeg, image/bmp"-->
+        <!--              placeholder="Pick an avatar"-->
+        <!--              v-model="avatarFile"-->
+        <!--              label="上传新头像"-->
+        <!--          ></v-file-input>-->
+        <!--          <v-btn @click="submitFile()" :disabled="disableUploadBtn" class="mt-2" elevation="1">上传</v-btn>-->
+        <!--        </v-row>-->
 
-        <!--        prepend-icon="mdi-camera"-->
         <v-radio-group
             inline
             v-model="userInfo.gender"
@@ -73,7 +70,7 @@
 <script setup lang="ts">
 import {
   defaultMsg,
-  definePageMeta,
+  definePageMeta, successMsg,
   useAxiosPostUploadAvatar,
   useAxiosPutUpdateUserInfo,
   useRoute,
@@ -81,6 +78,7 @@ import {
 } from '#imports'
 import {user, UserInfo, useUserStore} from '~/stores/user'
 import {onMounted, ref, watch} from 'vue'
+import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 
 definePageMeta({
   keepalive: true,
@@ -110,17 +108,24 @@ onMounted(async () => {
   })
 
 })
+
+const cutDown = async (res) => {
+  console.log(res)
+  avatarFile.value = res.file
+  await submitFile()
+  userInfo.value.avatar = res.dataURL
+}
+
 const submitFile = async () => {
   if (avatarFile.value === null) {
     defaultMsg('请选择文件')
   }
-  const {data: response} = await useAxiosPostUploadAvatar(avatarFile.value[0])
+  const {data: response} = await useAxiosPostUploadAvatar(avatarFile.value)
   if (response.code === 0) {
     const reader = new FileReader()
-    reader.readAsDataURL(avatarFile.value[0])
+    reader.readAsDataURL(avatarFile.value)
     reader.onload = () => {
       userInfo.value.avatarNew = 'https://' + response.data + '?imageMogr2/thumbnail/200x200'
-      userInfo.value.avatar = reader.result
       userStore.userInfo.avatar = userInfo.value.avatarNew
     }
     defaultMsg('上传成功')
@@ -152,12 +157,14 @@ const save = async () => {
   }
   const {data: axiosResponse} = await useAxiosPutUpdateUserInfo(body)
   if (axiosResponse.code == 0) {
-    defaultMsg('保存成功')
+    successMsg('保存成功')
   } else {
     warningMsg('保存失败')
   }
   console.log(userInfo.value)
 }
+
+
 </script>
 
 <style scoped>

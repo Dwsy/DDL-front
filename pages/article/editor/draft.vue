@@ -1,7 +1,6 @@
 <template>
   <div class="mt-4">
-    <!--    {{ banner }}-->
-    <!--  <div class="mt-6" v-if="articleGroupId">-->
+
     <v-row>
       <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
                     variant="underlined" clearable>
@@ -16,6 +15,7 @@
               v-model="menu"
               :close-on-content-click="false"
               location="end"
+              persistent="true"
               :open-on-click="false"
           >
             <template v-slot:activator="{ props }">
@@ -53,25 +53,36 @@
               </div>
               <v-divider class="mt-1 mb-2"></v-divider>
 
-              <v-card max-height="300px" class="mb-5" elevation="0">
+              <v-card class="mb-5" elevation="0">
                 <span class="pt-2 px-4 text-body-1">文章头图：预览</span>
-                <v-img :src="localBannerImg?localBannerImg:banner" class="mx-4"></v-img>
+                <v-img :src="localBannerImg?localBannerImg:banner"
+                       aspect-ratio="8/3" max-height="300px" max-width="100%"
+                       class="mx-4"></v-img>
               </v-card>
 
 
-              <v-row style="width: 90%" class="ml-8 ">
-                {{ disableUploadBtn }}
-                <v-file-input label="选择文章头图" variant="underlined"
-                              density="compact" prepend-icon="mdi-camera"
-                              v-model="bannerFile"
-                              accept="image/png, image/jpeg, image/bmp" :rules="bannerRules">
-                </v-file-input>
-                <v-btn color="blue" @click="uploadBannerFile()"
-                       :disabled="disableUploadBtn" class="ml-4 text-white" elevation="1">
+              <!--                {{ disableUploadBtn }}-->
+              <!--                <v-file-input label="选择文章头图" variant="underlined"-->
+              <!--                              density="compact" prepend-icon="mdi-camera"-->
+              <!--                              v-model="bannerFile"-->
+              <!--                              accept="image/png, image/jpeg, image/bmp" :rules="bannerRules">-->
+              <!--                </v-file-input>-->
+              <!--              <ImgCutter @cutDown="cutDown" rate="4:3"-->
+              <!--                         class="text-end">-->
+              <!--                <template #open>-->
+
+              <div class="text-end">
+                <v-btn color="blue" class="ml-2 mb-6 mr-10" @click="clickCutterBtn()">
                   {{ !banner ? '上传' : '重新上传' }}
                 </v-btn>
-              </v-row>
-              <!--              <v-divider class="mt-2"></v-divider>-->
+              </div>
+              <!--                </template>-->
+              <!--              </ImgCutter>-->
+              <!--                <v-btn color="blue" @click="uploadBannerFile()"-->
+              <!--                       :disabled="disableUploadBtn" class="ml-4 text-white" elevation="1">-->
+              <!--                </v-btn>-->
+
+
               <v-textarea class="mx-2 mt-1" v-model="summary" placeholder="输入文章摘要..."
                           label="文章摘要" :rules="[rules.length(150)]" counter="150"
                           variant="outlined" clearable no-resize="no-resize"></v-textarea>
@@ -137,7 +148,7 @@
                           variant="underlined" v-model="themeName"
                 ></v-select>
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomThemeJuejin()">
+                       @click="randomTheme(themeNameList)">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -151,7 +162,21 @@
                           variant="underlined" v-model="themeName"
                 ></v-select>
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomThemeLight()">
+                       @click="randomTheme(mwebLightNameList)">
+                  随便来一个
+                </v-btn>
+              </v-row>
+              <v-row class="pa-4 mb-n6">
+
+                <v-select prepend-icon="mdi-progress-pencil"
+                          label="PurpleMarkdownTheme" class="mx-2 mt-n5"
+                          :items="purpleLightList"
+                          item-title="text" item-value="value"
+                          return-object
+                          variant="underlined" v-model="themeName"
+                ></v-select>
+                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                       @click="randomTheme(purpleLightList)">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -165,7 +190,7 @@
                           variant="underlined" v-model="darkThemeName"
                 ></v-select>
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomThemeDark()">
+                       @click="randomThemeDark(mwebDarkList)">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -209,6 +234,14 @@
 
 
     </v-row>
+    <ImgCutter @cutDown="cutDown" rate="8:3" :originalGraph="true">
+      <template #open>
+        <v-btn style="display: none"
+               class="CutterBtn">
+          CutterBtn
+        </v-btn>
+      </template>
+    </ImgCutter>
     <BytemdEditor :content="content" @change-text="changeText"></BytemdEditor>
   </div>
 </template>
@@ -216,7 +249,7 @@
 <script setup lang="ts">
 import {useRoute, useRouter} from '#app'
 import {onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
-// import 'bytemd/dist/index.min.css'
+import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
   ContentType,
@@ -240,7 +273,14 @@ import {
   useFetchGetArticleGroupList,
   warningMsg
 } from '#imports'
-import {changeThemes, mwebDarkList, mwebLightNameList, themeNameList, themes} from '~~/constant/markdownThemeList'
+import {
+  changeThemes,
+  mwebDarkList,
+  mwebLightNameList,
+  purpleLightList,
+  themeNameList,
+  themes
+} from '~~/constant/markdownThemeList'
 import {changeHighlightStyle, HighlightStyleNameList} from '~~/constant/highlightStyleList'
 import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
@@ -279,7 +319,7 @@ const summary = ref('')
 const articleGroupList = ref<ArticleGroup[]>([])
 const articleTagList = ref<ArticleTag[]>([])
 provide('tagList', {articleTagList})
-const bannerFile = ref<File[]>()
+const bannerFile = ref<File>()
 const disableUploadBtn = ref(true)
 const bannerRules = [
   value => {
@@ -435,13 +475,13 @@ onMounted(async () => {
   })
 
   watch(bannerFile, () => {
-    disableUploadBtn.value = bannerFile.value.length <= 0
-    const reader = new FileReader()
-    const file = bannerFile.value[0]
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      localBannerImg.value = reader.result
-    }
+    disableUploadBtn.value = bannerFile.value == null
+    // const reader = new FileReader()
+    // const file = bannerFile.value[0]
+    // reader.readAsDataURL(file)
+    // reader.onload = () => {
+    //   localBannerImg.value = reader.result
+    // }
   })
 
 })
@@ -560,18 +600,32 @@ let beforeChangeState = {
 const bannerFileUploading = ref(false)
 const localBannerImg = ref()
 let lastUploadFileName = ''
-const uploadBannerFile = async () => {
+const clickCutterBtn = () => {
+  const element: HTMLElement = document.querySelector('.CutterBtn')
+  element.click()
+  menu.value = false
+}
+const cutDown = async (res) => {
+  bannerFile.value = res.file
+  menu.value = true
+  await uploadBannerFile(res)
+}
+
+const uploadBannerFile = async (res) => {
   if (bannerFile.value === null) {
     defaultMsg('请选择文件')
   }
+
   //todo 文件上传接口细分
   bannerFileUploading.value = true
-  const file = bannerFile.value[0]
-  if (file.name === lastUploadFileName) {
+  const file = bannerFile.value
+  console.log(file)
+  if (res.dataURL === localBannerImg.value) {
     defaultMsg('请勿重复上传')
     bannerFileUploading.value = false
     return
   }
+  localBannerImg.value = res.dataURL
   const {data: response} = await useAxiosPostUploadImg(file)
   bannerFileUploading.value = false
   if (response.code === 0) {
@@ -599,18 +653,26 @@ const cancelChange = () => {
   articleSourceUrl.value = beforeChangeState.articleSourceUrl
 }
 
-const randomThemeJuejin = () => {
-  themeName.value = themeNameList[Math.ceil(Math.random() * themeNameList.length) - 1]
+const randomTheme = (list: Array<string>) => {
+  themeName.value = list[Math.ceil(Math.random() * list.length) - 1]
 }
+
+const randomThemeDark = (list: Array<string>) => {
+  darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1]
+}
+
+// const randomThemeJuejin = () => {
+//   themeName.value = themeNameList[Math.ceil(Math.random() * themeNameList.length) - 1]
+// }
 const randomHighlightStyle = () => {
   highlightStyle.value = HighlightStyleNameList[Math.ceil(Math.random() * HighlightStyleNameList.length) - 1]
 }
-const randomThemeLight = () => {
-  themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]
-}
-const randomThemeDark = () => {
-  darkThemeName.value = mwebDarkList[Math.ceil(Math.random() * mwebDarkList.length) - 1]
-}
+// const randomThemeLight = () => {
+//   themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]
+// }
+// const randomThemeDark = () => {
+//   darkThemeName.value = mwebDarkList[Math.ceil(Math.random() * mwebDarkList.length) - 1]
+// }
 const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active
 onMounted(() => {
@@ -643,6 +705,9 @@ onMounted(() => {
   font-size: v-bind('editorTitleInputLabelFontSize');
 }
 
+:deep(.vue-img-cutter) {
+  z-index: 9999 !important;
+}
 </style>
 
 <style>
@@ -653,6 +718,8 @@ onMounted(() => {
 body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu > div > div > div > div > div.v-input__control > div > div.v-field__outline > label {
   font-size: 16px !important;
 }
+
+
 </style>
 
 <!--<style>-->

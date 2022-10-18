@@ -33,8 +33,17 @@ export type mwebDark =
     'gotham' |
     'solarizedDark' |
     'toothpaste'
+
+
+export type typoraPurpleThemeLight =
+    'purple' |
+    'purplePlain' |
+    'purpleBlue' |
+    'purpleGreen' |
+    'purpleClassic' |
+    'purpleCesno'
 export type MarkdownThemeNameList =
-    mwebDark | mwebLight
+    mwebDark | mwebLight | typoraPurpleThemeLight
     | 'smartblue'
     | 'cyanosis'
     | 'channingCyan'

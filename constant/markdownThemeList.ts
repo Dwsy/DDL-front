@@ -154,10 +154,30 @@ export const changeThemes = async (markdownTheme: MarkdownTheme) => {
         case 'geekBlackDark':
             css = await import('~~/constant/MarkDownThemes/dark/geekBlackDark')
             break
+        //--------
+        case 'purple':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple')
+            break
+        case 'purple-plain':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-plain')
+            break
+        case 'purple-blue':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-blue')
+            break
+        case 'purple-green':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-green')
+            break
+        case 'purple-classic':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-classic')
+            break
+        case 'purple-cesno':
+            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-cesno')
+            break
+
         default:
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
     }
-    console.log(css.default)
+    // console.log(css.default)
     let markdownThemeStyleElement = document.querySelector('#markdownTheme')
     if (markdownThemeStyleElement) {
         markdownThemeStyleElement.innerHTML = css.default
@@ -407,12 +427,53 @@ export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {
         name: 'toothpaste',
         path: '',
         highlight: ''
+    },
+    purpleBlue: {
+        name: 'purple-blue',
+        path: '',
+        highlight: ''
+    },
+    purpleCesno: {
+        name: 'purple-cesno',
+        path: '',
+        highlight: ''
+    },
+    purpleClassic: {
+        name: 'purple-classic',
+        path: '',
+        highlight: ''
+    },
+    purpleGreen: {
+        name: 'purple-green',
+        path: '',
+        highlight: ''
+    },
+    purplePlain: {
+        name: 'purple-plain',
+        path: '',
+        highlight: ''
+    },
+    purple: {
+        name: 'purple',
+        path: '',
+        highlight: ''
     }
+    //------------typora-purple-theme
+
 
 }
 
 export let themeNameList = ['smartblue', 'cyanosis', 'channingCyan', 'fancy', 'hydrogen', 'condensedNightPurple', 'greenwillow', 'vGreen', 'vuePro', 'healerReadable', 'mkCute', 'awesomeGreen', 'geekBlack', 'jzman', 'vuepress', 'arknights', 'simplicityGreen', 'scrolls', 'orange', 'devuiBlue', 'nico', 'ChineseRed']
 
+
+export let purpleLightList = [
+    'purple',
+    'purplePlain',
+    'purpleBlue',
+    'purpleGreen',
+    'purpleClassic',
+    'purpleCesno'
+]
 
 export let mwebLightNameList = [
     'ayu',

@@ -12,7 +12,8 @@ import {ResponseData} from '~/types/utils/axios'
 // export const BASE_URL = process.env.BASE_URL
 // console.log("axios:"+BASE_URL)
 // ip env读不了？
-let url = 'http://192.168.5.11/'
+// let url = 'http://192.168.5.11/'
+let url = 'http://localhost'
 // let url = 'http://192.168.5.6/'
 export const Axios = axios.create({
     baseURL: url
