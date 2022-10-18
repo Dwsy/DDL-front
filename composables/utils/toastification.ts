@@ -1,6 +1,8 @@
 import {useToast} from 'vue-toastification'
 import {ToastOptions} from 'vue-toastification/src/types'
 import {TYPE} from 'vue-toastification/src/ts/constants'
+import {VNode} from '@vue/runtime-core'
+import {eventHandler} from 'h3'
 // import { useToast } from '~~/plugins/toastification'
 let toast = useToast()
 
@@ -12,6 +14,32 @@ export const defaultMsg = (msg: string) => {
 
     toast(msg, options)
 }
+
+export const tsxToastMsg = (msg, type: TYPE, tsx: JSX.Element) => {
+    toast(tsx, {
+        type
+    })
+}
+
+export const ComponentToastMsg = (msg, type: TYPE, component, time, timeout) => {
+    toast({
+        component,
+        props: {
+            msg,
+            time
+            // type
+        },
+        listeners: {
+            cancel: () => {
+                console.log('Clicked!')
+                clearTimeout(timeout)
+            },
+        }
+    }, {
+        type
+    })
+}
+
 
 export const successMsg = (msg: string) => {
     const options: ToastOptions = {

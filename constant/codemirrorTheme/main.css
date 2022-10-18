@@ -649,9 +649,9 @@ span.CodeMirror-selectedtext {
     height: 24px
 }
 
-.bytemd-toolbar-icon:hover {
-    background-color: #e1e4e8
-}
+/*.bytemd-toolbar-icon:hover {*/
+/*    background-color: #e1e4e8*/
+/*}*/
 
 .bytemd-toolbar-icon-active {
     color: #0366d6
@@ -867,9 +867,9 @@ span.CodeMirror-selectedtext {
     cursor: pointer
 }
 
-.bytemd-status-right span:hover {
-    color: #0366d6
-}
+/*.bytemd-status-right span:hover {*/
+/*    color: #0366d6*/
+/*}*/
 
 .bytemd-status-right input {
     vertical-align: middle;

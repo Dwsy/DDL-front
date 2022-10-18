@@ -1,4 +1,12 @@
 export default `
+.bytemd-status-right span:hover {
+    color: #0366d6
+}
+
+.bytemd-toolbar-icon:hover {
+    background-color: #e1e4e8
+}
+
 .bytemd{
   border: 1px solid #e1e4e8;
 }

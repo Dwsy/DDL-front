@@ -1,4 +1,11 @@
 export default `/* Based on Sublime Text's Monokai theme */
+.bytemd-status-right span:hover {
+    color: #e056fd
+}
+
+.bytemd-toolbar-icon:hover {
+    background-color: #2d2d2d
+}
 .bytemd{
   border: 1px solid #3c3c3c;
 }

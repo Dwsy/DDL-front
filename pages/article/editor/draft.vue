@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-6">
+  <div class="mt-4">
     <!--    {{ banner }}-->
     <!--  <div class="mt-6" v-if="articleGroupId">-->
     <v-row>
       <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
                     variant="underlined" clearable>
       </v-text-field>
-      <div class="mt-2 mr-4">
+      <div class="mt-1 mr-4">
         <v-btn elevation="1">手动保存</v-btn>
         <v-btn elevation="0" color="blue" class="mx-1" variant="outlined">草稿箱</v-btn>
 
@@ -121,7 +121,7 @@
                 </v-tooltip>
               </v-btn>
             </template>
-            <v-card min-width="450px" style="overflow: hidden">
+            <v-card min-width="450px" style="overflow: hidden" class="d-ArticleThemeSettings">
               <div class="text-h6 ma-2">
                 文章外观设置
               </div>
@@ -130,13 +130,12 @@
               <v-row class="pa-4 mb-n6">
 
                 <v-select prepend-icon="mdi-progress-pencil"
-                          label="MarkdownTheme" class="mx-2 mt-n5"
+                          label="掘金MarkdownTheme" class="mx-2 mt-n5"
                           :items="themeNameList"
                           item-title="text" item-value="value"
                           return-object
                           variant="underlined" v-model="themeName"
                 ></v-select>
-                {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
                        @click="randomThemeJuejin()">
                   随便来一个
@@ -151,7 +150,6 @@
                           return-object
                           variant="underlined" v-model="themeName"
                 ></v-select>
-                {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
                        @click="randomThemeLight()">
                   随便来一个
@@ -166,13 +164,12 @@
                           return-object
                           variant="underlined" v-model="darkThemeName"
                 ></v-select>
-                {{ themeName }}
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
                        @click="randomThemeDark()">
                   随便来一个
                 </v-btn>
               </v-row>
-              <v-btn @click="test()">test</v-btn>
+              <!--              <v-btn @click="test()">test</v-btn>-->
               <v-divider class="pb-6"></v-divider>
 
               <v-row class="pa-4 ">
@@ -191,18 +188,26 @@
               </v-row>
             </v-card>
           </v-menu>
+
+
+          <v-btn @click="themeInstance.global.name.value = themeInstance.global.current.value.dark ? 'light' : 'dark'"
+                 icon="true" size="small" class="ml-5" elevation="0"
+                 transition="fade-transition">
+            <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
+            <v-icon v-if="!themeInstance.global.current.value.dark">mdi-weather-night</v-icon>
+            <v-tooltip
+                activator="parent"
+                location="bottom"
+            >{{ themeInstance.global.current.value.dark ? '日间模式' : '夜间模式' }}
+            </v-tooltip>
+          </v-btn>
         </client-only>
+        <v-avatar class="mr-4" size="44">
+          <v-img :src="useUserStore().userInfo?.avatar"></v-img>
+        </v-avatar>
       </div>
 
-      <v-btn @click="themeInstance.global.name.value = themeInstance.global.current.value.dark ? 'light' : 'dark'" text
-             transition="fade-transition">
-        <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
-        <v-icon v-if="!themeInstance.global.current.value.dark">mdi-weather-night</v-icon>
-      </v-btn>
 
-      <v-avatar class="mr-4 mt-1" size="48">
-        <v-img :src="useUserStore().userInfo?.avatar"></v-img>
-      </v-avatar>
     </v-row>
     <BytemdEditor :content="content" @change-text="changeText"></BytemdEditor>
   </div>
@@ -225,6 +230,7 @@ import {ArticleField} from '~/stores/article/articleStore'
 import {ArticleSource, ArticleSourceZh, ArticleState, CreateArticleBody} from '~/types/article/manageArticle'
 import {ArticleGroup, ArticleTag} from '~/types/article'
 import {
+  ComponentToastMsg,
   createError,
   defaultMsg,
   definePageMeta,
@@ -241,6 +247,8 @@ import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
 import {useTheme} from 'vuetify'
 import '~~/constant/codemirrorTheme/main.css'
+import {TYPE} from 'vue-toastification/src/ts/constants'
+import JumpPrompt from '~/components/article/creator/content/article/Toast/jumpPrompt.vue'
 // import 'codemirror/theme/idea.css'
 // import breaks from '@bytemd/plugin-breaks'
 // import highlight from '@bytemd/plugin-highlight'
@@ -265,7 +273,7 @@ const articleFieldData = ref<ArticleField>()
 const title = ref('')
 const selectionGroup = ref(1)
 const articleGroupId = ref('')
-const articleTagIds = ref([])
+const articleTagIds = ref<Set<string>>()
 const banner = ref('')
 const summary = ref('')
 const articleGroupList = ref<ArticleGroup[]>([])
@@ -300,6 +308,7 @@ const highlightStyle = ref<string>()
 onMounted(async () => {
   const id = route.query.id
   if (Boolean(id) === false) {
+
     isNew.value = true
     await router.push({
       query: {
@@ -309,13 +318,14 @@ onMounted(async () => {
     // disableUploadBtn.value = false
     // articleFieldData.value = null
     // articleFieldData.value.title = ''
+
   } else {
+
     if (route.query.id) {
       afId.value = String(route.query.id)
       const {data: ArticleFieldResponse} = await useAxiosGetArticleField(afId.value)
       if (ArticleFieldResponse.code === 0) {
         articleFieldData.value = ArticleFieldResponse.data
-        // console.log(articleFieldData.value.user.id,userStore.user.id)
         if (articleFieldData?.value.user.id !== userStore?.user.id) {
           // await clearError({redirect: '/'})
           throw createError({
@@ -349,11 +359,11 @@ onMounted(async () => {
       }
     }
   }
+
   watchEffect(async () => {
-    if (articleSourceItem.value) {
-      articleSource.value = articleSourceItem.value.value
-    }
     if (themeInstance.global.name.value === 'dark') {
+
+      console.log('dark')
       await changeThemes(themes[darkThemeName.value])
       let right: HTMLElement = document.querySelector('.bytemd-status-right')
       right.style.color = '#FFF'
@@ -367,7 +377,6 @@ onMounted(async () => {
           .forEach((item: HTMLElement) => {
             item.style.color = '#FFF'
           })
-      // statusLeft.
       let css = await import('~~/constant/codemirrorTheme/monokai')
       let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
       if (markdownThemeStyleElement) {
@@ -378,8 +387,10 @@ onMounted(async () => {
         markdownThemeStyleElement.innerHTML = css.default
         document.head.appendChild(markdownThemeStyleElement)
       }
+
     } else {
-      await changeThemes(themes[darkThemeName.value])
+
+      await changeThemes(themes[themeName.value])
       let right: HTMLElement = document.querySelector('.bytemd-status-right')
       right.style.color = '#000'
       let left: HTMLElement = document.querySelector('.bytemd-status-left')
@@ -402,30 +413,21 @@ onMounted(async () => {
         markdownThemeStyleElement.innerHTML = css.default
         document.head.appendChild(markdownThemeStyleElement)
       }
-      await changeThemes(themes[themeName.value])
+
     }
-    console.log(themes[themeName.value])
+  })
+
+  watchEffect(async () => {
     await changeHighlightStyle(highlightStyle.value)
   })
-  // watch(themeInstance.global.name, async (val) => {
-  //   if (val === 'dark') {
-  //     console.log(themes[darkThemeName.value])
-  //     await changeThemes(themes[darkThemeName.value])
-  //     // await articleStore.changeThemeDark()
-  //   } else {
-  //     await changeThemes(themes[themeName.value])
-  //     // await articleStore.changeThemeLight()
-  //   }
-  // })
-  // watchEffect(() => {
-  //   console.log('articleTagList', articleTagList.value)
-  //   articleTagList.value.forEach((tag) => {
-  //     articleTagIds.value.push(tag.id)
-  //   })
-  // })
+
+  watchEffect(async () => {
+    if (articleSourceItem.value) {
+      articleSource.value = articleSourceItem.value.value
+    }
+  })
+
   watch(bannerFile, () => {
-    // console.log('http://qiniu.dwsy.link/ddl/3073d30591b445ba87be378fdb080a96.jpg')
-    // console.log(bannerFile.value)
     disableUploadBtn.value = bannerFile.value.length <= 0
     const reader = new FileReader()
     const file = bannerFile.value[0]
@@ -462,15 +464,16 @@ const send = () => {
 }
 
 const publishArticle = async () => {
-  articleTagIds.value = []
+  articleTagIds.value = new Set<string>()
   articleTagList.value.forEach((tag) => {
-    articleTagIds.value.push(tag.id)
+    articleTagIds.value.add(tag.id)
+    // articleTagIds.value.push(tag.id)
   })
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
     articleState: ArticleState.published,
-    articleTagIds: articleTagIds.value,
+    articleTagIds: Array.from(articleTagIds.value),
     banner: banner.value,
     content: content.value,
     summary: summary.value,
@@ -480,26 +483,31 @@ const publishArticle = async () => {
     codeHighlightStyle: highlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value
-    // articleId: 0,
   }
-  console.log(body)
   const {data: axiosResponse} = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
-    successMsg('发布成功')
+    // successMsg('发布成功')
+    const timeout = setTimeout(() => {
+      useRouter().push('/article/' + axiosResponse.data.id)
+    }, 5000)
+
+    ComponentToastMsg('发布成功5秒后自动跳转到文章', TYPE.SUCCESS, JumpPrompt, timeout)
   } else {
     errorMsg(axiosResponse.msg)
   }
 }
 const updateArticle = async () => {
-  articleTagIds.value = []
+  articleTagIds.value = new Set()
   articleTagList.value.forEach((tag) => {
-    articleTagIds.value.push(tag.id)
+    articleTagIds.value.add(tag.id)
+    // articleTagIds.value.push(tag.id)
   })
+  console.log(articleTagIds.value)
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
     articleState: ArticleState.published,
-    articleTagIds: articleTagIds.value,
+    articleTagIds: Array.from(articleTagIds.value),
     banner: banner.value,
     content: content.value,
     summary: summary.value,
@@ -513,14 +521,17 @@ const updateArticle = async () => {
   }
   const {data: axiosResponse} = await useAxiosPutUpdateArticle(body)
   if (axiosResponse.code === 0) {
-    successMsg('发布成功')
+    // successMsg('更新成功')
+    const timeout = setTimeout(async () => {
+      // await useRouter().push('/article/' + afId.value)
+    }, 5000)
+    ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout)
   } else {
     errorMsg(axiosResponse.msg)
   }
-  console.log(body)
 }
 const saveState = () => {
-  console.log('saveState')
+  // console.log('saveState')
   beforeChangeState = {
     articleGroupId: toRaw(articleGroupId.value),
     articleTagList: toRaw(articleTagList.value),
@@ -623,11 +634,16 @@ onMounted(() => {
 :deep(.d-editor-title label) {
   font-size: v-bind('editorTitleInputLabelFontSize');
 }
+
 </style>
 
 <style>
 .bytemd-editor .CodeMirror {
   font-size: 18px !important;
+}
+
+body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu > div > div > div > div > div.v-input__control > div > div.v-field__outline > label {
+  font-size: 16px !important;
 }
 </style>
 
