@@ -1029,6 +1029,93 @@ code {
 
 </style>
 
+
+<style>
+.d-tip-error {
+  /*background: #fcf1f1 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  border-left-color: red !important;
+  /*color: black!important;*/
+}
+
+.d-tip-success {
+  /*background: #f0f8e5 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  border-left-color: greenyellow !important;
+  /*color: black!important;*/
+}
+
+.d-tip-warning {
+  /*background: #fcf2e9 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  border-left-color: #ec6800 !important;
+  /*color: black!important;*/
+}
+
+.d-tip-info {
+  /*background: #eef6fd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  border-left-color: #40c4ff !important;
+  /*color: black!important;*/
+}
+
+
+.d-tip-share {
+  /*background: #dddddd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  border-left-color: #8b968d !important;
+  /*color: black!important;*/
+}
+
+.d-tip-error p:before {
+  content: "\F0156";
+  font-size: 135%;
+  color: red;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-success p:before {
+  content: "\F012C";
+  font-size: 135%;
+  color: v-bind('theme.global.name.value === "dark" ? "#3eb370" : "#000"') !important;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-warning p:before {
+  content: "\F0205";
+  font-size: 135%;
+  position: center;
+  height: 100%;
+  color: #ff6800;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-info p:before {
+  content: "\F064E";
+  font-size: 135%;
+  color: #40c4ff;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-share p:before {
+  content: "\F0065";
+  font-size: 135%;
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#000"') !important;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+</style>
+
 <!--<style>-->
 <!--.img-select img {-->
 <!--  width: 500px;-->
