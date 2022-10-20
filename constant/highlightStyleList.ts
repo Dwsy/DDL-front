@@ -1,6 +1,6 @@
-export const changeHighlightStyle = async (name: string) => {
+export const changeHighlightStyle = async (name: string, ssr?: boolean) => {
     let css = null
-    // console.log('HighlightStyle', name)
+    console.log('HighlightStyle', name)
     switch (name) {
         case 'a11yDark':
             css = await import ('~~/constant/highlightCJs/a11yDark')
@@ -226,6 +226,9 @@ export const changeHighlightStyle = async (name: string) => {
             break
         default:
             css = await import ('~~/constant/highlightCJs/xcode')
+    }
+    if (ssr === true) {
+        return css.default
     }
     let markdownThemeStyleElement = document.querySelector('#highlightStyle')
     // console.log(css)

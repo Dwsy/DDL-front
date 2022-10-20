@@ -1,5 +1,8 @@
 <template>
   <div class="v-container abc" v-if="ArticleField.data">
+    <!--    <div class="katex">-->
+    <!--      x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}-->
+    <!--    </div>-->
     <v-row class="article-content">
 
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
@@ -54,18 +57,20 @@
                 </a>
               </v-col>
             </v-row>
+
             <v-row class="d-flex d-sm-none mx-4">
               <v-col>
                 <v-col class="ml-n8 mt-n3 " style="color:#8a919f">
                   <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
                   <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
+
                 </v-col>
               </v-col>
             </v-row>
           </div>
-          <v-divider class="my-4"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-img :src="articleStore.articleField.banner"
-                 :aspect-ratio="8/3" cover
+                 :aspect-ratio="8/3" :cover="true" width="100%"
                  class="d-article-banner">
           </v-img>
           <v-divider></v-divider>
@@ -572,6 +577,7 @@ import {collectionData, collectionGroupData, collectionType} from '~/types/artic
 import {useLayout} from '~/stores/layout'
 import {useRouter} from '#app'
 import mediumZoom from 'medium-zoom'
+import {changeHighlightStyle} from '~/constant/highlightStyleList'
 
 
 definePageMeta({
@@ -592,21 +598,33 @@ let articleCommentStore = useArticleCommentStore()
 const articleStoreCollectKey = 'articleStoreCollect'
 let ArticleField = await useFetchGetArticleField(aid)
 // await changeHighlightStyle('xcode')
+// const highlightStyle = await changeHighlightStyle('xcode', true)
+// useHead({
+//   script: [
+//     {src: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/katex.min.js'},
+//     {src: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/contrib/auto-render.min.js'},
+//     {src: 'https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js'},
+//     {src: ''},
+//   ],
+//   link: [
+//     {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/katex.min.css'},
+//   ],
+// })
 useHead({
   style: [
     {
       id: 'highlightStyle',
-    },
-    {
-      id: 'markdownTheme',
-    }
+      children: await changeHighlightStyle('xcode', true),
+      type: 'text/css'
+    }, {}
   ]
+//   test:{
+//     id: 'markdownTheme',
+//   },
+// ]
 //   style: [
 //     highlightStyle:{
 //
-// }
-//     css = await import ('~~/constant/highlightCJs/vs')
-//   ]
 })
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
@@ -640,14 +658,14 @@ onMounted(async () => {
   }
   await articleStore.init()
   if (theme.global.name.value === 'dark') {
-    const s = new Date().getTime()
+    // const s = new Date().getTime()
     await articleStore.changeThemeDark()
 
     // articleStore.markdownTheme = articleStore.markdownThemeDark
   } else {
-    const s = new Date().getTime()
+    // const s = new Date().getTime()
     await articleStore.changeThemeLight()
-    console.log('light', new Date().getTime() - s)
+    // console.log('light', new Date().getTime() - s)
     // articleStore.markdownTheme = articleStore.markdownThemeLight
   }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
@@ -705,6 +723,10 @@ onMounted(async () => {
         hljs.highlightElement(CodeNodeList[i])
       }
     }, 1500)
+  } else {
+    for (let i = 0; i < CodeLength; i++) {
+      hljs.highlightElement(CodeNodeList[i])
+    }
   }
   // hljs.highlightAll()
 })
@@ -830,9 +852,7 @@ const unsubscribe = () => {
   articleStore.follow = false
 }
 
-const loadChildComment = (n) => {
-  console.log(n)
-}
+
 onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
       .querySelector('.markdown-body')
@@ -856,6 +876,7 @@ onMounted(() => {
     scrollOffset: 0,
   })
 
+
 })
 
 </script>
@@ -877,6 +898,21 @@ onMounted(() => {
 </style>
 
 <style lang="css">
+kbd {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #fff;
+  background-color: #333;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+}
+
+
+.d-article-banner:hover {
+  width: 100%;
+}
+
 .toc-list-item:hover {
   color: #00c888;
 }
@@ -943,24 +979,6 @@ code {
   font-size: 18px !important;
 }
 
-/** 3个点 */
-/*.hljs-container::before {*/
-/*  position: absolute;*/
-/*  top: 10px;*/
-/*  left: 15px;*/
-/*  width: 12px;*/
-/*  height: 12px;*/
-/*  overflow: visible;*/
-/*  font-weight: 700;*/
-/*  font-size: 16px;*/
-/*  line-height: 12px;*/
-/*  white-space: nowrap;*/
-/*  text-indent: 75px;*/
-/*  background-color: #fc625d;*/
-/*  border-radius: 16px;*/
-/*  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;*/
-/*  content: attr(codetype);*/
-/*}*/
 
 /** 滚动条 */
 :deep(.hljs) {
@@ -1007,6 +1025,7 @@ code {
 .markdown-body {
   padding: 0 !important;
 }
+
 
 </style>
 

@@ -35,7 +35,7 @@
           <v-col offset="2">
             <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
             <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
-                   transition="slide-y-reverse-transition" :aspect-ratio="4 / 3" cover="true"
+                   transition="slide-y-reverse-transition" :aspect-ratio="4 / 3" :cover="true"
             ></v-img>
 
           </v-col>

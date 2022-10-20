@@ -2,6 +2,10 @@
   <div style="font-size: 18px">
     {{ message }}
   </div>
+  <button v-if="url" @click="go()" class="d-cancel-btn  mx-4 px-3 py-1 mt-1">
+    立即跳转
+  </button>
+
   <button @click="emits('cancel')" class="d-cancel-btn px-3 py-1 mt-1">
     取消跳转
   </button>
@@ -15,6 +19,7 @@ const props = defineProps<{
   // type: TYPE
   msg: string
   time: number
+  url: string
 }>()
 const emits = defineEmits<{
   (e: 'cancel'): void
@@ -34,8 +39,10 @@ onMounted(() => {
     emits('close-toast')
   }, props.time * 1000)
 })
+const go = () => {
+  window.location.href = props.url
+}
 </script>
-
 <style scoped>
 .d-cancel-btn {
   /* 文字颜色 */

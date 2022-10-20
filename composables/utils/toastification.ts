@@ -21,17 +21,16 @@ export const tsxToastMsg = (msg, type: TYPE, tsx: JSX.Element) => {
     })
 }
 
-export const ComponentToastMsg = (msg, type: TYPE, component, time, timeout) => {
+export const ComponentToastMsg = (msg, type: TYPE, component, time, timeout, url?: string) => {
     toast({
         component,
         props: {
             msg,
-            time
-            // type
+            time,
+            url
         },
         listeners: {
             cancel: () => {
-                console.log('Clicked!')
                 clearTimeout(timeout)
             },
         }

@@ -9,7 +9,8 @@ export default defineNuxtConfig({
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
             script: [
-                {src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js'}
+                {src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js'},
+                {src: 'https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js'},
             ],
             link: [
                 {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css'}

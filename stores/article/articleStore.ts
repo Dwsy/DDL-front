@@ -46,7 +46,7 @@ export const useArticleStore = defineStore('ArticleStore', {
             this.thumb = response.data.thumb
             this.follow = response.data.follow
             this.collect = response.data.collect
-            await changeHighlightStyle(this.articleField.codeHighlightStyle)
+            // await changeHighlightStyle(this.articleField.codeHighlightStyle)
         },
         async changeThemeDark() {
             if (this.markdownThemeDark === null) {

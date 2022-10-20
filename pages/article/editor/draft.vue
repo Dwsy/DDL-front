@@ -232,9 +232,12 @@
         </v-avatar>
       </div>
 
-
+      <!--      box-width="720"-->
     </v-row>
-    <ImgCutter @cutDown="cutDown" rate="8:3" :originalGraph="true">
+    <ImgCutter @cutDown="cutDown" rate="8:3"
+               :original-graph="true"
+               :boxWidth="1200" :boxHeight="450"
+    >
       <template #open>
         <v-btn style="display: none"
                class="CutterBtn">
@@ -534,11 +537,12 @@ const publishArticle = async () => {
   const {data: axiosResponse} = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('发布成功')
+    const url = '/article/' + axiosResponse.data
     const timeout = setTimeout(() => {
-      window.location.href = '/article/' + axiosResponse.data
+      window.location.href = url
       // useRouter().push('/article/' + axiosResponse.data.id)
     }, 5000)
-    ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout)
+    ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
   } else {
     errorMsg(axiosResponse.msg)
   }
@@ -569,11 +573,12 @@ const updateArticle = async () => {
   const {data: axiosResponse} = await useAxiosPutUpdateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('更新成功')
+    const url = '/article/' + afId.value
     const timeout = setTimeout(async () => {
-      window.location.href = '/article/' + afId.value
+      window.location.href = url
       // await useRouter().push('/article/' + afId.value)
     }, 5000)
-    ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout)
+    ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
   } else {
     errorMsg(axiosResponse.msg)
   }

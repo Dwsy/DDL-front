@@ -16,7 +16,7 @@
         :aspect-ratio="aspectRatio"
         :width="width"
         src="http://qiniu.dwsy.link/ddl/e486ed827a4c4fed92eaf449941af6f9.png?imageslim"
-        cover
+        :cover="true"
     ></v-img>
   </div>
 </template>
