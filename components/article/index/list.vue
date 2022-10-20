@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-card elevation="1" hover outlined transition="scroll-y-transition">
+    <v-card elevation="1" outlined transition="scroll-y-transition">
       <v-row no-gutters>
         <v-col class="pl-2" cols="4">
           <div class="text-subtitle-1">
@@ -25,17 +25,37 @@
           <v-col cols="8">
             <v-row>
               <v-col>
-                <v-card-title>{{ title }}</v-card-title>
-                <v-card-text class="overflow-hidden ml-3 mb-3"
-                             style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
-                </v-card-text>
+                <v-row class="h-75">
+                  <v-col>
+                    <v-card-title>{{ title }}</v-card-title>
+                    <v-card-text class="overflow-hidden ml-3 mb-n6"
+                                 style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
+                    </v-card-text>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6" class="ml-8 mt-4">
+                    <!--                      <v-btn icon="true">-->
+                    <v-icon size="x-small">mdi-eye-outline</v-icon>
+                    <!--                      </v-btn>-->
+                    <span class="text-subtitle-2 mx-1">{{ viewNum }}</span>
+                    <!--                      <v-btn icon="true">-->
+                    <v-icon size="x-small">mdi-comment-outline</v-icon>
+                    <!--                      </v-btn>-->
+                    <span class="text-subtitle-2 mx-1">{{ commentNum }}</span>
+                    <!--                      <v-btn icon="true">-->
+                    <v-icon size="x-small">mdi-heart-outline</v-icon>
+                    <!--                      </v-btn>-->
+                    <span class="text-subtitle-2 mx-1">{{ collectNum }}</span>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
           </v-col>
-          <v-col offset="2">
+          <v-col>
             <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
             <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
-                   transition="slide-y-reverse-transition" :aspect-ratio="4 / 3" :cover="true"
+                   transition="slide-y-reverse-transition" :aspect-ratio="16 / 6" :cover="true"
             ></v-img>
 
           </v-col>

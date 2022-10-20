@@ -898,6 +898,11 @@ onMounted(() => {
 </style>
 
 <style lang="css">
+.markdown-body p {
+  font-size: 20px !important;
+
+}
+
 kbd {
   padding: 2px 4px;
   font-size: 90%;
@@ -917,9 +922,9 @@ kbd {
   color: #00c888;
 }
 
-.article-content p {
-  font-size: 20px;
-}
+/*.article-content p {*/
+/*  font-size: 20px;*/
+/*}*/
 
 .toc::-webkit-scrollbar {
   width: 0 !important;
@@ -1027,6 +1032,7 @@ code {
 }
 
 
+
 </style>
 
 
@@ -1079,7 +1085,7 @@ code {
 .d-tip-success p:before {
   content: "\F012C";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "#3eb370" : "#000"') !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#000"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
