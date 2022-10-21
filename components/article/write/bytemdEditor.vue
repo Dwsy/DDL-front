@@ -22,34 +22,9 @@ import {useAxiosPostUploadImg} from '~/composables/Api/article/manageArticle'
 import {successMsg, warningMsg} from '#imports'
 import {Editor} from '@bytemd/vue-next'
 import zhHans from 'bytemd/locales/zh_Hans.json'
-// import 'bytemd/dist/index.css'
-// import 'highlight.js/styles/base16/apathy.css'
-// import 'highlight.js/styles/'
-// import 'juejin-markdown-themes/dist/arknights.min.css'
-// const test1 = async () => {
-//   const css = await import ('juejin-markdown-themes/dist/vue-pro')
-//   let markdownThemeStyleElement = document.querySelector('#markdownTheme')
-//   if (markdownThemeStyleElement) {
-//     markdownThemeStyleElement.innerHTML = css.default
-//   } else {
-//     markdownThemeStyleElement = document.createElement('style')
-//     markdownThemeStyleElement.id = 'markdownTheme'
-//     markdownThemeStyleElement.innerHTML = css.default
-//     document.head.appendChild(markdownThemeStyleElement)
-//   }
-// }
-// const test = async () => {
-//   const css = await import ('juejin-markdown-themes/dist/juejin')
-//   let markdownThemeStyleElement = document.querySelector('#markdownTheme')
-//   if (markdownThemeStyleElement) {
-//     markdownThemeStyleElement.innerHTML = css.default
-//   } else {
-//     markdownThemeStyleElement = document.createElement('style')
-//     markdownThemeStyleElement.id = 'markdownTheme'
-//     markdownThemeStyleElement.innerHTML = css.default
-//     document.head.appendChild(markdownThemeStyleElement)
-//   }
-// }
+import {useTheme} from 'vuetify'
+
+const theme = useTheme()
 let props = defineProps({
   content: {
     type: String,
@@ -69,18 +44,10 @@ onMounted(() => {
       bytemdZIndex.value = 0
     }
   })
-// 监听body元素的属性变化
   observer.observe(bytemdElement, {
     attributes: true
   })
-// 更改body元素的class，会异步执行创建MutationObserver对象时传入的回调函数
   document.body.className = 'main'
-// 控制台输出：
-//    修改了body属性
-//    change
-  // watch(bytemdClassList, (value) => {
-  //   console.log(value)
-  // })
 })
 
 
@@ -96,8 +63,13 @@ const plugins = [
   frontmatter()
 ]
 
-const handleChange = (text) => {
-  emit('changeText', text)
+const handleChange = async (text) => {
+
+  await emit('changeText', text)
+  setTimeout(() => {
+    tipSyntaxParsing()
+  }, 301)
+  //fixme 闪烁体验极差 还是得写插件来解决
   // props.content = v
 }
 // md 图片上传
@@ -124,6 +96,52 @@ const upload = async (files) => {
   // if (res.code !== 200) return message.error(res.msg)
   // return res.data
 }
+
+const badPrefix = ['x', 'X', 'x:', 'X:', 'bad:', 'no:', 'error:']
+const goodPrefix = ['√', 'good:', 'ok:', 'yes:', 'right:']
+const infoPrefix = ['i', 'I', 'i:', 'I:', 'tip:']
+const warnPrefix = ['!', '！', '!:', '！:', 'warn:', 'warning:']
+const sharePrefix = ['@', '@:', 'at:']
+const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boolean => {
+  let innerHTML: string = p.innerHTML
+  let ret: boolean = false
+  for (let string of replacePrefixStrList) {
+    if (innerHTML.startsWith(string)) {
+      innerHTML = innerHTML.replace(string, '')
+      p.innerHTML = innerHTML
+      ret = true
+    }
+  }
+  return ret
+}
+const tipSyntaxParsing = () => {
+  let nodeList: NodeListOf<Element> = document
+      .querySelectorAll('#d-Editor > div > div.bytemd-body > div.bytemd-preview > div > blockquote')
+  for (let blockquote of nodeList) {
+    let p = blockquote.querySelector('p')
+    let text = p.innerHTML
+    let lines = text.split('\n')
+    for (let line of lines) {
+      if (hasTipPrefixAndReplace(p, badPrefix)) {
+        blockquote.setAttribute('class', 'd-tip d-tip-error')
+        p.setAttribute('class', 'mdi mdi-close')
+      } else if (hasTipPrefixAndReplace(p, goodPrefix)) {
+        blockquote.setAttribute('class', 'd-tip d-tip-success')
+        p.setAttribute('class', 'mdi mdi-check')
+      } else if (hasTipPrefixAndReplace(p, infoPrefix)) {
+        blockquote.setAttribute('class', 'd-tip d-tip-info')
+        p.setAttribute('class', 'mdi mdi-information-variant')
+      } else if (hasTipPrefixAndReplace(p, warnPrefix)) {
+        blockquote.setAttribute('class', 'd-tip d-tip-warning')
+        p.setAttribute('class', 'mdi mdi-exclamation-thick')
+      } else if (hasTipPrefixAndReplace(p, sharePrefix)) {
+        blockquote.setAttribute('class', 'd-tip d-tip-share')
+        p.setAttribute('class', 'mdi mdi-at')
+      }
+    }
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -131,4 +149,108 @@ const upload = async (files) => {
   z-index: v-bind(bytemdZIndex);
   height: calc(100vh - 4.2rem) !important;
 }
+</style>
+
+<style scoped>
+
+
+/* {*/
+/*  width: 4px;*/
+/*  height: 4px;*/
+/*}*/
+:deep(.d-tip-error) {
+  /*background: #fcf1f1 !important;*/
+  /*bac*/
+  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  border-left-color: red !important;
+  /*color: black!important;*/
+}
+
+:deep(.d-tip-success) {
+  /*background: #f0f8e5 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  border-left-color: #1aad19 !important;
+  /*color: black!important;*/
+}
+
+:deep(.d-tip-warning) {
+  /*background: #fcf2e9 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  border-left-color: #ec6800 !important;
+  /*color: black!important;*/
+}
+
+:deep(.d-tip-info) {
+  /*background: #eef6fd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  border-left-color: #40c4ff !important;
+  /*color: black!important;*/
+}
+
+
+:deep(.d-tip-share) {
+  /*background: #dddddd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  border-left-color: #8b968d !important;
+  /*color: black!important;*/
+}
+
+/*.d-tip-error > p:first-child:before {*/
+/*  content: "\F0156";*/
+/*  */
+/*  color: red;*/
+/*  font-weight: bold;*/
+/*  margin-right: 5px;*/
+/*  margin-left: -10px;*/
+/*}*/
+:deep(.d-tip-error > p:first-child:before) {
+  content: "\F0156";
+
+  color: red;
+  font-weight: bold;
+
+}
+
+:deep(.d-tip-error > p:not(:first-child)) {
+  margin-left: 22px;
+}
+
+:deep(.d-tip-success p:first-child:before) {
+  content: "\F012C";
+
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  font-weight: bold;
+
+}
+
+:deep(.d-tip-warning p:first-child:before) {
+  content: "\F0205";
+
+  position: center;
+  height: 100%;
+  color: #ff6800;
+  font-weight: bold;
+
+}
+
+:deep(.d-tip-info p:first-child:before) {
+  content: "\F064E";
+
+  color: #40c4ff;
+  font-weight: bold;
+
+}
+
+:deep(.d-tip-share p:first-child:before) {
+  content: "\F0065";
+
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
+  font-weight: bold;
+
+}
+
+:deep(.d-tip > p:not(:first-child)) {
+  margin-left: 22px;
+}
+
 </style>

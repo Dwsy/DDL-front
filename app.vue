@@ -117,8 +117,21 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
+  border-style: dashed;
+  border-color: transparent;
+  border-width: 2px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8f8f8f !important;
+}
+
+::-webkit-scrollbar-thumb {
   background-color: #8f8f8f;
-  background-image: -webkit-linear-gradient(45deg, hsla(0, 0%, 100%, .4) 100%, transparent 0, transparent 0, hsla(0, 0%, 100%, .4) 0, hsla(0, 0%, 100%, .4) 75%, transparent 0, transparent);
+  /*background-color: rgba(157, 165, 183, 0.4);*/
+  /*background-color: v-bind('theme.global.name.value === "dark" ? "#9da5b7" : "#8f8f8f"') !important;*/
+  /*background-image: -webkit-linear-gradient(45deg, hsla(0, 0%, 100%, .4) 100%, transparent 0, transparent 0, hsla(0, 0%, 100%, .4) 0, hsla(0, 0%, 100%, .4) 75%, transparent 0, transparent);*/
   border-radius: 2em;
 }
 

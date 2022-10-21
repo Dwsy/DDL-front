@@ -639,7 +639,7 @@ if (ArticleField.data == undefined) {
 }
 // console.log('title', ArticleField.data.title)
 useHead({
-  title: ArticleField.data?.title || '加载中...'
+  title: ArticleField.data.title || '加载中...'
 })
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
@@ -668,6 +668,7 @@ onMounted(async () => {
     // console.log('light', new Date().getTime() - s)
     // articleStore.markdownTheme = articleStore.markdownThemeLight
   }
+  // document.title = ArticleField.data.title
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   setTimeout(() => {
     createToc()
@@ -1033,29 +1034,29 @@ code {
 </style>
 
 
-<style>
-.d-tip-error {
+<style scoped>
+:deep(.d-tip-error) {
   /*background: #fcf1f1 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
-.d-tip-success {
+:deep(.d-tip-success) {
   /*background: #f0f8e5 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
-.d-tip-warning {
+:deep(.d-tip-warning) {
   /*background: #fcf2e9 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
-.d-tip-info {
+:deep(.d-tip-info) {
   /*background: #eef6fd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
   border-left-color: #40c4ff !important;
@@ -1063,7 +1064,7 @@ code {
 }
 
 
-.d-tip-share {
+:deep(.d-tip-share) {
   /*background: #dddddd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
   border-left-color: #8b968d !important;
@@ -1078,7 +1079,7 @@ code {
 /*  margin-right: 5px;*/
 /*  margin-left: -10px;*/
 /*}*/
-.d-tip-error > p:first-child:before {
+:deep(.d-tip-error > p:first-child:before) {
   content: "\F0156";
   font-size: 135%;
   color: red;
@@ -1087,11 +1088,11 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-error > p:not(:first-child) {
+:deep(.d-tip-error > p:not(:first-child)) {
   margin-left: 22px;
 }
 
-.d-tip-success p:first-child:before {
+:deep(.d-tip-success p:first-child:before) {
   content: "\F012C";
   font-size: 135%;
   color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
@@ -1100,7 +1101,7 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-warning p:first-child:before {
+:deep(.d-tip-warning p:first-child:before) {
   content: "\F0205";
   font-size: 135%;
   position: center;
@@ -1111,7 +1112,7 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-info p:first-child:before {
+:deep(.d-tip-info p:first-child:before) {
   content: "\F064E";
   font-size: 135%;
   color: #40c4ff;
@@ -1120,16 +1121,16 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-share p:first-child:before {
+:deep(.d-tip-share p:first-child:before) {
   content: "\F0065";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "" : "#000"') !important;
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
 }
 
-.d-tip > p:not(:first-child) {
+:deep(.d-tip > p:not(:first-child)) {
   margin-left: 22px;
 }
 

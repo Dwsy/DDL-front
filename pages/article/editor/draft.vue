@@ -245,7 +245,7 @@
         </v-btn>
       </template>
     </ImgCutter>
-    <BytemdEditor :content="content" @change-text="changeText"></BytemdEditor>
+    <BytemdEditor :content="content" @change-text="changeText">test</BytemdEditor>
   </div>
 </template>
 
@@ -292,14 +292,8 @@ import {useTheme} from 'vuetify'
 import '~~/constant/codemirrorTheme/main.css'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/article/creator/content/article/Toast/jumpPrompt.vue'
-// import 'codemirror/theme/idea.css'
-// import breaks from '@bytemd/plugin-breaks'
-// import highlight from '@bytemd/plugin-highlight'
-// import footnotes from '@bytemd/plugin-footnotes'
-// import frontmatter from '@bytemd/plugin-frontmatter'
-// import gfm from '@bytemd/plugin-gfm'
-// import mediumZoom from '@bytemd/plugin-medium-zoom'
-// import gemoji from '@bytemd/plugin-gemoji'
+
+
 definePageMeta({
   layout: false
 })
@@ -496,7 +490,7 @@ const rules = {
   required: v => !!v || '此字段是必需的。',
 }
 
-const changeText = (text) => {
+const changeText = async (text) => {
   content.value = text
 }
 
@@ -682,6 +676,9 @@ const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active
 onMounted(() => {
   const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
+  watchEffect(() => {
+    // content.value.split('\n')
+  })
   const observer = new MutationObserver((e) => {
     if (editorTitleInput.classList.contains('v-field--active')) {
       editorTitleInputLabelFontSize.value = '80%'
@@ -693,6 +690,8 @@ onMounted(() => {
     attributes: true
   })
 })
+
+
 </script>
 <script lang="ts">
 
@@ -726,6 +725,7 @@ body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--ac
 
 
 </style>
+
 
 <!--<style>-->
 <!--.cm-s-default .cm-header {-->
