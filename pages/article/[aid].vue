@@ -882,7 +882,7 @@ onMounted(() => {
 </script>
 
 
-<style lang="sass">
+<style lang="sass" scoped>
 //@import "../../assets/sass/mdTheme/cyanosis"
 //@import "../../assets/sass/mdTheme/v-green"
 //@import "../../assets/sass/mdTheme/arknights"
@@ -900,7 +900,11 @@ onMounted(() => {
 <style lang="css">
 .markdown-body p {
   font-size: 20px !important;
+}
 
+.markdown-body {
+  padding: 0 10px !important;
+  background-repeat: initial !important;
 }
 
 kbd {
@@ -1026,13 +1030,6 @@ code {
     margin-right: -40px !important;
   }
 }
-
-.markdown-body {
-  padding: 0 !important;
-}
-
-
-
 </style>
 
 
@@ -1047,7 +1044,7 @@ code {
 .d-tip-success {
   /*background: #f0f8e5 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
-  border-left-color: greenyellow !important;
+  border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
@@ -1073,7 +1070,15 @@ code {
   /*color: black!important;*/
 }
 
-.d-tip-error p:before {
+/*.d-tip-error > p:first-child:before {*/
+/*  content: "\F0156";*/
+/*  font-size: 135%;*/
+/*  color: red;*/
+/*  font-weight: bold;*/
+/*  margin-right: 5px;*/
+/*  margin-left: -10px;*/
+/*}*/
+.d-tip-error > p:first-child:before {
   content: "\F0156";
   font-size: 135%;
   color: red;
@@ -1082,16 +1087,20 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-success p:before {
+.d-tip-error > p:not(:first-child) {
+  margin-left: 22px;
+}
+
+.d-tip-success p:first-child:before {
   content: "\F012C";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#000"') !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
 }
 
-.d-tip-warning p:before {
+.d-tip-warning p:first-child:before {
   content: "\F0205";
   font-size: 135%;
   position: center;
@@ -1102,7 +1111,7 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-info p:before {
+.d-tip-info p:first-child:before {
   content: "\F064E";
   font-size: 135%;
   color: #40c4ff;
@@ -1111,13 +1120,17 @@ code {
   margin-left: -10px;
 }
 
-.d-tip-share p:before {
+.d-tip-share p:first-child:before {
   content: "\F0065";
   font-size: 135%;
   color: v-bind('theme.global.name.value === "dark" ? "" : "#000"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
+}
+
+.d-tip > p:not(:first-child) {
+  margin-left: 22px;
 }
 
 </style>

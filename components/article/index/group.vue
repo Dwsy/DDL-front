@@ -6,7 +6,7 @@
         <v-chip @click="changeGroup(0)">
           综合
         </v-chip>
-        <v-chip label v-for="g in groupData" :key="g.id" @click="changeGroup(g.id)"
+        <v-chip label="true" v-for="g in groupData" :key="g.id" @click="changeGroup(g.id)"
         >
           <!--          variant="outlined"-->
           {{ g.name }}
