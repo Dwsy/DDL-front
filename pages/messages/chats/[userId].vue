@@ -2,13 +2,13 @@
   <div style="height: 90%">
     <div style="height: 80%">
       <v-divider class="mb-4 "></v-divider>
-      <v-row>
-        <v-col cols="5" offset="5" class="mr-n4">
+      <v-row class="">
+        <v-col cols="5" offset="5" class="mr-n4 ">
         <span style="font-weight: bold;font-size: 21px">
         {{ chatsStore.chatUserNickname }}</span>
         </v-col>
         <v-col cols="2">
-          <v-btn color="blue" elevation="0" class="mb-1 mx-16">
+          <v-btn color="blue" elevation="0" class="mb-1  mx-16">
             <span style="color: white">关注</span>
           </v-btn>
         </v-col>
@@ -28,7 +28,7 @@
           <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
             <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : '' }}</span>
           </div>
-<!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
+          <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
           <div v-if="i.toUserId===uid">
             <div v-if="i.status===ChatRecordStatus.WITHDRAW">
               <div class="tips">
@@ -87,10 +87,11 @@ import {useUserStore} from '~/stores/user'
 import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
 import ChatInputBox from '~/components/messages/chatInputBox.vue'
-// definePageMeta({
-//   keepalive:true,
-//   // pageTransition: AbstractRange
-// })
+
+definePageMeta({
+  keepalive: false,
+  // pageTransition: AbstractRange
+})
 // definePageMeta({
 //   pageTransition: {
 //     mode: 'out-in'
@@ -197,8 +198,20 @@ const readMsg = async (e, msg) => {
 
 </script>
 
-<style>
+<style scoped>
 @import "assets/css/pkg.css";
+
+.d-chats-box-head {
+
+  line-height: 2;
+  margin: auto;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .3);
+  box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, .3);
+  overflow: hidden;
+
+}
+
 
 .box {
   height: 100%;

@@ -1,31 +1,43 @@
 import {defineStore} from 'pinia'
 import {UseAxiosPostGetReplyMeNotify} from '~/composables/Api/messages/reply'
 import {errorMsg} from '#imports'
+import {NotifyMsg} from '~/types/message'
 
 
 interface ReplyState {
-    replyNotifyList: replyNotify[]
+    replyNotifyList: NotifyMsg[]
+    page: number
+    totalPages: number
 }
 
 export const useReplyStore = defineStore('replyNotify', {
     state: (): ReplyState => {
         return {
-            replyNotifyList: []
+            replyNotifyList: [],
+            page: 1,
+            totalPages: null
         }
     },
     getters: {},
     actions: {
-        async loadReplyNotifyList() {
-            let {data: response} = await UseAxiosPostGetReplyMeNotify()
+        async loadReplyNotifyList(scroll?: boolean) {
+            let {data: response} = await UseAxiosPostGetReplyMeNotify(this.page)
             if (response.code == 0) {
-                this.replyNotifyList = response.data.content
+                if (scroll) {
+                    this.replyNotifyList = this.replyNotifyList
+                        .concat(response.data.content)
+                } else {
+                    this.replyNotifyList = response.data.content
+                    this.totalPages = response.data.totalPages
+                }
             } else {
                 errorMsg(response.msg)
             }
         },
-        getGoToLink(notify: replyNotify) {
+        getGoToLink(notify: NotifyMsg) {
             if (notify.notifyType == NotifyType['回复了你的评论:']) {
                 return '/article/' + notify.articleId + '#comment-' + notify.replayCommentId
+                // return '/article/' + notify.articleId
             }
             if (notify.notifyType == NotifyType['评论了文章:']) {
                 return '/article/' + notify.articleId
@@ -42,11 +54,11 @@ export interface replyNotify {
     commentId: string;
     questionId: string;
     answerId: string;
-    notifyType: number;
+    notifyType: NotifyType;
     formContent: string;
     toContent: string;
     replayCommentId: string;
-    notifyState: NotifyType;
+    notifyState: number;
     formUserAvatar: string
     formUserNickname: string
 }

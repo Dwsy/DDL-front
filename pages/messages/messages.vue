@@ -1,10 +1,10 @@
 <template>
 
-  <v-container fluid id="message" class="box" style="">
+  <v-container fluid id="message" class="d-messages-box" style="">
     <v-row class="box">
       <!--      style="height: calc(100% - 66px)"-->
       <v-divider></v-divider>
-      <v-col cols="2" style="max-width: 200px;height:90%" class="ml-n5 mr-2">
+      <v-col cols="2" class="d-messages-aside ml-n5 mr-2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -67,8 +67,22 @@ onUnmounted(() => {
 </script>
 
 <style>
-.box {
+.d-messages-box {
   height: 100%;
 }
+
+.d-messages-aside {
+  left: 5%;
+  /*z-index: 1004;*/
+  /*transform: translateX(0%);*/
+  position: fixed;
+  /*height: calc((100% - 48px) - 0px);*/
+  top: 7.5%;
+  bottom: 0;
+  width: 15%;
+  max-width: 200px;
+  height: 90%
+}
+
 
 </style>

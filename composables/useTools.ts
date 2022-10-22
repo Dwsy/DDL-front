@@ -96,3 +96,18 @@ export const atSrtGotoHome = (s: string, userId: string) => {
     let linkStr = `<a class="d-gotoHome" href="/user/${userId}" target="_blank">${str}</a>`
     return s.replace(str, linkStr)
 }
+
+export const useLoadingWin = (loadingMore: Function) => {
+    console.log(123123)
+    return async () => {
+        //文档内容实际高度（包括超出视窗的溢出部分）
+        let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+        //滚动条滚动距离
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        //窗口可视范围高度
+        let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+        if (clientHeight + scrollTop + 100 >= scrollHeight) {
+            await loadingMore()
+        }
+    }
+}

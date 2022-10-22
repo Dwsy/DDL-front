@@ -131,11 +131,7 @@ const loadingMore = async () => {
     }
     return
   }
-
-
   params.value.page += 1
-
-
   const {data: listDataNew} = await useFetchGetArticleList(params.value)
   listContent.value.push(...listDataNew.content)
 }

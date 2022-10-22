@@ -2,29 +2,39 @@ import {defineStore} from 'pinia'
 import {UseAxiosPostGetReplyMeNotify} from '~/composables/Api/messages/reply'
 import {errorMsg} from '#imports'
 import {UseAxiosPostGetThumbMeNotify} from '~/composables/Api/messages/thumb'
+import {NotifyMsg} from '~/types/message'
 
 
 interface ReplyState {
-    ThumbNotifyList: ThumbNotify[]
+    ThumbNotifyList: NotifyMsg[]
+    page: number
+    totalPages: number
 }
 
 export const useThumbStore = defineStore('thumbStore', {
     state: (): ReplyState => {
         return {
-            ThumbNotifyList: []
+            ThumbNotifyList: [],
+            page: 1,
+            totalPages: null
         }
     },
     getters: {},
     actions: {
-        async loadThumbNotifyList() {
-            let {data: response} = await UseAxiosPostGetThumbMeNotify()
+        async loadThumbNotifyList(scroll?: boolean) {
+            let {data: response} = await UseAxiosPostGetThumbMeNotify(this.page)
             if (response.code == 0) {
-                this.ThumbNotifyList = response.data.content
+                if (scroll) {
+                    this.ThumbNotifyList = this.ThumbNotifyList.concat(response.data.content)
+                } else {
+                    this.ThumbNotifyList = response.data.content
+                    this.totalPages = response.data.totalPages
+                }
             } else {
                 errorMsg(response.msg)
             }
         },
-        getGoToLink(notify: ThumbNotify) {
+        getGoToLink(notify: NotifyMsg) {
             if (notify.notifyType == NotifyType['点赞了你的评论:']) {
                 return '/article/' + notify.articleId + '#comment-' + notify.commentId
             }
@@ -32,12 +42,14 @@ export const useThumbStore = defineStore('thumbStore', {
                 return '/article/' + notify.articleId
             }
 
-        }
+        },
     },
 })
 
 interface ThumbNotify {
     id: string;
+    createTime: number
+    lastModifiedTime: number
     fromUserId: string;
     toUserId: string;
     articleId: string;

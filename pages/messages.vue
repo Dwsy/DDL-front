@@ -1,10 +1,11 @@
 <template>
 
-  <v-container fluid id="message" class="box" style="">
+  <v-container fluid id="message" class="d-messages-box" style="">
+    <v-divider class="mb-3"></v-divider>
     <v-row class="box">
       <!--      style="height: calc(100% - 66px)"-->
-      <v-divider></v-divider>
-      <v-col cols="2" style="max-width: 200px;height:90%" class="ml-n5 mr-2">
+
+      <v-col class="d-messages-aside ml-n5 mr-2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -26,7 +27,7 @@
       </v-col>
 
       <v-divider vertical="true"></v-divider>
-      <v-col xl="9" lg="9" md="10" sm="9" xs="12">
+      <v-col xl="9" lg="9" md="10" sm="9" xs="12" style="margin-left: 8%">
         <NuxtPage/>
       </v-col>
       <v-col cols="1">
@@ -46,12 +47,12 @@ import {definePageMeta} from '#imports'
 import {useLayout} from '~/stores/layout'
 
 definePageMeta({
-  keepalive: true,
-  pageTransition: {
-    name: 'slide-x-reverse-transition',
-    mode: 'in-out',
-  }
-  // key:route => route.fullPath
+  keepalive: false,
+  // pageTransition: {
+  //   name: 'slide-x-reverse-transition',
+  //   mode: 'in-out',
+  // },
+  key: 'messages'
 })
 
 // const chatsStore = useChatsStore()
@@ -67,7 +68,7 @@ let items = [
 
 onMounted(() => {
   layout.showFooter = false
-  // console.log('11Messsage mounted')
+  console.log('11Messsage mounted')
 })
 onUnmounted(() => {
   layout.showFooter = true
@@ -76,8 +77,17 @@ onUnmounted(() => {
 </script>
 
 <style>
-.box {
+.d-messages-box {
   height: 100%;
 }
 
+.d-messages-aside {
+  position: fixed;
+  left: 15%;
+  top: 8%;
+  bottom: 0;
+  width: 10%;
+  /*height: 100%;*/
+  /*max-width: 200px;height:90%*/
+}
 </style>

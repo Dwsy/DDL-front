@@ -1,23 +1,23 @@
 <template>
-  <div id="thumb-window">
+  <div id="reply-window">
     <v-row class="ml-5">
       <v-col>
-        <div class="text-start ">
-          <v-btn icon elevation="0" @click="replyStore.loadReplyNotifyList()">
-            <v-icon>
-              mdi-refresh
-            </v-icon>
-          </v-btn>
-        </div>
+        <!--        <div class="text-start ">-->
+        <!--          <v-btn icon elevation="0" @click="replyStore.loadReplyNotifyList()">-->
+        <!--            <v-icon>-->
+        <!--              mdi-refresh-->
+        <!--            </v-icon>-->
+        <!--          </v-btn>-->
+        <!--        </div>-->
         <v-list>
           <v-list-item
               v-for="(item, i) in replyStore.replyNotifyList"
               :key="item.id"
               :value="item"
-              :src="replyStore.getGoToLink(item)"
               active-color="pink"
               rounded="xl"
-              :to="replyStore.getGoToLink(item)"
+              :href="replyStore.getGoToLink(item)"
+              target="_blank"
           >
             <!--            :href="replyStore.getGoToLink(item)"-->
             <!--            target="_blank"-->
@@ -42,6 +42,7 @@
                 {{ item.formContent }}
               </div>
             </div>
+            <span>{{ dateFilter(item.lastModifiedTime) }}</span>
             <v-divider></v-divider>
 
 
@@ -53,19 +54,60 @@
 </template>
 
 <script setup lang="ts">
-import {definePageMeta} from '#imports'
-import {onMounted} from 'vue'
+import {definePageMeta, dateFilter} from '#imports'
+import {onActivated, onDeactivated, onMounted, onUnmounted} from 'vue'
 import {useReplyStore, NotifyType} from '~/stores/reply/replyStrore'
+import {useLoadingWin} from '~/composables/useTools'
 
 definePageMeta({
-  keepalive: true,
+  keepalive: false,
 })
 
 let replyStore = useReplyStore()
 
 onMounted(async () => {
+  console.log('reply mounted')
+  document.documentElement.scrollTop = 0
   await replyStore.loadReplyNotifyList()
+  // document.body.onscroll =  useLoadingWin(loadingMore)
+  document.body.onscroll = useLoadingWin(loadingMore)
 })
+onUnmounted(() => {
+  replyStore.page = 1
+  replyStore.totalPages = null
+  console.log('replyNotifyList unmounted')
+})
+onActivated(() => {
+  console.log('replyNotifyList activated')
+})
+onDeactivated(() => {
+  console.log('replyNotifyList deactivated')
+})
+
+const loadingWin = async () => {
+  //文档内容实际高度（包括超出视窗的溢出部分）
+  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+  //滚动条滚动距离
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+  //窗口可视范围高度
+  let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+  if (clientHeight + scrollTop + 100 >= scrollHeight) {
+    await loadingMore()
+  }
+}
+
+const loadingMore = async () => {
+  console.log(123)
+  if (replyStore.page >= replyStore.totalPages) {
+    if (replyStore.replyNotifyList.length > 15) {
+      // alert.value = true
+      document.body.onscroll = null
+    }
+    return
+  }
+  replyStore.page++
+  await replyStore.loadReplyNotifyList(true)
+}
 </script>
 
 <style>

@@ -100,7 +100,9 @@ export interface articleListData {
   articleGroup: ArticleGroup;
   id: string;
   createTime: String;
+  commentNum: number
 }
+
 
 export interface UserInfo {
   id: string;

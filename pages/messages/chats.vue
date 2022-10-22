@@ -1,15 +1,9 @@
 <template>
   <div id="chats-window">
 
-    <v-row class="mt-n1">
+    <v-row class="mt-n3 ml-5">
       <v-col cols="3">
-        <div class="text-end ">
-          <v-btn icon elevation="0" @click="chatsStore.loadChatsList()">
-            <v-icon>
-              mdi-refresh
-            </v-icon>
-          </v-btn>
-        </div>
+
         <v-list>
 
           <v-list-item
@@ -33,7 +27,13 @@
             <v-list-item-title class="ml-1" v-text="item.content"></v-list-item-title>
           </v-list-item>
         </v-list>
-
+        <div class="text-end">
+          <v-btn icon elevation="0" size="small" @click="chatsStore.loadChatsList()">
+            <v-icon>
+              mdi-refresh
+            </v-icon>
+          </v-btn>
+        </div>
       </v-col>
       <v-divider vertical="true"></v-divider>
       <v-col>
@@ -54,8 +54,8 @@ import {definePageMeta} from '#imports'
 import {useHead} from '#head'
 
 definePageMeta({
-  // key:route => route.fullPath,
-  keepalive: true,
+  key: 'chats',
+  keepalive: false,
   pageTransition: false
 })
 useHead({
@@ -67,7 +67,7 @@ useHead({
 
 const chatsStore = useChatsStore()
 onMounted(async () => {
-  console.log('onMounted')
+  console.log('chatsStore onMounted')
   await chatsStore.loadChatsList()
 })
 
@@ -82,6 +82,4 @@ onUnmounted(() => {
 #chats-window {
   max-height: 800px;
 }
-
-
 </style>

@@ -26,7 +26,7 @@
 
             </v-list-item>
 
-            <v-list-group value="test">
+            <v-list-group :value="test">
               <template v-slot:activator="{ props }">
                 <v-list-item
                     v-bind="props"

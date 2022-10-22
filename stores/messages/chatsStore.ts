@@ -42,8 +42,11 @@ export const useChatsStore = defineStore('chats', {
     getters: {},
     actions: {
         async loadChatsList(refresh = false) {
-            // console.log('this.chatsList.length ', this.chatsList.length)
-            // if (this.chatsList.length === 0) {
+            if (refresh == false) {
+                if (this.chatsList != undefined) {
+                    return
+                }
+            }
             let {data: response} = await UseAxiosGetPrivateMessageList()
             if (response.code === 0) {
                 this.chatsList = response.data.content
