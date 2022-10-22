@@ -27,7 +27,7 @@
       </v-col>
 
       <v-divider vertical="true"></v-divider>
-      <v-col xl="9" lg="9" md="10" sm="9" xs="12" style="margin-left: 8%">
+      <v-col xl="9" lg="9" md="10" sm="9" xs="12" class="d-messages-child">
         <NuxtPage/>
       </v-col>
       <v-col cols="1">
@@ -81,12 +81,22 @@ onUnmounted(() => {
   height: 100%;
 }
 
+.d-messages-child {
+  margin-left: 200px;
+}
+
+@media (min-width: 1930px) {
+  .d-messages-child {
+    margin-left: 250px;
+  }
+}
+
 .d-messages-aside {
   position: fixed;
-  left: 15%;
+  left: 300px;
   top: 8%;
   bottom: 0;
-  width: 10%;
+  width: 230px;
   /*height: 100%;*/
   /*max-width: 200px;height:90%*/
 }

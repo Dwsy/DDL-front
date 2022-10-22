@@ -579,7 +579,7 @@ import {useRouter} from '#app'
 import mediumZoom from 'medium-zoom'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
-
+import {lineNumbersBlock, addStyles} from '~/utils/highlight-line-number'
 
 definePageMeta({
   keepalive: false
@@ -599,19 +599,7 @@ let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
 const articleStoreCollectKey = 'articleStoreCollect'
 let ArticleField = await useFetchGetArticleField(aid)
-// await changeHighlightStyle('xcode')
-// const highlightStyle = await changeHighlightStyle('xcode', true)
-// useHead({
-//   script: [
-//     {src: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/katex.min.js'},
-//     {src: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/contrib/auto-render.min.js'},
-//     {src: 'https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js'},
-//     {src: ''},
-//   ],
-//   link: [
-//     {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/katex.min.css'},
-//   ],
-// })
+
 
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
@@ -732,20 +720,36 @@ onMounted(async () => {
   })
   const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('pre code')
   const CodeLength = CodeNodeList.length
+  addStyles()
+  CodeNodeList.forEach((line, i) => {
+    line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+  })
+  // let e_len = CodeNodeList.length;
+  // let i;
+  // for (i = 0; i < e_len; i++) {
+  //
+  // }
   if (CodeLength > 30) {
     for (let i = 0; i < 15; i++) {
       hljs.highlightElement(CodeNodeList[i])
+      CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+      // lineNumbersBlock(CodeNodeList[i], {
+      //   singleLine: true
+      // })
     }
     setTimeout(() => {
       for (let i = 15; i < CodeLength; i++) {
         hljs.highlightElement(CodeNodeList[i])
+        CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
       }
     }, 1500)
   } else {
     for (let i = 0; i < CodeLength; i++) {
       hljs.highlightElement(CodeNodeList[i])
+      CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
     }
   }
+
   // hljs.highlightAll()
 })
 
@@ -899,6 +903,23 @@ onMounted(() => {
 
 </script>
 
+<style scoped>
+/*修改行号列样式*/
+.hljs-ln-numbers {
+  text-align: center;
+  color: #ccc;
+  border-right: 1px solid #CCC;
+  vertical-align: top;
+  padding-right: 5px !important;
+
+  /* your custom style here */
+}
+
+/* 修改代码列样式 */
+.hljs-ln-code {
+  padding-left: 5px !important;
+}
+</style>
 
 <style lang="sass" scoped>
 //@import "../../assets/sass/mdTheme/cyanosis"
@@ -915,8 +936,25 @@ onMounted(() => {
   border-color: rgba(136, 136, 136, 0.49)
 </style>
 
-<style lang="css">
-.markdown-body p {
+<style lang="css" scoped>
+:deep(.markdown-body pre code ul) {
+  list-style-type: none;
+  counter-reset: linenumber;
+}
+
+:deep(.markdown-body pre code ul li) {
+
+}
+
+:deep(.markdown-body pre code ul li:before) {
+  counter-increment: linenumber;
+  content: counter(linenumber);
+  margin-left: -20px;
+  margin-right: 10px;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+}
+
+:deep(.markdown-body p) {
   font-size: 20px !important;
 }
 
@@ -940,7 +978,7 @@ kbd {
   width: 100%;
 }
 
-.toc-list-item:hover {
+:deep(.toc-list-item:hover) {
   color: #00c888;
 }
 
@@ -948,12 +986,12 @@ kbd {
 /*  font-size: 20px;*/
 /*}*/
 
-.toc::-webkit-scrollbar {
+:deep(.toc::-webkit-scrollbar) {
   width: 0 !important;
 }
 
 
-.toc {
+:deep(.toc) {
   position: sticky;
   top: 10%;
   height: 700px;
@@ -965,15 +1003,15 @@ kbd {
   /*border-color: rgba(136, 136, 136, 0.44);*/
 }
 
-.toc-list {
+:deep(.toc-list) {
   padding-left: 2em;
 }
 
-.toc > .toc-list li {
+:deep(.toc > .toc-list li) {
   list-style: auto;
 }
 
-.side-toolbar1 {
+:deep(.side-toolbar1) {
   position: fixed;
   bottom: 30px;
   right: 0;
@@ -981,7 +1019,7 @@ kbd {
   padding: 10px;
 }
 
-.v-container {
+:deep(.v-container) {
   max-width: 100%;
 }
 
@@ -990,7 +1028,7 @@ kbd {
 /*}*/
 
 /* 语法高亮 */
-.hljs-container {
+:deep(.hljs-container) {
   position: relative;
   display: block;
   width: 600px;
@@ -1002,7 +1040,7 @@ kbd {
   box-shadow: 0 10px 30px 0 rgb(0 0 0 / 40%);
 }
 
-code {
+:deep(code) {
   font-size: 18px !important;
 }
 
@@ -1051,29 +1089,29 @@ code {
 </style>
 
 
-<style scoped>
-:deep(.d-tip-error) {
+<style>
+.d-tip-error {
   /*background: #fcf1f1 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
-:deep(.d-tip-success) {
+.d-tip-success {
   /*background: #f0f8e5 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
-:deep(.d-tip-warning) {
+.d-tip-warning {
   /*background: #fcf2e9 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
-:deep(.d-tip-info) {
+.d-tip-info {
   /*background: #eef6fd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
   border-left-color: #40c4ff !important;
@@ -1081,7 +1119,7 @@ code {
 }
 
 
-:deep(.d-tip-share) {
+.d-tip-share {
   /*background: #dddddd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
   border-left-color: #8b968d !important;
@@ -1096,7 +1134,7 @@ code {
 /*  margin-right: 5px;*/
 /*  margin-left: -10px;*/
 /*}*/
-:deep(.d-tip-error > p:first-child:before) {
+.d-tip-error > p:first-child:befor {
   content: "\F0156";
   font-size: 135%;
   color: red;
@@ -1105,11 +1143,11 @@ code {
   margin-left: -10px;
 }
 
-:deep(.d-tip-error > p:not(:first-child)) {
+.d-tip-error > p:not(:first-child) {
   margin-left: 22px;
 }
 
-:deep(.d-tip-success p:first-child:before) {
+.d-tip-success p:first-child:before {
   content: "\F012C";
   font-size: 135%;
   color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
@@ -1118,7 +1156,7 @@ code {
   margin-left: -10px;
 }
 
-:deep(.d-tip-warning p:first-child:before) {
+.d-tip-warning p:first-child:before {
   content: "\F0205";
   font-size: 135%;
   position: center;
@@ -1129,7 +1167,7 @@ code {
   margin-left: -10px;
 }
 
-:deep(.d-tip-info p:first-child:before) {
+.d-tip-info p:first-child:before {
   content: "\F064E";
   font-size: 135%;
   color: #40c4ff;
@@ -1138,7 +1176,7 @@ code {
   margin-left: -10px;
 }
 
-:deep(.d-tip-share p:first-child:before) {
+.d-tip-share p:first-child:before {
   content: "\F0065";
   font-size: 135%;
   color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
@@ -1147,7 +1185,7 @@ code {
   margin-left: -10px;
 }
 
-:deep(.d-tip > p:not(:first-child)) {
+.d-tip > p:not(:first-child) {
   margin-left: 22px;
 }
 

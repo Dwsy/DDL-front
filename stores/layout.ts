@@ -30,7 +30,7 @@ export const useLayout = defineStore('layout', {
         switchTheme(theme: ThemeInstance) {
             // console.log("theme:",theme.global.name.value)
             theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-            document.cookie = `theme=${theme.global.name.value};path=/;max-age=31536000`
+            document.cookie = `theme=${theme.global.name.value}`
         },
         switchLightTheme(theme: ThemeInstance) {
             theme.global.name.value = 'light'
