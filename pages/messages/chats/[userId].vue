@@ -54,7 +54,7 @@
           <div v-else class="cright cmsg">
             <v-row class="my-n12">
               <v-col>
-                <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">未读</span>
+                <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
                 <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
                 <span class="content" style="font-size: 18px" v-html="i.content"></span>
                 <v-avatar size="large">
@@ -242,13 +242,13 @@ const readMsg = async (e, msg) => {
 
 .d-unRade {
   color: #e9546b;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 18px;
 }
 
 .d-read {
   color: #8b8b8b;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 18px;
 }
 

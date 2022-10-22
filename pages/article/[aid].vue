@@ -564,7 +564,7 @@ import {
   useFetchGetArticleField
 } from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
-import {createError, definePageMeta, errorMsg, successMsg, useRoute, warningMsg} from '#imports'
+import {createError, definePageMeta, errorMsg, successMsg, useCookie, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'
@@ -578,6 +578,7 @@ import {useLayout} from '~/stores/layout'
 import {useRouter} from '#app'
 import mediumZoom from 'medium-zoom'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
+import {changeThemes, themes} from '~/constant/markdownThemeList'
 
 
 definePageMeta({
@@ -590,6 +591,7 @@ useLayout().showFooter = true
 let route = useRoute()
 let aid = String(route.params.aid)
 
+const cookieThemeState = useCookie('theme')
 let theme = useTheme()
 let user = useUserStore()
 const router = useRouter()
@@ -610,22 +612,7 @@ let ArticleField = await useFetchGetArticleField(aid)
 //     {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.2/katex.min.css'},
 //   ],
 // })
-useHead({
-  style: [
-    {
-      id: 'highlightStyle',
-      children: await changeHighlightStyle('xcode', true),
-      type: 'text/css'
-    }, {}
-  ]
-//   test:{
-//     id: 'markdownTheme',
-//   },
-// ]
-//   style: [
-//     highlightStyle:{
-//
-})
+
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
   router.push('/article')
@@ -650,25 +637,53 @@ const ReplyComment = articleCommentStore.ReplyComment
 const gotoTitle = ref(false)
 
 const message = ref('')
-const showMessage = ref(false)
+// const showMessage = ref(false)
+const getHighlightStyleName = () => {
+  if (cookieThemeState.value === 'light') {
+    return ArticleField.data.codeHighlightStyle
+  } else {
+    return ArticleField.data.codeHighlightStyleDark
+  }
+}
+const getMarkdownThemeName = () => {
+  if (cookieThemeState.value === 'light') {
+    return ArticleField.data.markDownTheme
+  } else {
+    return ArticleField.data.markDownThemeDark
+  }
+}
+useHead({
+  style: [
+    {
+      id: 'highlightStyle',
+      children: await changeHighlightStyle(getHighlightStyleName(), true),
+      type: 'text/css'
+    }, {
+      id: 'markdownTheme',
+      children: await changeThemes(themes[getMarkdownThemeName()], true),
+      type: 'text/css'
+    }
+  ]
+//   test:{
+//     id: 'markdownTheme',
+//   },
+// ]
+//   style: [
+//     highlightStyle:{
+//
+})
+
 onMounted(async () => {
   //
   if (user.token === '') {
     articleCommentStore.replyCommentText = '请先登陆'
   }
   await articleStore.init()
-  if (theme.global.name.value === 'dark') {
-    // const s = new Date().getTime()
-    await articleStore.changeThemeDark()
-
-    // articleStore.markdownTheme = articleStore.markdownThemeDark
-  } else {
-    // const s = new Date().getTime()
-    await articleStore.changeThemeLight()
-    // console.log('light', new Date().getTime() - s)
-    // articleStore.markdownTheme = articleStore.markdownThemeLight
-  }
-  // document.title = ArticleField.data.title
+  // if (theme.global.name.value === 'dark') {
+  //   await articleStore.changeThemeDark()
+  // } else {
+  //   await articleStore.changeThemeLight()
+  // }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   setTimeout(() => {
     createToc()
@@ -703,8 +718,10 @@ onMounted(async () => {
   watch(theme.global.name, async (val) => {
     if (val === 'dark') {
       await articleStore.changeThemeDark()
+      await articleStore.changeHighlightStyleDark()
     } else {
       await articleStore.changeThemeLight()
+      await articleStore.changeHighlightStyleLight()
     }
   })
 

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-card elevation="1" outlined transition="scroll-y-transition">
+    <v-card elevation="1" outlined transition="scroll-y-transition" :theme="theme">
       <v-row no-gutters>
         <v-col class="pl-2" cols="4">
           <div class="text-subtitle-1">
@@ -20,7 +20,7 @@
       </v-row>
       <v-divider class="mx-3"></v-divider>
 
-      <v-card target="_blank" :href="`/article/${id}`">
+      <v-card target="_blank" :href="`/article/${id}`" :theme="theme">
         <v-row>
           <v-col cols="8">
             <v-row>
@@ -67,10 +67,20 @@
   </div>
 </template>
 <script setup lang=ts>
-import {dateFilter} from '#imports'
+import {dateFilter, useCookie} from '#imports'
 import {articleListData} from '~/types/article'
-import {onMounted} from 'vue'
+import {onMounted, ref, watch} from 'vue'
+import {useTheme} from 'vuetify'
 
+const cookieThemeState = useCookie('theme')
+const theme = ref(cookieThemeState.value)
+const themeInstance = useTheme()
+//todo 优化
+onMounted(() => {
+  watch(themeInstance.global.name, (val) => {
+    theme.value = val
+  })
+})
 //todo 改用pinia
 // import { articleListData } from '~~/types/article';
 let imgList = ['https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.jpg',
@@ -79,8 +89,7 @@ let imgList = ['https://tva1.sinaimg.cn/large/005NWBIgly1go817vkbb4j30vl0jencd.j
   'https://tva1.sinaimg.cn/large/005NWBIgly1go8137joftj30pc0oe75u.jpg',
   'https://tva1.sinaimg.cn/large/005NWBIgly1go8137mdujj30k70k70x2.jpg',
 ]
-defineProps<articleListData>(
-)
+defineProps<articleListData>()
 
 
 </script>

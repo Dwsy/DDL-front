@@ -2,7 +2,7 @@ import 'juejin-markdown-themes/dist/vue-pro'
 import {MarkdownTheme, MarkdownThemeNameList} from '~/types/other/markdownTheme'
 
 const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
-export const changeThemes = async (markdownTheme: MarkdownTheme) => {
+export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) => {
     let css = null
 
     const s = new Date().getTime()
@@ -176,6 +176,9 @@ export const changeThemes = async (markdownTheme: MarkdownTheme) => {
 
         default:
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
+    }
+    if (ssr) {
+        return css.default
     }
     // console.log(css.default)
     let markdownThemeStyleElement = document.querySelector('#markdownTheme')

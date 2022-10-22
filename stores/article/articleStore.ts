@@ -22,9 +22,11 @@ export const useArticleStore = defineStore('ArticleStore', {
         contentHtml: null,
         // mdThemeNameList: ['cyanosis', 'smart-blue', 'juejin', 'devui-blue', 'v-green', 'arknights'],
         // mdThemeNameListDark: ['geek-black'],
-        markdownTheme: null,
+        // markdownTheme: null,
         markdownThemeLight: null,
         markdownThemeDark: null,
+        codeHighlightStyleDark: null,
+        codeHighlightStyleLight: null,
         follow: false,
         collect: false,
         thumb: 0,
@@ -39,6 +41,9 @@ export const useArticleStore = defineStore('ArticleStore', {
             // } else {
             //     await this.changeThemeLight()
             // }
+            this.codeHighlightStyleLight = this.articleField.codeHighlightStyle
+            this.codeHighlightStyleDark = this.articleField.codeHighlightStyleDark
+
             this.markdownThemeLight = this.articleField.markDownTheme
             this.markdownThemeDark = this.articleField.markDownThemeDark
             // this.markdownThemeDark
@@ -46,6 +51,7 @@ export const useArticleStore = defineStore('ArticleStore', {
             this.thumb = response.data.thumb
             this.follow = response.data.follow
             this.collect = response.data.collect
+            this.loading = false
             // await changeHighlightStyle(this.articleField.codeHighlightStyle)
         },
         async changeThemeDark() {
@@ -57,27 +63,26 @@ export const useArticleStore = defineStore('ArticleStore', {
             this.loading = false
         },
         async changeThemeLight() {
-            console.log('changeThemeLight')
             if (this.markdownThemeLight === null) {
                 await changeThemes(themes.cyanosis)
             } else {
                 await changeThemes(themes[this.markdownThemeLight])
             }
             this.loading = false
-            // if (index !== undefined) {
-            //     // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[index]
-            //     this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[index]
-            //     this.markdownThemeDark = 'markdown-body-' + this.mdThemeNameListDark[index]
-            //
-            // } else {
-            //     // this.markdownTheme = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
-            //     this.markdownThemeLight = 'markdown-body-' + this.mdThemeNameList[Math.ceil(Math.random() * this.mdThemeNameList.length) - 1]
-            //     this.markdownThemeDark = 'markdown-body-' +
-            //         this.mdThemeNameListDark[Math.ceil(Math.random() * Math.max(1, this.mdThemeNameListDark.length)) - 1]
-            // }
-            // console.log('this.markdownThemeLight', this.markdownThemeLight)
-            // console.log('this.markdownThemeDark', this.markdownThemeDark)
-
+        },
+        async changeHighlightStyleLight() {
+            if (this.codeHighlightStyleLight === null) {
+                await changeHighlightStyle('github')
+            } else {
+                await changeHighlightStyle(this.codeHighlightStyleLight)
+            }
+        },
+        async changeHighlightStyleDark() {
+            if (this.codeHighlightStyleDark === null) {
+                await changeHighlightStyle('monokai')
+            } else {
+                await changeHighlightStyle(this.codeHighlightStyleDark)
+            }
         },
         async ActionArticle(commentType: CommentType) {
             const body = {
@@ -151,9 +156,11 @@ interface Iarticle extends ArticleAction {
     contentHtml: string
     // mdThemeNameList: Array<string>
     // mdThemeNameListDark: Array<string>
-    markdownTheme: string
+    // markdownTheme: string
     markdownThemeDark: string
     markdownThemeLight: string
+    codeHighlightStyleDark: string
+    codeHighlightStyleLight: string
     thumb: CommentType
     collect: boolean
     follow: boolean

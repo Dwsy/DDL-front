@@ -2,7 +2,7 @@
 
   <NuxtLayout v-show="show">
     <template #appbar>
-      <LayoutsAppbar/>
+      <LayoutsAppbar class="d-header"/>
     </template>
     <template #drawer>
       <LayoutsDrawer/>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import {definePageMeta} from '#imports'
+import {definePageMeta, useCookie} from '#imports'
 
 import {useUserStore} from '~~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
@@ -38,10 +38,24 @@ definePageMeta({
 })
 let user = useUserStore()
 let theme = useTheme()
+const cookieThemeState = useCookie('theme')
 const layout = useLayout()
 let tocLinkColor = ref()
 let show = ref(false)
+// onMounted(()=>{
+//   layout.switchDarkTheme(theme)
+// })
 onMounted(async () => {
+  if (cookieThemeState.value !== undefined) {
+    console.log('cookieThemeState', cookieThemeState.value)
+    if (cookieThemeState.value === 'dark') {
+      layout.switchDarkTheme(theme)
+    } else {
+      layout.switchLightTheme(theme)
+    }
+  } else {
+    document.cookie = `theme=${theme.global.name.value}`
+  }
   show.value = true
   let localToken = window.localStorage.getItem('token')
   if (localToken !== null && localToken !== '') {
@@ -74,7 +88,25 @@ if (typeof window === 'undefined') {
 }
 </script>
 
+
+<style scoped>
+:deep(.v-app-bar.v-toolbar) {
+  /*background-color: rgb(12, 12, 13);*/
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCB" : "#ffffffaa"');
+  /*color: #000;*/
+}
+
+:deep(.v-navigation-drawer) {
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCB" : "--v-theme-surface"');
+}
+
+</style>
+
 <style>
+.d-header header {
+  backdrop-filter: saturate(180%) blur(20px) !important;
+}
+
 /*html {*/
 /*  width: 100%;*/
 /*  height: 100%;*/
