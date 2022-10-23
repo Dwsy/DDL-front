@@ -107,6 +107,10 @@ if (typeof window === 'undefined') {
   backdrop-filter: saturate(180%) blur(20px) !important;
 }
 
+html {
+  scroll-padding-top: 55px;
+}
+
 /*html {*/
 /*  width: 100%;*/
 /*  height: 100%;*/

@@ -35,7 +35,7 @@
 
 <script setup lang="tsx">
 
-import {defaultMsg, errorMsg, infoMsg, successMsg, warningMsg} from '#imports'
+import {defaultMsg, errorMsg, infoMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
 import {shallowRef} from 'vue'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import CompA from './t4/a.vue'

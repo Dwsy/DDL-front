@@ -29,6 +29,7 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
             break
         case 'condensed-night-purple':
             css = await import ('juejin-markdown-themes/dist/condensed-night-purple')
+            css = {default: css.default + '.markdown-body pre>code{margin-bottom:15px!important;}'}
             break
         case 'greenwillow':
             css = await import ('juejin-markdown-themes/dist/greenwillow')

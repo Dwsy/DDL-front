@@ -77,7 +77,8 @@
 </template>
 
 <script setup lang="ts">
-import {defaultMsg, definePageMeta, errorMsg, isNumber, warningMsg} from '#imports'
+import {definePageMeta, isNumber} from '#imports'
+import {defaultMsg, errorMsg, warningMsg} from '~/composables/utils/toastification'
 import {useChatsStore, ChatRecordStatus} from '~/stores/messages/chatsStore'
 import {nextTick, onMounted, onUnmounted, onUpdated, ref, watch} from 'vue'
 import {useRoute} from '#app'

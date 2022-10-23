@@ -6,7 +6,7 @@
     <v-row class="article-content">
 
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
-        <div class="mt-n4">
+        <div class="mt-n8">
           <div>
 
             <v-row class="mb-1">
@@ -73,7 +73,7 @@
                  :aspect-ratio="8/3" :cover="true" width="100%"
                  class="d-article-banner">
           </v-img>
-          <v-divider></v-divider>
+          <v-divider class="mb-2"></v-divider>
           <!--          :class="articleStore.markdownTheme"-->
           <div v-html="articleStore.contentHtml"
                v-show="!articleStore.loading"
@@ -92,12 +92,12 @@
 
         <v-row>
           <v-col id="comments">
-            <v-chip class="mr-6" color="primary" label>
+            <v-chip class="mr-6" color="primary" :label="true">
               <v-icon left>mdi-format-list-group</v-icon>
               分组：{{ articleStore.articleField.articleGroup.name }}
             </v-chip>
             <div class="my-3  d-md-none"></div>
-            <v-chip class="mr-2" color="pink lighten-1" label>
+            <v-chip class="mr-2" color="pink lighten-1" :label="true">
               <v-icon left>mdi-tag</v-icon>
               <span>标签</span>
             </v-chip>
@@ -571,7 +571,7 @@ import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCo
 import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
-import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter, handleCopy} from '~/composables/useTools'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {useLayout} from '~/stores/layout'
@@ -676,10 +676,8 @@ onMounted(async () => {
   setTimeout(() => {
     createToc()
     if (route.hash) {
-      console.log(route.hash)
       const el: HTMLElement = document.querySelector(route.hash)
-      el.style.borderBottom = '5px solid'
-      console.log(el.offsetTop)
+      // el.style.borderBottom = '5px solid'
       if (el) {
         el.scrollIntoView({
           // behavior:'smooth',
@@ -724,31 +722,21 @@ onMounted(async () => {
   CodeNodeList.forEach((line, i) => {
     line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
   })
-  // let e_len = CodeNodeList.length;
-  // let i;
-  // for (i = 0; i < e_len; i++) {
-  //
-  // }
   if (CodeLength > 30) {
     for (let i = 0; i < 15; i++) {
-      hljs.highlightElement(CodeNodeList[i])
-      CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
-      // lineNumbersBlock(CodeNodeList[i], {
-      //   singleLine: true
-      // })
+      renderCode(CodeNodeList[i])
     }
     setTimeout(() => {
       for (let i = 15; i < CodeLength; i++) {
-        hljs.highlightElement(CodeNodeList[i])
-        CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+        renderCode(CodeNodeList[i])
       }
     }, 1500)
   } else {
     for (let i = 0; i < CodeLength; i++) {
-      hljs.highlightElement(CodeNodeList[i])
-      CodeNodeList[i].innerHTML = '<ul><li>' + CodeNodeList[i].innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+      renderCode(CodeNodeList[i])
     }
   }
+
 
   // hljs.highlightAll()
 })
@@ -768,6 +756,28 @@ onBeforeRouteUpdate(async (to, from, next) => {
     next()
   }
 })
+
+const renderCode = (el: HTMLElement) => {
+  hljs.highlightElement(el)
+  el.innerHTML = '<ul><li>' + el.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+  let copy = document.createElement('button')
+  copy.setAttribute('class', 'd-code-copy')
+  // copy.innerHTML="复制"
+  copy.addEventListener('click', () => {
+    handleCopy(el.querySelector('ul'))
+    successMsg('复制成功', {
+      timeout: 1500,
+    })
+  })
+  el.addEventListener('mouseout', () => {
+    copy.innerText = 'copy'
+    copy.style.display = 'none'
+  })
+  el.addEventListener('mouseover', () => {
+    copy.style.display = 'block'
+  })
+  el.appendChild(copy)
+}
 
 const childCommentLimit = (comments): CommentContent[] => {
   if (comments.loadMore === undefined) {
@@ -903,7 +913,19 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style>
+.d-code-copy {
+  position: absolute;
+  top: 10%;
+  left: 95%;
+}
+
+.d-code-copy {
+  position: absolute;
+  top: 10%;
+  left: 95%;
+}
+
 /*修改行号列样式*/
 .hljs-ln-numbers {
   text-align: center;
@@ -963,7 +985,7 @@ onMounted(() => {
   background-repeat: initial !important;
 }
 
-kbd {
+:deep(kbd) {
   padding: 2px 4px;
   font-size: 90%;
   color: #fff;
@@ -973,9 +995,8 @@ kbd {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
 }
 
-
-.d-article-banner:hover {
-  width: 100%;
+.d-article-banner {
+  margin-bottom: 5px;
 }
 
 :deep(.toc-list-item:hover) {
@@ -1134,7 +1155,7 @@ kbd {
 /*  margin-right: 5px;*/
 /*  margin-left: -10px;*/
 /*}*/
-.d-tip-error > p:first-child:befor {
+.d-tip-error > p:first-child:before {
   content: "\F0156";
   font-size: 135%;
   color: red;

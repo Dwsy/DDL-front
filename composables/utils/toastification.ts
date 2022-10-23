@@ -40,8 +40,9 @@ export const ComponentToastMsg = (msg, type: TYPE, component, time, timeout, url
 }
 
 
-export const successMsg = (msg: string) => {
+export const successMsg = (msg: string, Options?: ToastOptions) => {
     const options: ToastOptions = {
+        ...Options,
         type: TYPE.SUCCESS
     }
     toast(msg, options)

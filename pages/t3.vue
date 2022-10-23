@@ -147,5 +147,5 @@
 </template>
 
 <script setup lang="ts">
-import {defaultMsg, successMsg, infoMsg, errorMsg, warningMsg} from '#imports'
+import {defaultMsg, successMsg, infoMsg, errorMsg, warningMsg} from '~/composables/utils/toastification'
 </script>

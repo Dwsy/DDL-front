@@ -69,13 +69,13 @@
 
 <script setup lang="ts">
 import {
-  defaultMsg,
   definePageMeta, successMsg,
   useAxiosPostUploadAvatar,
   useAxiosPutUpdateUserInfo,
   useRoute,
   warningMsg
 } from '#imports'
+import {defaultMsg} from '~~/composables/utils/toastification'
 import {user, UserInfo, useUserStore} from '~/stores/user'
 import {onMounted, ref, watch} from 'vue'
 import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'

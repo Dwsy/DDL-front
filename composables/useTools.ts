@@ -111,3 +111,15 @@ export const useLoadingWin = (loadingMore: Function) => {
         }
     }
 }
+
+
+export const handleCopy = (el) => {
+    const range = document.createRange()
+    range.selectNode(el)
+    const selection = window.getSelection()
+    if (selection.rangeCount > 0) selection.removeAllRanges()
+    selection.addRange(range)
+    console.log(range)
+    document.execCommand('copy')
+    selection.removeRange(range)
+}

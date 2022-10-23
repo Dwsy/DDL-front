@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
 import {UseAxiosPostGetReplyMeNotify} from '~/composables/Api/messages/reply'
-import {errorMsg} from '#imports'
+import {errorMsg} from '~/composables/utils/toastification'
 import {NotifyMsg} from '~/types/message'
 
 

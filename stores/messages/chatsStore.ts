@@ -5,7 +5,8 @@ import {
     UseAxiosGetHistoryMessage, UseAxiosGetMessageByLatestId,
     UseAxiosGetPrivateMessageList, UseAxiosPostReadMessageById, UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
-import {defaultMsg, errorMsg, nextTick, warningMsg} from '#imports'
+import {nextTick} from '#imports'
+import {defaultMsg, errorMsg, warningMsg} from '~~/composables/utils/toastification'
 import {useUserStore} from '~/stores/user'
 import {urlToLink} from '~/composables/useTools'
 
