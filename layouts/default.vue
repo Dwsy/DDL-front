@@ -4,7 +4,6 @@
 
     <slot name="appbar"></slot>
 
-
     <v-navigation-drawer v-model="layout.drawer">
       <slot name="drawer"></slot>
 
@@ -21,7 +20,6 @@
 
 
   </v-app>
-
 
 </template>
 <script setup lang="ts">

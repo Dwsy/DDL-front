@@ -83,7 +83,7 @@ const uploadImages = async (files) => {
   ]
 }
 const upload = async (files) => {
-  console.log(files)
+  // console.log(files)
   const {data: response} = await useAxiosPostUploadImg(files[0])
   if (response.code === 0) {
     successMsg('上传成功')
@@ -114,7 +114,7 @@ const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boo
           ret = true
         }
       }
-      console.log(lines.join('\n'))
+      // console.log(lines.join('\n'))
       p.innerHTML = lines.join('\n')
     } else {
       if (innerHTML.startsWith(string)) {

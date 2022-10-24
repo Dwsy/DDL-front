@@ -98,7 +98,7 @@ export const atSrtGotoHome = (s: string, userId: string) => {
 }
 
 export const useLoadingWin = (loadingMore: Function) => {
-    console.log(123123)
+    // console.log(123123)
     return async () => {
         //文档内容实际高度（包括超出视窗的溢出部分）
         let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
@@ -119,7 +119,7 @@ export const handleCopy = (el) => {
     const selection = window.getSelection()
     if (selection.rangeCount > 0) selection.removeAllRanges()
     selection.addRange(range)
-    console.log(range)
+    // console.log(range)
     document.execCommand('copy')
     selection.removeRange(range)
 }

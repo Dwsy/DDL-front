@@ -18,7 +18,7 @@
 import {useRoute} from '#app'
 
 let route = useRoute()
-console.log(route.params.id)
+// console.log(route.params.id)
 
 // let { $axios } = useNuxtApp()
 // const axios = $axios()

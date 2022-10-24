@@ -44,7 +44,7 @@ const fileDisplay = filePath => {
                             o = o + a[i].slice(0, 1).toUpperCase() + a[i].slice(1)
                         }
                         arr.push(o.replace('', '.js'))
-                        console.log(arr)
+                        // console.log(arr)
                         fs.writeFile(`./${dirName}/${o.replace('.css', '.js')}`, cjs, function (err) {
                             // 如果err为true，则文件写入失败，并返回失败信息
                             if (err) {

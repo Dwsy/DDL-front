@@ -52,7 +52,7 @@ totalPages.value = listData.totalPages
 const alert = ref(false)
 
 const selectTag = async (tagID) => {
-  console.log(tagID);
+  // console.log(tagID);
   params.value.tagId = tagID
   // page.value = 1
   alert.value = false

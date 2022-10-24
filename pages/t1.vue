@@ -38,7 +38,7 @@ const search = async () => {
   isLoading.value = true
   sug.value = (await useAxiosGetSearchSuggestion(text.value)).data
 
-  console.log(sug)
+  // console.log(sug)
   isLoading.value = false
 }
 const debounce = (fun, delay) => {

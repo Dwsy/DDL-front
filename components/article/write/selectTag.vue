@@ -41,7 +41,7 @@ const readonly = ref(false)
 const TagNumColor = ref('')
 onMounted(() => {
   // articleTagList.value =
-  console.log()
+  // console.log()
   watchEffect(() => {
     if (articleTagList.value.length >= 3) {
       readonly.value = true
@@ -49,7 +49,7 @@ onMounted(() => {
     } else {
       readonly.value = false
       TagNumColor.value = '#000'
-      console.log('f')
+      // console.log('f')
     }
   })
   watch(text, async () => {

@@ -1,6 +1,7 @@
 import {_AsyncData} from 'nuxt/dist/app/composables/asyncData'
 import {hash} from 'ohash'
 import {useFetch, useNuxtApp} from '#app'
+import {createError} from 'h3'
 
 const fetch = (url: string, options?: any): Promise<any> => {
   const { $config  } = useNuxtApp()
@@ -20,9 +21,9 @@ const fetch = (url: string, options?: any): Promise<any> => {
         return
       }
       const value = data.value
+      // console.log("data",data)
+      // console.log("value",value)
       if (!value) {
-        console.log(value);
-        
         // 这里处理错你自定义的错误，例如code !== 1
         throw createError({
           statusCode: 500,

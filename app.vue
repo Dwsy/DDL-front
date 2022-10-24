@@ -47,7 +47,7 @@ let show = ref(false)
 // })
 onMounted(async () => {
   if (cookieThemeState.value !== undefined) {
-    console.log('cookieThemeState', cookieThemeState.value)
+    // console.log('cookieThemeState', cookieThemeState.value)
     if (cookieThemeState.value === 'dark') {
       layout.switchDarkTheme(theme)
     } else {
@@ -61,20 +61,20 @@ onMounted(async () => {
   if (localToken !== null && localToken !== '') {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
-    console.log('user::', user.user)
+    // console.log('user::', user.user)
     await user.getUserInfo()
-    console.log('info::', user.userInfo)
+    // console.log('info::', user.userInfo)
     user.setIsLogin(true)
 
     // 后端接口判断
   }
   watchEffect(async () => {
     if (theme.global.name.value === 'dark') {
-      console.log('Dark')
+      // console.log('Dark')
       tocLinkColor.value = theme.global.current.value.colors.background
 
     } else {
-      console.log('light')
+      // console.log('light')
       tocLinkColor.value = '#eee'
     }
   })

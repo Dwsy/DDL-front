@@ -31,7 +31,7 @@ onMounted(() => {
   message.value = props.msg.replace('{{}}', second.value.toString())
   const interval = setInterval(() => {
     second.value--
-    console.log(second.value)
+    // console.log(second.value)
     message.value = props.msg.replace('{{}}', String(second.value))
   }, 1000)
   setTimeout(() => {
