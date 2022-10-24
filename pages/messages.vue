@@ -18,7 +18,11 @@
               rounded="xl"
           >
             <template v-slot:prepend>
-              <v-icon :icon="item.icon"></v-icon>
+              <v-badge :content="item.unreadCount" :model-value="item.unreadCount" color="red" class="mr-3"
+                       :floating="true">
+                <v-icon :icon="item.icon"></v-icon>
+              </v-badge>
+
             </template>
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item>
@@ -41,10 +45,11 @@
 
 <script setup lang="ts">
 
-import {useChatsStore} from '~/stores/messages/chatsStore'
-import {onMounted, onUnmounted} from 'vue'
-import {definePageMeta} from '#imports'
+import {onMounted, onUnmounted, reactive, ref} from 'vue'
+import {definePageMeta, warningMsg} from '#imports'
 import {useLayout} from '~/stores/layout'
+import {CountType, unreadNotifyI, useAxiosGetUnreadMessageCount} from '~/composables/Api/messages'
+import {onBeforeRouteLeave} from 'vue-router'
 
 definePageMeta({
   keepalive: false,
@@ -54,26 +59,62 @@ definePageMeta({
   // },
   key: 'messages'
 })
-
+const unReadCount = ref<unreadNotifyI>()
 // const chatsStore = useChatsStore()
 const layout = useLayout()
-let items = [
-  {text: '回复我的', icon: 'mdi-reply', to: '/messages/reply'},
+let items = ref([
+  {
+    text: '回复我的',
+    icon: 'mdi-reply',
+    to: '/messages/reply',
+    unreadCount: 0
+  },
   {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at'},
-  {text: '受到的赞', icon: 'mdi-thumb-up-outline', to: '/messages/thumb'},
-  {text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications'},
-  {text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats'},
+  {
+    text: '受到的赞',
+    icon: 'mdi-thumb-up-outline',
+    to: '/messages/thumb',
+    unreadCount: 0
+  },
+  {
+    text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications',
+    unreadCount: 0
+  },
+  {
+    text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats',
+    unreadCount: 0
+  },
   {text: 'test', icon: 'mdi-message-badge-outline', to: '/messages/index1'},
-]
-
-onMounted(() => {
+])
+//todo read --
+onMounted(async () => {
   layout.showFooter = false
   console.log('11Messsage mounted')
+
+  const {data: axiosResponse} = await useAxiosGetUnreadMessageCount(CountType.Detail)
+
+  if (axiosResponse.code == 0) {
+    const unreadNotify = axiosResponse.data
+
+    items.value[0].unreadCount = unreadNotify.unreadNotifyReplyCommentCount || 0
+    items.value[1].unreadCount = unreadNotify.unreadAtMeCount || 0
+    items.value[2].unreadCount = unreadNotify.unreadNotifyThumbCount || 0
+    items.value[3].unreadCount = unreadNotify.unreadSystemMessageCount || 0
+    items.value[4].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
+
+  } else {
+    warningMsg('获取未读消息数量失败')
+  }
 })
 onUnmounted(() => {
   layout.showFooter = true
 })
-
+onBeforeRouteLeave((to, from) => {
+  console.log('leave')
+  console.log('to', to)
+  console.log('from', from)
+  layout.getUnreadCount()
+})
 </script>
 
 <style>

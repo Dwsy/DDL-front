@@ -12,7 +12,7 @@ export interface NotifyMsg {
     formContent: string;
     toContent: string;
     replayCommentId: string;
-    notifyState: number;
+    notifyState: NotifyState;
     formUserAvatar: string
     formUserNickname: string
 }
@@ -27,3 +27,13 @@ export enum NotifyType {
     '回复了你的回答:',
 }
 
+export enum NotifyState {
+    /**
+     * 未读  已读 删除
+     */
+    UNREAD, READ, DELETE
+}
+
+export enum NotifyStateZh {
+    '未读', '已读', '删除'
+}

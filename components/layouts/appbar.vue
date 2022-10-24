@@ -27,11 +27,16 @@
           <v-btn icon target="_blank" href="/article/creator">
             <v-icon>mdi-fountain-pen-tip</v-icon>
           </v-btn>
+
           <nuxt-link to="/messages">
-            <v-btn>
-              <v-icon>mdi-message-text-outline</v-icon>
-            </v-btn>
+            <v-badge :model-value="layout.unReadNotifyCount" offset-y="10" offset-x="5"
+                     :content="layout.unReadNotifyCount" color="red">
+              <v-btn>
+                <v-icon>mdi-message-text-outline</v-icon>
+              </v-btn>
+            </v-badge>
           </nuxt-link>
+
           <v-btn @click="layout.switchTheme(theme)" text transition="fade-transition">
             <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
             <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
@@ -67,10 +72,21 @@ import {useLayout} from '~~/stores/layout'
 import {useTheme} from 'vuetify'
 import Search from './search.vue'
 import {useUserStore} from '~/stores/user'
+import {onMounted, provide, ref} from 'vue'
+import {CountType, useAxiosGetUnreadMessageCount} from '~/composables/Api/messages'
+import {warningMsg} from '~/composables/utils/toastification'
+import {onBeforeRouteLeave, onBeforeRouteUpdate} from 'vue-router'
 
 let theme = useTheme()
 let layout = useLayout()
 let userStore = useUserStore()
+
+
+onMounted(async () => {
+  await layout.getUnreadCount()
+})
+
+
 </script>
 
 <style scoped>
