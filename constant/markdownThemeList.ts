@@ -9,7 +9,6 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
 
 
     // console.log(await import('~~/constant/mwebMarkDownThemes/dark/ayuMirage'))
-
     console.log('markdownTheme.name', markdownTheme.name)
     switch (markdownTheme.name) {
         case 'smartblue':
@@ -179,6 +178,7 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
             css = await import ('juejin-markdown-themes/dist/Chinese-red')
     }
     if (ssr) {
+        console.log('ssr')
         return css.default
     }
     // console.log(css.default)

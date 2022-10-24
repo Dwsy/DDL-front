@@ -1,5 +1,8 @@
 <template>
   <div class="v-container abc" v-if="ArticleField.data">
+    <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
+    <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+    <!--    <Style id="test" type="text/css" :children="HighlightStyle"/>-->
     <!--    <div class="katex">-->
     <!--      x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}-->
     <!--    </div>-->
@@ -154,9 +157,8 @@
                           v-for="(item, index) in articleCommentStore.CommentMenuList"
                           :key="index"
                       >
-                        <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">{{
-                            item
-                          }}
+                        <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">
+                          {{ item }}
                         </v-btn>
                       </v-list-item>
                     </v-list>
@@ -201,13 +203,16 @@
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none"/>
                 <span class="mr-4">  {{ dateFilter(comment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
+                <div class="float-right" v-if="showDelBtn(comment.user.id)">
+                  <v-icon @click="articleCommentStore.deleteComment(aid,comment.id)">mdi-delete-outline</v-icon>
+                </div>
                 <v-divider></v-divider>
-                <v-row class="mt-1">
+                <v-row class="mt-n2">
                   <v-col>
                     <span>{{ comment.text }}</span>
                   </v-col>
                 </v-row>
-                <v-row>
+                <v-row class="mt-n6">
                   <v-col>
                     <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
                            @click="articleCommentStore.ActionComment(CommentType.up,comment.id,index)">
@@ -230,10 +235,9 @@
                            @click="articleCommentStore.showCommentBox(index)">
                       <v-icon size="large">mdi-reply-outline</v-icon>
                       <span v-if="comment.childComments.length>0">
-                      {{ comment.childComments.length }}
+<!--                      {{ comment.childComments.length }}-->
                     </span>
                     </v-btn>
-
                     <v-col v-if="comment.showCommentBox"
                            class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
                       <div v-if="user.token">
@@ -256,7 +260,6 @@
                       </div>
                     </v-col>
 
-
                     <v-row>
                       <v-col cols="12">
                         <div v-for="(childComment,Cindex) in childCommentLimit(comment)" key="comment.id">
@@ -272,7 +275,8 @@
                             </v-col>
 
 
-                            <v-col class="ml-xl-n10" :id="`comment-${childComment.id}`" style="font-size: 75%">
+                            <v-col class="ml-xl-n10" :id="`comment-${childComment.id}`"
+                                   style="font-size: 80%">
                               #{{ childComment.commentSerialNumber }}
                               <!--                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}-->
                               <span>{{ childComment.user.nickname }}</span>
@@ -281,12 +285,16 @@
                               <span class="mr-4">{{
                                   dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm')
                                 }}</span>
+                              <div class="float-right">
+                                <v-icon @click="articleCommentStore.deleteComment(aid,childComment.id)"
+                                        v-if="showDelBtn(childComment.user.id,comment.user.id)">
+                                  mdi-delete-outline
+                                </v-icon>
+                              </div>
                               <v-divider></v-divider>
                               <div>
-                                <v-row class="mt-1">
+                                <v-row class="mt-n3">
                                   <v-col>
-
-
                                     <div v-if="childComment.replyUserCommentId==='0'">{{ childComment.text }}</div>
 
                                     <div v-else
@@ -294,7 +302,7 @@
                                   </v-col>
                                 </v-row>
                                 <v-row>
-                                  <v-col>
+                                  <v-col class="mt-n2">
                                     <v-btn rounded plain elevation="0" outlined size="x-small" class="mr-3"
                                            @click="articleCommentStore.ActionComment(CommentType.up,childComment.id,index,Cindex)">
                                       <v-icon
@@ -480,9 +488,8 @@
               <v-card-title>
                 <span class="text-h6 ml-8">添加到收藏夹</span>
               </v-card-title>
-              <!--              {{ selectCollectionGroup }}-->
               <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
-
+                {{ group.select }}
                 <v-checkbox
                     v-model="group.select"
                     :label="group.groupName"
@@ -556,15 +563,17 @@ import hljs from 'highlight.js'
 // import 'highlight.js/styles/atom-one-light.css'
 // import 'highlight.js/styles/atom-one-dark.css'
 import {
-  CommentType, useAxiosCancelCollectionToGroup, useAxiosGetArticleCollectionState,
-  useAxiosGetCollectionGroupList, useAxiosGetCollectionGroupListT,
+  CommentType,
+  useAxiosCancelCollectionToGroup,
+  useAxiosGetArticleCollectionState,
+  useAxiosGetCollectionGroupList,
   useAxiosPostAddCollectionToGroup,
   useAxiosPostCreateCollectionGroup,
   useFetchGetArticleContent,
   useFetchGetArticleField
 } from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
-import {createError, definePageMeta, errorMsg, successMsg, useCookie, useRoute, warningMsg} from '#imports'
+import {definePageMeta, errorMsg, successMsg, useCookie, useRoute, warningMsg} from '#imports'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'
@@ -579,7 +588,7 @@ import {useRouter} from '#app'
 import mediumZoom from 'medium-zoom'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
-import {lineNumbersBlock, addStyles} from '~/utils/highlight-line-number'
+// import {addStyles} from '~/utils/highlight-line-number'
 
 definePageMeta({
   keepalive: false
@@ -613,9 +622,9 @@ if (ArticleField.data == undefined) {
   // })
 }
 // console.log('title', ArticleField.data.title)
-useHead({
-  title: ArticleField.data.title || '加载中...'
-})
+// useHead({
+//   title: ArticleField.data.title || '加载中...'
+// })
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 
@@ -626,40 +635,44 @@ const gotoTitle = ref(false)
 
 const message = ref('')
 // const showMessage = ref(false)
-const getHighlightStyleName = () => {
-  if (cookieThemeState.value === 'light') {
-    return ArticleField.data.codeHighlightStyle
-  } else {
-    return ArticleField.data.codeHighlightStyleDark
-  }
-}
 const getMarkdownThemeName = () => {
   if (cookieThemeState.value === 'light') {
-    return ArticleField.data.markDownTheme
+    return ArticleField.data?.markDownTheme || 'geekBlack'
   } else {
-    return ArticleField.data.markDownThemeDark
+    return ArticleField.data?.markDownThemeDark || 'geekBlackDark'
   }
 }
-useHead({
-  style: [
-    {
-      id: 'highlightStyle',
-      children: await changeHighlightStyle(getHighlightStyleName(), true),
-      type: 'text/css'
-    }, {
-      id: 'markdownTheme',
-      children: await changeThemes(themes[getMarkdownThemeName()], true),
-      type: 'text/css'
-    }
-  ]
-//   test:{
-//     id: 'markdownTheme',
-//   },
-// ]
+const getHighlightStyleName = () => {
+  if (cookieThemeState.value === 'light') {
+    return ArticleField.data?.codeHighlightStyle || 'xcode'
+  } else {
+    return ArticleField.data?.codeHighlightStyleDark || 'monokai'
+  }
+}
+
+let HighlightStyle
+let MarkdownTheme
+if (typeof window === 'undefined') {
+  // HighlightStyle = await changeHighlightStyle(getHighlightStyleName(), true)
+  // MarkdownTheme = await changeThemes(themes[getMarkdownThemeName()], true)
+} else {
+  HighlightStyle = await changeHighlightStyle(getHighlightStyleName(), true)
+  MarkdownTheme = await changeThemes(themes[getMarkdownThemeName()], true)
+}
+
+// await useHead({
 //   style: [
-//     highlightStyle:{
-//
-})
+//     {
+//       id: 'highlightStyle',
+//       children: `213`,
+//       type: 'text/css'
+//     }, {
+//       id: 'markdownTheme',
+//       children: MarkdownTheme,
+//       type: 'text/css'
+//     }
+//   ]
+// })
 
 onMounted(async () => {
   //
@@ -680,8 +693,8 @@ onMounted(async () => {
       // el.style.borderBottom = '5px solid'
       if (el) {
         el.scrollIntoView({
-          // behavior:'smooth',
-          block: 'center',
+          behavior: 'smooth',
+          // block: 'center',
           // inline:'center'
         })
       }
@@ -718,7 +731,7 @@ onMounted(async () => {
   })
   const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('pre code')
   const CodeLength = CodeNodeList.length
-  addStyles()
+  // addStyles()
   CodeNodeList.forEach((line, i) => {
     line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
   })
@@ -813,8 +826,11 @@ const collectionArticles = async () => {
     if (articleCollectionState.value.code === 0) {
       const state = articleCollectionState.value.data
       // selectCollectionGroup.value = state
+      // console.log(state)
       for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
         for (const iKey in state) {
+          // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
+          // console.log("state[iKey].value[i].id",state[iKey])
           if (state[iKey] === collectionGroupList.value[i].id) {
             collectionGroupList.value[i].select = true
           }
@@ -884,6 +900,21 @@ const unsubscribe = () => {
   articleStore.follow = false
 }
 
+const showDelBtn = (commentUserId: string, parentCommentUserId?: string) => {
+  // if (articleStore.articleField.user.id === userStore.user.id) {
+  //   return true
+  // }
+  const uid = user.user.id
+  if (articleStore.articleField.user.id == uid) {
+    return true
+  }
+  if (commentUserId == uid) {
+    return true
+  }
+  if (parentCommentUserId != undefined) {
+    return parentCommentUserId == uid
+  }
+}
 
 onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
@@ -922,7 +953,7 @@ onMounted(() => {
 
 .d-code-copy {
   position: absolute;
-  top: 10%;
+  top: 40px;
   left: 95%;
 }
 

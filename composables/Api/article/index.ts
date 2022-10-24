@@ -125,3 +125,7 @@ export const useAxiosGetArticleCollectionState = (articleId: string) => {
         type: 'Article'
     })
 }
+
+export const useAxiosDeleteCommentById = (articleId: string, commentId: string) => {
+    return useDel<ResponseData<boolean>>(`article/comment/${articleId}/${commentId}`)
+}

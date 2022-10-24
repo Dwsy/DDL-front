@@ -1,8 +1,10 @@
 <template>
   <div>
+
+
     <v-progress-linear
-        :active="layout.loading"
         :indeterminate="layout.loading"
+        :active="layout.loading"
         absolute
         bottom
         color="deep-purple"

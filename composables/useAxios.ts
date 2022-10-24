@@ -112,8 +112,8 @@ export const usePut = async (url: string, body?: object) => {
     return r
 }
 
-export const useDel = async (url: string, body?: object) => {
-    let r: AxiosResponse = undefined
+export const useDel = async <T>(url: string, body?: object) => {
+    let r: AxiosResponse<T> = undefined
     try {
         r = await Axios.delete(url, {
             data: body,

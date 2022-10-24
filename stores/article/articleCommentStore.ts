@@ -3,13 +3,13 @@ import {defineStore} from 'pinia'
 import {
     ArticleCommentAction,
     CommentType,
-    ReplyArticleCommentBody, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
+    ReplyArticleCommentBody, useAxiosDeleteCommentById, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
     useFetchGetArticleContent,
     useFetchGetArticleField
 } from '~/composables/Api/article'
-import {successMsg, useRoute, warningMsg} from '#imports'
+import {errorMsg, successMsg, useRoute, warningMsg} from '#imports'
 import {Data} from '@nuxtjs/composition-api'
 import {useUserStore} from '~/stores/user'
 
@@ -412,8 +412,21 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     this.loadComment(this.page, 'createTime', 'desc')
                     break
             }
+        },
+        async deleteComment(articleId: string, commentId: string) {
+            const {data: axiosResponse} = await useAxiosDeleteCommentById(articleId, commentId)
+            if (axiosResponse.code === 0) {
+                if (axiosResponse.data) {
+                    successMsg('删除成功')
+                }
+            } else {
+                errorMsg(axiosResponse.msg)
+            }
+            // await
         }
+
     },
+
 
 })
 

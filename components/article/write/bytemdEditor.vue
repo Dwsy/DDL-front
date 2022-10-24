@@ -97,20 +97,33 @@ const upload = async (files) => {
   // return res.data
 }
 
-const badPrefix = ['x', 'X', 'x:', 'X:', 'bad:', 'no:', 'error:']
+const badPrefix = ['x:', 'X:', 'x', 'X', 'bad:', 'no:', 'error:']
 const goodPrefix = ['√', 'good:', 'ok:', 'yes:', 'right:']
-const infoPrefix = ['i', 'I', 'i:', 'I:', 'tip:']
-const warnPrefix = ['!', '！', '!:', '！:', 'warn:', 'warning:']
-const sharePrefix = ['@', '@:', 'at:']
+const infoPrefix = ['i:', 'I:', 'i', 'I', 'tip:']
+const warnPrefix = ['!:', '！:', '!', '！', 'warn:', 'warning:']
+const sharePrefix = ['@:', '@', 'at:']
 const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boolean => {
   let innerHTML: string = p.innerHTML
   let ret: boolean = false
+  let lines = innerHTML.split('\n')
   for (let string of replacePrefixStrList) {
-    if (innerHTML.startsWith(string)) {
-      innerHTML = innerHTML.replace(string, '')
-      p.innerHTML = innerHTML
-      ret = true
+    if (lines.length > 1) {
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith(string)) {
+          lines[i] = lines[i].replace(string, '')
+          ret = true
+        }
+      }
+      console.log(lines.join('\n'))
+      p.innerHTML = lines.join('\n')
+    } else {
+      if (innerHTML.startsWith(string)) {
+        innerHTML = innerHTML.replace(string, '')
+        p.innerHTML = innerHTML
+        ret = true
+      }
     }
+
   }
   return ret
 }

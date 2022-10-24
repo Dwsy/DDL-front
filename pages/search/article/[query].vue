@@ -42,7 +42,7 @@
                 </v-col>
               </v-row>
               <v-divider class="mx-3"></v-divider>
-              <v-card :to="`/article/${content.id}`">
+              <v-card target="_blank" :href="`/article/${content.id}`">
                 <v-row>
                   <v-col cols="8">
                     <v-row>
@@ -56,6 +56,7 @@
                     <v-img :src="imgList[0]" transition="slide-y-reverse-transition" max-height="150" class="my-n3"
                            :aspect-ratio="1"></v-img>
                   </v-col>
+                  >
                 </v-row>
               </v-card>
             </v-card>

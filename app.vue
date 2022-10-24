@@ -92,7 +92,7 @@ if (typeof window === 'undefined') {
 <style scoped>
 :deep(.v-app-bar.v-toolbar) {
   /*background-color: rgb(12, 12, 13);*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCB" : "#ffffffaa"');
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCC" : "#ffffffaa"');
   /*color: #000;*/
 }
 
