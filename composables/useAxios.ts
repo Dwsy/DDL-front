@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 import {useUserStore} from '~~/stores/user'
 import {useAppConfig, useNuxtApp, useRouter} from '#app'
 import {ResponseData} from '~/types/utils/axios'
@@ -58,13 +58,19 @@ Axios.interceptors.response.use(
             warningMsg('用户信息验证失效，请重新登录')
             await useRouter().push('/user/login')
         }
+
         if (response.status == 200 || response.status == 201) {
             return Promise.resolve(response)
         } else {
             return Promise.reject(response)
         }
     },
-    (error) => {
+    async (error: AxiosError) => {
+        console.log('error', error)
+        console.log('response.status', error.response.status)
+        if (error.response.status == 502) {
+            warningMsg('服务器内部错误')
+        }
         if (error.response.status == 401) {
             console.log('no token')
             //   message({ type: "error", message: String(error.response.data.message) });
@@ -81,6 +87,7 @@ export const useGet = async <T>(url: string, params?: object) => {
     try {
         r = await Axios.get(url, {params: params})
     } catch (error) {
+        console.log('EEE', error)
         r = error
     }
     return r

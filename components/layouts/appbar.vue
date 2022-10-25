@@ -29,7 +29,7 @@
           </v-btn>
 
           <nuxt-link to="/messages">
-            <v-badge :model-value="layout.unReadNotifyCount" offset-y="10" offset-x="5"
+            <v-badge :model-value="layout.unReadNotifyCount>0" offset-y="10" offset-x="5"
                      :content="layout.unReadNotifyCount" color="red">
               <v-btn>
                 <v-icon>mdi-message-text-outline</v-icon>
@@ -83,6 +83,8 @@ let userStore = useUserStore()
 
 
 onMounted(async () => {
+  if (document.documentElement.clientWidth > 1280)
+    layout.drawer = true
   await layout.getUnreadCount()
 })
 

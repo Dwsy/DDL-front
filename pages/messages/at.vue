@@ -1,5 +1,5 @@
 <template>
-<div>@</div>
+  <div>@</div>
 </template>
 
 <script setup lang="ts">
@@ -7,7 +7,7 @@ import {definePageMeta} from '#imports'
 
 definePageMeta({
   // key:route => route.fullPath,
-  keepalive: true
+  keepalive: false
 })
 </script>
 

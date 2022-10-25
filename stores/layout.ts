@@ -15,7 +15,7 @@ interface layout {
 // const theme = useTheme()
 export const useLayout = defineStore('layout', {
     state: (): layout => ({
-        drawer: ref<boolean>(true),
+        drawer: ref<boolean>(false),
         themeName: ref(''),
         showFooter: false,
         loading: true,

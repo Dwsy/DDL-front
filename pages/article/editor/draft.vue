@@ -207,7 +207,22 @@
                           variant="underlined" v-model="highlightStyle"
                 ></v-select>
                 <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomHighlightStyle()">
+                       @click="randomHighlightStyle(HighlightStyleNameList)">
+                  随便来一个
+                </v-btn>
+              </v-row>
+              <v-divider class="pb-6"></v-divider>
+
+              <v-row class="pa-4 ">
+
+                <v-select prepend-icon="mdi-code-tags"
+                          label="代码高亮风格Base16" class="mx-2 mt-n5"
+                          :items="HighlightStyleBase16NameList"
+                          return-object
+                          variant="underlined" v-model="highlightStyle"
+                ></v-select>
+                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                       @click="randomHighlightStyle(HighlightStyleBase16NameList)">
                   随便来一个
                 </v-btn>
               </v-row>
@@ -284,7 +299,11 @@ import {
   themeNameList,
   themes
 } from '~~/constant/markdownThemeList'
-import {changeHighlightStyle, HighlightStyleNameList} from '~~/constant/highlightStyleList'
+import {
+  changeHighlightStyle,
+  HighlightStyleNameList,
+  HighlightStyleBase16NameList
+} from '~~/constant/highlightStyleList'
 import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
@@ -663,8 +682,8 @@ const randomThemeDark = (list: Array<string>) => {
 // const randomThemeJuejin = () => {
 //   themeName.value = themeNameList[Math.ceil(Math.random() * themeNameList.length) - 1]
 // }
-const randomHighlightStyle = () => {
-  highlightStyle.value = HighlightStyleNameList[Math.ceil(Math.random() * HighlightStyleNameList.length) - 1]
+const randomHighlightStyle = (list: Array<string>) => {
+  highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
 }
 // const randomThemeLight = () => {
 //   themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]

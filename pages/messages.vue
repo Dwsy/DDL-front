@@ -67,22 +67,22 @@ let items = ref([
     text: '回复我的',
     icon: 'mdi-reply',
     to: '/messages/reply',
-    unreadCount: 0
+    unreadCount: undefined
   },
   {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at'},
   {
     text: '受到的赞',
     icon: 'mdi-thumb-up-outline',
     to: '/messages/thumb',
-    unreadCount: 0
+    unreadCount: undefined
   },
   {
     text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications',
-    unreadCount: 0
+    unreadCount: undefined
   },
   {
     text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats',
-    unreadCount: 0
+    unreadCount: undefined
   },
   {text: 'test', icon: 'mdi-message-badge-outline', to: '/messages/index1'},
 ])

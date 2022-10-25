@@ -957,6 +957,10 @@ onMounted(() => {
   left: 95%;
 }
 
+code ul li {
+  list-style-type: none !important;
+}
+
 /*修改行号列样式*/
 .hljs-ln-numbers {
   text-align: center;

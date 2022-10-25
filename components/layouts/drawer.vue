@@ -1,7 +1,7 @@
 <template>
   <v-list>
-    <v-toolbar-title class="dwsy ml-0 pl-4">
-      <h1 style="font-size: 30px" >DDL</h1>
+    <v-toolbar-title class="dwsy pt-4 ml-0 pl-4">
+      <h1 style="font-size: 30px">DDL</h1>
     </v-toolbar-title>
 
     <v-col cols="10">
