@@ -9,7 +9,7 @@ export const useAxiosPostCreateArticle = (body: CreateArticleBody) => {
 }
 
 export const useAxiosPutUpdateArticle = (body: CreateArticleBody) => {
-    return usePut('article/article', body)
+    return usePut<ResponseData<any>>('article/article', body)
 }
 
 export const useAxiosGetArticleField = (id) => {

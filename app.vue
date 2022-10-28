@@ -47,14 +47,14 @@ let show = ref(false)
 // })
 onMounted(async () => {
   if (cookieThemeState.value !== undefined) {
-    // console.log('cookieThemeState', cookieThemeState.value)
+    console.log('cookieThemeState', cookieThemeState.value)
     if (cookieThemeState.value === 'dark') {
       layout.switchDarkTheme(theme)
     } else {
       layout.switchLightTheme(theme)
     }
   } else {
-    document.cookie = `theme=${theme.global.name.value}`
+    document.cookie = `theme=${theme.global.name.value};path=/`
   }
   show.value = true
   let localToken = window.localStorage.getItem('token')

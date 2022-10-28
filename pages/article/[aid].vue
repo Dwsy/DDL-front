@@ -778,18 +778,26 @@ const renderCode = (el: HTMLElement) => {
   // copy.innerHTML="复制"
   copy.addEventListener('click', () => {
     handleCopy(el.querySelector('ul'))
+    copy.innerText = 'copy!'
     successMsg('复制成功', {
       timeout: 1500,
     })
   })
   el.addEventListener('mouseout', () => {
-    copy.innerText = 'copy'
-    copy.style.display = 'none'
+    if (copy.innerText === 'copy!') {
+      setTimeout(() => {
+        copy.innerText = 'copy'
+        copy.style.display = 'none'
+      }, 1500)
+    } else {
+      copy.innerText = 'copy'
+      copy.style.display = 'none'
+    }
   })
   el.addEventListener('mouseover', () => {
     copy.style.display = 'block'
   })
-  el.appendChild(copy)
+  el.insertBefore(copy, el.firstChild)
 }
 
 const childCommentLimit = (comments): CommentContent[] => {
@@ -945,16 +953,18 @@ onMounted(() => {
 </script>
 
 <style>
-.d-code-copy {
-  position: absolute;
-  top: 10%;
-  left: 95%;
-}
+/*.d-code-copy {*/
+/*  position: absolute;*/
+/*  top: 10%;*/
+/*  left: 95%;*/
+/*}*/
 
 .d-code-copy {
-  position: absolute;
-  top: 40px;
-  left: 95%;
+  /*position: absolute;*/
+  /*top: 40px;*/
+  /*left: 95%;*/
+  float: right;
+  margin-right: 20px;
 }
 
 code ul li {
@@ -1007,7 +1017,7 @@ code ul li {
   counter-increment: linenumber;
   content: counter(linenumber);
   margin-left: -20px;
-  margin-right: 10px;
+  margin-right: 14px;
   color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
 }
 

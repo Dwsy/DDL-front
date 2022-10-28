@@ -6,11 +6,10 @@ import {
     ReplyArticleCommentBody, useAxiosDeleteCommentById, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
-    useFetchGetArticleContent,
-    useFetchGetArticleField
+
 } from '~/composables/Api/article'
 import {errorMsg, successMsg, useRoute, warningMsg} from '#imports'
-import {Data} from '@nuxtjs/composition-api'
+
 import {useUserStore} from '~/stores/user'
 
 interface ArticleCommentStore {

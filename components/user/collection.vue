@@ -150,7 +150,6 @@ const router = useRouter()
 const uid = String(route.params.id)
 const collectionGroupList = ref<collectionGroup[]>()
 const gid = ref(String(route.query.group) || null)
-console.log('??')
 onMounted(async () => {
   console.log('mounted collection')
   const {data: axiosResponse} = await useAxiosGetCollectionGroupListByUserId(uid)

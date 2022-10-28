@@ -24,6 +24,7 @@ import {Editor} from '@bytemd/vue-next'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import {useTheme} from 'vuetify'
 
+
 const theme = useTheme()
 let props = defineProps({
   content: {
@@ -264,6 +265,35 @@ const tipSyntaxParsing = () => {
 
 :deep(.d-tip > p:not(:first-child)) {
   margin-left: 22px;
+}
+
+</style>
+
+<style>
+.bytemd-editor .CodeMirror {
+  font-size: 18px !important;
+}
+
+body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu > div > div > div > div > div.v-input__control > div > div.v-field__outline > label {
+  font-size: 16px !important;
+}
+
+.bytemd {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  color: #24292e;
+  background-color: v-bind('theme.global.name.value === "dark" ? "#171717" : "#fff"');
+  height: 300px
+}
+
+.CodeMirror-line span {
+  color: v-bind('theme.global.name.value === "dark" ? "#fff" : "#24292e"');
+}
+
+.CodeMirror {
+  position: relative;
+  overflow: hidden;
+  background: v-bind('theme.global.name.value === "dark" ? "#171717" : "#fff"');
 }
 
 </style>

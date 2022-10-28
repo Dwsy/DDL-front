@@ -67,7 +67,8 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
             css = await import ('juejin-markdown-themes/dist/scrolls-light')
             break
         case 'orange':
-            css = await import ('juejin-markdown-themes/dist/orange')
+            let temp = await import ('juejin-markdown-themes/dist/orange')
+            css = {default: temp.default + '.markdown-body h1 a, .markdown-body h2 a, .markdown-body h3 a, .markdown-body h4 a, .markdown-body h5 a, .markdown-body h6 a {     color: #fff; }'}
             break
         case 'devui-blue':
             css = await import ('juejin-markdown-themes/dist/devui-blue')

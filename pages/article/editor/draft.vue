@@ -6,7 +6,7 @@
                     variant="underlined" clearable>
       </v-text-field>
       <div class="mt-1 mr-4">
-        <v-btn elevation="1">手动保存</v-btn>
+        <v-btn elevation="1" :theme="themeInstance.global.name.value">手动保存</v-btn>
         <v-btn elevation="0" color="blue" class="mx-1" variant="outlined">草稿箱</v-btn>
 
 
@@ -15,7 +15,7 @@
               v-model="menu"
               :close-on-content-click="false"
               location="end"
-              persistent="true"
+              :persistent="true"
               :open-on-click="false"
           >
             <template v-slot:activator="{ props }">
@@ -230,7 +230,7 @@
           </v-menu>
 
 
-          <v-btn @click="themeInstance.global.name.value = themeInstance.global.current.value.dark ? 'light' : 'dark'"
+          <v-btn @click="layout.switchTheme(themeInstance)"
                  icon="true" size="small" class="ml-5" elevation="0"
                  transition="fade-transition">
             <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
@@ -287,7 +287,7 @@ import {
   definePageMeta,
   errorMsg,
   infoMsg,
-  successMsg,
+  successMsg, useCookie,
   useFetchGetArticleGroupList,
   warningMsg
 } from '#imports'
@@ -311,13 +311,15 @@ import {useTheme} from 'vuetify'
 import '~~/constant/codemirrorTheme/main.css'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/article/creator/content/article/Toast/jumpPrompt.vue'
+import {useLayout} from '~/stores/layout'
 
 
 definePageMeta({
   layout: false
 })
 const themeInstance = useTheme()
-// const layout = useLayout()
+
+const layout = useLayout()
 const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
@@ -425,7 +427,9 @@ onMounted(async () => {
 
   watchEffect(async () => {
     if (themeInstance.global.name.value === 'dark') {
-
+      document.querySelector('html').style.backgroundColor = '#0e0e0e'
+      let element: HTMLElement = document.querySelector('#input-0')
+      element.style.color = '#FFF'
       console.log('dark')
       await changeThemes(themes[darkThemeName.value])
       let right: HTMLElement = document.querySelector('.bytemd-status-right')
@@ -452,7 +456,9 @@ onMounted(async () => {
       }
 
     } else {
-
+      document.querySelector('html').style.backgroundColor = '#FFF'
+      let element: HTMLElement = document.querySelector('#input-0')
+      element.style.color = '#000'
       await changeThemes(themes[themeName.value])
       let right: HTMLElement = document.querySelector('.bytemd-status-right')
       right.style.color = '#000'
@@ -726,6 +732,7 @@ onMounted(() => {
 
 :deep(.d-editor-title label) {
   font-size: v-bind('editorTitleInputLabelFontSize');
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');;
 }
 
 :deep(.vue-img-cutter) {
@@ -733,225 +740,3 @@ onMounted(() => {
 }
 </style>
 
-<style>
-.bytemd-editor .CodeMirror {
-  font-size: 18px !important;
-}
-
-body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu > div > div > div > div > div.v-input__control > div > div.v-field__outline > label {
-  font-size: 16px !important;
-}
-
-
-</style>
-
-
-<!--<style>-->
-<!--.cm-s-default .cm-header {-->
-<!--  color: #00f-->
-<!--}-->
-
-<!--.cm-s-default .cm-quote {-->
-<!--  color: #090-->
-<!--}-->
-
-<!--.cm-s-default .cm-keyword {-->
-<!--  color: #708-->
-<!--}-->
-
-<!--.cm-s-default .cm-atom {-->
-<!--  color: #219-->
-<!--}-->
-
-<!--.cm-s-default .cm-number {-->
-<!--  color: #164-->
-<!--}-->
-
-<!--.cm-s-default .cm-def {-->
-<!--  color: #00f-->
-<!--}-->
-
-<!--.cm-s-default .cm-variable-2 {-->
-<!--  color: #05a-->
-<!--}-->
-
-<!--.cm-s-default .cm-variable-3, .cm-s-default .cm-type {-->
-<!--  color: #085-->
-<!--}-->
-
-<!--.cm-s-default .cm-comment {-->
-<!--  color: #a50-->
-<!--}-->
-
-<!--.cm-s-default .cm-string {-->
-<!--  color: #a11-->
-<!--}-->
-
-<!--.cm-s-default .cm-string-2 {-->
-<!--  color: #f50-->
-<!--}-->
-
-<!--.cm-s-default .cm-meta, .cm-s-default .cm-qualifier {-->
-<!--  color: #555-->
-<!--}-->
-
-<!--.cm-s-default .cm-builtin {-->
-<!--  color: #30a-->
-<!--}-->
-
-<!--.cm-s-default .cm-bracket {-->
-<!--  color: #997-->
-<!--}-->
-
-<!--.cm-s-default .cm-tag {-->
-<!--  color: #170-->
-<!--}-->
-
-<!--.cm-s-default .cm-attribute {-->
-<!--  color: #00c-->
-<!--}-->
-
-<!--.cm-s-default .cm-hr {-->
-<!--  color: #999-->
-<!--}-->
-
-<!--.cm-s-default .cm-link {-->
-<!--  color: #00c-->
-<!--}-->
-
-<!--.cm-s-default .cm-error, .cm-invalidchar {-->
-<!--  color: red-->
-<!--}-->
-<!--</style>-->
-
-<!--<style>-->
-<!--/* Based on Sublime Text's Monokai theme */-->
-
-<!--.cm-s-default.CodeMirror {-->
-<!--  /*background: #272822;*/-->
-<!--  color: #f8f8f2;-->
-<!--}-->
-
-<!--.cm-s-default div.CodeMirror-selected {-->
-<!--  background: #49483E;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-line::selection, .cm-s-default .CodeMirror-line > span::selection, .cm-s-default .CodeMirror-line > span > span::selection {-->
-<!--  background: rgba(73, 72, 62, .99);-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-line::-moz-selection, .cm-s-default .CodeMirror-line > span::-moz-selection, .cm-s-default .CodeMirror-line > span > span::-moz-selection {-->
-<!--  background: rgba(73, 72, 62, .99);-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-gutters {-->
-<!--  background: #272822;-->
-<!--  border-right: 0px;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-guttermarker {-->
-<!--  color: white;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-guttermarker-subtle {-->
-<!--  color: #d0d0d0;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-linenumber {-->
-<!--  color: #d0d0d0;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-cursor {-->
-<!--  border-left: 1px solid #f8f8f0;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-comment {-->
-<!--  color: #75715e;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-atom {-->
-<!--  color: #ae81ff;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-number {-->
-<!--  color: #ae81ff;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-comment.cm-attribute {-->
-<!--  color: #97b757;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-comment.cm-def {-->
-<!--  color: #bc9262;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-comment.cm-tag {-->
-<!--  color: #bc6283;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-comment.cm-type {-->
-<!--  color: #5998a6;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-property, .cm-s-default span.cm-attribute {-->
-<!--  color: #a6e22e;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-keyword {-->
-<!--  color: #f92672;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-builtin {-->
-<!--  color: #66d9ef;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-string {-->
-<!--  color: #e6db74;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-variable {-->
-<!--  color: #f8f8f2;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-variable-2 {-->
-<!--  color: #9effff;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-variable-3, .cm-s-default span.cm-type {-->
-<!--  color: #66d9ef;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-def {-->
-<!--  color: #fd971f;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-bracket {-->
-<!--  color: #f8f8f2;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-tag {-->
-<!--  color: #f92672;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-header {-->
-<!--  color: #ae81ff;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-link {-->
-<!--  color: #ae81ff;-->
-<!--}-->
-
-<!--.cm-s-default span.cm-error {-->
-<!--  background: #f92672;-->
-<!--  color: #f8f8f0;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-activeline-background {-->
-<!--  background: #373831;-->
-<!--}-->
-
-<!--.cm-s-default .CodeMirror-matchingbracket {-->
-<!--  text-decoration: underline;-->
-<!--  color: white !important;-->
-<!--}-->
-<!--</style>-->

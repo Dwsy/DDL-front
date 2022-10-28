@@ -2,18 +2,13 @@ import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
 import {
     CommentType,
-    useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
-    useAxiosPostReplyArticleComment,
-    useFetchGetArticleContent,
-    useFetchGetArticleField
 } from '#imports'
-import {useRoute} from '#imports'
-import {themes, changeThemes, themeNameList} from '~~/constant/markdownThemeList'
-import {HighlightStyleNameList, HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
+import {themes, changeThemes} from '~~/constant/markdownThemeList'
+import {HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
 import {ArticleAction, useAxiosGetArticleAction} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
-import {MarkdownTheme, MarkdownThemeNameList, mwebDark} from '~/types/other/markdownTheme'
+import {MarkdownThemeNameList, mwebDark} from '~/types/other/markdownTheme'
 
 
 export const useArticleStore = defineStore('ArticleStore', {

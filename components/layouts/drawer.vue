@@ -11,12 +11,12 @@
             src="https://q.qlogo.cn/g?b=qq&nk=1521986032&s=100"
         />
       </v-avatar> -->
-<!--      <sub>{{ greetings }}</sub>-->
-<!--      <div @click="upyy">-->
-<!--        <sub>{{ yy.hitokoto }}</sub-->
-<!--        ><br />-->
-<!--        <sub style="left: 120px">&#45;&#45;{{ yy.from }}</sub>-->
-<!--      </div>-->
+      <!--      <sub>{{ greetings }}</sub>-->
+      <!--      <div @click="upyy">-->
+      <!--        <sub>{{ yy.hitokoto }}</sub-->
+      <!--        ><br />-->
+      <!--        <sub style="left: 120px">&#45;&#45;{{ yy.from }}</sub>-->
+      <!--      </div>-->
     </v-col>
 
     <template v-for="item in items">
@@ -44,10 +44,10 @@
             :to="'/classification/' + child._id"
         >
 
-            <v-list-item-title>
-              {{ child.name }}
-              <v-divider></v-divider>
-            </v-list-item-title>
+          <v-list-item-title>
+            {{ child.name }}
+            <v-divider></v-divider>
+          </v-list-item-title>
 
 
           <v-list-item-action v-if="child.icon">
@@ -80,38 +80,39 @@ import {reactive} from 'vue'
 let items = reactive([
   {icon: 'mdi-home-outline', text: '文章', link: '/article'},
   {
-    icon: 'mdi-flag-variant-outline',
-    text: '文章归档',
-    link: '',
+    // icon: 'mdi-lightbulb-question-outline',
+    icon: 'mdi-comment-question-outline',
+    text: '问答',
+    link: '/question',
   },
   {
     icon: 'mdi-timeline-clock-outline ',
     text: '时光机',
     link: '',
   },
-  { icon: "mdi-image", text: "相册", link: "" },
-  { icon: "mdi-tag-multiple-outline", text: "Tag", link: "" },
+  {icon: 'mdi-image', text: '相册', link: ''},
+  {icon: 'mdi-tag-multiple-outline', text: 'Tag', link: ''},
   {
-    icon: "mdi-chevron-up",
-    "icon-alt": "mdi-chevron-down",
-    text: "文章分类",
+    icon: 'mdi-chevron-up',
+    'icon-alt': 'mdi-chevron-down',
+    text: '文章分类',
     model: false,
     children: [],
   },
   {
-    icon: "mdi-account-multiple-outline",
-    text: "友情链接",
-    link: "",
+    icon: 'mdi-account-multiple-outline',
+    text: '友情链接',
+    link: '',
   },
   {
-    icon: "mdi-infinity",
-    text: "infinitynewtab",
-    link: "",
+    icon: 'mdi-infinity',
+    text: 'infinitynewtab',
+    link: '',
   },
   {
-    icon: "mdi-information-variant",
-    text: "关于",
-    link: "",
+    icon: 'mdi-information-variant',
+    text: '关于',
+    link: '',
   },
 ])
 </script>
