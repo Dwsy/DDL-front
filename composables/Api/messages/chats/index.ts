@@ -31,5 +31,5 @@ export const UseAxiosSendMessage = (content: string, toUserId: string) => {
         content,
         toUserId
     }
-    return usePut('message/private/message/send', body)
+    return usePut<ResponseData<any>>('message/private/message/send', body)
 }

@@ -2,14 +2,14 @@
   <div>
 
 
-    <v-progress-linear
-        :indeterminate="layout.loading"
-        :active="layout.loading"
-        absolute
-        bottom
-        color="deep-purple"
-        class="d-progress-linear"
-    ></v-progress-linear>
+    <!--    <v-progress-linear-->
+    <!--        :indeterminate="layout.loading"-->
+    <!--        :active="layout.loading"-->
+    <!--        absolute-->
+    <!--        bottom-->
+    <!--        color="deep-purple"-->
+    <!--        class="d-progress-linear"-->
+    <!--    ></v-progress-linear>-->
     <v-app-bar density="compact" elevation="1">
 
       <v-app-bar-nav-icon @click.stop="layout.switchDrawer()"></v-app-bar-nav-icon>

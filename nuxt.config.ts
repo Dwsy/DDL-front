@@ -1,5 +1,5 @@
 console.log(process.env.BASE_URL)
-
+import {domToCodePlugin} from 'dom-to-code/vite'
 export default defineNuxtConfig({
     app: {
         head: {

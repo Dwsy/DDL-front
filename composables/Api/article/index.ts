@@ -2,6 +2,7 @@ import http from '~~/utils/fetch'
 import {useDel, useGet, useGetT, usePost} from '~/composables/useAxios'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {ResponseData} from '~/types/utils/axios'
+import {PageParam} from '~/types/common'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
     return http.GET('article/group/list', params)
@@ -29,10 +30,10 @@ export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
 export const useFetchGetArticleComment = (id, params?: { size?: number, page?: number }) => {
     return http.GET('article/comment/' + id, params)
 }
-export const useAxiosGetArticleChildComment = (aid, pid, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
+export const useAxiosGetArticleChildComment = (aid, pid, params?: PageParam) => {
     return useGet<ResponseData<any>>(`article/comment/child/${aid}-${pid}`, params)
 }
-export const useAxiosGetArticleComment = (id, params?: { properties?: string, order?: string, size?: number, page?: number }) => {
+export const useAxiosGetArticleComment = (id, params?: PageParam) => {
     return useGet<ResponseData<any>>('article/comment/' + id, params)
 }
 

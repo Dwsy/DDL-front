@@ -12,6 +12,7 @@
     </template>
     <!--    <v-footer v-show="layout.showFooter">-->
     <!--    </v-footer>-->
+    <NuxtLoadingIndicator color="#9d5b8b"/>
     <NuxtPage/>
 
 
@@ -28,6 +29,13 @@ import {onMounted, ref, watch, watchEffect} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {useTheme} from 'vuetify'
 import '~~/assets/css/main.css'
+// import { initDomToCode } from 'dom-to-code'
+//
+// // 初始化 dom-to-code
+// // initDomToCode()
+//
+// // 推荐：只在非生产环境初始化
+
 
 definePageMeta({
   key: route => route.fullPath,
@@ -46,6 +54,7 @@ let show = ref(false)
 //   layout.switchDarkTheme(theme)
 // })
 onMounted(async () => {
+  // process.env.NODE_ENV !== 'production' && initDomToCode()
   if (cookieThemeState.value !== undefined) {
     console.log('cookieThemeState', cookieThemeState.value)
     if (cookieThemeState.value === 'dark') {
