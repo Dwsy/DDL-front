@@ -1,6 +1,7 @@
 <template>
 
   <NuxtLayout v-show="show">
+<!--  <NuxtLayout >-->
     <template #appbar>
       <LayoutsAppbar class="d-header"/>
     </template>

@@ -16,8 +16,9 @@ export interface AnswerQuestionRB {
     mdText: string;
     parentAnswerId: string;
     questionId: string;
-    replyUserAnswerId: string;
-    replyUserId: string;
+    replyUserAnswerId?: string;
+    replyUserId?: string;
+    answerType: AnswerType
 }
 
 export const useAxiosPostQaAction = (body: QaActionRB) => {

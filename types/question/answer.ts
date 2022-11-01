@@ -76,6 +76,7 @@ export interface AnswerData {
     userAction: any;
     answerType: string;
     ua: string;
+    accepted: boolean
 }
 
 export enum AnswerType {

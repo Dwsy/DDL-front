@@ -50,7 +50,7 @@ export const useAnswerStore = defineStore('AnswerStore', {
             }
         },
 
-        async answerQuestion(body: AnswerQuestionRB) {
+        async answerOrCommentQuestion(body: AnswerQuestionRB) {
             const {data: axiosResponse} = await useAxiosPostAnswerQuestion(body)
             if (axiosResponse.code === 0) {
                 console.log('axiosResponse.data', axiosResponse.data)

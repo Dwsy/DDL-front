@@ -308,7 +308,6 @@ import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
 import {useTheme} from 'vuetify'
-import '~~/constant/codemirrorTheme/main.css'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/article/creator/content/article/Toast/jumpPrompt.vue'
 import {useLayout} from '~/stores/layout'
@@ -427,61 +426,61 @@ onMounted(async () => {
 
   watchEffect(async () => {
     if (themeInstance.global.name.value === 'dark') {
-      document.querySelector('html').style.backgroundColor = '#0e0e0e'
-      let element: HTMLElement = document.querySelector('#input-0')
-      element.style.color = '#FFF'
-      console.log('dark')
+      // document.querySelector('html').style.backgroundColor = '#0e0e0e'
+      // let element: HTMLElement = document.querySelector('#input-0')
+      // element.style.color = '#FFF'
+      // console.log('dark')
       await changeThemes(themes[darkThemeName.value])
-      let right: HTMLElement = document.querySelector('.bytemd-status-right')
-      right.style.color = '#FFF'
-      let left: HTMLElement = document.querySelector('.bytemd-status-left')
-      left.style.color = '#FFF'
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
-          .forEach((item: HTMLElement) => {
-            item.style.color = '#FFF'
-          })
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
-          .forEach((item: HTMLElement) => {
-            item.style.color = '#FFF'
-          })
-      let css = await import('~~/constant/codemirrorTheme/monokai')
-      let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
-      if (markdownThemeStyleElement) {
-        markdownThemeStyleElement.innerHTML = css.default
-      } else {
-        markdownThemeStyleElement = document.createElement('style')
-        markdownThemeStyleElement.id = 'codemirrorTheme'
-        markdownThemeStyleElement.innerHTML = css.default
-        document.head.appendChild(markdownThemeStyleElement)
-      }
+      // let right: HTMLElement = document.querySelector('.bytemd-status-right')
+      // right.style.color = '#FFF'
+      // let left: HTMLElement = document.querySelector('.bytemd-status-left')
+      // left.style.color = '#FFF'
+      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+      //     .forEach((item: HTMLElement) => {
+      //       item.style.color = '#FFF'
+      //     })
+      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+      //     .forEach((item: HTMLElement) => {
+      //       item.style.color = '#FFF'
+      //     })
+      // let css = await import('~~/constant/codemirrorTheme/monokai')
+      // let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
+      // if (markdownThemeStyleElement) {
+      //   markdownThemeStyleElement.innerHTML = css.default
+      // } else {
+      //   markdownThemeStyleElement = document.createElement('style')
+      //   markdownThemeStyleElement.id = 'codemirrorTheme'
+      //   markdownThemeStyleElement.innerHTML = css.default
+      //   document.head.appendChild(markdownThemeStyleElement)
+      // }
 
     } else {
-      document.querySelector('html').style.backgroundColor = '#FFF'
-      let element: HTMLElement = document.querySelector('#input-0')
-      element.style.color = '#000'
+      // document.querySelector('html').style.backgroundColor = '#FFF'
+      // let element: HTMLElement = document.querySelector('#input-0')
+      // element.style.color = '#000'
       await changeThemes(themes[themeName.value])
-      let right: HTMLElement = document.querySelector('.bytemd-status-right')
-      right.style.color = '#000'
-      let left: HTMLElement = document.querySelector('.bytemd-status-left')
-      left.style.color = '#000'
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
-          .forEach((item: HTMLElement) => {
-            item.style.color = '#000'
-          })
-      document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
-          .forEach((item: HTMLElement) => {
-            item.style.color = '#000'
-          })
-      let css = await import('~~/constant/codemirrorTheme/default')
-      let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
-      if (markdownThemeStyleElement) {
-        markdownThemeStyleElement.innerHTML = css.default
-      } else {
-        markdownThemeStyleElement = document.createElement('style')
-        markdownThemeStyleElement.id = 'codemirrorTheme'
-        markdownThemeStyleElement.innerHTML = css.default
-        document.head.appendChild(markdownThemeStyleElement)
-      }
+      // let right: HTMLElement = document.querySelector('.bytemd-status-right')
+      // right.style.color = '#000'
+      // let left: HTMLElement = document.querySelector('.bytemd-status-left')
+      // left.style.color = '#000'
+      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+      //     .forEach((item: HTMLElement) => {
+      //       item.style.color = '#000'
+      //     })
+      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+      //     .forEach((item: HTMLElement) => {
+      //       item.style.color = '#000'
+      //     })
+      // let css = await import('~~/constant/codemirrorTheme/default')
+      // let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
+      // if (markdownThemeStyleElement) {
+      //   markdownThemeStyleElement.innerHTML = css.default
+      // } else {
+      //   markdownThemeStyleElement = document.createElement('style')
+      //   markdownThemeStyleElement.id = 'codemirrorTheme'
+      //   markdownThemeStyleElement.innerHTML = css.default
+      //   document.head.appendChild(markdownThemeStyleElement)
+      // }
 
     }
   })

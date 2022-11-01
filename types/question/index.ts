@@ -1,3 +1,5 @@
+import {AnswerData} from '~/types/question/answer'
+
 export interface UserInfo {
     id: string;
     avatar: string;
@@ -79,4 +81,7 @@ export interface QuestionField {
     codeHighlightStyleDark: string;
     markDownThemeDark: string;
     group: Group;
+    questionCommentList: AnswerData[];
+    questionCommentNum: number;
+    questionCommentTotalPages: number
 }

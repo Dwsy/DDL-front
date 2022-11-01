@@ -11,8 +11,8 @@ export const useFetchGetNewQuestionPageList = (page: number) => {
     // return useGet<ResponseData<any>>('/qa/question/field/list', {page})
 }
 
-export const useFetchGetQuestionField = (questionId: string) => {
-    return http.GET('/qa/question/field/' + questionId)
+export const useFetchGetQuestionField = (questionId: string, getQuestionComment?: boolean) => {
+    return http.GET('/qa/question/field/' + questionId, {getQuestionComment})
 }
 
 export const useFetchGetQuestionContent = (questionId: string) => {

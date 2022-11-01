@@ -45,7 +45,7 @@
               <v-col class="mt-2" v-if="user.user.id!==articleStore.articleField.user.id">
 
                 <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
-                  <span style="color: white" @click="unFollowUser()">已关注</span>
+                  <span style="color: white" @click="unsubscribe()">已关注</span>
                 </v-btn>
                 <v-btn v-else class="float-end mx-4" color="blue lighten-3"
                        @click="subscribe()">

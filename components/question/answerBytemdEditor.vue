@@ -36,16 +36,22 @@ let props = defineProps({
 const emit = defineEmits(['changeText'])
 // const content = ref('')
 const bytemdZIndex = ref(0)
+const bytemdHeight = ref('calc(100vh - 12rem)')
 
 
 onMounted(async () => {
-  const bytemdElement = document.getElementsByClassName('bytemd')[0]
+  const bytemdElement: Element = document.getElementsByClassName('bytemd')[0]
   let bytemdClassList = ref(bytemdElement.classList)
   let observer = new MutationObserver((e) => {
     if (bytemdElement.classList.contains('bytemd-fullscreen')) {
       bytemdZIndex.value = 9999
+      bytemdHeight.value = 'calc(100vh - 4rem)'
     } else {
       bytemdZIndex.value = 0
+      bytemdHeight.value = 'calc(100vh - 12rem)'
+      setTimeout(() => {
+        window.scrollTo(0, document.documentElement.scrollHeight)
+      }, 50)
     }
   })
   observer.observe(bytemdElement, {
@@ -230,7 +236,8 @@ const tipSyntaxParsing = () => {
 <style lang="scss" scoped>
 ::v-deep(.bytemd) {
   z-index: v-bind(bytemdZIndex);
-  height: calc(100vh - 4.2rem) !important;
+  //height: calc(100vh - 15rem);
+  height: v-bind(bytemdHeight);
 }
 </style>
 
