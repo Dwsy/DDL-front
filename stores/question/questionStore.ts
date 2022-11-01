@@ -1,9 +1,8 @@
 import {defineStore} from 'pinia'
-import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
 import {QuestionField} from '~/types/question'
-import {useCookie} from '#app'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
+import {AnswerType} from '~/types/question/answer'
 
 interface QuestionStore {
     filed: QuestionField
@@ -35,7 +34,6 @@ export const useQuestionStore = defineStore('QuestionStore', {
             this.codeHighlightStyleLight = this.filed.codeHighlightStyle
         },
         getHighlightStyleName() {
-            console.log('this.cookieThemeState.value', this.filed)
             if (this.cookieThemeState === 'light') {
                 return this.filed.codeHighlightStyle || 'xcode'
             } else {
@@ -78,6 +76,14 @@ export const useQuestionStore = defineStore('QuestionStore', {
             } else {
                 await changeHighlightStyle(this.codeHighlightStyleDark)
             }
+        },
+        getActionColor(action: AnswerType) {
+            if (action === AnswerType.up || action === AnswerType.down) {
+                return 'blue-lighten-2'
+            } else {
+                return 'grey'
+            }
+
         },
     },
 })

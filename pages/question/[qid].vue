@@ -10,8 +10,15 @@
               <v-col cols=1>
                 <client-only>
                   <div class="text-center" style="margin-top: 90px">
-                    <v-btn icon="true" elevation="0">
-                      <v-icon class="text-grey">mdi-triangle
+                    <v-btn icon="true" elevation="0"
+                           @click="answerStore.action({
+                           answerType: AnswerType.up,
+                           questionFieldId: questionId,
+                           actionAnswerOrCommentId: '-1'
+                           })">
+                      <v-icon class="text-grey"
+                              :color="questionStore.getActionColor(AnswerType.down)"
+                      >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题有用且描述清晰
@@ -19,8 +26,16 @@
                     </v-btn>
 
                     <p> {{ questionStore.filed.upNum - questionStore.filed.downNum }}</p>
-                    <v-btn icon="true" elevation="0">
-                      <v-icon class="text-grey mdi-rotate-180">mdi-triangle</v-icon>
+                    <v-btn icon="true" elevation="0"
+                           @click="answerStore.action({
+                           answerType: AnswerType.down,
+                           questionFieldId: questionId,
+                           actionAnswerOrCommentId: '-1'
+                           })">
+                      <v-icon class="text-grey mdi-rotate-180"
+                              :color="questionStore.getActionColor(AnswerType.down)"
+                      >mdi-triangle
+                      </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题没有认真研究用或描述不清晰
                       </v-tooltip>
@@ -66,19 +81,32 @@
                 <v-divider class="my-3"></v-divider>
                 <v-row class="">
                   <v-col>
-                    <v-btn variant="outlined">
-                      <v-tooltip activator="parent" location="top">
-                        回答问题
-                      </v-tooltip>
-                      回答
-                    </v-btn>
+                    <client-only>
+                      <v-btn variant="outlined" key="answer" color="#47885e">
+                        <!--                        <v-tooltip activator="parent" location="top">-->
+                        <!--                          回答问题-->
+                        <!--                        </v-tooltip>-->
+                        回答
+                      </v-btn>
 
-                    <v-btn class="mx-4" variant="outlined">
-                      关注
-                      <v-tooltip activator="parent" location="top">
-                        关注跟踪这个问题，当有新的回答时会收到通知
-                      </v-tooltip>
-                    </v-btn>
+                      <v-btn class="ml-4" variant="outlined" key="reply" color="#00a3af">
+                        <v-tooltip activator="parent" location="top">
+                          询问问题其他细节或提出修改意见
+                        </v-tooltip>
+                        回复
+                      </v-btn>
+
+                      <v-btn class="ml-4" variant="outlined" key="follow" color="#b7282e">
+                        关注
+                        <v-tooltip activator="parent" location="top">
+                          关注跟踪这个问题，当有新的回答时会收到通知
+                        </v-tooltip>
+                      </v-btn>
+
+
+                    </client-only>
+
+
                   </v-col>
 
                 </v-row>
@@ -94,58 +122,72 @@
                 </v-row>
               </v-col>
             </v-row>
-            <v-row class="mt-4">
-              <v-col cols=1>
-                <client-only>
-                  <div class="text-center">
-                    <v-btn icon="true" elevation="0">
-                      <v-icon class="text-grey">mdi-triangle
-                      </v-icon>
-                      <v-tooltip activator="parent" location="right">
-                        这个回答有用
-                      </v-tooltip>
-                    </v-btn>
+            <template v-for="(answer,index) in answerStore.dataList">
+              <v-row class="mt-4">
+                <v-col cols=1>
+                  <client-only>
+                    <div class="text-center">
+                      <v-btn icon="true" elevation="0"
+                             @click="answerStore.action({
+                             answerType: AnswerType.up,
+                             questionFieldId: questionId,
+                             actionAnswerOrCommentId: answer.id
+                             },index)">
+                        <v-icon :color="answerStore.getActionColor(AnswerType.up, index)"
+                        >mdi-triangle
+                        </v-icon>
+                        <v-tooltip activator="parent" location="right">
+                          这个回答有用
+                        </v-tooltip>
+                      </v-btn>
+                      <!--                      {{ answer.userAction }}-->
+                      <p> {{ answer.upNum - answer.downNum }}</p>
+                      <v-btn icon="true" elevation="0"
+                             @click="answerStore.action({
+                             answerType: AnswerType.down,
+                             questionFieldId: questionId,
+                             actionAnswerOrCommentId: answer.id
+                             },index)">
+                        <v-icon class=" mdi-rotate-180"
+                                :color="answerStore.getActionColor(AnswerType.down, index)"
+                        >mdi-triangle
+                        </v-icon>
+                        <v-tooltip activator="parent" location="right">
+                          这个回答没有用
+                        </v-tooltip>
+                      </v-btn>
+                      <br>
+                      <v-btn icon="true" elevation="0" class="mt-2" size="small">
+                        <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
+                        <v-tooltip activator="parent" location="right">
+                          收藏这个回答
+                        </v-tooltip>
+                      </v-btn>
+                    </div>
+                  </client-only>
+                </v-col>
+                <v-col cols=11>
 
-                    <p> {{ questionStore.filed.upNum - questionStore.filed.downNum }}</p>
-                    <v-btn icon="true" elevation="0">
-                      <v-icon class="text-grey mdi-rotate-180">mdi-triangle</v-icon>
-                      <v-tooltip activator="parent" location="right">
-                        这个回答没有用
-                      </v-tooltip>
-                    </v-btn>
-                    <br>
-                    <v-btn icon="true" elevation="0" class="mt-2" size="small">
-                      <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
-                      <v-tooltip activator="parent" location="right">
-                        收藏这个回答
-                      </v-tooltip>
-                    </v-btn>
-                  </div>
-                </client-only>
-              </v-col>
-              <v-col cols=11>
-                <template v-for="answer in answerStore.dataList">
                   <v-card class="pa-4">
                     <!--                    <v-row>-->
                     <!--                      <v-col>-->
                     <div v-html="answer.textHtml" class="markdown-body"></div>
                     <div class="mt-4">
                       <div class="float-left">
-                        <v-btn variant="outlined">
+                        <v-btn variant="outlined" color="#00a3af">
                           <v-tooltip activator="parent" location="top">
-                            回答问题
+                            询问问题其他细节或提出修改意见
                           </v-tooltip>
-                          回答
+                          回复
                         </v-btn>
-
-                        <v-btn class="mx-4" variant="outlined">
-                          关注
-                          <v-tooltip activator="parent" location="top">
-                            关注跟踪这个问题，当有新的回答时会收到通知
-                          </v-tooltip>
-                        </v-btn>
+                        <!--                        <v-btn class="mx-4" variant="outlined" color="#b7282e">-->
+                        <!--                          关注-->
+                        <!--                          <v-tooltip activator="parent" location="top">-->
+                        <!--                            关注跟踪这个问题，当有新的回答时会收到通知-->
+                        <!--                          </v-tooltip>-->
+                        <!--                        </v-btn>-->
                       </div>
-                      <div class="text-end float-right">
+                      <div class="text-end">
                         <v-avatar>
                           <v-img :src="answer.user.userInfo.avatar"></v-img>
                         </v-avatar>
@@ -155,10 +197,32 @@
                     </div>
                     <!--                      </v-col>-->
                     <!--                    </v-row>-->
+                    <v-card class="pa-5">
+                      <template v-for="childAnswer in answer.childQaAnswers">
+                        <div class="float-left">
+                          <a :href="`/user/${childAnswer.user.id}`" target="_blank" class="text-blue">
+                            {{ childAnswer.user.nickname }}：
+                          </a>
+                        </div>
+                        <div v-if="childAnswer.replyUserAnswerId==='0'">{{ childAnswer.textHtml }}</div>
+                        <div v-else v-html="atSrtGotoHome(childAnswer.textHtml,childAnswer.parentUserId)"></div>
+                        <!--                        <div>-->
+                        <!--                          <v-btn size="x-small" icon="mdi-thumb-up-outline" :icon="true" elevation="0"></v-btn>-->
+                        <!--                          <v-btn size="x-small" icon="mdi-thumb-down-outline" :icon="true" elevation="0"></v-btn>-->
+                        <!--                          <v-btn size="x-small" icon="mdi-reply-outline" :icon="true" elevation="0"></v-btn>-->
+                        <!--                        </div>-->
+                        <div class="text-subtitle-2 text-grey">
+                          {{ dateFilter(childAnswer.createTime, 'YYYY年MM月DD hh:mm') }}
+
+                        </div>
+                        <v-divider class="mt-1"></v-divider>
+                      </template>
+                    </v-card>
                   </v-card>
-                </template>
-              </v-col>
-            </v-row>
+
+                </v-col>
+              </v-row>
+            </template>
           </v-col>
         </v-row>
       </v-col>
@@ -180,13 +244,14 @@
 import hljs from 'highlight.js'
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute} from '#app'
-import {dateFilter} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {onMounted, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
 import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
+import {AnswerType} from '~/types/question/answer'
 
 const themeInstance = useTheme()
 const questionId = String(useRoute().params.qid)

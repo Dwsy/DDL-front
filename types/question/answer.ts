@@ -78,3 +78,21 @@ export interface AnswerData {
     ua: string;
 }
 
+export enum AnswerType {
+    answer,
+
+    answer_comment,//todo
+
+    comment,
+
+    comment_comment,
+
+    up, down,
+
+    cancel,
+
+    upToDown,
+
+    downToUp,
+
+}

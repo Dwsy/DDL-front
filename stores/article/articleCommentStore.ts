@@ -251,23 +251,6 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 return
             }
             let retType: CommentType = actionData.data
-            // switch (commentType) {
-            //   case commentType.comment:
-            //     break
-            //   case commentType.comment_comment:
-            //     break
-            //   case commentType.up:
-            //     break
-            //   case commentType.down:
-            //     break
-            //   case commentType.cancel:
-            //     break
-            //   case commentType.upToDown:
-            //     break
-            //   case commentType.downToUp:
-            //     break
-            // }
-            //todo 枚举判断替换成 switch 是不是好一点
             let pComment = this.commentList[pIndexId]
             if (cIndexId === undefined) {
                 if (retType === CommentType.upToDown) {
