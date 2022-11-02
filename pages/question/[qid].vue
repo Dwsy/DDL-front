@@ -41,12 +41,84 @@
                       </v-tooltip>
                     </v-btn>
                     <br>
-                    <v-btn icon="true" elevation="0" class="mt-2" size="small">
-                      <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
-                      <v-tooltip activator="parent" location="right">
-                        收藏并跟踪这个问题
-                      </v-tooltip>
-                    </v-btn>
+
+
+                    <v-dialog
+                        v-model="collectionDialog"
+                        persistent
+                    >
+
+                      <template v-slot:activator="{ props }">
+                        <v-btn icon="true" elevation="0" class="mt-2" size="small"
+                               @click="openCollectionDialog(1,questionId)">
+                          <!--                               @click="openCollectionDialog(collectionType.Question,questionId)">-->
+                          <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
+                          <v-tooltip activator="parent" location="right">
+                            收藏并跟踪这个问题
+                          </v-tooltip>
+                        </v-btn>
+                        <div v-if="questionStore.filed.collectNum>0" class="text-grey">
+                          {{ questionStore.filed.collectNum }}
+                        </div>
+                      </template>
+                      <div style="margin-left: 25%">
+                        <v-card class="text-center" style="width: 600px">
+                          <v-card-title>
+                            <span class="text-h6 ml-8">添加到收藏夹</span>
+                          </v-card-title>
+                          <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
+                            {{ group.select }}
+                            <v-checkbox
+                                v-model="group.select"
+                                :label="group.groupName"
+                                :model-value="group.select"
+                                class="pr-2"
+                                @change="addCollectionToGroup(group.id,group.select)"
+                            ></v-checkbox>
+                            <span class="pt-4">
+                              {{ group.collectionNum }} / 999
+                            </span>
+
+                          </div>
+                          <v-divider class="my-3"></v-divider>
+                          <v-row class="pa-4 ml-2">
+
+                            <!--                  <v-form ref="form">-->
+                            <!--                    v-model="collectionName"-->
+                            <!--                    :rules="collectionNameRules"-->
+                            <v-text-field
+                                label="新建分组"
+                                required
+                                append-inner-icon="mdi-check-bold"
+                                @click:append-inner="newCollectionGroup()"
+                                v-model="newCollectionGroupName"
+                            ></v-text-field>
+
+                          </v-row>
+
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="red-darken-1"
+                                text
+                                @click="collectionDialog = false"
+                            >
+                              关闭
+                            </v-btn>
+                            <!--                <v-btn-->
+                            <!--                    color="blue-darken-1"-->
+                            <!--                    text-->
+                            <!--                    @click="collectionDialog = false"-->
+                            <!--                >-->
+                            <!--                  收藏-->
+                            <!--                </v-btn>-->
+
+                          </v-card-actions>
+                        </v-card>
+                      </div>
+                    </v-dialog>
+
+
                   </div>
                 </client-only>
 
@@ -130,7 +202,7 @@
                                       parentAnswerId: '0',
                                       questionId: questionId,
                                       answerType: AnswerType.comment
-                                      })"
+                                      },()=>{isActive.value = false})"
                                      variant="outlined" append-icon="mdi-reply"
                               >回复
                               </v-btn>
@@ -232,7 +304,9 @@
                       </v-btn>
 
                       <br>
-                      <v-btn icon="true" elevation="0" class="mt-2" size="small">
+                      <v-btn icon="true" elevation="0" class="mt-2" size="small"
+                             @click="openCollectionDialog(3,answer.id)">
+                        <!--                             @click="openCollectionDialog(collectionType.Answer,answer.id)">-->
                         <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
                         <v-tooltip activator="parent" location="right">
                           收藏这个回答
@@ -284,13 +358,13 @@
                                       @click="isActive.value = false" append-icon="mdi-close"
                                   >关闭
                                   </v-btn>
-                                  <v-btn color="#98d98e" @click="answerStore.answerOrCommentQuestion(
+                                  <v-btn color="#92398e" @click="answerStore.answerOrCommentQuestion(
                                       {
                                       mdText: replyCommentText,
                                       parentAnswerId: answer.id,
                                       questionId: questionId,
                                       answerType: AnswerType.answer_comment
-                                      })"
+                                      },()=>{isActive.value = false})"
                                          variant="outlined" append-icon="mdi-reply"
                                   >回复
                                   </v-btn>
@@ -405,8 +479,8 @@
             <v-card-actions class="justify-end">
               <v-btn
                   variant="outlined" color="#e2041b" class="mr-2"
-                  @click="commentDialog.value = false" append-icon="mdi-close"
-              >关闭123
+                  @click="commentDialog = false" append-icon="mdi-close"
+              >关闭
               </v-btn>
               <v-btn color="#98d98e" @click="answerStore.answerOrCommentQuestion(
                                       {
@@ -416,7 +490,7 @@
                                       answerType: commentAnswerType,
                                       replyUserAnswerId: commentCommentId,//todo name
                                       replyUserId:commentUser.id
-                                      })"
+                                      },()=>{this.commentDialog = false})"
                      variant="outlined" append-icon="mdi-reply"
               >回复
               </v-btn>
@@ -425,8 +499,6 @@
         </v-dialog>
       </client-only>
     </v-row>
-
-
   </div>
 </template>
 
@@ -443,8 +515,16 @@ import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
 import {AnswerType, User} from '~/types/question/answer'
 import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
+import {
+  useAxiosCancelCollectionToGroup,
+  useAxiosGetCollectionGroupList,
+  useAxiosPostAddCollectionToGroup, useAxiosPostCreateCollectionGroup
+} from '~/composables/Api/article'
+import {collectionData, collectionGroupData, collectionType} from '~/types/article'
+import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
+import {followUser, unFollowUser} from '~/composables/Api/user/following'
 
-const themeInstance = useTheme()
+const theme = useTheme()
 const questionId = String(useRoute().params.qid)
 const questionStore = useQuestionStore()
 const answerStore = useAnswerStore()
@@ -459,6 +539,7 @@ const commentUser = ref<userData>()
 const commentParentAnswerId = ref('')
 const commentCommentId = ref(0)
 const commentAnswerType = ref<AnswerType>()
+const collectionDialog = ref(false)
 if (responseData.code === 0) {
   questionStore.filed = responseData.data
   const contentResponseData = await useFetchGetQuestionContent(questionId)
@@ -480,7 +561,7 @@ if (typeof window !== 'undefined') {
 
 onMounted(async () => {
   await answerStore.loadAnswer(questionId)
-  watch(themeInstance.global.name, async (val) => {
+  watch(theme.global.name, async (val) => {
     if (val === 'dark') {
       await questionStore.changeThemeDark()
       await questionStore.changeHighlightStyleDark()
@@ -491,6 +572,92 @@ onMounted(async () => {
   })
   hljs.highlightAll()
 })
+
+const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
+const collectionType = ref<collectionType>()
+const collectionSourceId = ref('')
+
+const openCollectionDialog = async (type: collectionType, sourceId: string) => {
+  collectionDialog.value = true
+  collectionType.value = type
+  collectionSourceId.value = sourceId
+  const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+  if (axiosResponse.code === 0) {
+    collectionGroupList.value = axiosResponse.data
+    // await loadArticleCollectionState()
+    // if (articleCollectionState.value.code === 0) {
+    //   const state = articleCollectionState.value.data
+    //   // selectCollectionGroup.value = state
+    //   // console.log(state)
+    //   for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
+    //     for (const iKey in state) {
+    //       // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
+    //       // console.log("state[iKey].value[i].id",state[iKey])
+    //       if (state[iKey] === collectionGroupList.value[i].id) {
+    //         collectionGroupList.value[i].select = true
+    //       }
+    //     }
+    //   }
+    // }
+
+  }
+}
+const addCollectionToGroup = async (groupId: string, select: boolean) => {
+  let body: collectionData = {
+    collectionType: collectionType.value,
+    sourceId: collectionSourceId.value,
+    groupId
+  }
+  if (select) {
+    const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(body)
+    if (axiosResponse.code === 0) {
+      successMsg('收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
+
+    } else {
+      warningMsg(axiosResponse.msg)
+    }
+  } else {
+    const {data: axiosResponse} = await useAxiosCancelCollectionToGroup(body)
+    if (axiosResponse.code === 0) {
+      successMsg('取消收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
+    } else {
+      errorMsg(axiosResponse.msg)
+    }
+  }
+
+}
+
+const newCollectionGroupName = ref('')
+const newCollectionGroup = async () => {
+  let body: any = {
+    groupName: newCollectionGroupName.value
+  }
+  const {data: axiosResponse} = await useAxiosPostCreateCollectionGroup(body)
+  if (axiosResponse.code === 0) {
+    successMsg('创建成功')
+    const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+    if (axiosResponse.code === 0) {
+      collectionGroupList.value = axiosResponse.data
+      newCollectionGroupName.value = ''
+    }
+  } else {
+    errorMsg(axiosResponse.msg)
+  }
+}
+
+
+const subscribe = () => {
+  followUser(questionStore.filed.user.id)
+  questionStore.follow = true
+}
+
+const unsubscribe = () => {
+  unFollowUser(questionStore.filed.user.id)
+  questionStore.follow = false
+}
+
 const showCommentDialog = (user: User, CommentId: string, ParentAnswerId: string, answerType: AnswerType) => {
   commentDialog.value = true
   commentUser.value = user
@@ -499,8 +666,111 @@ const showCommentDialog = (user: User, CommentId: string, ParentAnswerId: string
   commentAnswerType.value = answerType
 }
 
+
 </script>
 
 <style scoped>
+
+</style>
+
+<style>
+.d-tip-error {
+  /*background: #fcf1f1 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  border-left-color: red !important;
+  /*color: black!important;*/
+}
+
+.d-tip-success {
+  /*background: #f0f8e5 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  border-left-color: #1aad19 !important;
+  /*color: black!important;*/
+}
+
+.d-tip-warning {
+  /*background: #fcf2e9 !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  border-left-color: #ec6800 !important;
+  /*color: black!important;*/
+}
+
+.d-tip-info {
+  /*background: #eef6fd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  border-left-color: #40c4ff !important;
+  /*color: black!important;*/
+}
+
+
+.d-tip-share {
+  /*background: #dddddd !important;*/
+  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  border-left-color: #8b968d !important;
+  /*color: black!important;*/
+}
+
+/*.d-tip-error > p:first-child:before {*/
+/*  content: "\F0156";*/
+/*  font-size: 135%;*/
+/*  color: red;*/
+/*  font-weight: bold;*/
+/*  margin-right: 5px;*/
+/*  margin-left: -10px;*/
+/*}*/
+.d-tip-error > p:first-child:before {
+  content: "\F0156";
+  font-size: 135%;
+  color: red;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-error > p:not(:first-child) {
+  margin-left: 22px;
+}
+
+.d-tip-success p:first-child:before {
+  content: "\F012C";
+  font-size: 135%;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-warning p:first-child:before {
+  content: "\F0205";
+  font-size: 135%;
+  position: center;
+  height: 100%;
+  color: #ff6800;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-info p:first-child:before {
+  content: "\F064E";
+  font-size: 135%;
+  color: #40c4ff;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip-share p:first-child:before {
+  content: "\F0065";
+  font-size: 135%;
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-left: -10px;
+}
+
+.d-tip > p:not(:first-child) {
+  margin-left: 22px;
+}
 
 </style>

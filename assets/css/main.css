@@ -5,3 +5,86 @@
 .medium-zoom-image--opened {
     z-index: 99999 !important;
 }
+
+
+.d-custom-toast-warning {
+    background-color: #9d5b8b;
+    color: #ffffff;
+}
+
+
+.d-header header {
+    backdrop-filter: saturate(100%) blur(20px) !important;
+
+}
+
+html {
+    scroll-padding-top: 55px;
+}
+
+/*html {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
+/*html {*/
+/*  scroll-behavior: inherit!important;*/
+/*}*/
+.d-gotoHome {
+    color: #00a0d8;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.Vue-Toastification__container.top-right {
+    margin-top: 40px;
+}
+
+.is-active-link::before {
+    background-color: #38b48b !important;
+}
+
+.toc-link::before {
+    background-color: v-bind(tocLinkColor);
+    /*content:' ';*/
+    /*display:inline-block;*/
+    /*height:inherit;*/
+    /*left:0;*/
+    /*margin-top:-1px;*/
+    /*position:absolute;*/
+    width: 4px
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-style: dashed;
+    border-color: transparent;
+    border-width: 2px;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8f8f8f !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #8f8f8f !important;
+    /*background-color: rgba(157, 165, 183, 0.4);*/
+    /*background-color: v-bind('theme.global.name.value === "dark" ? "#9da5b7" : "#8f8f8f"') !important;*/
+    /*background-image: -webkit-linear-gradient(45deg, hsla(0, 0%, 100%, .4) 100%, transparent 0, transparent 0, hsla(0, 0%, 100%, .4) 0, hsla(0, 0%, 100%, .4) 75%, transparent 0, transparent);*/
+    border-radius: 2em !important;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent !important;
+    border-radius: 2em !important;
+}
+
+

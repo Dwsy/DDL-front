@@ -14,7 +14,8 @@ export interface UserCollection {
     collectionType: CollectionType;
     sourceId: string;
     sourceTitle: string;
-    createTime: number
+    createTime: number;
+    link: string
 }
 
 export interface getCollectionListByGroupIdParams {

@@ -77,6 +77,18 @@ let items = ref([
     unreadCount: undefined
   },
   {
+    text: '问题回答',
+    icon: 'mdi-chat-question-outline',
+    to: '/messages/qa/answer',
+    unreadCount: undefined
+  },
+  {
+    text: '问答回复',
+    icon: 'mdi-lightbulb-question-outline',
+    to: '/messages/qa/comment',
+    unreadCount: undefined
+  },
+  {
     text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications',
     unreadCount: undefined
   },
@@ -100,7 +112,7 @@ onMounted(async () => {
     items.value[1].unreadCount = unreadNotify.unreadAtMeCount || 0
     items.value[2].unreadCount = unreadNotify.unreadNotifyThumbCount || 0
     items.value[3].unreadCount = unreadNotify.unreadSystemMessageCount || 0
-    items.value[4].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
+    items.value[6].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
 
   } else {
     warningMsg('获取未读消息数量失败')

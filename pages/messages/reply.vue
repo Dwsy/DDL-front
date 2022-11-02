@@ -43,7 +43,7 @@
                 {{ item.formContent }}
               </div>
             </div>
-            <span>{{ dateFilter(item.lastModifiedTime) }}</span>
+            <span>{{ dateFilter(item.createTime) }}</span>
             <v-divider></v-divider>
 
 

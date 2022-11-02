@@ -3,8 +3,9 @@ import {QuestionField} from '~/types/question'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {AnswerType} from '~/types/question/answer'
+import {ArticleAction} from '~/composables/Api/article'
 
-interface QuestionStore {
+interface QuestionStore extends ArticleAction {
     filed: QuestionField
     content: string
     cookieThemeState: string
@@ -24,6 +25,9 @@ export const useQuestionStore = defineStore('QuestionStore', {
             markdownThemeDark: null,
             codeHighlightStyleDark: null,
             codeHighlightStyleLight: null,
+            collect: false,
+            follow: false,
+            thumb: 0
         }
     ),
     actions: {

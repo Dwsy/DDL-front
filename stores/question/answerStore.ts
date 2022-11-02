@@ -1,16 +1,16 @@
 import {defineStore} from 'pinia'
-import {ref} from 'vue'
-import {useAxiosGetNewQuestionPageList, useFetchGetNewQuestionPageList} from '~/composables/Api/question'
-import {QuestionData} from '~/types/question'
 import {PageParam} from '~/types/common'
 import {
-    AnswerQuestionRB, QaActionRB,
+    AnswerQuestionRB,
+    QaActionRB,
     useAxiosGetQuestionAnswerPageList,
-    useAxiosPostAnswerQuestion, useAxiosPostQaAction
+    useAxiosPostAnswerQuestion,
+    useAxiosPostQaAction
 } from '~/composables/Api/question/answer'
 import {AnswerData, AnswerType} from '~/types/question/answer'
-import {warningMsg} from '~/composables/utils/toastification'
-import {CommentType} from '~/composables/Api/article'
+import {customMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
+import {useQuestionStore} from '~/stores/question/questionStore'
+import {TYPE} from 'vue-toastification/src/ts/constants'
 
 interface AnswerStore {
     pageParam: PageParam
@@ -50,10 +50,29 @@ export const useAnswerStore = defineStore('AnswerStore', {
             }
         },
 
-        async answerOrCommentQuestion(body: AnswerQuestionRB) {
+        async answerOrCommentQuestion(body: AnswerQuestionRB, handle?: () => void) {
+            if (body.mdText === '') {
+                if (body.answerType == AnswerType.answer) {
+                    customMsg('回答不能为空', {
+                        type: TYPE.WARNING,
+                        toastClassName: 'd-custom-toast-warning'
+                    })
+                } else {
+                    customMsg('回复不能为空', {
+                        type: TYPE.WARNING,
+                        toastClassName: 'd-custom-toast-warning'
+                    })
+                }
+
+                return
+            }
             const {data: axiosResponse} = await useAxiosPostAnswerQuestion(body)
             if (axiosResponse.code === 0) {
                 console.log('axiosResponse.data', axiosResponse.data)
+                successMsg('回答发送成功')
+                if (handle) {
+                    handle()
+                }
                 return axiosResponse.data
             } else {
                 warningMsg(axiosResponse.msg)
@@ -97,9 +116,40 @@ export const useAnswerStore = defineStore('AnswerStore', {
 
 
                 } else {
+                    let questionStore = useQuestionStore()
+                    let thumb = questionStore.thumb
+                    let questionFiled = questionStore.filed
+                    switch (axiosResponse.data) {
+                        case AnswerType.up:
+                            questionFiled.upNum++
+                            thumb = AnswerType.up
+                            break
+                        case AnswerType.down:
+                            questionFiled.downNum++
+                            thumb = AnswerType.down
+                            break
+                        case AnswerType.cancel:
+                            if (thumb === AnswerType.up) {
+                                questionFiled.upNum--
+                                thumb = AnswerType.cancel
+                            } else if (thumb === AnswerType.down) {
+                                questionFiled.downNum--
+                                thumb = AnswerType.cancel
+                            }
+                            break
+                        case AnswerType.upToDown:
+                            questionFiled.downNum++
+                            questionFiled.upNum--
+                            thumb = AnswerType.down
+                            break
+                        case AnswerType.downToUp:
+                            questionFiled.downNum--
+                            questionFiled.upNum++
+                            thumb = AnswerType.up
+                            break
+                    }
 
                 }
-                console.log('axiosResponse.data', axiosResponse.data)
             }
         },
 

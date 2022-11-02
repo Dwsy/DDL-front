@@ -334,7 +334,7 @@
                                         <v-textarea fluid placeholder="回复点啥吧。" clearable
                                                     v-model="childComment.replyCommentText"
                                                     clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                                    rows="4" auto-grow="true">
+                                                    rows="4" :auto-grow="true">
 
                                         </v-textarea>
                                         <v-btn class="float-end mx-6 mb-4" color="primary"

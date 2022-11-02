@@ -15,12 +15,6 @@ export const defaultMsg = (msg: string) => {
     toast(msg, options)
 }
 
-export const tsxToastMsg = (msg, type: TYPE, tsx: JSX.Element) => {
-    toast(tsx, {
-        type
-    })
-}
-
 export const ComponentToastMsg = (msg, type: TYPE, component, time, timeout, url?: string) => {
     toast({
         component,
@@ -72,3 +66,8 @@ export const warningMsg = (msg: string) => {
     }
     toast(msg, options)
 }
+
+export const customMsg = (msg: string, options: ToastOptions) => {
+    toast(msg, options)
+}
+

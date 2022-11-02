@@ -104,11 +104,19 @@
               target="_blank"
               :href="getCollectionTo(collection)"
           >
-            <span>
-              <v-chip>{{ CollectionTypeZh[collection.collectionType] }}:</v-chip>
-              <span class="ml-1">{{ collection.sourceTitle }}</span>
+            <div>
+
+              <div class="ml-1" v-if="collection.collectionType!==CollectionType.Answer">
+                <v-chip>{{ CollectionTypeZh[collection.collectionType] }}:</v-chip>
+                {{ collection.sourceTitle }}
+              </div>
+              <div class="ml-1" v-else>
+
+                <!--                <v-chip class="float-left" si variant="outlined">{{ CollectionTypeZh[collection.collectionType] }}:</v-chip>-->
+                <div v-html="collection.sourceTitle"></div>
+              </div>
               <span class="text-grey float-right">{{ dateFilter(collection.createTime) }}</span>
-              </span>
+            </div>
             <v-divider></v-divider>
           </v-list-item>
         </v-list>
@@ -144,6 +152,8 @@ import {
 } from '~/types/user/collection'
 import {warningMsg} from '~/composables/utils/toastification'
 import {dateFilter} from '~/composables/useTools'
+import {useGet} from '~/composables/useAxios'
+import {ResponseData} from '~/types/utils/axios'
 
 const route = useRoute()
 const router = useRouter()
@@ -217,6 +227,11 @@ const getCollectionTo = (collection: UserCollection) => {
   switch (collection.collectionType) {
     case CollectionType.Article:
       return `/article/${collection.sourceId}`
+    case CollectionType.Answer://todo
+      return collection.link
+      // return `/question/${collection.sourceId}`
+    case CollectionType.Question:
+      return `/question/${collection.sourceId}`
   }
 }
 
@@ -232,5 +247,30 @@ const changePage = async (p: number) => {
   overflow: hidden;
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
+}
+</style>
+
+<style>
+.d-collect-answer-title::before {
+  content: "Q：";
+  font-size: 80%;
+}
+
+.d-collect-answer-content::before {
+  content: "A：";
+}
+
+.d-collect-answer-title {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 20px;
+  color: #ef7060;
+  border-bottom: 1px solid #ef7060;
+}
+
+.d-collect-answer-content {
+  font-size: 16px;
+  margin-top: 5px;
+
 }
 </style>
