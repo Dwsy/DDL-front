@@ -898,13 +898,14 @@ onMounted(() => {
       let active = document.querySelector('.is-active-li')
       let listOf = document.querySelectorAll('.toc > div > ol > li')
       let viewCount = active.parentElement.childNodes.length + listOf.length
-      if (viewCount > 20) {
+      if (viewCount > 20 && active.parentElement !== listOf[0].parentElement) {
         tocOverflow.value = 'auto'
       } else {
+        console.log('listOf[0].scrollIntoView()')
         listOf[0].scrollIntoView()
         tocOverflow.value = 'hidden'
       }
-    }, 1000)
+    }, 900)
   })
 
 
