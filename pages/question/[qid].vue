@@ -238,7 +238,9 @@
 
 
                     <v-card v-if="questionStore.filed.questionCommentList.length>0" class="pa-5 mt-2"
-                            :theme="useCookie('theme')">
+                    >
+                      <!--                            :theme="useCookie('theme')">-->
+
                       <template v-for="comment in questionStore.filed.questionCommentList">
                         <div class="float-left">
                           <a :href="`/user/${comment.user.id}`" target="_blank" class="text-blue">

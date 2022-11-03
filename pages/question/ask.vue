@@ -6,7 +6,8 @@
                     variant="underlined" clearable>
       </v-text-field>
       <div class="mt-1 mr-4">
-        <v-btn elevation="1" :theme="themeInstance.global.name.value">手动保存</v-btn>
+        <!--        <v-btn elevation="1" :theme="themeInstance.global.name.value">手动保存</v-btn>-->
+        <v-btn elevation="1">手动保存</v-btn>
         <v-btn elevation="0" color="blue" class="mx-1" variant="outlined">草稿箱</v-btn>
         <client-only>
           <v-menu
@@ -511,11 +512,11 @@ onMounted(() => {
 
 :deep(.d-editor-title label) {
   font-size: v-bind('editorTitleInputLabelFontSize');
-  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');;
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');
 }
 
 :deep(.d-editor-title input) {
-  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#000"');;
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#000"');
 }
 
 :deep(.vue-img-cutter) {

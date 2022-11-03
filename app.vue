@@ -1,7 +1,7 @@
 <template>
 
   <NuxtLayout v-show="show">
-<!--  <NuxtLayout >-->
+    <!--  <NuxtLayout >-->
     <template #appbar>
       <LayoutsAppbar class="d-header"/>
     </template>
@@ -51,19 +51,19 @@ const cookieThemeState = useCookie('theme')
 const layout = useLayout()
 let tocLinkColor = ref()
 let show = ref(false)
+if (cookieThemeState.value !== undefined) {
+  if (cookieThemeState.value === 'dark') {
+    layout.switchDarkTheme(theme)
+  } else {
+    layout.switchLightTheme(theme)
+  }
+}
 // onMounted(()=>{
 //   layout.switchDarkTheme(theme)
 // })
 onMounted(async () => {
   // process.env.NODE_ENV !== 'production' && initDomToCode()
-  if (cookieThemeState.value !== undefined) {
-    console.log('cookieThemeState', cookieThemeState.value)
-    if (cookieThemeState.value === 'dark') {
-      layout.switchDarkTheme(theme)
-    } else {
-      layout.switchLightTheme(theme)
-    }
-  } else {
+  if (cookieThemeState.value === undefined) {
     document.cookie = `theme=${theme.global.name.value};path=/`
   }
   show.value = true
@@ -81,7 +81,7 @@ onMounted(async () => {
   watchEffect(async () => {
     if (theme.global.name.value === 'dark') {
       // console.log('Dark')
-      tocLinkColor.value = theme.global.current.value.colors.background
+      tocLinkColor.value = '#2e2e2e'
 
     } else {
       // console.log('light')
@@ -115,6 +115,15 @@ if (typeof window === 'undefined') {
 </style>
 
 <style>
-
+.toc-link::before {
+  background-color: v-bind(tocLinkColor);
+  /*content:' ';*/
+  /*display:inline-block;*/
+  /*height:inherit;*/
+  /*left:0;*/
+  /*margin-top:-1px;*/
+  /*position:absolute;*/
+  width: 4px
+}
 
 </style>

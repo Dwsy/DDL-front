@@ -1,7 +1,8 @@
 <template>
   <div>
 
-    <v-card elevation="1" outlined transition="scroll-y-transition" :theme="theme">
+    <v-card elevation="1" outlined transition="scroll-y-transition">
+      <!--    <v-card elevation="1" outlined transition="scroll-y-transition" :theme="theme">-->
       <v-row no-gutters>
         <v-col class="pl-2" cols="4">
           <div class="text-subtitle-1">
@@ -20,7 +21,8 @@
       </v-row>
       <v-divider class="mx-3"></v-divider>
 
-      <v-card target="_blank" :href="`/article/${id}`" :theme="theme">
+      <v-card target="_blank" :href="`/article/${id}`">
+        <!--      <v-card target="_blank" :href="`/article/${id}`" :theme="theme">-->
         <v-row>
           <v-col cols="8">
             <v-row>

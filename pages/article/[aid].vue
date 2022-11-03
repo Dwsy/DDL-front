@@ -867,6 +867,8 @@ const showDelBtn = (commentUserId: string, parentCommentUserId?: string) => {
   }
 }
 
+const tocOverflow = ref('hidden')
+
 onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
       .querySelector('.markdown-body')
@@ -888,6 +890,21 @@ onMounted(() => {
     margin: 24,
     background: 'rgba(0,0,0,0.4)',
     scrollOffset: 0,
+  })
+  let t
+  window.addEventListener('scroll', () => {
+    clearTimeout(t)
+    t = setTimeout(() => {
+      let active = document.querySelector('.is-active-li')
+      let listOf = document.querySelectorAll('.toc > div > ol > li')
+      let viewCount = active.parentElement.childNodes.length + listOf.length
+      if (viewCount > 20) {
+        tocOverflow.value = 'auto'
+      } else {
+        listOf[0].scrollIntoView()
+        tocOverflow.value = 'hidden'
+      }
+    }, 1000)
   })
 
 
@@ -995,7 +1012,8 @@ code ul li {
   top: 10%;
   height: 700px;
   font-size: 17px;
-  overflow: hidden;
+  overflow: v-bind(tocOverflow) !important;
+  /*overflow: hidden !important;*/
   overflow-y: auto;
   /*border-style: solid;*/
   /*border-width: 1px;*/

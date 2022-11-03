@@ -46,16 +46,16 @@ a {
     background-color: #38b48b !important;
 }
 
-.toc-link::before {
-    background-color: v-bind(tocLinkColor);
-    /*content:' ';*/
-    /*display:inline-block;*/
-    /*height:inherit;*/
-    /*left:0;*/
-    /*margin-top:-1px;*/
-    /*position:absolute;*/
-    width: 4px
-}
+/*.toc-link::before {*/
+/*    background-color: v-bind(tocLinkColor);*/
+/*    !*content:' ';*!*/
+/*    !*display:inline-block;*!*/
+/*    !*height:inherit;*!*/
+/*    !*left:0;*!*/
+/*    !*margin-top:-1px;*!*/
+/*    !*position:absolute;*!*/
+/*    width: 4px*/
+/*}*/
 
 
 ::-webkit-scrollbar {

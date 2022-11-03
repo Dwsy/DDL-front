@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.directive('hljs', {
         mounted(el) {
             const CodeNodeList: NodeListOf<HTMLElement> = el.querySelectorAll('pre code')
-            console.log('CodeNodeList', CodeNodeList)
+            // console.log('CodeNodeList', CodeNodeList)
             const CodeLength = CodeNodeList.length
             CodeNodeList.forEach((line, i) => {
                 line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
