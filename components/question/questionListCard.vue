@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 
-import {Group, QuestionData, QuestionTags, User} from '~/types/question'
+import {Group, QuestionData, QuestionTag, User} from '~/types/question'
 import {dateFilter} from '~/composables/useTools'
 
 function getRandomColor() {
@@ -82,7 +82,7 @@ interface Props {
   upNum: number;
   downNum: number;
   summary: string;
-  questionTags: Array<QuestionTags>;
+  questionTags: Array<QuestionTag>;
   codeHighlightStyle: string;
   markDownTheme: string;
   codeHighlightStyleDark: string;

@@ -23,7 +23,7 @@ export interface QaGroup {
     info: string;
 }
 
-export interface QuestionTags {
+export interface QuestionTag {
     id: string;
     name: string;
     questionNum: number;
@@ -52,7 +52,7 @@ export interface QuestionData {
     upNum: number;
     downNum: number;
     summary: string;
-    questionTags: QuestionTags;
+    questionTags: QuestionTag;
     codeHighlightStyle: string;
     markDownTheme: string;
     codeHighlightStyleDark: string;
@@ -75,7 +75,7 @@ export interface QuestionField {
     upNum: number;
     downNum: number;
     summary: string;
-    questionTags: QuestionTags;
+    questionTags: QuestionTag;
     codeHighlightStyle: string;
     markDownTheme: string;
     codeHighlightStyleDark: string;
@@ -84,4 +84,14 @@ export interface QuestionField {
     questionCommentList: AnswerData[];
     questionCommentNum: number;
     questionCommentTotalPages: number
+}
+
+export enum QuestionState {
+    ASK,
+    HAVE_ANSWER,
+    RESOLVED,
+    UNRESOLVED,
+    HIDE,
+    AUDITING,
+    REJECTED
 }

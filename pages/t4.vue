@@ -44,7 +44,7 @@ import {useToast} from 'vue-toastification'
 import {useRouter} from '#app'
 import {VBtn} from 'vuetify/components/VBtn'
 import {ComponentToastMsg} from '~/composables/utils/toastification'
-import JumpPrompt from '~~/components/article/creator/content/article/Toast/jumpPrompt.vue'
+import JumpPrompt from '~~/components/common/Toast/jumpPrompt.vue'
 
 let toast = useToast()
 

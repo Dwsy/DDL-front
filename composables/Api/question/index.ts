@@ -1,5 +1,5 @@
 import http from '~~/utils/fetch'
-import {useDel, useGet, useGetT, usePost} from '~/composables/useAxios'
+import {useDel, useGet, usePost} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 
 export const useAxiosGetNewQuestionPageList = (page: number) => {
@@ -21,4 +21,8 @@ export const useFetchGetQuestionContent = (questionId: string) => {
             type: 0
         }
     )
+}
+
+export const useFetchGetQuestionGroupList = () => {
+    return http.GET('/qa/group/list')
 }

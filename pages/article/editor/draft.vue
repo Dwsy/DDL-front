@@ -309,7 +309,7 @@ import SelectTag from '~/components/article/write/selectTag.vue'
 import {getUploadPictureBase64AndAudit} from '~/composables/utils/picture'
 import {useTheme} from 'vuetify'
 import {TYPE} from 'vue-toastification/src/ts/constants'
-import JumpPrompt from '~/components/article/creator/content/article/Toast/jumpPrompt.vue'
+import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
 import {useLayout} from '~/stores/layout'
 
 

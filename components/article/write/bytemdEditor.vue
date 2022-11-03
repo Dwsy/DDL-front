@@ -17,13 +17,14 @@ import gemoji from '@bytemd/plugin-gemoji'
 import math from '@bytemd/plugin-math'
 import breaks from '@bytemd/plugin-breaks'
 import mermaid from '@bytemd/plugin-mermaid'
-import {onMounted, reactive, ref, watch, watchEffect} from 'vue'
+import {nextTick, onMounted, reactive, ref, watch, watchEffect} from 'vue'
 import {useAxiosPostUploadImg} from '~/composables/Api/article/manageArticle'
 import {successMsg, warningMsg} from '#imports'
 import {Editor} from '@bytemd/vue-next'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import {useTheme} from 'vuetify'
 import '~~/constant/codemirrorTheme/main.css'
+import {changeThemes, themes} from '~/constant/markdownThemeList'
 
 
 const theme = useTheme()
@@ -42,6 +43,11 @@ onMounted(async () => {
   const bytemdElement = document.getElementsByClassName('bytemd')[0]
   let bytemdClassList = ref(bytemdElement.classList)
   let observer = new MutationObserver((e) => {
+    if (theme.global.name.value === 'dark') {
+      let toolbarRightSvgEl: NodeListOf<HTMLElement> = document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+      let fullscreenSvgEl = toolbarRightSvgEl[4]
+      fullscreenSvgEl.style.color = '#fff'
+    }
     if (bytemdElement.classList.contains('bytemd-fullscreen')) {
       bytemdZIndex.value = 9999
     } else {

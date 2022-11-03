@@ -4,7 +4,7 @@
     <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
     <v-row>
       <v-col cols="10">
-        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>
+<!--        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>-->
         <v-row>
           <v-col>
             <v-row>
@@ -138,10 +138,22 @@
                   <span class="ml-4">修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span>
-
+                  <template v-if="questionStore.filed.user.id!==userStore.user.id">
+                    <v-btn v-if="questionStore.follow" class="float-end mx-4" color="pink lighten-3">
+                      <span style="color: white" @click="unsubscribe()">已关注</span>
+                    </v-btn>
+                    <v-btn v-else class="float-end mx-4" color="blue lighten-3"
+                           @click="subscribe()">
+                      <span style="color: white">关注</span>
+                    </v-btn>
+                  </template>
+                  <v-btn v-else class="float-right" variant="outlined" color="#c42161"
+                         :href="`/question/ask?id=${questionId}`" target="_blank">
+                    重新编辑
+                  </v-btn>
                 </div>
 
-                <div class="markdown-body" v-html="questionStore.content"></div>
+                <div class="markdown-body question-content" v-html="questionStore.content"></div>
 
                 <v-chip-group class="mt-7">
                   <v-chip v-for="tag in questionStore.filed.questionTags" :key="tag.id" size="small">
@@ -225,7 +237,8 @@
                     <v-divider class="my-2"></v-divider>
 
 
-                    <v-card v-if="questionStore.filed?.questionCommentList" class="pa-5 mt-2">
+                    <v-card v-if="questionStore.filed.questionCommentList.length>0" class="pa-5 mt-2"
+                            :theme="useCookie('theme')">
                       <template v-for="comment in questionStore.filed.questionCommentList">
                         <div class="float-left">
                           <a :href="`/user/${comment.user.id}`" target="_blank" class="text-blue">
@@ -297,7 +310,7 @@
                         </v-tooltip>
                       </v-btn>
 
-                      <v-btn icon="true" elevation="0" v-if="answer.accepted">
+                      <v-btn icon="true" elevation="0" v-if="answer.accepted" class="my-2">
                         <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
                         <v-tooltip activator="parent" location="right">
                           The question owner accepted this as the best answer 4 mins ago
@@ -322,6 +335,7 @@
                     <v-card class="pa-4">
                       <!--                    <v-row>-->
                       <!--                      <v-col>-->
+                      <!--                      <div v-html="answer.textHtml" v-hljs class="markdown-body"></div>-->
                       <div v-html="answer.textHtml" class="markdown-body"></div>
                       <div class="mt-4">
                         <div class="float-left">
@@ -391,7 +405,7 @@
                             <v-img :src="answer.user.userInfo.avatar"></v-img>
                           </v-avatar>
                           <span>{{ answer.user.nickname }}/</span>
-                          <span>{{ dateFilter(answer.createTime) }}</span>
+                          <span class="text-grey">{{ dateFilter(answer.createTime) }}</span>
                         </div>
                       </div>
                       <!--                      </v-col>-->
@@ -430,12 +444,14 @@
             </template>
             <v-row>
               <v-col offset="1">
+                <v-divider class="my-4"></v-divider>
                 <v-row class="pa-4">
                   <v-col cols="2">
-                    <div class="text-h5" id="answer">你的回答</div>
+
+                    <div class="text-h5" id="answer">撰写回答</div>
                   </v-col>
                   <v-col offset="9">
-                    <v-btn variant="outlined"
+                    <v-btn variant="tonal" color="#669651" v-if="showAnswerWindow" class=""
                            @click="answerStore.answerOrCommentQuestion(
                                {parentAnswerId: '0',
                                      questionId: questionId,
@@ -443,12 +459,62 @@
                                      // replyUserAnswerId: ,
                                      // replyUserId: '',
                                      mdText: content
-                                     })">发送
+                                     })">
+                      发送
+                    </v-btn>
+                    <v-btn variant="outlined" color="#669651" v-if="showAnswerWindow" class="d-send-answer mt-n1 h-75"
+                           size="small"
+                           style="display: none"
+                           @click="answerStore.answerOrCommentQuestion(
+                                   {parentAnswerId: '0',
+                                         questionId: questionId,
+                                         answerType: AnswerType.answer,
+                                         // replyUserAnswerId: ,
+                                         // replyUserId: '',
+                                         mdText: content
+                                         })">
+                      <p class="ml-4">发送回答</p>
                     </v-btn>
                   </v-col>
                 </v-row>
-                <AnswerBytemdEditor :content="content" @change-text="changeText">
+                <AnswerBytemdEditor v-if="showAnswerWindow" :content="content" @change-text="changeText"
+                                    style="margin-bottom: 100px">
                 </AnswerBytemdEditor>
+                <div v-else class="pa-8 d-answer-tip-card">
+                  <span class="text-h6 text-green">适合作为回答的</span>
+                  <div class="d-answer-tip-recommend">
+                    <p class="card-text mdi">
+                      经过验证的有效解决办法
+                    </p>
+                    <p class="card-text mdi">
+                      自己的经验指引，对解决问题有帮助
+                    </p>
+                    <p class="card-text mdi">
+                      遵循 Markdown 语法排版，代码语义正确
+                    </p>
+                  </div>
+                  <span class="text-h6 text-red">不该作为回答的</span>
+                  <div class="d-answer-tip-inappropriate">
+                    <p class="card-text mdi">
+                      询问内容细节或回复楼层
+                    </p>
+                    <p class="card-text mdi">
+                      与题目无关的内容
+                    </p>
+                    <p class="card-text mdi">
+                      “赞”“顶”“同问”“看手册”“解决了没”等毫无意义的内容
+                    </p>
+                  </div>
+                  <div class="my-3">
+                    <v-btn color="#1aad19" variant="tonal" @click="showAnswerWin()" size="large">撰写解决方法</v-btn>
+                  </div>
+                  <div class="d-answer-tip-comment">
+                    <p class="card-text mdi">
+                      询问细节、提出修改意见时，请使用每条内容下方的“回复”功能
+                    </p>
+                  </div>
+                </div>
+
               </v-col>
             </v-row>
 
@@ -500,6 +566,7 @@
         </v-dialog>
       </client-only>
     </v-row>
+
   </div>
 </template>
 
@@ -507,8 +574,8 @@
 import hljs from 'highlight.js'
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute, useRouter} from '#app'
-import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
-import {onMounted, ref, watch} from 'vue'
+import {atSrtGotoHome, dateFilter, handleCopy} from '~/composables/useTools'
+import {nextTick, onMounted, ref, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
@@ -524,10 +591,13 @@ import {
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
+import {useLayout} from '~/stores/layout'
+import {useUserStore} from '~/stores/user'
 
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
+let userStore = useUserStore()
 const questionId = String(route.params.qid)
 const questionStore = useQuestionStore()
 const answerStore = useAnswerStore()
@@ -543,6 +613,8 @@ const commentParentAnswerId = ref('')
 const commentCommentId = ref(0)
 const commentAnswerType = ref<AnswerType>()
 const collectionDialog = ref(false)
+let layout = useLayout()
+layout.showFooter = true
 if (responseData.code === 0) {
   questionStore.filed = responseData.data
   const contentResponseData = await useFetchGetQuestionContent(questionId)
@@ -554,14 +626,13 @@ if (responseData.code === 0) {
   console.log(responseData.msg)
 }
 questionStore.init(questionId)
-
+const showAnswerWindow = ref(false)
 let HighlightStyle
 let MarkdownTheme
 if (typeof window !== 'undefined') {
   HighlightStyle = await changeHighlightStyle(questionStore.getHighlightStyleName(), true)
   MarkdownTheme = await changeThemes(themes[questionStore.getMarkdownThemeName()], true)
 }
-
 onMounted(async () => {
   await answerStore.loadAnswer(questionId)
   watch(theme.global.name, async (val) => {
@@ -574,11 +645,65 @@ onMounted(async () => {
     }
   })
   // #answerId-1588022587668037632-#test
-  let hash = route.hash.split('+')
-  document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
-
-  hljs.highlightAll()
+  let h = route.hash
+  if (h) {
+    let hash = h.split('+')
+    document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
+  }
+  const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('.markdown-body .question-content pre code')
+  const CodeLength = CodeNodeList.length
+  CodeNodeList.forEach((line, i) => {
+    line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+  })
+  if (CodeLength > 30) {
+    for (let i = 0; i < 15; i++) {
+      renderCode(CodeNodeList[i])
+    }
+    setTimeout(() => {
+      for (let i = 15; i < CodeLength; i++) {
+        renderCode(CodeNodeList[i])
+      }
+    }, 1500)
+  } else {
+    for (let i = 0; i < CodeLength; i++) {
+      // console.log(CodeNodeList[i])
+      renderCode(CodeNodeList[i])
+    }
+  }
 })
+
+const renderCode = (el: HTMLElement) => {
+  // hljs.highlightElement(el)
+
+  el.innerHTML = ('<ul><li>' + el.innerHTML.replace(/\n/g, '</li><li>') + '</li></ul>').replace(/<li><\/li>/g, '')
+
+  // console.log(el.innerHTML)
+  let copy = document.createElement('button')
+  copy.setAttribute('class', 'd-code-copy')
+  // copy.innerHTML="复制"
+  copy.addEventListener('click', () => {
+    handleCopy(el.querySelector('ul'))
+    copy.innerText = 'copy!'
+    successMsg('复制成功', {
+      timeout: 1500,
+    })
+  })
+  el.addEventListener('mouseout', () => {
+    if (copy.innerText === 'copy!') {
+      setTimeout(() => {
+        copy.innerText = 'copy'
+        copy.style.display = 'none'
+      }, 1500)
+    } else {
+      copy.innerText = 'copy'
+      copy.style.display = 'none'
+    }
+  })
+  el.addEventListener('mouseover', () => {
+    copy.style.display = 'block'
+  })
+  el.insertBefore(copy, el.firstChild)
+}
 
 const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
 const collectionType = ref<collectionType>()
@@ -673,14 +798,94 @@ const showCommentDialog = (user: User, CommentId: string, ParentAnswerId: string
   commentAnswerType.value = answerType
 }
 
-
+const showAnswerWin = async () => {
+  showAnswerWindow.value = true
+  await nextTick()
+  let element = document.querySelector('#answer')
+  element.scrollIntoView({
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <style scoped>
+:deep(.markdown-body pre code ul li:before) {
+  counter-increment: linenumber;
+  content: counter(linenumber);
+  margin-left: -20px;
+  margin-right: 14px;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+}
+
+:deep(.markdown-body pre code ul) {
+  list-style-type: none;
+  counter-reset: linenumber;
+}
+
+:deep(.markdown-body pre code ul li) {
+
+}
+
+:deep(.markdown-body pre code ul li:before) {
+  counter-increment: linenumber;
+  content: counter(linenumber);
+  margin-left: -20px;
+  margin-right: 14px;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+}
+
+:deep(.markdown-body p) {
+  font-size: 20px !important;
+}
+
+.markdown-body {
+  padding: 0 10px !important;
+  background-repeat: initial !important;
+}
+
 
 </style>
 
 <style>
+.d-answer-tip-card {
+  font-size: 18px;
+  border: 2px solid #1aad19;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.d-answer-tip-recommend {
+  list-style: none;
+}
+
+.d-answer-tip-inappropriate {
+  list-style: none;
+}
+
+.d-answer-tip-recommend p:before {
+  content: "\F012C";
+  font-size: 135%;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  font-weight: bold;
+  margin-right: 3px;
+}
+
+.d-answer-tip-inappropriate p:before {
+  content: "\F0156";
+  font-size: 135%;
+  color: red;
+  font-weight: bold;
+  margin-right: 3px;
+}
+
+.d-answer-tip-comment p:before {
+  content: "\F064E";
+  font-size: 135%;
+  color: #40c4ff;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .d-tip-error {
   /*background: #fcf1f1 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;

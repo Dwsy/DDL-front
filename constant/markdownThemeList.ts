@@ -5,11 +5,7 @@ const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
 export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) => {
     let css = null
 
-    const s = new Date().getTime()
-
-
-    // console.log(await import('~~/constant/mwebMarkDownThemes/dark/ayuMirage'))
-    // console.log('markdownTheme.name', markdownTheme.name)
+    console.log('markdownTheme.name', markdownTheme.name)
     switch (markdownTheme.name) {
         case 'smartblue':
             css = await import ('juejin-markdown-themes/dist/smartblue')

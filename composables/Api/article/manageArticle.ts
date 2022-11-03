@@ -34,7 +34,7 @@ export const useAxiosPostUploadImg = (file) => {
     return usePost<ResponseData<any>>('file/upload', {file}, config)
 }
 // http://localhost:7080/article/tag/suggestion/re
-//todo 对象解构泛型丢失
+
 export const useAxiosGetTagSuggestion = (query): Promise<AxiosResponse<ResponseData<TagSuggestion[]>, any>> => {
     return useGet<ResponseData<any>>('search/article/tag/suggestion/' + query)
 }

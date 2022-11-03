@@ -772,7 +772,7 @@ onBeforeRouteUpdate(async (to, from, next) => {
 
 const renderCode = (el: HTMLElement) => {
   hljs.highlightElement(el)
-  el.innerHTML = '<ul><li>' + el.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+  el.innerHTML = ('<ul><li>' + el.innerHTML.replace(/\n/g, '</li><li>') + '</li></ul>').replace(/<li><\/li>/g, '')
   let copy = document.createElement('button')
   copy.setAttribute('class', 'd-code-copy')
   // copy.innerHTML="复制"
@@ -1028,16 +1028,6 @@ code ul li {
 .markdown-body {
   padding: 0 10px !important;
   background-repeat: initial !important;
-}
-
-:deep(kbd) {
-  padding: 2px 4px;
-  font-size: 90%;
-  color: #fff;
-  background-color: #333;
-  border-radius: 3px;
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
 }
 
 .d-article-banner {

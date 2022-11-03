@@ -17,7 +17,7 @@ import gemoji from '@bytemd/plugin-gemoji'
 import math from '@bytemd/plugin-math'
 import breaks from '@bytemd/plugin-breaks'
 import mermaid from '@bytemd/plugin-mermaid'
-import {onMounted, reactive, ref, watch, watchEffect} from 'vue'
+import {nextTick, onMounted, reactive, ref, watch, watchEffect} from 'vue'
 import {useAxiosPostUploadImg} from '~/composables/Api/article/manageArticle'
 import {successMsg, warningMsg} from '#imports'
 import {Editor} from '@bytemd/vue-next'
@@ -38,26 +38,45 @@ const emit = defineEmits(['changeText'])
 const bytemdZIndex = ref(0)
 const bytemdHeight = ref('calc(100vh - 12rem)')
 
-
+const appendSend = false
 onMounted(async () => {
   const bytemdElement: Element = document.getElementsByClassName('bytemd')[0]
   let bytemdClassList = ref(bytemdElement.classList)
-  let observer = new MutationObserver((e) => {
+
+  let observer = new MutationObserver(async (e) => {
+    let r = document.querySelector('.bytemd-status-right')
+    let btn: HTMLElement = document.querySelector('.d-send-answer')
+    if (theme.global.name.value === 'dark') {
+      let toolbarRightSvgEl: NodeListOf<HTMLElement> = document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+      let fullscreenSvgEl = toolbarRightSvgEl[4]
+      fullscreenSvgEl.style.color = '#fff'
+    }
     if (bytemdElement.classList.contains('bytemd-fullscreen')) {
       bytemdZIndex.value = 9999
       bytemdHeight.value = 'calc(100vh - 4rem)'
+      if (!appendSend) {
+        btn.style.display = 'inline-block'
+        r.append(btn)
+      } else {
+        btn.style.display = 'inline-block'
+      }
     } else {
       bytemdZIndex.value = 0
       bytemdHeight.value = 'calc(100vh - 12rem)'
-      setTimeout(() => {
-        window.scrollTo(0, document.documentElement.scrollHeight)
-      }, 50)
+      btn.style.display = 'none'
+      await nextTick()
+      if (appendSend) {
+        let element = document.querySelector('#answer')
+        element.scrollIntoView({
+          behavior: 'auto'
+        })
+      }
     }
   })
   observer.observe(bytemdElement, {
     attributes: true
   })
-  document.body.className = 'main'
+  // document.body.className = 'main'
   await editorTheme()
   watch(theme.global.name, async () => {
     await editorTheme()
