@@ -4,7 +4,7 @@
     <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
     <v-row>
       <v-col cols="10">
-<!--        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>-->
+        <!--        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>-->
         <v-row>
           <v-col>
             <v-row>
@@ -153,7 +153,7 @@
                   </v-btn>
                 </div>
 
-                <div class="markdown-body question-content" v-html="questionStore.content"></div>
+                <div class="markdown-body question-content" v-html="questionStore.content" v-hljs></div>
 
                 <v-chip-group class="mt-7">
                   <v-chip v-for="tag in questionStore.filed.questionTags" :key="tag.id" size="small">
@@ -167,7 +167,7 @@
                 <v-row class="">
                   <v-col>
                     <client-only>
-                      <v-btn variant="outlined" key="answer" color="#47885e" href="#answer">
+                      <v-btn variant="tonal" key="answer" color="#47885e" href="#answer">
                         <!--                        <v-tooltip activator="parent" location="top">-->
                         <!--                          回答问题-->
                         <!--                        </v-tooltip>-->
@@ -177,7 +177,7 @@
 
                       <v-dialog>
                         <template v-slot:activator="{ props }">
-                          <v-btn class="ml-4" v-bind="props" variant="outlined" key="reply" color="#00a3af">
+                          <v-btn class="ml-4" v-bind="props" variant="tonal" key="reply" color="#00a3af">
                             <v-tooltip activator="parent" location="top">
                               询问问题其他细节或提出修改意见
                             </v-tooltip>
@@ -224,8 +224,8 @@
                         </template>
                       </v-dialog>
 
-                      <v-btn class="ml-4" variant="outlined" key="follow" color="#b7282e">
-                        关注
+                      <v-btn class="ml-4" variant="tonal" key="follow" color="#b7282e">
+                        追踪
                         <v-tooltip activator="parent" location="top">
                           关注跟踪这个问题，当有新的回答时会收到通知
                         </v-tooltip>
@@ -335,8 +335,8 @@
                     <v-card class="pa-4">
                       <!--                    <v-row>-->
                       <!--                      <v-col>-->
-                      <!--                      <div v-html="answer.textHtml" v-hljs class="markdown-body"></div>-->
-                      <div v-html="answer.textHtml" class="markdown-body"></div>
+                      <div v-html="answer.textHtml" v-hljs class="markdown-body"></div>
+                      <!--                      <div v-html="answer.textHtml" class="markdown-body"></div>-->
                       <div class="mt-4">
                         <div class="float-left">
                           <v-dialog>
@@ -650,60 +650,9 @@ onMounted(async () => {
     let hash = h.split('+')
     document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
   }
-  const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('.markdown-body .question-content pre code')
-  const CodeLength = CodeNodeList.length
-  CodeNodeList.forEach((line, i) => {
-    line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
-  })
-  if (CodeLength > 30) {
-    for (let i = 0; i < 15; i++) {
-      renderCode(CodeNodeList[i])
-    }
-    setTimeout(() => {
-      for (let i = 15; i < CodeLength; i++) {
-        renderCode(CodeNodeList[i])
-      }
-    }, 1500)
-  } else {
-    for (let i = 0; i < CodeLength; i++) {
-      // console.log(CodeNodeList[i])
-      renderCode(CodeNodeList[i])
-    }
-  }
+
 })
 
-const renderCode = (el: HTMLElement) => {
-  // hljs.highlightElement(el)
-
-  el.innerHTML = ('<ul><li>' + el.innerHTML.replace(/\n/g, '</li><li>') + '</li></ul>').replace(/<li><\/li>/g, '')
-
-  // console.log(el.innerHTML)
-  let copy = document.createElement('button')
-  copy.setAttribute('class', 'd-code-copy')
-  // copy.innerHTML="复制"
-  copy.addEventListener('click', () => {
-    handleCopy(el.querySelector('ul'))
-    copy.innerText = 'copy!'
-    successMsg('复制成功', {
-      timeout: 1500,
-    })
-  })
-  el.addEventListener('mouseout', () => {
-    if (copy.innerText === 'copy!') {
-      setTimeout(() => {
-        copy.innerText = 'copy'
-        copy.style.display = 'none'
-      }, 1500)
-    } else {
-      copy.innerText = 'copy'
-      copy.style.display = 'none'
-    }
-  })
-  el.addEventListener('mouseover', () => {
-    copy.style.display = 'block'
-  })
-  el.insertBefore(copy, el.firstChild)
-}
 
 const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
 const collectionType = ref<collectionType>()

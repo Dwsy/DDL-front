@@ -81,7 +81,7 @@
           <div v-html="articleStore.contentHtml"
                v-show="!articleStore.loading"
                class=" js-toc-content markdown-body"
-
+               v-hljs
           ></div>
           <!--          v-intersect="()=>{gotoTitle=true}"-->
           <div v-show="articleStore.loading" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
@@ -558,10 +558,6 @@
 
 
 <script setup lang="ts">
-import hljs from 'highlight.js'
-// import vCode from '~/utils/HljsLine'
-// import 'highlight.js/styles/atom-one-light.css'
-// import 'highlight.js/styles/atom-one-dark.css'
 import {
   CommentType,
   useAxiosCancelCollectionToGroup,
@@ -729,29 +725,6 @@ onMounted(async () => {
     const el = document.querySelector('#comments')
     el.scrollIntoView()
   })
-  const CodeNodeList: NodeListOf<HTMLElement> = document.querySelectorAll('pre code')
-  const CodeLength = CodeNodeList.length
-  // addStyles()
-  CodeNodeList.forEach((line, i) => {
-    line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
-  })
-  if (CodeLength > 30) {
-    for (let i = 0; i < 15; i++) {
-      renderCode(CodeNodeList[i])
-    }
-    setTimeout(() => {
-      for (let i = 15; i < CodeLength; i++) {
-        renderCode(CodeNodeList[i])
-      }
-    }, 1500)
-  } else {
-    for (let i = 0; i < CodeLength; i++) {
-      renderCode(CodeNodeList[i])
-    }
-  }
-
-
-  // hljs.highlightAll()
 })
 
 onUnmounted(() => {
@@ -769,36 +742,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
     next()
   }
 })
-
-const renderCode = (el: HTMLElement) => {
-  hljs.highlightElement(el)
-  el.innerHTML = ('<ul><li>' + el.innerHTML.replace(/\n/g, '</li><li>') + '</li></ul>').replace(/<li><\/li>/g, '')
-  let copy = document.createElement('button')
-  copy.setAttribute('class', 'd-code-copy')
-  // copy.innerHTML="复制"
-  copy.addEventListener('click', () => {
-    handleCopy(el.querySelector('ul'))
-    copy.innerText = 'copy!'
-    successMsg('复制成功', {
-      timeout: 1500,
-    })
-  })
-  el.addEventListener('mouseout', () => {
-    if (copy.innerText === 'copy!') {
-      setTimeout(() => {
-        copy.innerText = 'copy'
-        copy.style.display = 'none'
-      }, 1500)
-    } else {
-      copy.innerText = 'copy'
-      copy.style.display = 'none'
-    }
-  })
-  el.addEventListener('mouseover', () => {
-    copy.style.display = 'block'
-  })
-  el.insertBefore(copy, el.firstChild)
-}
 
 const childCommentLimit = (comments): CommentContent[] => {
   if (comments.loadMore === undefined) {
