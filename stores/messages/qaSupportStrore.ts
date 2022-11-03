@@ -2,32 +2,34 @@ import {defineStore} from 'pinia'
 import {UseAxiosGetReplyMeNotify} from '~/composables/Api/messages/reply'
 import {errorMsg} from '~/composables/utils/toastification'
 import {NotifyMsg, NotifyType} from '~/types/message'
+import {QaCommentType, UseAxiosGetQaCommentNotify} from '~/composables/Api/messages/qa/comment'
+import {QaSupportType, UseAxiosGetQaSupportNotify} from '~/composables/Api/messages/qa/support'
 
 
-interface ReplyState {
-    replyNotifyList: NotifyMsg[]
+interface State {
+    qaSupportNotifyList: NotifyMsg[]
     page: number
     totalPages: number
 }
 
-export const useReplyStore = defineStore('replyNotify', {
-    state: (): ReplyState => {
+export const useQaSupportStore = defineStore('QaSupportStore', {
+    state: (): State => {
         return {
-            replyNotifyList: [],
+            qaSupportNotifyList: [],
             page: 1,
             totalPages: null
         }
     },
     getters: {},
     actions: {
-        async loadReplyNotifyList(scroll?: boolean) {
-            let {data: response} = await UseAxiosGetReplyMeNotify(this.page)
+        async loadQaSupportNotifyList(type: QaSupportType, scroll?: boolean) {
+            let {data: response} = await UseAxiosGetQaSupportNotify(this.page, type)
             if (response.code == 0) {
                 if (scroll) {
-                    this.replyNotifyList = this.replyNotifyList
+                    this.qaSupportNotifyList = this.qaSupportNotifyList
                         .concat(response.data.content)
                 } else {
-                    this.replyNotifyList = response.data.content
+                    this.qaSupportNotifyList = response.data.content
                     this.totalPages = response.data.totalPages
                 }
             } else {
@@ -46,19 +48,4 @@ export const useReplyStore = defineStore('replyNotify', {
     },
 })
 
-export interface replyNotify {
-    id: string;
-    fromUserId: string;
-    toUserId: string;
-    articleId: string;
-    commentId: string;
-    questionId: string;
-    answerId: string;
-    notifyType: NotifyType;
-    formContent: string;
-    toContent: string;
-    replayCommentId: string;
-    notifyState: number;
-    formUserAvatar: string
-    formUserNickname: string
-}
+

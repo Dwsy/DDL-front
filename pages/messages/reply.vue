@@ -57,9 +57,9 @@
 <script setup lang="ts">
 import {definePageMeta, dateFilter} from '#imports'
 import {onActivated, onDeactivated, onMounted, onUnmounted} from 'vue'
-import {useReplyStore, NotifyType} from '~/stores/messages/replyStrore'
+import {useReplyStore} from '~/stores/messages/replyStrore'
 import {useLoadingWin} from '~/composables/useTools'
-import {NotifyState} from '~/types/message'
+import {NotifyState, NotifyType} from '~/types/message'
 
 definePageMeta({
   keepalive: false,

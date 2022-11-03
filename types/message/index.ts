@@ -17,6 +17,7 @@ export interface NotifyMsg {
     formUserNickname: string
 }
 
+
 export enum NotifyType {
     '评论了文章:',
     '回复了你的评论:',
@@ -24,7 +25,23 @@ export enum NotifyType {
     '点赞了你的评论:',
     '提到了你:',
     '回答了你的问题:',
+    '回复了你的问题:',
     '回复了你的回答:',
+    '支持了你的问题:',
+    '支持了你的回答:',
+}
+
+export enum NotifyTypeEn {
+    comment_article,
+    comment_article_comment,
+    up_article,
+    up_article_comment,
+    at,
+    answer,
+    question_comment,
+    answer_comment,
+    up_question,
+    up_question_answer,
 }
 
 export enum NotifyState {

@@ -2,32 +2,33 @@ import {defineStore} from 'pinia'
 import {UseAxiosGetReplyMeNotify} from '~/composables/Api/messages/reply'
 import {errorMsg} from '~/composables/utils/toastification'
 import {NotifyMsg, NotifyType} from '~/types/message'
+import {QaCommentType, UseAxiosGetQaCommentNotify} from '~/composables/Api/messages/qa/comment'
 
 
-interface ReplyState {
-    replyNotifyList: NotifyMsg[]
+interface State {
+    qaCommentNotifyList: NotifyMsg[]
     page: number
     totalPages: number
 }
 
-export const useReplyStore = defineStore('replyNotify', {
-    state: (): ReplyState => {
+export const useQaCommentStore = defineStore('QaCommentStore', {
+    state: (): State => {
         return {
-            replyNotifyList: [],
+            qaCommentNotifyList: [],
             page: 1,
             totalPages: null
         }
     },
     getters: {},
     actions: {
-        async loadReplyNotifyList(scroll?: boolean) {
-            let {data: response} = await UseAxiosGetReplyMeNotify(this.page)
+        async loadQaCommentNotifyList(type: QaCommentType, scroll?: boolean) {
+            let {data: response} = await UseAxiosGetQaCommentNotify(this.page, type)
             if (response.code == 0) {
                 if (scroll) {
-                    this.replyNotifyList = this.replyNotifyList
+                    this.qaCommentNotifyList = this.qaCommentNotifyList
                         .concat(response.data.content)
                 } else {
-                    this.replyNotifyList = response.data.content
+                    this.qaCommentNotifyList = response.data.content
                     this.totalPages = response.data.totalPages
                 }
             } else {
@@ -45,20 +46,3 @@ export const useReplyStore = defineStore('replyNotify', {
         }
     },
 })
-
-export interface replyNotify {
-    id: string;
-    fromUserId: string;
-    toUserId: string;
-    articleId: string;
-    commentId: string;
-    questionId: string;
-    answerId: string;
-    notifyType: NotifyType;
-    formContent: string;
-    toContent: string;
-    replayCommentId: string;
-    notifyState: number;
-    formUserAvatar: string
-    formUserNickname: string
-}

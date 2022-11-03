@@ -2,32 +2,33 @@ import {defineStore} from 'pinia'
 import {UseAxiosGetReplyMeNotify} from '~/composables/Api/messages/reply'
 import {errorMsg} from '~/composables/utils/toastification'
 import {NotifyMsg, NotifyType} from '~/types/message'
+import {UseAxiosGetQaAnswerNotify} from '~/composables/Api/messages/qa/answer'
 
 
-interface ReplyState {
-    replyNotifyList: NotifyMsg[]
+interface State {
+    qaAnswerNotifyList: NotifyMsg[]
     page: number
     totalPages: number
 }
 
-export const useReplyStore = defineStore('replyNotify', {
-    state: (): ReplyState => {
+export const useQaAnswerStore = defineStore('qaAnswerStore', {
+    state: (): State => {
         return {
-            replyNotifyList: [],
+            qaAnswerNotifyList: [],
             page: 1,
             totalPages: null
         }
     },
     getters: {},
     actions: {
-        async loadReplyNotifyList(scroll?: boolean) {
-            let {data: response} = await UseAxiosGetReplyMeNotify(this.page)
+        async loadQaAnswerNotifyList(scroll?: boolean) {
+            let {data: response} = await UseAxiosGetQaAnswerNotify(this.page)
             if (response.code == 0) {
                 if (scroll) {
-                    this.replyNotifyList = this.replyNotifyList
+                    this.qaAnswerNotifyList = this.qaAnswerNotifyList
                         .concat(response.data.content)
                 } else {
-                    this.replyNotifyList = response.data.content
+                    this.qaAnswerNotifyList = response.data.content
                     this.totalPages = response.data.totalPages
                 }
             } else {

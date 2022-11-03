@@ -12,9 +12,15 @@ export interface unreadNotifyI {
 
     unreadNotifyReplyCommentCount: number
 
-    unreadNotifyThumbCount: number
+    ArticleOrCommentThumbCount: number
+
+    QuestionOrAnswerThumbCount: number
 
     unreadNotifyAnswerCount: number
+
+    unreadNotifyAnswerCommentCount: number
+
+    unreadNotifyQuestionCommentCount: number
 
     unreadPrivateMessageCount: number
 

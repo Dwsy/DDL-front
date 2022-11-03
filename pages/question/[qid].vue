@@ -4,6 +4,7 @@
     <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
     <v-row>
       <v-col cols="10">
+        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>
         <v-row>
           <v-col>
             <v-row>
@@ -262,7 +263,7 @@
               </v-col>
             </v-row>
             <template v-for="(answer,index) in answerStore.dataList">
-              <v-row class="mt-4">
+              <v-row class="mt-4" :id="`answerId-${answer.id}`">
                 <v-col cols=1>
                   <client-only>
                     <div class="text-center">
@@ -505,7 +506,7 @@
 <script setup lang="ts">
 import hljs from 'highlight.js'
 import {useQuestionStore} from '~/stores/question/questionStore'
-import {useCookie, useRoute} from '#app'
+import {useCookie, useRoute, useRouter} from '#app'
 import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {onMounted, ref, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
@@ -525,7 +526,9 @@ import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastificati
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 
 const theme = useTheme()
-const questionId = String(useRoute().params.qid)
+const route = useRoute()
+const router = useRouter()
+const questionId = String(route.params.qid)
 const questionStore = useQuestionStore()
 const answerStore = useAnswerStore()
 const responseData = await useFetchGetQuestionField(questionId, true)
@@ -570,6 +573,10 @@ onMounted(async () => {
       await questionStore.changeHighlightStyleLight()
     }
   })
+  // #answerId-1588022587668037632-#test
+  let hash = route.hash.split('+')
+  document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
+
   hljs.highlightAll()
 })
 

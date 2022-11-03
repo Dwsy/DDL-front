@@ -53,8 +53,8 @@
 <script setup lang="ts">
 import {definePageMeta, dateFilter} from '#imports'
 import {onMounted, onUnmounted} from 'vue'
-import {useThumbStore, NotifyType} from '~/stores/messages/thumbStore'
-import {NotifyState} from '~/types/message'
+import {useThumbStore} from '~/stores/messages/thumbStore'
+import {NotifyState, NotifyType} from '~/types/message'
 
 definePageMeta({
   keepalive: false,

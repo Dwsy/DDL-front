@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {errorMsg, successMsg} from '~/composables/utils/toastification'
-import {UseAxiosPostGetThumbMeNotify} from '~/composables/Api/messages/thumb'
-import {NotifyMsg} from '~/types/message'
+import {UseAxiosGetThumbMeNotify} from '~/composables/Api/messages/thumb'
+import {NotifyMsg, NotifyType} from '~/types/message'
 
 
 interface ReplyState {
@@ -21,7 +21,7 @@ export const useThumbStore = defineStore('thumbStore', {
     getters: {},
     actions: {
         async loadThumbNotifyList(scroll?: boolean) {
-            let {data: response} = await UseAxiosPostGetThumbMeNotify(this.page)
+            let {data: response} = await UseAxiosGetThumbMeNotify(this.page)
             if (response.code == 0) {
                 if (scroll) {
                     this.ThumbNotifyList = this.ThumbNotifyList.concat(response.data.content)
@@ -64,13 +64,4 @@ interface ThumbNotify {
     formUserNickname: string
 }
 
-export enum NotifyType {
-    '评论了文章:',
-    '回复了你的评论:',
-    '点赞了你的文章:',
-    '点赞了你的评论:',
-    '提到了你:',
-    '回答了你的问题:',
-    '回复了你的回答:',
-}
 
