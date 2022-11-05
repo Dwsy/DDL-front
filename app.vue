@@ -80,11 +80,9 @@ onMounted(async () => {
   }
   watchEffect(async () => {
     if (theme.global.name.value === 'dark') {
-      // console.log('Dark')
       tocLinkColor.value = '#2e2e2e'
 
     } else {
-      // console.log('light')
       tocLinkColor.value = '#eee'
     }
   })
@@ -105,15 +103,15 @@ if (typeof window === 'undefined') {
 </style>
 
 <style>
-.toc-link::before {
-  background-color: v-bind(tocLinkColor);
-  /*content:' ';*/
-  /*display:inline-block;*/
-  /*height:inherit;*/
-  /*left:0;*/
-  /*margin-top:-1px;*/
-  /*position:absolute;*/
-  width: 4px
-}
+/*.toc-link::before {*/
+/*  background-color: v-bind(tocLinkColor);*/
+/*  !*content:' ';*!*/
+/*  !*display:inline-block;*!*/
+/*  !*height:inherit;*!*/
+/*  !*left:0;*!*/
+/*  !*margin-top:-1px;*!*/
+/*  !*position:absolute;*!*/
+/*  width: 4px*/
+/*}*/
 
 </style>

@@ -57,7 +57,6 @@
 <script setup lang="ts">
 import {definePageMeta, dateFilter} from '#imports'
 import {onActivated, onDeactivated, onMounted, onUnmounted} from 'vue'
-import {useqaAnswerStore} from '~/stores/messages/replyStrore'
 import {useLoadingWin} from '~/composables/useTools'
 import {NotifyState, NotifyType} from '~/types/message'
 import {useQaAnswerStore} from '~/stores/messages/qaAnswerStore'

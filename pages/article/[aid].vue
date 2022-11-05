@@ -7,7 +7,7 @@
     <!--      x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}-->
     <!--    </div>-->
     <v-row class="article-content">
-
+      <v-btn :to="`/article/editor/draft?id=${articleStore.articleField.id}`"></v-btn>
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
         <div class="mt-n8">
           <div>
@@ -595,14 +595,12 @@ useLayout().showFooter = true
 //todo 移动端适配
 let route = useRoute()
 let aid = String(route.params.aid)
-
 const cookieThemeState = useCookie('theme')
 let theme = useTheme()
 let user = useUserStore()
 const router = useRouter()
 let articleStore = useArticleStore()
 let articleCommentStore = useArticleCommentStore()
-const articleStoreCollectKey = 'articleStoreCollect'
 let ArticleField = await useFetchGetArticleField(aid)
 
 
@@ -686,12 +684,9 @@ onMounted(async () => {
     createToc()
     if (route.hash) {
       const el: HTMLElement = document.querySelector(route.hash)
-      // el.style.borderBottom = '5px solid'
       if (el) {
         el.scrollIntoView({
           behavior: 'smooth',
-          // block: 'center',
-          // inline:'center'
         })
       }
     } else {
@@ -1117,6 +1112,18 @@ code ul li {
 
 
 <style>
+
+.toc-link::before {
+  background-color: v-bind('theme.global.name.value === "dark" ? "#2e2e2e" : "#eee"');
+  /*content:' ';*/
+  /*display:inline-block;*/
+  /*height:inherit;*/
+  /*left:0;*/
+  /*margin-top:-1px;*/
+  /*position:absolute;*/
+  width: 4px
+}
+
 .d-tip-error {
   /*background: #fcf1f1 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
@@ -1217,6 +1224,7 @@ code ul li {
 }
 
 </style>
+
 
 <!--<style>-->
 <!--.img-select img {-->
