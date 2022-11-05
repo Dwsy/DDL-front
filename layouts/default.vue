@@ -1,6 +1,6 @@
 <template>
 
-  <v-app>
+  <v-app v-show="show">
 
     <slot name="appbar"></slot>
 
@@ -24,6 +24,11 @@
 </template>
 <script setup lang="ts">
 import {useLayout} from '~~/stores/layout'
+import {onMounted, ref} from 'vue'
 
 let layout = useLayout()
+const show = ref(false)
+onMounted(() => {
+  show.value = true
+})
 </script>

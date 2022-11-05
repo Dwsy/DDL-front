@@ -16,7 +16,7 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
         return {
             qaAnswerNotifyList: [],
             page: 1,
-            totalPages: null
+            totalPages: 0
         }
     },
     getters: {},

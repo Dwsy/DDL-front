@@ -76,7 +76,9 @@
 <script setup lang="ts">
 
 import {reactive} from 'vue'
+import {useTheme} from 'vuetify'
 
+const theme = useTheme()
 let items = reactive([
   {icon: 'mdi-home-outline', text: '文章', link: '/article'},
   {
@@ -118,5 +120,13 @@ let items = reactive([
 </script>
 
 <style scoped>
+
+</style>
+<style>
+.v-navigation-drawer {
+  /*background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCE" : "--v-theme-surface"');*/
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"') !important;
+  backdrop-filter: saturate(150%) blur(10px) !important;
+}
 
 </style>

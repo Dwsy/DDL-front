@@ -1,6 +1,6 @@
 <template>
 
-  <NuxtLayout v-show="show">
+  <NuxtLayout>
     <!--  <NuxtLayout >-->
     <template #appbar>
       <LayoutsAppbar class="d-header"/>
@@ -51,7 +51,7 @@ const cookieThemeState = useCookie('theme')
 const layout = useLayout()
 let tocLinkColor = ref()
 let show = ref(false)
-if (cookieThemeState.value !== undefined) {
+if (cookieThemeState.value !== '') {
   if (cookieThemeState.value === 'dark') {
     layout.switchDarkTheme(theme)
   } else {
@@ -63,12 +63,12 @@ if (cookieThemeState.value !== undefined) {
 // })
 onMounted(async () => {
   // process.env.NODE_ENV !== 'production' && initDomToCode()
-  if (cookieThemeState.value === undefined) {
+  if (cookieThemeState.value === '') {
     document.cookie = `theme=${theme.global.name.value};path=/`
   }
-  show.value = true
+  // show.value = true
   let localToken = window.localStorage.getItem('token')
-  if (localToken !== null && localToken !== '') {
+  if (localToken !== '') {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
     // console.log('user::', user.user)
@@ -100,17 +100,7 @@ if (typeof window === 'undefined') {
 
 
 <style scoped>
-:deep(.v-app-bar.v-toolbar) {
-  /*background-color: rgb(12, 12, 13);*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCC" : "#ffffffaa"');
-  /*color: #000;*/
-}
 
-:deep(.v-navigation-drawer) {
-  /*background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCE" : "--v-theme-surface"');*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"') !important;
-  backdrop-filter: saturate(150%) blur(10px) !important;
-}
 
 </style>
 

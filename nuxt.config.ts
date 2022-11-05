@@ -1,5 +1,6 @@
 console.log(process.env.BASE_URL)
 import {domToCodePlugin} from 'dom-to-code/vite'
+
 export default defineNuxtConfig({
     app: {
         head: {
@@ -60,14 +61,17 @@ export default defineNuxtConfig({
             baseURL: process.env.BASE_URL
         }
     },
+    typescript: {
+        strict: false
+    },
     build: {
-        postcss: {
-            postcssOptions: {
-                plugins: {
-                    autoprefixer: {},
-                },
-            },
-        },
+        // postcss: {
+        //     postcssOptions: {
+        //         plugins: {
+        //             autoprefixer: {},
+        //         },
+        //     },
+        // },
         transpile: ['vuetify', 'vue-toastification'],
     },
 })

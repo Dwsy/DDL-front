@@ -96,4 +96,13 @@ onMounted(async () => {
   position: absolute;
   z-index: 9999
 }
+
+</style>
+
+<style>
+.v-app-bar.v-toolbar {
+  /*background-color: rgb(12, 12, 13);*/
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCC" : "#ffffffaa"');
+  /*color: #000;*/
+}
 </style>
