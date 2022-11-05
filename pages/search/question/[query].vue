@@ -33,7 +33,7 @@
                       <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>
                       {{ content.userNickName }} |
                       <span class="text-subtitle-2">{{ dateFilter(content.createTime, 'YYYY-MM-DD') }}</span>
-                      <nuxt-link v-for="tag in content.tagList" :to="`/article/tag/${tag.id}`">
+                      <nuxt-link v-for="tag in content.tagList" :to="`/question/tag/${tag.id}`">
                   <span class="text-subtitle-2 link"> /
                     {{ tag.name }}
                   </span>
@@ -42,7 +42,7 @@
                   </v-col>
                 </v-row>
                 <v-divider class="mx-3"></v-divider>
-                <v-card target="_blank" :href="`/article/${content.id}`">
+                <v-card target="_blank" :href="`/question/${content.id}`">
                   <v-row>
                     <v-col cols="8">
                       <v-row>
@@ -52,13 +52,6 @@
                         </v-col>
                       </v-row>
                     </v-col>
-                    <v-col offset="2">
-                      <v-img :src="content.banner" transition="slide-y-reverse-transition" max-height="150"
-                             class="my-n3"
-                             :aspect-ratio="1">
-                      </v-img>
-                    </v-col>
-
                   </v-row>
                 </v-card>
               </v-card>
@@ -88,9 +81,10 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
 import {dateFilter, useAxiosGetSearchArticle, useRoute} from '#imports'
-import {ArticleSearchData} from '~/types/search'
+import {useAxiosGetSearchQuestion} from '~/composables/Api/search'
+import {QuestionSearchData} from '~/types/search'
 
-let searchListContent = ref<Array<ArticleSearchData>>()
+let searchListContent = ref<Array<QuestionSearchData>>()
 let Route = useRoute()
 const params = ref({size: 10, page: 1, order: null, properties: null})
 const totalPages = ref(null)
@@ -99,7 +93,7 @@ const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
   document.title = '搜索:' + Route.params.query
-  let {data: searchRet} = await useAxiosGetSearchArticle(Route.params.query, params.value)
+  let {data: searchRet} = await useAxiosGetSearchQuestion(Route.params.query, params.value)
   totalElements.value = searchRet.data.totalElements
   searchListContent.value = searchRet.data.content
   totalPages.value = searchRet.data.totalPages
@@ -109,11 +103,11 @@ onMounted(async () => {
 
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
-  var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
   //滚动条滚动距离
-  var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
   //窗口可视范围高度
-  var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+  let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {
     console.log('loading more')
     await loadingMore()
@@ -134,6 +128,7 @@ const loadingMore = async () => {
 }
 
 </script>
+
 <style scoped>
 :deep(a) {
   text-decoration: none;

@@ -482,21 +482,21 @@ const randomHighlightStyle = (list: Array<string>) => {
 }
 
 const editorTitleInputLabelFontSize = ref('130%')
-onMounted(() => {
-  const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
-  watchEffect(() => {
-  })
-  const observer = new MutationObserver(() => {
-    if (editorTitleInput.classList.contains('v-field--active')) {
-      editorTitleInputLabelFontSize.value = '80%'
-    } else {
-      editorTitleInputLabelFontSize.value = '130%'
-    }
-  })
-  observer.observe(editorTitleInput, {
-    attributes: true
-  })
-})
+// onMounted(() => {
+//   const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
+//   watchEffect(() => {
+//   })
+//   const observer = new MutationObserver(() => {
+//     if (editorTitleInput.classList.contains('v-field--active')) {
+//       editorTitleInputLabelFontSize.value = '80%'
+//     } else {
+//       editorTitleInputLabelFontSize.value = '130%'
+//     }
+//   })
+//   observer.observe(editorTitleInput, {
+//     attributes: true
+//   })
+// })
 
 
 </script>

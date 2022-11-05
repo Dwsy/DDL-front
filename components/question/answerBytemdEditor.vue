@@ -38,7 +38,7 @@ const emit = defineEmits(['changeText'])
 const bytemdZIndex = ref(0)
 const bytemdHeight = ref('calc(100vh - 12rem)')
 
-const appendSend = false
+let appendSend = false
 onMounted(async () => {
   const bytemdElement: Element = document.getElementsByClassName('bytemd')[0]
   let bytemdClassList = ref(bytemdElement.classList)
@@ -46,16 +46,19 @@ onMounted(async () => {
   let observer = new MutationObserver(async (e) => {
     let r = document.querySelector('.bytemd-status-right')
     let btn: HTMLElement = document.querySelector('.d-send-answer')
+
     if (theme.global.name.value === 'dark') {
       let toolbarRightSvgEl: NodeListOf<HTMLElement> = document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
       let fullscreenSvgEl = toolbarRightSvgEl[4]
       fullscreenSvgEl.style.color = '#fff'
     }
+
     if (bytemdElement.classList.contains('bytemd-fullscreen')) {
       bytemdZIndex.value = 9999
       bytemdHeight.value = 'calc(100vh - 4rem)'
       if (!appendSend) {
         btn.style.display = 'inline-block'
+        appendSend = true
         r.append(btn)
       } else {
         btn.style.display = 'inline-block'
@@ -68,7 +71,7 @@ onMounted(async () => {
       if (appendSend) {
         let element = document.querySelector('#answer')
         element.scrollIntoView({
-          behavior: 'auto'
+          // behavior: 'auto'
         })
       }
     }

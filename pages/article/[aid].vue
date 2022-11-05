@@ -892,22 +892,31 @@ onMounted(() => {
     scrollOffset: 0,
   })
   let t
-  window.addEventListener('scroll', () => {
+  const autoOverflow = () => {
     clearTimeout(t)
     t = setTimeout(() => {
       let active = document.querySelector('.is-active-li')
       let listOf = document.querySelectorAll('.toc > div > ol > li')
       let viewCount = active.parentElement.childNodes.length + listOf.length
-      if (viewCount > 20 && active.parentElement !== listOf[0].parentElement) {
+      if (viewCount > 15 && active.parentElement !== listOf[0].parentElement) {
         tocOverflow.value = 'auto'
       } else {
         console.log('listOf[0].scrollIntoView()')
-        listOf[0].scrollIntoView()
+        listOf[0].scrollIntoView({
+          behavior: 'smooth',
+        })
         tocOverflow.value = 'hidden'
+        document.onscroll = null
+        setTimeout(() => {
+          document.onscroll = () => {
+            autoOverflow()
+          }
+        }, 1000)
       }
     }, 900)
-  })
-
+  }
+  // window.addEventListener('scroll', )
+  document.onscroll = autoOverflow
 
 })
 
@@ -1011,11 +1020,11 @@ code ul li {
 :deep(.toc) {
   position: sticky;
   top: 10%;
-  height: 700px;
+  height: 800px;
   font-size: 17px;
   overflow: v-bind(tocOverflow) !important;
   /*overflow: hidden !important;*/
-  overflow-y: auto;
+  /*overflow-y: auto !important;*/
   /*border-style: solid;*/
   /*border-width: 1px;*/
   /*border-color: rgba(136, 136, 136, 0.44);*/

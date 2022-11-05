@@ -167,7 +167,7 @@
                 <v-row class="">
                   <v-col>
                     <client-only>
-                      <v-btn variant="tonal" key="answer" color="#47885e" href="#answer">
+                      <v-btn variant="tonal" key="answer" color="#47885e" @click="scrollIntoAnswer()">
                         <!--                        <v-tooltip activator="parent" location="top">-->
                         <!--                          回答问题-->
                         <!--                        </v-tooltip>-->
@@ -492,7 +492,13 @@
                       自己的经验指引，对解决问题有帮助
                     </p>
                     <p class="card-text mdi">
-                      遵循 Markdown 语法排版，代码语义正确
+                      遵循
+                      <span class="d-markdown-tip">
+                        <a href="/article/1" target="_blank">
+                          Markdown 语法排版
+                        </a>
+                      <v-icon size="x-large" class="mb-1">mdi-language-markdown-outline</v-icon></span>
+                      ，代码语义正确
                     </p>
                   </div>
                   <span class="text-h6 text-red">不该作为回答的</span>
@@ -512,7 +518,7 @@
                   </div>
                   <div class="d-answer-tip-comment">
                     <p class="card-text mdi">
-                      询问细节、提出修改意见时，请使用每条内容下方的“回复”功能
+                      询问细节、提出修改意见时，请使用每条内容下方的<span style="color: #12a9b5">“回复”</span>功能
                     </p>
                   </div>
                 </div>
@@ -757,6 +763,13 @@ const showAnswerWin = async () => {
     behavior: 'smooth'
   })
 }
+
+const scrollIntoAnswer = () => {
+  let element = document.querySelector('#answer')
+  element.scrollIntoView({
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <style scoped>
@@ -934,6 +947,12 @@ const showAnswerWin = async () => {
 
 .d-tip > p:not(:first-child) {
   margin-left: 22px;
+}
+
+.d-markdown-tip {
+  border-bottom-color: #c2185b;
+  border-bottom-width: 2px;
+  border-bottom-style: dotted;
 }
 
 </style>

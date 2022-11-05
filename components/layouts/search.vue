@@ -2,30 +2,59 @@
 
   <div>
     <v-autocomplete v-model="model" v-model:search="text" :items="sug" :loading="isLoading" @keyup.enter="query"
-      hide-no-data flat clearable hide-details rounded hide-selected item-title="Description" item-value="API"
-      label="搜索" placeholder="Search" prepend-inner-icon="mdi-magnify" return-object></v-autocomplete>
+                    hide-no-data flat clearable hide-details rounded hide-selected item-title="Description"
+                    item-value="API" variant="filled"
+                    :label="searchLabelText" placeholder="Search" prepend-inner-icon="mdi-magnify"
+                    return-object></v-autocomplete>
   </div>
 
 </template>
 <script setup>
-import {onMounted, ref, watch} from 'vue'
-import {useRouter} from '#app'
-import {useFetchGetSearchSuggestion} from '~/composables/Api/search'
-let Router = useRouter()
-let model = ref(null)
-let text = ref('')
-let sug = ref(null)
-let isLoading = ref(false)
+import {onMounted, ref, watch, watchEffect} from 'vue'
+import {useRoute, useRouter} from '#app'
+import {useAxiosGetArticleSearchSuggestion, useAxiosGetQuestionSearchSuggestion} from '~/composables/Api/search'
+
+const Router = useRouter()
+const route = useRoute()
+const model = ref(null)
+const text = ref('')
+const sug = ref(null)
+const searchLabelText = ref('')
+
+const searchType = ref()
+const isLoading = ref(false)
+onMounted(async () => {
+  watchEffect(() => {
+    if (route.path.startsWith('/article')) {
+      searchType.value = 'article'
+      searchLabelText.value = '搜索文章'
+    } else {
+      searchType.value = 'question'
+      searchLabelText.value = '搜索问题'
+    }
+  })
+  watch(text, async () => {
+    await debounceAjax(suggestion)
+  }, {immediate: true, deep: true})
+})
 const suggestion = async () => {
   if (text.value === '') {
     return
   }
   isLoading.value = true
-  sug.value = (await useFetchGetSearchSuggestion(text.value)).data
+  if (searchType.value === 'article') {
+    sug.value = (await useAxiosGetArticleSearchSuggestion(text.value)).data.data
+  } else if (searchType.value === 'question') {
+    sug.value = (await useAxiosGetQuestionSearchSuggestion(text.value)).data.data
+  }
   isLoading.value = false
 }
 const query = () => {
-  Router.push("/search/article/" + text.value)
+  if (searchType.value === 'article') {
+    Router.push('/search/article/' + text.value)
+  } else if (searchType.value === 'question') {
+    Router.push('/search/question/' + text.value)
+  }
 }
 const debounce = (fun, delay) => {
   return function (args) {
@@ -38,10 +67,6 @@ const debounce = (fun, delay) => {
   }
 }
 let debounceAjax = debounce(suggestion, 800)
-onMounted(() => {
-  watch(text, async () => {
-    await debounceAjax(suggestion)
-  }, { immediate: true, deep: true })
-})
+
 </script>
 
