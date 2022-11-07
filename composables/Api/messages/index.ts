@@ -2,9 +2,7 @@ import {useGet} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 
 export const useAxiosGetUnreadMessageCount = (type: CountType) => {
-    return useGet<ResponseData<unreadNotifyI>>('message/notify/unread', {
-        type
-    })
+    return useGet<ResponseData<unreadNotifyI>>('message/notify/unread', {type},true)
 }
 
 export interface unreadNotifyI {
