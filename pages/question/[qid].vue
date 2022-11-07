@@ -10,8 +10,9 @@
             <v-row>
               <v-col cols=1>
                 <client-only>
-                  <div class="text-center" style="margin-top: 90px">
+                  <div class="text-center d-question-aside">
                     <v-btn icon="true" elevation="0"
+                           variant="plain"
                            @click="answerStore.action({
                            answerType: AnswerType.up,
                            questionFieldId: questionId,
@@ -28,6 +29,7 @@
 
                     <p> {{ questionStore.filed.upNum - questionStore.filed.downNum }}</p>
                     <v-btn icon="true" elevation="0"
+                           variant="plain"
                            @click="answerStore.action({
                            answerType: AnswerType.down,
                            questionFieldId: questionId,
@@ -281,8 +283,9 @@
               <v-row class="mt-4" :id="`answerId-${answer.id}`">
                 <v-col cols=1>
                   <client-only>
-                    <div class="text-center">
+                    <div class="text-center d-answer-aside">
                       <v-btn icon="true" elevation="0"
+                             variant="plain"
                              @click="answerStore.action({
                              answerType: AnswerType.up,
                              questionFieldId: questionId,
@@ -298,6 +301,7 @@
                       <!--                      {{ answer.userAction }}-->
                       <p> {{ answer.upNum - answer.downNum }}</p>
                       <v-btn icon="true" elevation="0"
+                             variant="plain"
                              @click="answerStore.action({
                              answerType: AnswerType.down,
                              questionFieldId: questionId,
@@ -574,7 +578,6 @@
         </v-dialog>
       </client-only>
     </v-row>
-
   </div>
 </template>
 
@@ -955,4 +958,16 @@ const scrollIntoAnswer = () => {
   border-bottom-style: dotted;
 }
 
+</style>
+
+<style>
+.d-question-aside {
+  position: sticky;
+  top: 17%;
+}
+
+.d-answer-aside {
+  position: sticky;
+  top: 12%;
+}
 </style>

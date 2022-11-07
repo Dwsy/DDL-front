@@ -208,17 +208,6 @@
 
       <!--      box-width="720"-->
     </v-row>
-    <ImgCutter @cutDown="cutDown" rate="8:3"
-               :original-graph="true"
-               :boxWidth="1200" :boxHeight="450"
-    >
-      <template #open>
-        <v-btn style="display: none"
-               class="CutterBtn">
-          CutterBtn
-        </v-btn>
-      </template>
-    </ImgCutter>
     <BytemdEditor :content="content" @change-text="changeText">test</BytemdEditor>
   </div>
 </template>
