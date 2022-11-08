@@ -149,10 +149,71 @@
                       <span style="color: white">关注</span>
                     </v-btn>
                   </template>
-                  <v-btn v-else class="float-right" variant="outlined" color="#c42161"
-                         :href="`/question/ask?id=${questionId}`" target="_blank">
-                    重新编辑
-                  </v-btn>
+                  <div v-else class="float-right">
+                    <v-dialog v-model="invitationAnswer">
+                      <template v-slot:activator="{ props }">
+                        <v-btn variant="outlined" color="primary"
+                               v-bind="props"
+                        >
+                          邀请回答
+                        </v-btn>
+                      </template>
+
+                      <v-card width="40%" class="mx-auto">
+                        <v-card-title>邀请回答</v-card-title>
+
+                        <v-row>
+                          <v-col>
+                            <v-text-field prepend-icon="mdi-account-search-outline"
+                                          v-model="invitationSearchText" class="mx-4">
+                            </v-text-field>
+
+                          </v-col>
+                          <v-col>
+                            <v-btn @click="searchInvitationUser(invitationSearchText)">搜索</v-btn>
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <v-list v-for="u in invitationFollowingUserList" v-if="!invitationSearchText">
+                              <v-list-item>
+                                <v-avatar>
+                                  <v-img :src="u.userInfo.avatar"></v-img>
+                                </v-avatar>
+                                <span class="mx-3" v-text="u.nickname"></span>
+                                <v-btn variant="tonal" color="red" class="float-right">
+                                  邀请
+                                </v-btn>
+                              </v-list-item>
+                              <v-divider></v-divider>
+                            </v-list>
+                            <v-list v-for="u in invitationSearchUserList" v-else>
+                              <v-list-item>
+                                <v-avatar>
+                                  <v-img :src="u.avatar"></v-img>
+                                </v-avatar>
+                                <span class="mx-3" v-text="u.userNickName"></span>
+                                <v-btn variant="tonal" color="red" class="float-right">
+                                  邀请
+                                </v-btn>
+                              </v-list-item>
+                              <v-divider></v-divider>
+                            </v-list>
+                          </v-col>
+                        </v-row>
+                        <v-card-actions class="text-end">
+                          <v-btn color="primary" @click="invitationAnswer = false">邀请</v-btn>
+                          <v-btn color="primary" @click="invitationAnswer = false">关闭</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+
+                    <v-btn class="" variant="outlined" color="#c42161"
+                           :href="`/question/ask?id=${questionId}`" target="_blank">
+                      重新编辑
+                    </v-btn>
+                  </div>
+
                 </div>
 
                 <div class="markdown-body question-content" v-html="questionStore.content" v-hljs></div>
@@ -236,7 +297,7 @@
 
                     </client-only>
                     <!--                    {{ questionStore.filed }}-->
-                    <v-divider class="my-2"></v-divider>
+                    <!--                    <v-divider class="my-2"></v-divider>-->
 
 
                     <v-card v-if="questionStore.filed.questionCommentList.length>0" class="pa-5 mt-2"
@@ -263,14 +324,13 @@
                         <v-divider class="mt-1"></v-divider>
                       </template>
                     </v-card>
-
                   </v-col>
 
                 </v-row>
                 <v-divider class="my-3"></v-divider>
 
                 <div>
-                  <div class="pa-2 text-h6">
+                  <div class="pa-2 text-h6 answerNum">
                     {{ questionStore.filed.answerNum }}个回答
                   </div>
                 </div>
@@ -443,11 +503,20 @@
                         </template>
                       </v-card>
                     </v-card>
-
                   </client-only>
                 </v-col>
               </v-row>
             </template>
+            <v-row>
+              <v-col>
+                <v-pagination v-model="answerStore.pageParam.page"
+                              rounded="circle"
+                              class="my-4"
+                              @update:modelValue="answerStore.loadAnswer(questionId,true)"
+                              :length="answerStore.totalPages">
+                </v-pagination>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col offset="1">
                 <v-divider class="my-4"></v-divider>
@@ -592,7 +661,7 @@ import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
 import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
-import {AnswerType, User} from '~/types/question/answer'
+import {AnswerType, User, User0} from '~/types/question/answer'
 import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
@@ -601,9 +670,11 @@ import {
 } from '~/composables/Api/article'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
-import {followUser, unFollowUser} from '~/composables/Api/user/following'
+import {followUser, unFollowUser, useAxiosGetFollowingList} from '~/composables/Api/user/following'
 import {useLayout} from '~/stores/layout'
 import {useUserStore} from '~/stores/user'
+import {useGet} from '~/composables/useAxios'
+import {ResponseData} from '~/types/utils/axios'
 
 const theme = useTheme()
 const route = useRoute()
@@ -616,6 +687,7 @@ const responseData = await useFetchGetQuestionField(questionId, true)
 const content = ref('')
 const replyCommentText = ref('')
 const commentDialog = ref(false)
+
 const changeText = async (text) => {
   content.value = text
 }
@@ -624,6 +696,11 @@ const commentParentAnswerId = ref('')
 const commentCommentId = ref(0)
 const commentAnswerType = ref<AnswerType>()
 const collectionDialog = ref(false)
+const invitationSearchText = ref()
+
+const invitationSearchUserList = ref<User0 []>()
+const invitationFollowingUserList = ref<User0 []>()
+const invitationAnswer = ref()
 let layout = useLayout()
 layout.showFooter = true
 if (responseData.code === 0) {
@@ -661,7 +738,16 @@ onMounted(async () => {
     let hash = h.split('+')
     document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
   }
-
+  watch(invitationAnswer, async (val) => {
+    if (val) {
+      const {data: response} = await useAxiosGetFollowingList()
+      if (response.code === 0) {
+        invitationFollowingUserList.value = response.data.content
+      } else {
+        warningMsg(response.msg)
+      }
+    }
+  })
 })
 
 
@@ -767,6 +853,20 @@ const showAnswerWin = async () => {
   })
 }
 
+const searchInvitationUser = async (query: string) => {
+  console.log(query)
+  const {data: axiosResponse} = await useGet<ResponseData<User[]>>(
+      `search/user/${query}`, {
+        page: 1
+      }
+  )
+  if (axiosResponse.code === 0) {
+    invitationSearchUserList.value = axiosResponse.data.content
+  } else {
+    warningMsg(axiosResponse.msg)
+  }
+}
+
 const scrollIntoAnswer = () => {
   let element = document.querySelector('#answer')
   element.scrollIntoView({
@@ -774,6 +874,7 @@ const scrollIntoAnswer = () => {
   })
 }
 </script>
+
 
 <style scoped>
 :deep(.markdown-body pre code ul li:before) {

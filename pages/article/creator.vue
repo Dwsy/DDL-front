@@ -8,7 +8,7 @@
             <v-avatar size=80>
               <v-img :src="userStore?.userInfo?.avatar"></v-img>
             </v-avatar>
-            <span class="text-h6 pl-4">{{ userStore.user.nickname }}</span>
+            <span class="text-h6 pl-4">{{ userStore.user?.nickname }}</span>
           </div>
           <v-divider class="mt-1"></v-divider>
 

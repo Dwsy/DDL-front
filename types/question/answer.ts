@@ -32,6 +32,12 @@ export interface User {
     following: boolean;
 }
 
+export interface User0 extends User {
+    userNickName: string
+    avatar: string;
+}
+
+
 export interface ChildQaAnswers {
     id: string;
     deleted: boolean;

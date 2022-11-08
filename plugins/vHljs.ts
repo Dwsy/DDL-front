@@ -12,9 +12,9 @@ export default defineNuxtPlugin((nuxtApp) => {
             const CodeNodeList: NodeListOf<HTMLElement> = el.querySelectorAll('pre code')
             // console.log('CodeNodeList', CodeNodeList)
             const CodeLength = CodeNodeList.length
-            CodeNodeList.forEach((line, i) => {
-                line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
-            })
+            // CodeNodeList.forEach((line, i) => {
+            //     line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
+            // })
             if (CodeLength > 30) {
                 for (let i = 0; i < 15; i++) {
                     renderCode(CodeNodeList[i])

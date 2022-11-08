@@ -140,6 +140,7 @@
                   <v-menu location="bottom" nudge-bottom>
                     <template v-slot:activator="{ props }">
                       <v-btn
+                          class="d-article-comment-oder-btn"
                           color="info"
                           v-bind="props"
                           prepend-icon="mdi-menu"
@@ -412,7 +413,7 @@
       </v-col>
     </v-row>
     <!--    https://vuetifyjs.com/zh-Hans/components/floating-action-buttons/#section-5c0f578b630994ae-->
-    <!--    <v-speed-dial></v-speed-dial> todo 移动端要这个效果但是vuetify3还没这个组件-->
+    <!--        <v-speed-dial></v-speed-dial> todo 移动端要这个效果但是vuetify3还没这个组件-->
     <!-- todo 数字显 太长到话转换为文本w万啥到 如果这么大到数据到话。。-->
     <!--    侧边按钮-->
     <client-only>
@@ -713,7 +714,7 @@ onMounted(async () => {
 
   watch(toRef(articleCommentStore, 'page'), async (page) => {
     await articleCommentStore.loadComment(page)
-    const el = document.querySelector('#comments')
+    const el = document.querySelector('.d-article-comment-oder-btn')
     el.scrollIntoView()
   })
 })
@@ -915,39 +916,7 @@ onMounted(() => {
 </script>
 
 <style>
-/*.d-code-copy {*/
-/*  position: absolute;*/
-/*  top: 10%;*/
-/*  left: 95%;*/
-/*}*/
 
-.d-code-copy {
-  /*position: absolute;*/
-  /*top: 40px;*/
-  /*left: 95%;*/
-  float: right;
-  margin-right: 20px;
-}
-
-code ul li {
-  list-style-type: none !important;
-}
-
-/*修改行号列样式*/
-.hljs-ln-numbers {
-  text-align: center;
-  color: #ccc;
-  border-right: 1px solid #CCC;
-  vertical-align: top;
-  padding-right: 5px !important;
-
-  /* your custom style here */
-}
-
-/* 修改代码列样式 */
-.hljs-ln-code {
-  padding-left: 5px !important;
-}
 </style>
 
 <style lang="sass" scoped>

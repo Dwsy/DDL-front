@@ -414,18 +414,18 @@ const updateQuestion = async () => {
   // })
   console.log(questionTagIds.value)
   let body: CreateQuestionBody = {
-    allow_answer: true,
+    // allow_answer: true,
     questionGroupId: questionGroupId.value,
+    questionId: questionId.value,
+    // questionState: '',
     questionTagIds: Array.from(questionTagIds.value),
     content: content.value,
     summary: summary.value,
     title: title.value,
-    codeHighlightStyleDark: darkHighlightStyle.value,
-    questionId: questionId.value,
-    questionState: undefined,
     codeHighlightStyle: highlightStyle.value,
+    codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
-    markDownThemeDark: darkThemeName.value
+    markDownThemeDark: darkThemeName.value,
   }
   const {data: axiosResponse} = await useAxiosPutUpdateAskQuestion(body)
   if (axiosResponse.code === 0) {

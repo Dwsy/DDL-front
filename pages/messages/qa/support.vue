@@ -5,7 +5,6 @@
 
         <v-tabs
             v-model="tab"
-            bg-color="primary"
         >
           <v-tab value="all">全部</v-tab>
           <v-tab value="question">问题支持</v-tab>

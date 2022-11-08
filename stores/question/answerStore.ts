@@ -11,6 +11,7 @@ import {AnswerData, AnswerType} from '~/types/question/answer'
 import {customMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {TYPE} from 'vue-toastification/src/ts/constants'
+import {nextTick} from 'vue'
 
 interface AnswerStore {
     pageParam: PageParam
@@ -36,7 +37,7 @@ export const useAnswerStore = defineStore('AnswerStore', {
     ),
     actions: {
 
-        async loadAnswer(questionId: string, Param?: PageParam) {
+        async loadAnswer(questionId: string, change?: boolean, Param?: PageParam) {
             this.loadingAnswer = true
             if (Param) {
                 this.pageParam = Param
@@ -44,7 +45,12 @@ export const useAnswerStore = defineStore('AnswerStore', {
             const {data: axiosResponse} = await useAxiosGetQuestionAnswerPageList(questionId, this.pageParam)
             if (axiosResponse.code === 0) {
                 this.dataList = axiosResponse.data.content
+                this.totalPages = axiosResponse.data.totalPages
                 this.loadingAnswer = false
+                if (change) {
+                    await nextTick()
+                    document.querySelector('.answerNum').scrollIntoView({behavior: 'smooth'})
+                }
             } else {
                 warningMsg(axiosResponse.msg)
             }

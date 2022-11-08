@@ -25,7 +25,7 @@ export const useAxiosPostAskQuestion = (body: CreateQuestionBody) => {
 }
 
 export const useAxiosPutUpdateAskQuestion = (body: CreateQuestionBody) => {
-    return usePut<ResponseData<any>>('article/article', body)
+    return usePut<ResponseData<any>>('qa/question', body)
 }
 
 

@@ -91,7 +91,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     childComment.replyCommentText = ref('')
                 })
                 const el = document.querySelector(`#comment-${pid}`)
-                el.scrollIntoView()
+
+                el.scrollIntoView({behavior: 'auto'})
             }
         },
 
