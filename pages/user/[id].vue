@@ -25,7 +25,7 @@
             </v-col>
             <v-col>
               <div class="mx-6 mt-6  text-end">
-                <v-btn to="/user/settings" v-if="useUserStore().user.id===uid">
+                <v-btn to="/user/settings" v-if="userStore.user?.id===uid">
                   <div>编辑个人资料</div>
                 </v-btn>
                 <div v-else>

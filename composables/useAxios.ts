@@ -82,11 +82,12 @@ Axios.interceptors.response.use(
 )
 
 
-export const useGet = async <T>(url: string, params?: object,needToken?:boolean) => {
+export const useGet = async <T>(url: string, params?: object, needToken?: boolean) => {
     const token = useUserStore().token
-    if(needToken){
-        if(token.length<0)
-        return
+    if (needToken) {
+        if (token == null) {
+            return null
+        }
     }
     let r: AxiosResponse<T> = undefined
     try {

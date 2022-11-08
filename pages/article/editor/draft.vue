@@ -391,7 +391,7 @@ onMounted(async () => {
         })
       } else if (ArticleFieldResponse.code === 0) {
         articleFieldData.value = ArticleFieldResponse.data
-        if (articleFieldData?.value.user.id !== userStore?.user.id) {
+        if (articleFieldData?.value.user.id !== userStore.user?.id) {
           // await clearError({redirect: '/'})
           throw createError({
             statusCode: 401,

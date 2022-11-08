@@ -47,12 +47,14 @@ export const useLayout = defineStore('layout', {
             // document.cookie = `theme=${theme.global.name.value};path=/;max-age=31536000`
         },
         async getUnreadCount() {
-            const {data: axiosResponse} = await useAxiosGetUnreadMessageCount(CountType.All)
-
-            if (axiosResponse.code == 0) {
-                this.unReadNotifyCount = axiosResponse.data.unreadNotifyCount
+            const response = await useAxiosGetUnreadMessageCount(CountType.All)
+            if (response == null) {
+                return
+            }
+            if (response.data.code == 0) {
+                this.unReadNotifyCount = response.data.data.unreadNotifyCount
             } else {
-                warningMsg('获取未读消息数量失败')
+                console.log(response.data.msg)
             }
         }
         // setThemeDark(){

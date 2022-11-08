@@ -2,16 +2,10 @@
   <div class="v-container abc" v-if="ArticleField.data">
     <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
     <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
-    <!--    <Style id="test" type="text/css" :children="HighlightStyle"/>-->
-    <!--    <div class="katex">-->
-    <!--      x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}-->
-    <!--    </div>-->
     <v-row class="article-content">
-      <v-btn :to="`/article/editor/draft?id=${articleStore.articleField.id}`"></v-btn>
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
         <div class="mt-n8">
           <div>
-
             <v-row class="mb-1">
               <v-col>
               <span class="text-h3" id="T-title">
@@ -41,8 +35,10 @@
                     <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                   </v-col>
                 </v-row>
+
+
               </v-col>
-              <v-col class="mt-2" v-if="user.user.id!==articleStore.articleField.user.id">
+              <v-col class="mt-2" v-if="user.user?.id!==articleStore.articleField.user.id">
 
                 <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
                   <span style="color: white" @click="unsubscribe()">已关注</span>
@@ -616,9 +612,9 @@ if (ArticleField.data == undefined) {
   // })
 }
 // console.log('title', ArticleField.data.title)
-// useHead({
-//   title: ArticleField.data.title || '加载中...'
-// })
+useHead({
+  title: ArticleField.data.title || '加载中...'
+})
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 
@@ -630,17 +626,17 @@ const gotoTitle = ref(false)
 const message = ref('')
 // const showMessage = ref(false)
 const getMarkdownThemeName = () => {
-  if (cookieThemeState.value === 'light') {
-    return ArticleField.data?.markDownTheme || 'geekBlack'
+  if (cookieThemeState.value === 'dark') {
+    return ArticleField.data?.markDownThemeDark
   } else {
-    return ArticleField.data?.markDownThemeDark || 'geekBlackDark'
+    return ArticleField.data?.markDownTheme
   }
 }
 const getHighlightStyleName = () => {
-  if (cookieThemeState.value === 'light') {
-    return ArticleField.data?.codeHighlightStyle || 'xcode'
+  if (cookieThemeState.value === 'dark') {
+    return ArticleField.data?.codeHighlightStyleDark
   } else {
-    return ArticleField.data?.codeHighlightStyleDark || 'monokai'
+    return ArticleField.data?.codeHighlightStyle
   }
 }
 
@@ -896,7 +892,6 @@ onMounted(() => {
       if (viewCount > 15 && active.parentElement !== listOf[0].parentElement) {
         tocOverflow.value = 'auto'
       } else {
-        console.log('listOf[0].scrollIntoView()')
         listOf[0].scrollIntoView({
           behavior: 'smooth',
         })
@@ -911,7 +906,9 @@ onMounted(() => {
     }, 900)
   }
   // window.addEventListener('scroll', )
-  document.onscroll = autoOverflow
+  if (document.documentElement.clientWidth > 1280)
+    document.onscroll = autoOverflow
+
 
 })
 

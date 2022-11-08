@@ -43,6 +43,7 @@ import CryptoJS from 'crypto-js'
 import {rsaEncrypt} from '~/composables/useTools'
 import {onMounted, ref} from 'vue'
 import {definePageMeta, useGet, usePost, useRouter} from '#imports'
+import {ResponseData} from '~/types/utils/axios'
 
 // definePageMeta({ keepalive: {}, })
 const valid = ref(null)

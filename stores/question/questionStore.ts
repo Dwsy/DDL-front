@@ -38,17 +38,17 @@ export const useQuestionStore = defineStore('QuestionStore', {
             this.codeHighlightStyleLight = this.filed.codeHighlightStyle
         },
         getHighlightStyleName() {
-            if (this.cookieThemeState === 'light') {
-                return this.filed.codeHighlightStyle || 'xcode'
+            if (this.cookieThemeState === 'dark') {
+                return this.filed.codeHighlightStyleDark
             } else {
-                return this.filed.codeHighlightStyleDark || 'monokai'
+                return this.filed.codeHighlightStyle
             }
         },
         getMarkdownThemeName() {
-            if (this.cookieThemeState === 'light') {
-                return this.filed.markDownTheme || 'geekBlack'
+            if (this.cookieThemeState === 'dark') {
+                return this.filed.markDownThemeDark
             } else {
-                return this.filed.markDownThemeDark || 'geekBlackDark'
+                return this.filed.markDownTheme
             }
         },
         async changeThemeDark() {

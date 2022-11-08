@@ -309,7 +309,7 @@ onMounted(async () => {
         })
       } else if (questionFieldResponse.code === 0) {
         questionFieldData.value = questionFieldResponse.data
-        if (questionFieldData?.value.user.id !== userStore?.user.id) {
+        if (questionFieldData?.value.user.id !== userStore.user.id) {
           throw createError({
             statusCode: 401,
             statusMessage: 'Unauthorized',

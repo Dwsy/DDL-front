@@ -32,12 +32,7 @@ export const useUserStore = defineStore('user', {
     state: (): user => {
         return {
             IsLogin: ref<boolean>(false),
-            user: {
-                id: '',
-                username: '',
-                nickname: '',
-                // level: 0
-            },
+            user: null,
             token: ref<string>(''),
             userInfo: null
         }
@@ -52,7 +47,8 @@ export const useUserStore = defineStore('user', {
         setUser(user: any) {
             // console.log('setUser:', user)
             // console.log('setUserType:', typeof user)
-            this.user = user
+            if (user != null)
+                this.user = user
         },
         async getUserInfo(refresh = false) {
             console.log('getUserInfo', this.userInfo === null)

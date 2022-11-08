@@ -29,8 +29,8 @@
           </v-btn>
 
           <nuxt-link to="/messages">
-            <v-badge :model-value="layout.unReadNotifyCount>0" offset-y="10" offset-x="5"
-                     :content="layout.unReadNotifyCount" color="red">
+            <v-badge :model-value="layout?.unReadNotifyCount>0" offset-y="10" offset-x="5"
+                     :content="layout?.unReadNotifyCount" color="red">
               <v-btn>
                 <v-icon>mdi-message-text-outline</v-icon>
               </v-btn>
@@ -42,7 +42,7 @@
             <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
           </v-btn>
 
-          <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user.id}`">
+          <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
             <v-avatar size="small">
               <v-img :src="userStore.userInfo?.avatar"></v-img>
             </v-avatar>
@@ -101,8 +101,7 @@ onMounted(async () => {
 
 <style>
 .v-app-bar.v-toolbar {
-  /*background-color: rgb(12, 12, 13);*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCC" : "#ffffffaa"');
+  background-color: v-bind('theme.global.name.value === "dark" ? "#000000ab" : "#ffffffaa"');
   /*color: #000;*/
 }
 </style>

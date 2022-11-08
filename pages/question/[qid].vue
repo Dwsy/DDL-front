@@ -140,7 +140,7 @@
                   <span class="ml-4">修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span>
-                  <template v-if="questionStore.filed.user.id!==userStore.user.id">
+                  <template v-if="questionStore.filed.user.id!==userStore.user?.id">
                     <v-btn v-if="questionStore.follow" class="float-end mx-4" color="pink lighten-3">
                       <span style="color: white" @click="unsubscribe()">已关注</span>
                     </v-btn>
