@@ -1,3 +1,5 @@
+import {User} from '~/types/user'
+
 export interface articleListData {
     banner: string;
     summary: string;
@@ -14,21 +16,6 @@ export interface articleListData {
     commentNum: number
 }
 
-export interface UserInfo {
-    avatarNew?: string
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth?: any;
-}
-
-export interface User {
-    id: string;
-    nickname: string;
-    userInfo: UserInfo;
-    level: number;
-}
 
 export interface ArticleTag {
     id: string;

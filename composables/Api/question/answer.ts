@@ -5,11 +5,15 @@ import {PageParam} from '~/types/common'
 import {AnswerType} from '~/types/question/answer'
 
 export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: PageParam) => {
-    return useGet<ResponseData<any>>(`/qa/answer/${questionId}`, param)
+    return useGet<ResponseData<any>>(`qa/answer/${questionId}`, param)
 }
 
 export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {
-    return usePost<ResponseData<string>>('/qa/answer', body)
+    return usePost<ResponseData<string>>('qa/answer', body)
+}
+
+export const userAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {
+    return usePost<ResponseData<any>>('qa/answer/invitation', body)
 }
 
 export interface AnswerQuestionRB {
@@ -22,7 +26,7 @@ export interface AnswerQuestionRB {
 }
 
 export const useAxiosPostQaAction = (body: QaActionRB) => {
-    return usePost<ResponseData<AnswerType>>('/qa/answer/action', body)
+    return usePost<ResponseData<AnswerType>>('qa/answer/action', body)
 }
 
 export interface QaActionRB {
@@ -32,5 +36,10 @@ export interface QaActionRB {
     questionFieldId: string;
 }
 
+export interface InvitationUserAnswerQuestionRB {
+    questionId: string
+    userId: string
+    cancel: boolean
+}
 
 

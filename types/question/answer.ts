@@ -1,40 +1,11 @@
-export interface UserInfo {
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth: number;
-    level: number;
-}
+import {User} from '~/types/user'
 
-export interface User {
-    id: string;
-    nickname: string;
-    userInfo: UserInfo;
-    level: number;
-    following: boolean;
-}
-
-export interface UserInfo {
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth: number;
-    level: number;
-}
-
-export interface User {
-    id: string;
-    nickname: string;
-    userInfo: UserInfo;
-    level: number;
-    following: boolean;
-}
 
 export interface User0 extends User {
     userNickName: string
     avatar: string;
+    userId: string
+    invited: boolean
 }
 
 

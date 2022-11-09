@@ -140,75 +140,116 @@
                   <span class="ml-4">修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span>
-                  <template v-if="questionStore.filed.user.id!==userStore.user?.id">
-                    <v-btn v-if="questionStore.follow" class="float-end mx-4" color="pink lighten-3">
-                      <span style="color: white" @click="unsubscribe()">已关注</span>
-                    </v-btn>
-                    <v-btn v-else class="float-end mx-4" color="blue lighten-3"
-                           @click="subscribe()">
-                      <span style="color: white">关注</span>
-                    </v-btn>
-                  </template>
-                  <div v-else class="float-right">
-                    <v-dialog v-model="invitationAnswer">
-                      <template v-slot:activator="{ props }">
-                        <v-btn variant="outlined" color="primary"
-                               v-bind="props"
-                        >
-                          邀请回答
-                        </v-btn>
-                      </template>
+                  <div class="float-right">
+                    <client-only>
+                      <v-dialog v-model="invitationAnswer">
+                        <template v-slot:activator="{ props }">
+                          <v-btn variant="outlined" color="primary"
+                                 v-bind="props"
+                          >
+                            邀请回答
+                          </v-btn>
+                        </template>
 
-                      <v-card width="40%" class="mx-auto">
-                        <v-card-title>邀请回答</v-card-title>
+                        <v-card width="40%" class="mx-auto">
+                          <v-card-title>邀请回答</v-card-title>
 
-                        <v-row>
-                          <v-col>
-                            <v-text-field prepend-icon="mdi-account-search-outline"
-                                          v-model="invitationSearchText" class="mx-4">
-                            </v-text-field>
+                          <v-row v-show="invitationTab==='search'">
+                            <v-col>
+                              <v-text-field append-inner-icon="mdi-magnify" single-line label="搜索用户"
+                                            @click:append-inner="searchInvitationUser(invitationSearchText)"
+                                            v-model="invitationSearchText" class="mx-4">
+                              </v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col>
+                              <v-card>
+                                <v-tabs
+                                    v-model="invitationTab"
+                                >
+                                  <v-tab value="following">关注</v-tab>
+                                  <v-tab value="recommended">推荐</v-tab>
+                                  <v-tab value="search">搜索</v-tab>
+                                </v-tabs>
 
-                          </v-col>
-                          <v-col>
-                            <v-btn @click="searchInvitationUser(invitationSearchText)">搜索</v-btn>
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col>
-                            <v-list v-for="u in invitationFollowingUserList" v-if="!invitationSearchText">
-                              <v-list-item>
-                                <v-avatar>
-                                  <v-img :src="u.userInfo.avatar"></v-img>
-                                </v-avatar>
-                                <span class="mx-3" v-text="u.nickname"></span>
-                                <v-btn variant="tonal" color="red" class="float-right">
-                                  邀请
-                                </v-btn>
-                              </v-list-item>
-                              <v-divider></v-divider>
-                            </v-list>
-                            <v-list v-for="u in invitationSearchUserList" v-else>
-                              <v-list-item>
-                                <v-avatar>
-                                  <v-img :src="u.avatar"></v-img>
-                                </v-avatar>
-                                <span class="mx-3" v-text="u.userNickName"></span>
-                                <v-btn variant="tonal" color="red" class="float-right">
-                                  邀请
-                                </v-btn>
-                              </v-list-item>
-                              <v-divider></v-divider>
-                            </v-list>
-                          </v-col>
-                        </v-row>
-                        <v-card-actions class="text-end">
-                          <v-btn color="primary" @click="invitationAnswer = false">邀请</v-btn>
-                          <v-btn color="primary" @click="invitationAnswer = false">关闭</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
+                                <v-card-text>
+                                  <v-window v-model="invitationTab">
+                                    <v-window-item value="following">
+                                      <v-list v-for="(u,index) in invitationFollowingUserList">
+                                        <v-list-item>
+                                          <v-avatar>
+                                            <v-img :src="u.userInfo.avatar"></v-img>
+                                          </v-avatar>
+                                          <span class="mx-3" v-text="u.nickname"></span>
+                                          <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
+                                                 @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:false},index)">
+                                            邀请 {{ u.id }}
+                                          </v-btn>
+                                          <template v-else>
+                                            <v-btn variant="tonal" color="#3eb370"
+                                                   class="d-invited float-right"
+                                                   @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:true},index)">
+                                              取消邀请{{ u.userId }}
+                                            </v-btn>
+                                          </template>
+                                        </v-list-item>
+                                        <v-divider></v-divider>
+                                      </v-list>
+                                    </v-window-item>
 
-                    <v-btn class="" variant="outlined" color="#c42161"
+                                    <v-window-item value="recommended">
+                                      推荐用户
+                                    </v-window-item>
+
+                                    <v-window-item value="search">
+                                      <v-list v-for="(u,index) in invitationSearchUserList">
+                                        <v-list-item>
+                                          <v-avatar>
+                                            <v-img :src="u.avatar"></v-img>
+                                          </v-avatar>
+                                          <span class="mx-3" v-text="u.userNickName"></span>
+                                          <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
+                                                 @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.userId,cancel:false},index)">
+                                            邀请{{ u.userId }}
+                                          </v-btn>
+                                          <template v-else>
+                                            <v-btn variant="tonal" color="#3eb370"
+                                                   class="d-invited float-right"
+                                                   @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.userId,cancel:true},index)">
+                                              取消邀请{{ u.userId }}
+                                            </v-btn>
+                                          </template>
+                                        </v-list-item>
+                                        <v-divider></v-divider>
+                                      </v-list>
+                                    </v-window-item>
+                                  </v-window>
+                                </v-card-text>
+                              </v-card>
+
+                            </v-col>
+                          </v-row>
+                          <v-card-actions class="justify-end">
+                            <v-btn color="primary" @click="invitationAnswer = false">邀请</v-btn>
+                            <v-btn color="primary" @click="invitationAnswer = false">关闭</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </client-only>
+
+                    <template v-if="questionStore.filed.user.id!==userStore.user?.id">
+
+                      <v-btn v-if="questionStore.follow" class="mx-4" color="pink lighten-3">
+                        <span style="color: white" @click="unsubscribe()">已关注</span>
+                      </v-btn>
+                      <v-btn v-else class="mx-4" color="blue lighten-3"
+                             @click="subscribe()">
+                        <span style="color: white">关注</span>
+                      </v-btn>
+                    </template>
+
+                    <v-btn v-else class="" variant="outlined" color="#c42161"
                            :href="`/question/ask?id=${questionId}`" target="_blank">
                       重新编辑
                     </v-btn>
@@ -651,17 +692,17 @@
 </template>
 
 <script setup lang="ts">
-import hljs from 'highlight.js'
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute, useRouter} from '#app'
-import {atSrtGotoHome, dateFilter, handleCopy} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
 import {nextTick, onMounted, ref, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
 import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
-import {AnswerType, User, User0} from '~/types/question/answer'
+import {AnswerType, User0} from '~/types/question/answer'
+import {User} from '~/types/user'
 import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
@@ -675,6 +716,10 @@ import {useLayout} from '~/stores/layout'
 import {useUserStore} from '~/stores/user'
 import {useGet} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
+import {
+  InvitationUserAnswerQuestionRB,
+  userAxiosPostInvitationUserAnswerQuestion
+} from '~/composables/Api/question/answer'
 
 const theme = useTheme()
 const route = useRoute()
@@ -701,6 +746,8 @@ const invitationSearchText = ref()
 const invitationSearchUserList = ref<User0 []>()
 const invitationFollowingUserList = ref<User0 []>()
 const invitationAnswer = ref()
+const invitationTab = ref()
+const invitedBtn: Element = ref()
 let layout = useLayout()
 layout.showFooter = true
 if (responseData.code === 0) {
@@ -748,6 +795,7 @@ onMounted(async () => {
       }
     }
   })
+
 })
 
 
@@ -854,18 +902,35 @@ const showAnswerWin = async () => {
 }
 
 const searchInvitationUser = async (query: string) => {
-  console.log(query)
-  const {data: axiosResponse} = await useGet<ResponseData<User[]>>(
-      `search/user/${query}`, {
-        page: 1
+  const {data: axiosResponse} = await useGet<ResponseData<User0[]>>(
+      `search/user/invitation-user/${query}`, {
+        page: 1,
+        questionId
       }
   )
   if (axiosResponse.code === 0) {
     invitationSearchUserList.value = axiosResponse.data.content
+    invitationTab.value = 'search'
   } else {
     warningMsg(axiosResponse.msg)
   }
 }
+
+const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB, index) => {
+  const {data: axiosResponse} = await userAxiosPostInvitationUserAnswerQuestion(body)
+  if (axiosResponse.code == 0) {
+    if (body.cancel) {
+      invitationSearchUserList.value[index].invited = false
+      successMsg('取消邀请成功')
+    } else {
+      invitationSearchUserList.value[index].invited = true
+      successMsg('邀请成功')
+    }
+  } else {
+    warningMsg(axiosResponse.msg)
+  }
+}
+
 
 const scrollIntoAnswer = () => {
   let element = document.querySelector('#answer')

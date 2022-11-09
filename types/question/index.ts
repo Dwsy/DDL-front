@@ -1,21 +1,6 @@
 import {AnswerData} from '~/types/question/answer'
+import {User} from '~/types/user'
 
-export interface UserInfo {
-    id: string;
-    avatar: string;
-    sign: string;
-    gender: string;
-    birth: number;
-    level: number;
-}
-
-export interface User {
-    id: string;
-    nickname: string;
-    userInfo: UserInfo;
-    level: number;
-    following: boolean;
-}
 
 export interface QaGroup {
     id: string;
