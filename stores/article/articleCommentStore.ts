@@ -8,7 +8,8 @@ import {
     useAxiosPostReplyArticleComment,
 
 } from '~/composables/Api/article'
-import {errorMsg, successMsg, useRoute, warningMsg} from '#imports'
+import {useRoute} from '#imports'
+import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
 
 import {useUserStore} from '~/stores/user'
 

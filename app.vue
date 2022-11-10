@@ -78,16 +78,6 @@ onMounted(async () => {
 
     // 后端接口判断
   }
-  watchEffect(async () => {
-    if (theme.global.name.value === 'dark') {
-      tocLinkColor.value = '#2e2e2e'
-
-    } else {
-      tocLinkColor.value = '#eee'
-    }
-  })
-
-
 })
 if (typeof window === 'undefined') {
   console.log('NODE')

@@ -89,7 +89,7 @@ export const useGet = async <T>(url: string, params?: object, needToken?: boolea
             return null
         }
     }
-    let r: AxiosResponse<T> = undefined
+    let r: AxiosResponse<T>
     try {
         r = await Axios.get(url, {params: params})
     } catch (error) {
@@ -100,7 +100,7 @@ export const useGet = async <T>(url: string, params?: object, needToken?: boolea
 }
 
 export const useGetT = async <T>(url: string, params?: object) => {
-    let r: AxiosResponse<T> = undefined
+    let r: AxiosResponse<T>
     try {
         r = await Axios.get(url, {params: params})
     } catch (error) {
@@ -110,7 +110,7 @@ export const useGetT = async <T>(url: string, params?: object) => {
 }
 
 export const usePost = async <T>(url: string, body?: object, config?: AxiosRequestConfig) => {
-    let r: AxiosResponse<T> = undefined
+    let r: AxiosResponse<T>
     try {
         r = await Axios.post(url, body, config)
     } catch (error) {
@@ -120,7 +120,7 @@ export const usePost = async <T>(url: string, body?: object, config?: AxiosReque
 }
 
 export const usePut = async <T>(url: string, body?: object) => {
-    let r: AxiosResponse<T> = undefined
+    let r: AxiosResponse<T>
     try {
         r = await Axios.put(url, body)
     } catch (error) {
@@ -130,7 +130,7 @@ export const usePut = async <T>(url: string, body?: object) => {
 }
 
 export const useDel = async <T>(url: string, body?: object) => {
-    let r: AxiosResponse<T> = undefined
+    let r: AxiosResponse<T>
     try {
         r = await Axios.delete(url, {
             data: body,

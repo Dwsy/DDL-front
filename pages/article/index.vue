@@ -40,7 +40,7 @@
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import {onActivated, onMounted, onUnmounted, ref} from 'vue'
-import {definePageMeta, useFetchGetArticleList} from '#imports'
+import {definePageMeta, useFetchGetArticleList, useLoadingWin} from '#imports'
 import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
 import {useHead} from '#head'
@@ -63,7 +63,7 @@ onMounted(() => {
 let a = ref(0)
 const params = ref({size: 8, page: 1, tagId: null, order: null, properties: null})
 
-const {data: listData} = await useFetchGetArticleList(params.value)
+const {data: listData} = await useFetchGetArticleList({size: 8, page: 1, tagId: null, order: null, properties: null})
 const listContent = ref<Array<articleListData>>(null)
 listContent.value = listData.content
 
@@ -71,7 +71,6 @@ const totalPages = ref(null)
 totalPages.value = listData.totalPages
 const alert = ref(false)
 
-const indexTop = ref(0)
 useHead({
   title: '文章'
 })
@@ -79,7 +78,7 @@ onMounted(() => {
   // console.log('index mounted')
   // console.log(indexTop.value)
   document.documentElement.scrollTop = 0
-  document.body.onscroll = loadingWin
+  document.body.onscroll = useLoadingWin(loadingMore)
 })
 // onUnmounted(() => {
 // console.log('index unmounted')
@@ -110,19 +109,6 @@ const selectTag = async (tagID) => {
 
 }
 
-const loadingWin = async () => {
-  //文档内容实际高度（包括超出视窗的溢出部分）
-  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
-  //滚动条滚动距离
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-  //窗口可视范围高度
-  let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
-  if (clientHeight + scrollTop + 100 >= scrollHeight) {
-    console.log('loading more')
-    await loadingMore()
-  }
-}
-
 const loadingMore = async () => {
   if (params.value.page >= Number(totalPages.value)) {
     if (listContent.value.length > 8) {
@@ -131,7 +117,7 @@ const loadingMore = async () => {
     }
     return
   }
-  params.value.page += 1
+  // params.value.page += 1
   const {data: listDataNew} = await useFetchGetArticleList(params.value)
   listContent.value.push(...listDataNew.content)
 }

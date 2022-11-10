@@ -43,7 +43,7 @@ export const useChatsStore = defineStore('chats', {
     getters: {},
     actions: {
         async loadChatsList(refresh = false) {
-            if (refresh == false) {
+            if (!refresh) {
                 if (this.chatsList != undefined) {
                     return
                 }

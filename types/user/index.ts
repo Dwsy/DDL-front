@@ -1,4 +1,4 @@
-interface userData {
+export interface userData {
     id: string;
     nickname: string;
     userInfo: {
@@ -22,9 +22,30 @@ export interface UserInfo {
     birth?: any;
 }
 
+
+interface QaGroup {
+    id: string;
+    name: string;
+    info: string;
+}
+
+interface UserTags {
+    id: string;
+    name: string;
+    useNum: number;
+    weight: any;
+    indexPageDisplay: boolean;
+    tagInfo: string;
+    qaGroup: QaGroup;
+}
+
+
 export interface User {
     id: string;
     nickname: string;
+    userTags: UserTags[];
     userInfo: UserInfo;
     level: number;
+    following: boolean;
 }
+

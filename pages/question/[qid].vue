@@ -182,6 +182,12 @@
                                             <v-img :src="u.userInfo.avatar"></v-img>
                                           </v-avatar>
                                           <span class="mx-3" v-text="u.nickname"></span>
+                                          <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                            <v-icon>
+                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                            </v-icon>
+                                            {{ tag.name }}
+                                          </v-chip>
                                           <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
                                                  @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:false},index)">
                                             邀请 {{ u.id }}
@@ -199,7 +205,37 @@
                                     </v-window-item>
 
                                     <v-window-item value="recommended">
-                                      推荐用户
+                                      <v-list v-for="(u,index) in invitationRecommendedUserList">
+                                        <v-list-item>
+                                          <v-row>
+                                            <v-col cols="12">
+                                              <v-avatar>
+                                                <v-img :src="u.userInfo.avatar"></v-img>
+                                              </v-avatar>
+                                              <span class="mx-3" v-text="u.nickname"></span>
+                                              <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                                <v-icon>
+                                                  mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                                </v-icon>
+                                                {{ tag.name }}
+                                              </v-chip>
+                                              <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
+                                                     @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:false},index)">
+                                                邀请 {{ u.id }}
+                                              </v-btn>
+                                              <template v-else>
+                                                <v-btn variant="tonal" color="#3eb370"
+                                                       class="d-invited float-right"
+                                                       @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:true},index)">
+                                                  取消邀请{{ u.userId }}
+                                                </v-btn>
+                                              </template>
+                                            </v-col>
+                                          </v-row>
+
+                                        </v-list-item>
+                                        <v-divider></v-divider>
+                                      </v-list>
                                     </v-window-item>
 
                                     <v-window-item value="search">
@@ -209,6 +245,12 @@
                                             <v-img :src="u.avatar"></v-img>
                                           </v-avatar>
                                           <span class="mx-3" v-text="u.userNickName"></span>
+                                          <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                            <v-icon>
+                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                            </v-icon>
+                                            {{ tag.name }}
+                                          </v-chip>
                                           <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
                                                  @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.userId,cancel:false},index)">
                                             邀请{{ u.userId }}
@@ -714,7 +756,7 @@ import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastificati
 import {followUser, unFollowUser, useAxiosGetFollowingList} from '~/composables/Api/user/following'
 import {useLayout} from '~/stores/layout'
 import {useUserStore} from '~/stores/user'
-import {useGet} from '~/composables/useAxios'
+import {useGet, usePost} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 import {
   InvitationUserAnswerQuestionRB,
@@ -744,6 +786,7 @@ const collectionDialog = ref(false)
 const invitationSearchText = ref()
 
 const invitationSearchUserList = ref<User0 []>()
+const invitationRecommendedUserList = ref<User0 []>()
 const invitationFollowingUserList = ref<User0 []>()
 const invitationAnswer = ref()
 const invitationTab = ref()
@@ -793,6 +836,16 @@ onMounted(async () => {
       } else {
         warningMsg(response.msg)
       }
+    }
+  })
+
+  watch(invitationTab, async (val) => {
+    if (val == 'recommended') {
+
+      const {data: response} = await usePost<ResponseData<User[]>>('user/tag/user', {
+        tagIds: questionStore.filed.questionTags.map(t => t.id)
+      })
+      invitationRecommendedUserList.value = response.data
     }
   })
 

@@ -1,5 +1,5 @@
 console.log(process.env.BASE_URL)
-import {domToCodePlugin} from 'dom-to-code/vite'
+import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
     app: {
@@ -22,13 +22,18 @@ export default defineNuxtConfig({
     },
 
     vite: {
-        // logLevel: "info",
+        logLevel: 'info',
         optimizeDeps: {
             include: ['vue', 'pinia'],
         },
         define: {
             'process.env.DEBUG': 'false',
         },
+        server: {
+            hmr: {
+                overlay: true
+            }
+        }
     },
     css: ['vuetify/lib/styles/main.sass'],
     modules: [
@@ -51,7 +56,6 @@ export default defineNuxtConfig({
             'composables/**'
         ]
     },
-    // supabase: {},
     publicRuntimeConfig: {
         axios: {
             baseURL:

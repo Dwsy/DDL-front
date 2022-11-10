@@ -148,7 +148,7 @@
 </template>
 
 <script setup lang="ts">
-import {useAxiosGetFollowerList, useAxiosGetFollowingList, useRoute, warningMsg} from '#imports'
+import {useRoute} from '#imports'
 import {user, UserInfo, useUserStore} from '~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {
@@ -157,11 +157,18 @@ import {
   UserActiveType,
   userAxiosGetUserThumbActiveListByUserId
 } from '~/composables/Api/user'
-import {followUser, unFollowUser} from '~/composables/Api/user/following'
+import {
+  followUser,
+  unFollowUser,
+  useAxiosGetFollowerList,
+  useAxiosGetFollowingList
+} from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
 // import Test from '~~/components/test.vue'
 import {useRouter} from '#app'
+import {warningMsg} from '~/composables/utils/toastification'
+import {userData} from '~/types/user'
 
 const userStore = useUserStore()
 let userInfo = ref<UserInfo>()

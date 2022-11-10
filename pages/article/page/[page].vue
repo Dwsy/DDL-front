@@ -22,6 +22,7 @@
 import List, { articleListData } from "~~/components/article/index/list.vue";
 import Group from '~~/components/article/index/group.vue'
 import {onMounted, watch} from 'vue'
+import {useFetchGetArticleList} from '~/composables/Api/article'
 
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()

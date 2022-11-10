@@ -46,7 +46,8 @@
 <script setup lang="ts">
 
 import {onMounted, onUnmounted, reactive, ref} from 'vue'
-import {definePageMeta, warningMsg} from '#imports'
+import {definePageMeta} from '#imports'
+import {warningMsg} from '~/composables/utils/toastification'
 import {useLayout} from '~/stores/layout'
 import {CountType, unreadNotifyI, useAxiosGetUnreadMessageCount} from '~/composables/Api/messages'
 import {onBeforeRouteLeave} from 'vue-router'

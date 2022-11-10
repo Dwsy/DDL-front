@@ -566,7 +566,8 @@ import {
   useFetchGetArticleField
 } from '~/composables/Api/article'
 import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
-import {definePageMeta, errorMsg, successMsg, useCookie, useRoute, warningMsg} from '#imports'
+import {definePageMeta, useCookie, useRoute} from '#imports'
+import {warningMsg, errorMsg, successMsg} from '~/composables/utils/toastification'
 import {onBeforeRouteUpdate} from 'vue-router'
 import {useArticleStore} from '~/stores/article/articleStore'
 import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'

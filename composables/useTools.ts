@@ -46,7 +46,7 @@ export const rsaEncrypt = (pwd: string, publicKey: string) => {
 }
 
 // 字符串转为ArrayBuffer对象，参数为字符串
-function str2ab(str) {
+function str2ab(str: string) {
     let buf = new ArrayBuffer(str.length * 2) // 每个字符占用2个字节
     let bufView = new Uint16Array(buf)
     for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -55,7 +55,7 @@ function str2ab(str) {
     return buf
 }
 
-export function isNumber(str) {
+export function isNumber(str: any) {
     return /^\d+$/.test(str)
 }
 
@@ -64,7 +64,7 @@ export function isNumber(str) {
  * @param {String} str 要转换的字符串
  * @returns {String} linkStr 转换后的字符串
  */
-export const urlToLink = (str) => {
+export const urlToLink = (str: string) => {
     if (!str) {
         return str
     }
@@ -80,7 +80,7 @@ export const urlToLink = (str) => {
     return str
 }
 
-export const xssFilter = (html) => {
+export const xssFilter = (html: string) => {
     const divStub = document.createElement('div')
     if (divStub.textContent !== undefined) {
         divStub.textContent = html
@@ -98,7 +98,7 @@ export const atSrtGotoHome = (s: string, userId: string) => {
 }
 
 export const useLoadingWin = (loadingMore: Function) => {
-    // console.log(123123)
+    let loading = true
     return async () => {
         //文档内容实际高度（包括超出视窗的溢出部分）
         let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
@@ -106,14 +106,22 @@ export const useLoadingWin = (loadingMore: Function) => {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         //窗口可视范围高度
         let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+        console.log(clientHeight + scrollTop, scrollHeight)
         if (clientHeight + scrollTop + 100 >= scrollHeight) {
-            await loadingMore()
+            if (loading) {
+                console.log('useLoadingWin', loading)
+                loading = false
+                await loadingMore()
+                setTimeout(() => {
+                    loading = true
+                }, 100)
+            }
         }
     }
 }
 
 
-export const handleCopy = (el) => {
+export const handleCopy = (el: any) => {
     const range = document.createRange()
     range.selectNode(el)
     const selection = window.getSelection()

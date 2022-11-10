@@ -60,7 +60,7 @@ export interface QuestionField {
     upNum: number;
     downNum: number;
     summary: string;
-    questionTags: QuestionTag;
+    questionTags: QuestionTag[];
     codeHighlightStyle: string;
     markDownTheme: string;
     codeHighlightStyleDark: string;
