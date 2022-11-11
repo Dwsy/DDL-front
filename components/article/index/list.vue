@@ -10,7 +10,8 @@
               <v-img :src="user.userInfo.avatar"></v-img>
             </v-avatar>
             <!--              <v-icon color="blue darken-2" size="small" class="pb-1">mdi-account-circle</v-icon>-->
-            {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>
+            <!--            {{ user.nickname }} | <span class="text-subtitle-2">{{ dateFilter(createTime, 'YYYY-MM-DD') }}</span>-->
+            {{ user.nickname }} | <span class="text-subtitle-2">{{ timeAgoFilter(createTime) }}</span>
             <nuxt-link v-for="tag in articleTags" :to="`/article/tag/${tag.id}`">
                 <span class="text-subtitle-2 link"> /
                   {{ tag.name }}
@@ -73,6 +74,7 @@ import {dateFilter, useCookie} from '#imports'
 import {articleListData} from '~/types/article'
 import {onMounted, ref, watch} from 'vue'
 import {useTheme} from 'vuetify'
+import {timeAgoFilter} from '~/composables/useTools'
 
 const cookieThemeState = useCookie('theme')
 const theme = ref(cookieThemeState.value)

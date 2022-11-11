@@ -26,7 +26,8 @@
         </div>
         <div v-else v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
           <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
-            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : '' }}</span>
+            <!--            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : ''  }}</span>-->
+            <span> {{ index + 1 % 10 === 1 ? timeAgoFilter(i.createTime) : '' }}</span>
           </div>
           <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
           <div v-if="i.toUserId===uid">
@@ -88,6 +89,7 @@ import {useUserStore} from '~/stores/user'
 import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
 import ChatInputBox from '~/components/messages/chatInputBox.vue'
+import {timeAgoFilter} from '~~/composables/useTools'
 
 definePageMeta({
   keepalive: false,

@@ -40,7 +40,8 @@
                     <v-img :src="user.userInfo.avatar"></v-img>
                   </v-avatar>
                   <span class="text-blue-accent-1" style="font-size: 10px">{{ user.nickname }}</span>
-                  <div> {{ dateFilter(createTime, 'MM月DD') }}～发起提问</div>
+                  <!--                  <div> {{ dateFilter(createTime, 'MM月DD') }}～发起提问</div>-->
+                  <div> {{ timeAgoFilter(createTime) }}～发起提问</div>
                 </v-col>
               </v-row>
             </v-col>
@@ -54,8 +55,8 @@
 
 <script setup lang="ts">
 
-import {Group, QuestionData, QuestionTag, User} from '~/types/question'
-import {dateFilter} from '~/composables/useTools'
+import {Group, QuestionData, QuestionTag} from '~/types/question'
+import {dateFilter, timeAgoFilter} from '~/composables/useTools'
 
 function getRandomColor() {
   let letters = '0123456789ABCDEF'.split(''),

@@ -136,7 +136,8 @@
 
                   <span class="mr-4 text-blue">{{ questionStore.filed.user.nickname }}</span>
 
-                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>
+                  <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
+                  <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
                   <span class="ml-4">修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span>
@@ -736,7 +737,7 @@
 <script setup lang="ts">
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute, useRouter} from '#app'
-import {atSrtGotoHome, dateFilter} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter, timeAgoFilter} from '~/composables/useTools'
 import {nextTick, onMounted, ref, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
@@ -762,7 +763,6 @@ import {
   InvitationUserAnswerQuestionRB,
   userAxiosPostInvitationUserAnswerQuestion
 } from '~/composables/Api/question/answer'
-
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()

@@ -1,11 +1,28 @@
 import dayjs from 'dayjs'
-import {el} from 'vuetify/locale'
+// import relativeTime from 'dayjs/plugin/relativeTime'
+// import {el} from 'vuetify/locale'
+// import 'dayjs/locale/zh-cn'
+import {format as timeAgoFormat} from 'timeago.js'
 
 export const dateFilter = (val: any, format = 'YYYY-MM-DD hh:mm:ss') => {
     if (!isNaN(val)) {
         val = parseInt(val)
     }
     return dayjs(val).format(format)
+}
+
+export const timeAgoFilter = (val: any) => {
+    // dayjs.extend(relativeTime)
+    // dayjs.locale('zh-cn')
+    // return dayjs().to(dayjs(val))
+    return timeAgoFormat(val, 'zh_CN')
+}
+
+export const timeAgoFilterAuto = (val: any) => {
+    // dayjs.extend(relativeTime)
+    // dayjs.locale('zh-cn')
+    // return dayjs().to(dayjs(val))
+    return timeAgoFormat(val, 'zh_CN')
 }
 
 export const isUrl = (urls: string) => {

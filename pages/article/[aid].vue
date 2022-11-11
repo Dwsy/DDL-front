@@ -31,7 +31,8 @@
 
                 <v-row>
                   <v-col class="ml-n8 mt-n3 d-none d-sm-flex" style="color:#8a919f">
-                    <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
+                    <!--                    <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>-->
+                    <span>  {{ timeAgoFilter(articleStore.articleField.createTime) }} · </span>
                     <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                   </v-col>
                 </v-row>
@@ -574,7 +575,7 @@ import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCo
 import {useUserStore} from '~/stores/user'
 import {useTheme} from 'vuetify'
 import {useHead} from '#head'
-import {atSrtGotoHome, dateFilter, handleCopy} from '~/composables/useTools'
+import {atSrtGotoHome, dateFilter, handleCopy, timeAgoFilter} from '~/composables/useTools'
 import {followUser, unFollowUser} from '~/composables/Api/user/following'
 import {collectionData, collectionGroupData, collectionType} from '~/types/article'
 import {useLayout} from '~/stores/layout'
@@ -583,7 +584,6 @@ import mediumZoom from 'medium-zoom'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 // import {addStyles} from '~/utils/highlight-line-number'
-
 definePageMeta({
   keepalive: false
 })
