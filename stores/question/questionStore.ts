@@ -3,9 +3,10 @@ import {QuestionField} from '~/types/question'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {AnswerType} from '~/types/question/answer'
-import {ArticleAction} from '~/composables/Api/article'
+import {UserActionI} from '~/composables/Api/article'
+import {useAxiosGetUserToQuestionAction} from '~/composables/Api/question'
 
-interface QuestionStore extends ArticleAction {
+interface QuestionStore extends UserActionI {
     filed: QuestionField
     content: string
     cookieThemeState: string
@@ -27,15 +28,22 @@ export const useQuestionStore = defineStore('QuestionStore', {
             codeHighlightStyleLight: null,
             collect: false,
             follow: false,
-            thumb: 0
+            support: 0
         }
     ),
     actions: {
-        async init() {
+        async init(questionId: string) {
+
             this.markdownThemeDark = this.filed.markDownThemeDark
             this.markdownThemeLight = this.filed.markDownTheme
             this.codeHighlightStyleDark = this.filed.codeHighlightStyleDark
             this.codeHighlightStyleLight = this.filed.codeHighlightStyle
+            const {data: axiosResponse} = await useAxiosGetUserToQuestionAction(questionId)
+            if (axiosResponse.code == 0) {
+                this.collect = axiosResponse.data.collect
+                this.follow = axiosResponse.data.follow
+                this.support = axiosResponse.data.support
+            }
         },
         getHighlightStyleName() {
             if (this.cookieThemeState === 'dark') {
@@ -81,13 +89,14 @@ export const useQuestionStore = defineStore('QuestionStore', {
                 await changeHighlightStyle(this.codeHighlightStyleDark)
             }
         },
-        getActionColor(action: AnswerType) {
-            if (action === AnswerType.up || action === AnswerType.down) {
+        getActionColor(userAction: AnswerType, action: AnswerType) {
+            console.log('userAction', userAction)
+            console.log('action', action)
+            if (userAction == action) {
                 return 'blue-lighten-2'
             } else {
                 return 'grey'
             }
-
         },
     },
 })

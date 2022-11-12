@@ -19,12 +19,11 @@
                     <v-btn icon="true" elevation="0"
                            variant="plain"
                            @click="answerStore.action({
-                           answerType: AnswerType.up,
-                           questionFieldId: questionId,
-                           actionAnswerOrCommentId: '-1'
-                           })">
-                      <v-icon class="text-grey"
-                              :color="questionStore.getActionColor(AnswerType.down)"
+                                               answerType: AnswerType.up,
+                                               questionFieldId: questionId,
+                                               actionAnswerOrCommentId: '-1'
+                                               })">
+                      <v-icon :color="questionStore.support===AnswerType.up?'blue-lighten-2':'grey'"
                       >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
@@ -36,12 +35,12 @@
                     <v-btn icon="true" elevation="0"
                            variant="plain"
                            @click="answerStore.action({
-                           answerType: AnswerType.down,
-                           questionFieldId: questionId,
-                           actionAnswerOrCommentId: '-1'
-                           })">
-                      <v-icon class="text-grey mdi-rotate-180"
-                              :color="questionStore.getActionColor(AnswerType.down)"
+                                               answerType: AnswerType.down,
+                                               questionFieldId: questionId,
+                                               actionAnswerOrCommentId: '-1'
+                                               })">
+                      <v-icon class="mdi-rotate-180"
+                              :color="questionStore.support===AnswerType.down?'blue-lighten-2':'grey'"
                       >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
@@ -770,7 +769,7 @@ import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composable
 import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
 import {AnswerType, User0} from '~/types/question/answer'
-import {User} from '~/types/user'
+import {User, userData} from '~/types/user'
 import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
@@ -839,6 +838,7 @@ if (typeof window !== 'undefined') {
   MarkdownTheme = await changeThemes(themes[questionStore.getMarkdownThemeName()], true)
 }
 onMounted(async () => {
+  console.log('onMounted')
   await answerStore.loadAnswer(questionId)
   watch(theme.global.name, async (val) => {
     if (val === 'dark') {

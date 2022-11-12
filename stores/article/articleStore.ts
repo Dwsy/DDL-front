@@ -6,7 +6,7 @@ import {
 } from '#imports'
 import {themes, changeThemes} from '~~/constant/markdownThemeList'
 import {HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
-import {ArticleAction, useAxiosGetArticleAction} from '~/composables/Api/article'
+import {UserActionI, useAxiosGetArticleAction} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
 import {MarkdownThemeNameList, mwebDark} from '~/types/other/markdownTheme'
 
@@ -146,7 +146,7 @@ export const useArticleStore = defineStore('ArticleStore', {
     }
 })
 
-interface Iarticle extends ArticleAction {
+interface Iarticle extends UserActionI {
     articleField: Ref<ArticleField>
     contentHtml: string
     // mdThemeNameList: Array<string>

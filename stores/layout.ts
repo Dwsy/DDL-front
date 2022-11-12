@@ -5,8 +5,8 @@ import {CountType, useAxiosGetUnreadMessageCount} from '~/composables/Api/messag
 import {warningMsg} from '~/composables/utils/toastification'
 
 interface layout {
-    drawer: Ref<boolean>,
-    themeName: Ref<string>,
+    drawer: boolean,
+    themeName: string,
     showFooter: boolean,
     loading: boolean,
     unReadNotifyCount
@@ -15,8 +15,8 @@ interface layout {
 // const theme = useTheme()
 export const useLayout = defineStore('layout', {
     state: (): layout => ({
-        drawer: ref<boolean>(false),
-        themeName: ref(''),
+        drawer: false,
+        themeName: '',
         showFooter: false,
         loading: true,
         unReadNotifyCount: 0

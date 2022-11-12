@@ -67,14 +67,15 @@ export enum CommentType {
     upToDown, downToUp
 }
 
-export interface ArticleAction {
-    thumb: number;
+export interface UserActionI {
+    thumb?: number;
+    support?: number;
     collect: boolean;
     follow: boolean;
 }
 
 export const useAxiosGetArticleAction = (aid: string) => {
-    return useGet<ResponseData<ArticleAction>>('article/article/field/action/' + aid, null)
+    return useGet<ResponseData<UserActionI>>('article/article/field/action/' + aid, null)
 }
 
 export const useAxiosPostActionArticleComment = (body: ArticleCommentAction) => {

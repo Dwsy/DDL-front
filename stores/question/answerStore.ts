@@ -123,35 +123,35 @@ export const useAnswerStore = defineStore('AnswerStore', {
 
                 } else {
                     let questionStore = useQuestionStore()
-                    let thumb = questionStore.thumb
+                    let support = questionStore.support
                     let questionFiled = questionStore.filed
                     switch (axiosResponse.data) {
                         case AnswerType.up:
                             questionFiled.upNum++
-                            thumb = AnswerType.up
+                            questionStore.support = AnswerType.up
                             break
                         case AnswerType.down:
                             questionFiled.downNum++
-                            thumb = AnswerType.down
+                            questionStore.support = AnswerType.down
                             break
                         case AnswerType.cancel:
-                            if (thumb === AnswerType.up) {
+                            if (support === AnswerType.up) {
                                 questionFiled.upNum--
-                                thumb = AnswerType.cancel
-                            } else if (thumb === AnswerType.down) {
+                                questionStore.support = AnswerType.cancel
+                            } else if (support === AnswerType.down) {
                                 questionFiled.downNum--
-                                thumb = AnswerType.cancel
+                                questionStore.support = AnswerType.cancel
                             }
                             break
                         case AnswerType.upToDown:
                             questionFiled.downNum++
                             questionFiled.upNum--
-                            thumb = AnswerType.down
+                            questionStore.support = AnswerType.down
                             break
                         case AnswerType.downToUp:
                             questionFiled.downNum--
                             questionFiled.upNum++
-                            thumb = AnswerType.up
+                            questionStore.support = AnswerType.up
                             break
                     }
 

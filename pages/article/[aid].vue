@@ -199,7 +199,6 @@
 
 
               <v-col class="ml-xl-n8 " :id="`comment-${comment.id}`">
-                <!--                #{{ index + (articleCommentStore.page - 1) * 8 + 1 }}-->
                 #{{ comment.commentSerialNumber }}
                 <span>{{ comment.user.nickname }}</span>
                 <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
@@ -246,7 +245,7 @@
                         <v-textarea fluid placeholder="回复点啥吧。" clearable
                                     v-model="comment.replyCommentText"
                                     clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                    rows="4" auto-grow="true">
+                                    rows="4" :auto-grow="true">
                         </v-textarea>
 
                         <v-btn class="float-end mx-6 mb-4" color="primary"
@@ -457,7 +456,7 @@
           <v-icon :icon="articleStore.getArticleActionIcon(CommentType.down)"></v-icon>
           <span v-if="articleStore.articleField.downNum>0">
           {{ articleStore.articleField.downNum }}
-        </span>
+          </span>
         </v-btn>
 
 
@@ -547,11 +546,6 @@
     </client-only>
 
 
-    <!--    <div class="dialog-bg" id="dialog-bg">-->
-    <!--      <div class="img-box" id="img-box">-->
-    <!--        <img src="" alt="">-->
-    <!--      </div>-->
-    <!--    </div>-->
 
 
   </div>
@@ -587,7 +581,7 @@ import {useRouter} from '#app'
 import mediumZoom from 'medium-zoom'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
-// import {addStyles} from '~/utils/highlight-line-number'
+
 definePageMeta({
   keepalive: false
 })
@@ -609,16 +603,9 @@ let ArticleField = await useFetchGetArticleField(aid)
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
   router.push('/article')
-  // throw createError({
-  //   statusCode: 404,
-  //   statusMessage: '未找到文章',
-  //   data: 'data',
-  //   fatal: true,
-  //   message: 'Unauthorized'
-  // })
 }
 // console.log('title', ArticleField.data.title)
-const title = ref(ArticleField.data.title)
+const title = ref<string>(ArticleField.data.title)
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 
@@ -654,31 +641,12 @@ if (typeof window === 'undefined') {
   MarkdownTheme = await changeThemes(themes[getMarkdownThemeName()], true)
 }
 
-// await useHead({
-//   style: [
-//     {
-//       id: 'highlightStyle',
-//       children: `213`,
-//       type: 'text/css'
-//     }, {
-//       id: 'markdownTheme',
-//       children: MarkdownTheme,
-//       type: 'text/css'
-//     }
-//   ]
-// })
-
 onMounted(async () => {
   //
   if (user.token === '') {
     articleCommentStore.replyCommentText = '请先登陆'
   }
   await articleStore.init()
-  // if (theme.global.name.value === 'dark') {
-  //   await articleStore.changeThemeDark()
-  // } else {
-  //   await articleStore.changeThemeLight()
-  // }
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   setTimeout(() => {
     createToc()
