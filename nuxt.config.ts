@@ -8,7 +8,7 @@ export default defineNuxtConfig({
             noscript: [],
             style: [],
             charset: 'utf-8',
-            title: 'DDL',
+            // title: 'DDL',
             viewport: 'width=device-width, initial-scale=1',
             script: [
                 {src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js'},

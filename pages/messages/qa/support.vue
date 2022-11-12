@@ -129,7 +129,7 @@ import {onActivated, onDeactivated, onMounted, onUnmounted, ref, watch} from 'vu
 import {useLoadingWin} from '~/composables/useTools'
 import {NotifyState, NotifyType} from '~/types/message'
 import {useTheme} from 'vuetify'
-import {useQaSupportStore} from '~/stores/messages/qaSupportStrore'
+import {useQaSupportStore} from '~/stores/messages/questionAnswer/qaSupportStrore'
 import {QaSupportType} from '~/composables/Api/messages/qa/support'
 
 definePageMeta({

@@ -1,7 +1,11 @@
 <template>
   <div class="v-container abc" v-if="ArticleField.data">
-    <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
-    <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+    <Head>
+      <Title>{{ title }}</Title>
+      <Meta name="description" :content="title"/>
+      <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
+      <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+    </Head>
     <v-row class="article-content">
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
         <div class="mt-n8">
@@ -614,9 +618,7 @@ if (ArticleField.data == undefined) {
   // })
 }
 // console.log('title', ArticleField.data.title)
-useHead({
-  title: ArticleField.data.title || '加载中...'
-})
+const title = ref(ArticleField.data.title)
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
 

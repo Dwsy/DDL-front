@@ -103,7 +103,8 @@ let items = ref([
     text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats',
     unreadCount: undefined
   },
-  {text: 'test', icon: 'mdi-message-badge-outline', to: '/messages/index1'},
+  {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation'},
+  {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted'},
 ])
 //todo read --
 onMounted(async () => {
@@ -123,7 +124,8 @@ onMounted(async () => {
     items.value[5].unreadCount = unreadNotify.unreadNotifyAnswerCommentCount + unreadNotify.unreadNotifyQuestionCommentCount || 0
     items.value[6].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
     items.value[7].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
-    items.value[8].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
+    items.value[8].unreadCount = unreadNotify.unreadInvitationAnswerCount || 0
+    items.value[9].unreadCount = unreadNotify.unreadAcceptedAnswerCount || 0
 
   } else {
     warningMsg('获取未读消息数量失败')

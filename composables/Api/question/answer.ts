@@ -43,3 +43,8 @@ export interface InvitationUserAnswerQuestionRB {
 }
 
 
+export const userAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
+    return useGet<ResponseData<boolean>>('qa/answer/accept', {
+        answerId, accepted
+    })
+}

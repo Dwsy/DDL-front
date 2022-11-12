@@ -3,7 +3,7 @@
     <v-row class="ml-5">
       <v-col>
         <!--        <div class="text-start ">-->
-        <!--          <v-btn icon elevation="0" @click="qaAnswerStore.loadQaAnswerNotifyList()">-->
+        <!--          <v-btn icon elevation="0" @click="qaAcceptedAnswerStore.loadQaAnswerNotifyList()">-->
         <!--            <v-icon>-->
         <!--              mdi-refresh-->
         <!--            </v-icon>-->
@@ -11,15 +11,15 @@
         <!--        </div>-->
         <v-list>
           <v-list-item
-              v-for="(item, i) in qaAnswerStore.qaAnswerNotifyList"
+              v-for="(item, i) in qaAcceptedAnswerStore.notifyList"
               :key="item.id"
               :value="item"
               active-color="pink"
               rounded="xl"
-              :href="qaAnswerStore.getGoToLink(item)"
+              :href="qaAcceptedAnswerStore.getGoToLink(item)"
               target="_blank"
           >
-            <!--            :href="qaAnswerStore.getGoToLink(item)"-->
+            <!--            :href="qaAcceptedAnswerStore.getGoToLink(item)"-->
             <!--            target="_blank"-->
             <template v-slot:prepend>
               <v-badge color="red" :dot="true" class="mr-3"
@@ -43,7 +43,7 @@
                 {{ item.formContent }}
               </div>
             </div>
-            <span>{{ dateFilter(item.createTime) }}</span>
+            <span>{{ timeAgoFilter(item.createTime) }}</span>
             <v-divider></v-divider>
 
 
@@ -55,60 +55,47 @@
 </template>
 
 <script setup lang="ts">
-import {definePageMeta, dateFilter} from '#imports'
+import {definePageMeta, dateFilter, timeAgoFilter} from '#imports'
 import {onActivated, onDeactivated, onMounted, onUnmounted} from 'vue'
 import {useLoadingWin} from '~/composables/useTools'
 import {NotifyState, NotifyType} from '~/types/message'
-import {useQaAnswerStore} from '~/stores/messages/questionAnswer/qaAnswerStore'
+import {useQaAcceptedAnswerStore} from '~/stores/messages/questionAnswer/qaAcceptedAnswerStore'
 
 definePageMeta({
   keepalive: false,
 })
 
 
-let qaAnswerStore = useQaAnswerStore()
+let qaAcceptedAnswerStore = useQaAcceptedAnswerStore()
 onMounted(async () => {
   console.log('reply mounted')
   document.documentElement.scrollTop = 0
-  await qaAnswerStore.loadQaAnswerNotifyList()
+  await qaAcceptedAnswerStore.loadQaAcceptedAnswerStore()
   // document.body.onscroll =  useLoadingWin(loadingMore)
   document.body.onscroll = useLoadingWin(loadingMore)
 })
 onUnmounted(() => {
-  qaAnswerStore.page = 1
-  qaAnswerStore.totalPages = null
-  console.log('qaAnswerNotifyList unmounted')
+  qaAcceptedAnswerStore.page = 1
+  qaAcceptedAnswerStore.totalPages = null
+  // console.log('qaAnswerNotifyList unmounted')
 })
-onActivated(() => {
-  console.log('qaAnswerNotifyList activated')
-})
-onDeactivated(() => {
-  console.log('qaAnswerNotifyList deactivated')
-})
-
-const loadingWin = async () => {
-  //文档内容实际高度（包括超出视窗的溢出部分）
-  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
-  //滚动条滚动距离
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-  //窗口可视范围高度
-  let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
-  if (clientHeight + scrollTop + 100 >= scrollHeight) {
-    await loadingMore()
-  }
-}
+// onActivated(() => {
+//   console.log('qaAnswerNotifyList activated')
+// })
+// onDeactivated(() => {
+//   console.log('qaAnswerNotifyList deactivated')
+// })
 
 const loadingMore = async () => {
-  console.log(123)
-  if (qaAnswerStore.page >= qaAnswerStore.totalPages) {
-    if (qaAnswerStore.qaAnswerNotifyList.length > 15) {
+  if (qaAcceptedAnswerStore.page >= qaAcceptedAnswerStore.totalPages) {
+    if (qaAcceptedAnswerStore.notifyList.length > 15) {
       // alert.value = true
       document.body.onscroll = null
     }
     return
   }
-  qaAnswerStore.page++
-  await qaAnswerStore.loadQaAnswerNotifyList(true)
+  qaAcceptedAnswerStore.page++
+  await qaAcceptedAnswerStore.loadQaAcceptedAnswerStore(true)
 }
 </script>
 

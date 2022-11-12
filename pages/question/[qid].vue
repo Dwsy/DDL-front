@@ -1,7 +1,12 @@
 <template>
   <div class="mt-4">
-    <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
-    <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+    <Head>
+      <Title>{{ title }}</Title>
+      <Meta name="description" :content="title"/>
+      <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
+      <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+    </Head>
+
     <v-row>
       <v-col cols="10">
         <!--        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>-->
@@ -459,13 +464,33 @@
                           这个回答没有用
                         </v-tooltip>
                       </v-btn>
-
-                      <v-btn icon="true" elevation="0" v-if="answer.accepted" class="my-2">
-                        <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
-                        <v-tooltip activator="parent" location="right">
-                          The question owner accepted this as the best answer 4 mins ago
-                        </v-tooltip>
-                      </v-btn>
+                      <br>
+                      <template v-if="answer.accepted">
+                        <v-btn icon="true" elevation="0"
+                               v-if="questionStore.filed.user.id!==userStore.user?.id" class="my-2">
+                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
+                          <v-tooltip activator="parent" location="right">
+                            这个答案被提问者采纳在 {{ timeAgoFilter(answer.acceptedTime) }}
+                          </v-tooltip>
+                        </v-btn>
+                        <v-btn icon="true" elevation="0" v-else class="my-2"
+                               @click="acceptedAnswer(answer.id,false,index)">
+                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
+                          <v-tooltip activator="parent" location="right">
+                            取消采纳
+                          </v-tooltip>
+                        </v-btn>
+                      </template>
+                      <template v-else>
+                        <v-btn icon="true" elevation="0"
+                               v-if="questionStore.filed.user.id===userStore.user?.id"
+                               @click="acceptedAnswer(answer.id,true,index)" class="my-2">
+                          <v-icon class="" size="large"> mdi-check-bold</v-icon>
+                          <v-tooltip activator="parent" location="right">
+                            采纳这个回答
+                          </v-tooltip>
+                        </v-btn>
+                      </template>
 
                       <br>
                       <v-btn icon="true" elevation="0" class="mt-2" size="small"
@@ -760,9 +785,10 @@ import {useUserStore} from '~/stores/user'
 import {useGet, usePost} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 import {
-  InvitationUserAnswerQuestionRB,
+  InvitationUserAnswerQuestionRB, userAxiosGetAcceptAnswer,
   userAxiosPostInvitationUserAnswerQuestion
 } from '~/composables/Api/question/answer'
+
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
@@ -804,6 +830,7 @@ if (responseData.code === 0) {
   console.log(responseData.msg)
 }
 questionStore.init(questionId)
+const title = ref(questionStore.filed.title)
 const showAnswerWindow = ref(false)
 let HighlightStyle
 let MarkdownTheme
@@ -990,6 +1017,21 @@ const scrollIntoAnswer = () => {
   element.scrollIntoView({
     behavior: 'smooth',
   })
+}
+
+const acceptedAnswer = async (answerId: string, accept: boolean, index?: number) => {
+  const {data: response} = await userAxiosGetAcceptAnswer(answerId, accept)
+
+  if (response.code === 0 && response.data) {
+    if (accept) {
+      successMsg('采纳答案成功')
+    } else {
+      successMsg('取消采纳答案成功')
+    }
+    answerStore.dataList[index].accepted = accept
+  } else {
+    warningMsg('操作失败')
+  }
 }
 </script>
 
