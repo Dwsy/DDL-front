@@ -3,10 +3,9 @@
     <Head>
       <Title>{{ title }}</Title>
       <Meta name="description" :content="title"/>
-      <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
-      <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+      <Style id="highlightStyle" type="text/css" :children="questionStore.HighlightStyleStr"/>
+      <Style id="markdownTheme" type="text/css" :children="questionStore.MarkdownThemeStr"/>
     </Head>
-
     <v-row>
       <v-col cols="10">
         <!--        <v-btn href="#answerId-1588022587668037632+#test"></v-btn>-->
@@ -660,6 +659,7 @@
                     </v-btn>
                   </v-col>
                 </v-row>
+
                 <AnswerBytemdEditor v-if="showAnswerWindow" :content="content" @change-text="changeText"
                                     style="margin-bottom: 100px">
                 </AnswerBytemdEditor>
@@ -762,7 +762,7 @@
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute, useRouter} from '#app'
 import {atSrtGotoHome, dateFilter, timeAgoFilter} from '~/composables/useTools'
-import {nextTick, onMounted, ref, watch} from 'vue'
+import {nextTick, onMounted, ref, toRaw, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
@@ -787,6 +787,8 @@ import {
   InvitationUserAnswerQuestionRB, userAxiosGetAcceptAnswer,
   userAxiosPostInvitationUserAnswerQuestion
 } from '~/composables/Api/question/answer'
+import http from '~~/utils/fetch'
+import {useFetch} from '#imports'
 
 const theme = useTheme()
 const route = useRoute()
@@ -831,14 +833,13 @@ if (responseData.code === 0) {
 questionStore.init(questionId)
 const title = ref(questionStore.filed.title)
 const showAnswerWindow = ref(false)
-let HighlightStyle
-let MarkdownTheme
-if (typeof window !== 'undefined') {
-  HighlightStyle = await changeHighlightStyle(questionStore.getHighlightStyleName(), true)
-  MarkdownTheme = await changeThemes(themes[questionStore.getMarkdownThemeName()], true)
+if (typeof window == 'undefined') {
+  questionStore.HighlightStyleStr = await changeHighlightStyle(questionStore.getHighlightStyleName(), true)
+  questionStore.MarkdownThemeStr = await changeThemes(themes[questionStore.getMarkdownThemeName()], true)
 }
+
 onMounted(async () => {
-  console.log('onMounted')
+  await questionStore.getUserToQuestionAction(questionId)
   await answerStore.loadAnswer(questionId)
   watch(theme.global.name, async (val) => {
     if (val === 'dark') {

@@ -14,6 +14,9 @@ interface QuestionStore extends UserActionI {
     markdownThemeLight: string
     codeHighlightStyleDark: string
     codeHighlightStyleLight: string
+
+    HighlightStyleStr: string
+    MarkdownThemeStr: string
 }
 
 export const useQuestionStore = defineStore('QuestionStore', {
@@ -28,7 +31,9 @@ export const useQuestionStore = defineStore('QuestionStore', {
             codeHighlightStyleLight: null,
             collect: false,
             follow: false,
-            support: 0
+            support: 0,
+            HighlightStyleStr: '',
+            MarkdownThemeStr: ''
         }
     ),
     actions: {
@@ -38,6 +43,8 @@ export const useQuestionStore = defineStore('QuestionStore', {
             this.markdownThemeLight = this.filed.markDownTheme
             this.codeHighlightStyleDark = this.filed.codeHighlightStyleDark
             this.codeHighlightStyleLight = this.filed.codeHighlightStyle
+        },
+        async getUserToQuestionAction(questionId: string) {
             const {data: axiosResponse} = await useAxiosGetUserToQuestionAction(questionId)
             if (axiosResponse.code == 0) {
                 this.collect = axiosResponse.data.collect

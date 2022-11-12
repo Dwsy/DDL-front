@@ -3,8 +3,8 @@
     <Head>
       <Title>{{ title }}</Title>
       <Meta name="description" :content="title"/>
-      <Style id="highlightStyle" type="text/css" :children="HighlightStyle"/>
-      <Style id="markdownTheme" type="text/css" :children="MarkdownTheme"/>
+      <Style id="highlightStyle" type="text/css" :children="articleStore.HighlightStyleStr"/>
+      <Style id="markdownTheme" type="text/css" :children="articleStore.MarkdownThemeStr"/>
     </Head>
     <v-row class="article-content">
       <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
@@ -546,8 +546,6 @@
     </client-only>
 
 
-
-
   </div>
 
 </template>
@@ -631,14 +629,9 @@ const getHighlightStyleName = () => {
   }
 }
 
-let HighlightStyle
-let MarkdownTheme
-if (typeof window === 'undefined') {
-  // HighlightStyle = await changeHighlightStyle(getHighlightStyleName(), true)
-  // MarkdownTheme = await changeThemes(themes[getMarkdownThemeName()], true)
-} else {
-  HighlightStyle = await changeHighlightStyle(getHighlightStyleName(), true)
-  MarkdownTheme = await changeThemes(themes[getMarkdownThemeName()], true)
+if (typeof window == 'undefined') {
+  articleStore.HighlightStyleStr = await changeHighlightStyle(getHighlightStyleName(), true)
+  articleStore.MarkdownThemeStr = await changeThemes(themes[getMarkdownThemeName()], true)
 }
 
 onMounted(async () => {

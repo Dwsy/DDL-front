@@ -25,7 +25,9 @@ export const useArticleStore = defineStore('ArticleStore', {
         follow: false,
         collect: false,
         thumb: 0,
-        loading: true
+        loading: true,
+        HighlightStyleStr: '',
+        MarkdownThemeStr: ''
     }),
     getters: {},
     actions: {
@@ -160,6 +162,8 @@ interface Iarticle extends UserActionI {
     collect: boolean
     follow: boolean
     loading: boolean
+    HighlightStyleStr: string
+    MarkdownThemeStr: string
 }
 
 
