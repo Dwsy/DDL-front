@@ -16,7 +16,8 @@ interface QuestionStore extends UserActionI {
     codeHighlightStyleLight: string
 
     HighlightStyleStr: string
-    MarkdownThemeStr: string
+    MarkdownThemeStr: string,
+    watch: boolean
 }
 
 export const useQuestionStore = defineStore('QuestionStore', {
@@ -32,6 +33,7 @@ export const useQuestionStore = defineStore('QuestionStore', {
             collect: false,
             follow: false,
             support: 0,
+            watch: false,
             HighlightStyleStr: '',
             MarkdownThemeStr: ''
         }
@@ -50,6 +52,7 @@ export const useQuestionStore = defineStore('QuestionStore', {
                 this.collect = axiosResponse.data.collect
                 this.follow = axiosResponse.data.follow
                 this.support = axiosResponse.data.support
+                this.watch = axiosResponse.data.watch
             }
         },
         getHighlightStyleName() {

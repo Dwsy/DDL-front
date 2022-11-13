@@ -22,42 +22,49 @@
         </v-col>
 
 
-        <v-col class="pt-4" offset="3">
+        <client-only>
+          <v-col class="pt-4" offset="3">
 
-          <v-btn icon target="_blank" href="/article/creator">
-            <v-icon>mdi-fountain-pen-tip</v-icon>
-          </v-btn>
-
-          <nuxt-link to="/messages">
-            <v-badge :model-value="layout?.unReadNotifyCount>0" offset-y="10" offset-x="5"
-                     :content="layout?.unReadNotifyCount" color="red">
-              <v-btn>
-                <v-icon>mdi-message-text-outline</v-icon>
-              </v-btn>
-            </v-badge>
-          </nuxt-link>
-
-          <v-btn @click="layout.switchTheme(theme)" text transition="fade-transition">
-            <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
-            <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
-          </v-btn>
-
-          <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
-            <v-avatar size="small">
-              <v-img :src="userStore.userInfo?.avatar"></v-img>
-            </v-avatar>
-          </router-link>
-          <nuxt-link to="/user/login">
-            <v-btn icon>
-              <v-icon>
-                mdi-account
-              </v-icon>
+            <v-btn icon target="_blank" href="/article/creator" v-if="isArticlePage">
+              <v-icon>mdi-fountain-pen-tip</v-icon>
             </v-btn>
-          </nuxt-link>
-          <!--        <a href="#comments">-->
-          <!--          #comments-->
-          <!--        </a>-->
-        </v-col>
+
+            <v-btn icon target="_blank" href="/question/howtoask" v-else>
+              <v-icon>mdi-head-question-outline</v-icon>
+            </v-btn>
+
+
+            <nuxt-link to="/messages">
+              <v-badge :model-value="layout?.unReadNotifyCount>0" offset-y="10" offset-x="5"
+                       :content="layout?.unReadNotifyCount" color="red">
+                <v-btn>
+                  <v-icon>mdi-message-text-outline</v-icon>
+                </v-btn>
+              </v-badge>
+            </nuxt-link>
+
+            <v-btn @click="layout.switchTheme(theme)" text transition="fade-transition">
+              <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
+              <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
+            </v-btn>
+
+            <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
+              <v-avatar size="small">
+                <v-img :src="userStore.userInfo?.avatar"></v-img>
+              </v-avatar>
+            </router-link>
+            <nuxt-link to="/user/login">
+              <v-btn icon>
+                <v-icon>
+                  mdi-account
+                </v-icon>
+              </v-btn>
+            </nuxt-link>
+            <!--        <a href="#comments">-->
+            <!--          #comments-->
+            <!--        </a>-->
+          </v-col>
+        </client-only>
 
 
       </v-row>
@@ -72,19 +79,27 @@ import {useLayout} from '~~/stores/layout'
 import {useTheme} from 'vuetify'
 import Search from './search.vue'
 import {useUserStore} from '~/stores/user'
-import {onMounted, provide, ref} from 'vue'
+import {onMounted, provide, ref, watchEffect} from 'vue'
 import {CountType, useAxiosGetUnreadMessageCount} from '~/composables/Api/messages'
 import {warningMsg} from '~/composables/utils/toastification'
 import {onBeforeRouteLeave, onBeforeRouteUpdate} from 'vue-router'
+import {useRoute} from '#app'
 
 let theme = useTheme()
 let layout = useLayout()
 let userStore = useUserStore()
-
+const route = useRoute()
+const isArticlePage = ref(true)
+// if (route.path === '/question/howtoask') {
+//   layout.drawer = false
+// }
 
 onMounted(async () => {
-  if (document.documentElement.clientWidth > 1280)
-    layout.drawer = true
+  console.log('onMounted')
+  watchEffect(() => {
+    console.log('route.path', route.path)
+    isArticlePage.value = route.path.startsWith('/article')
+  })
   await layout.getUnreadCount()
 })
 

@@ -40,11 +40,11 @@ export const useAxiosGetArticleComment = (id, params?: PageParam) => {
 
 //----
 export interface ReplyArticleCommentBody {
-    articleFieldId: string;
-    parentCommentId: string;
-    replyUserId: string;
+    articleFieldId: string
+    parentCommentId: string
+    replyUserId: string
     replyUserCommentId: string
-    text: string;
+    text: string
 }
 
 
@@ -55,10 +55,10 @@ export const useAxiosPostReplyArticleComment = (body: ReplyArticleCommentBody) =
 
 //----
 export interface ArticleCommentAction {
-    actionCommentId: string;
-    actionUserId?: string;
-    articleFieldId: string;
-    commentType?: CommentType;
+    actionCommentId: string
+    actionUserId?: string
+    articleFieldId: string
+    commentType?: CommentType
 }
 
 export enum CommentType {
@@ -68,10 +68,11 @@ export enum CommentType {
 }
 
 export interface UserActionI {
-    thumb?: number;
-    support?: number;
-    collect: boolean;
-    follow: boolean;
+    thumb?: number
+    support?: number
+    watch?: boolean
+    collect: boolean
+    follow: boolean
 }
 
 export const useAxiosGetArticleAction = (aid: string) => {
@@ -100,9 +101,9 @@ export const useAxiosGetCollectionGroupListT = () => {
     return useGetT<Array<collectionGroupData>>('user/collection/group/list')
 }
 
-// private String groupName;
-// private Long groupId;
-// private int order;
+// private String groupName
+// private Long groupId
+// private int order
 export const useAxiosPostCreateCollectionGroup = (body: {
     groupName: string, order: number
 }) => {

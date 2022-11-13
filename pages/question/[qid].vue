@@ -133,12 +133,14 @@
                 <div class="text-h5"> {{ questionStore.filed?.title }}</div>
 
                 <div class="mt-1">
-                  <v-avatar>
-                    <v-img :src="questionStore.filed.user.userInfo.avatar"></v-img>
-                  </v-avatar>
+                  <nuxt-link target="_blank" :href="`/user/${questionStore.filed.user.id}`">
+                    <v-avatar>
+                      <v-img :src="questionStore.filed.user.userInfo.avatar"></v-img>
+                    </v-avatar>
 
-                  <span class="mr-4 text-blue">{{ questionStore.filed.user.nickname }}</span>
 
+                    <span class="ml-1 mr-4 text-blue">{{ questionStore.filed.user.nickname }}</span>
+                  </nuxt-link>
                   <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
                   <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
                   <span class="ml-4">修改：{{
@@ -182,10 +184,12 @@
                                     <v-window-item value="following">
                                       <v-list v-for="(u,index) in invitationFollowingUserList">
                                         <v-list-item>
-                                          <v-avatar>
-                                            <v-img :src="u.userInfo.avatar"></v-img>
-                                          </v-avatar>
-                                          <span class="mx-3" v-text="u.nickname"></span>
+                                          <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                            <v-avatar>
+                                              <v-img :src="u.userInfo.avatar"></v-img>
+                                            </v-avatar>
+                                            <span class="mx-3" v-text="u.nickname"></span>
+                                          </nuxt-link>
                                           <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
                                             <v-icon>
                                               mdi-language-{{ tag.name.toLocaleLowerCase() }}
@@ -213,10 +217,13 @@
                                         <v-list-item>
                                           <v-row>
                                             <v-col cols="12">
-                                              <v-avatar>
-                                                <v-img :src="u.userInfo.avatar"></v-img>
-                                              </v-avatar>
-                                              <span class="mx-3" v-text="u.nickname"></span>
+                                              <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                                <v-avatar>
+                                                  <v-img :src="u.userInfo.avatar"></v-img>
+                                                </v-avatar>
+
+                                                <span class="mx-3" v-text="u.nickname"></span>
+                                              </nuxt-link>
                                               <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
                                                 <v-icon>
                                                   mdi-language-{{ tag.name.toLocaleLowerCase() }}
@@ -245,10 +252,13 @@
                                     <v-window-item value="search">
                                       <v-list v-for="(u,index) in invitationSearchUserList">
                                         <v-list-item>
-                                          <v-avatar>
-                                            <v-img :src="u.avatar"></v-img>
-                                          </v-avatar>
-                                          <span class="mx-3" v-text="u.userNickName"></span>
+                                          <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                            <v-avatar>
+                                              <v-img :src="u.avatar"></v-img>
+                                            </v-avatar>
+
+                                            <span class="mx-3" v-text="u.userNickName"></span>
+                                          </nuxt-link>
                                           <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
                                             <v-icon>
                                               mdi-language-{{ tag.name.toLocaleLowerCase() }}
@@ -373,9 +383,9 @@
                           </v-card>
                         </template>
                       </v-dialog>
-
-                      <v-btn class="ml-4" variant="tonal" key="follow" color="#b7282e">
-                        追踪
+                      <v-btn class="ml-4" variant="tonal" key="follow" color="#ffbd2f"
+                             @click="watchQuestion(questionStore.watch)">
+                        {{ questionStore.watch ? '取消追踪' : '追踪' }}
                         <v-tooltip activator="parent" location="top">
                           关注跟踪这个问题，当有新的回答时会收到通知
                         </v-tooltip>
@@ -574,10 +584,13 @@
                           <!--                        </v-btn>-->
                         </div>
                         <div class="text-end">
-                          <v-avatar>
-                            <v-img :src="answer.user.userInfo.avatar"></v-img>
-                          </v-avatar>
-                          <span>{{ answer.user.nickname }}/</span>
+                          <nuxt-link target="_blank" :href="`/user/${answer.user.id}`">
+                            <v-avatar>
+                              <v-img :src="answer.user.userInfo.avatar"></v-img>
+                            </v-avatar>
+                            <span>{{ answer.user.nickname }}/</span>
+                          </nuxt-link>
+
                           <span class="text-grey">{{ dateFilter(answer.createTime) }}</span>
                         </div>
                       </div>
@@ -586,9 +599,9 @@
                       <v-card v-if="answer.childQaAnswers.length>0" class="pa-5">
                         <template v-for="childAnswer in answer.childQaAnswers">
                           <div class="float-left">
-                            <a :href="`/user/${childAnswer.user.id}`" target="_blank" class="text-blue">
+                            <nuxt-link :href="`/user/${childAnswer.user.id}`" target="_blank" class="text-blue">
                               {{ childAnswer.user.nickname }}：
-                            </a>
+                            </nuxt-link>
                           </div>
                           <div v-if="childAnswer.replyUserAnswerId==='0'">{{ childAnswer.textHtml }}</div>
                           <div v-else v-html="atSrtGotoHome(childAnswer.textHtml,childAnswer.parentUserId)"></div>
@@ -675,9 +688,9 @@
                     <p class="card-text mdi">
                       遵循
                       <span class="d-markdown-tip">
-                        <a href="/article/1" target="_blank">
-                          Markdown 语法排版
-                        </a>
+                        <nuxt-link href="/article/1" target="_blank">
+                          《Markdown 语法排版》
+                        </nuxt-link>
                       <v-icon size="x-large" class="mb-1">mdi-language-markdown-outline</v-icon></span>
                       ，代码语义正确
                     </p>
@@ -1034,6 +1047,28 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
     warningMsg('操作失败')
   }
 }
+
+const watchQuestion = async (cancel = false) => {
+  if (cancel) {
+    const {data: axiosResponse} = await usePost<ResponseData<boolean>>('qa/question/unwatch/' + questionId)
+    if (axiosResponse.code == 0 && axiosResponse.data) {
+      questionStore.watch = false
+      successMsg('取消追踪成功')
+    } else {
+      warningMsg(axiosResponse.msg)
+    }
+  } else {
+    const {data: response} = await usePost<ResponseData<boolean>>('qa/question/watch/' + questionId)
+    if (response.code == 0 && response.data) {
+      questionStore.watch = true
+      successMsg('追踪问题成功')
+    } else {
+      warningMsg(response.msg)
+    }
+  }
+
+}
+
 </script>
 
 
@@ -1075,7 +1110,7 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
 
 </style>
 
-<style>
+<style scoped>
 .d-answer-tip-card {
   font-size: 18px;
   border: 2px solid #1aad19;
@@ -1115,28 +1150,28 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
   margin-right: 5px;
 }
 
-.d-tip-error {
+:deep(.d-tip-error) {
   /*background: #fcf1f1 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
-.d-tip-success {
+:deep(.d-tip-success) {
   /*background: #f0f8e5 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
-.d-tip-warning {
+:deep(.d-tip-warning) {
   /*background: #fcf2e9 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
-.d-tip-info {
+:deep(.d-tip-info) {
   /*background: #eef6fd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
   border-left-color: #40c4ff !important;
@@ -1144,7 +1179,7 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
 }
 
 
-.d-tip-share {
+:deep(.d-tip-share) {
   /*background: #dddddd !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
   border-left-color: #8b968d !important;

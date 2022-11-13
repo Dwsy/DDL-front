@@ -101,11 +101,6 @@ import {ref} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {definePageMeta} from '#imports'
 
-definePageMeta(
-    {
-      // layout: false
-    }
-)
 useLayout().showFooter = false
 const userStore = useUserStore()
 const test = ref(true)
