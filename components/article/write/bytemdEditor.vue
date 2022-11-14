@@ -3,7 +3,7 @@
     <!--    <v-btn @click="changeThemes(themes[themeNameList[0]])">test</v-btn>-->
     <!--    <v-btn @click="changeThemes(themes.jzman)">test1</v-btn>-->
     <Editor id="d-Editor" :uploadImages="uploadImages" class="editor" :value="content" mode='split' :plugins="plugins"
-            :locale='zhHans' @change="handleChange" placeholder="请输入。"/>
+            :locale='zhHans' @change="handleChange" placeholder="请输入问题描述信息。"/>
   </div>
 </template>
 

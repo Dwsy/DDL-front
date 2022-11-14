@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Title>如何提问</Title>
     <v-card class="mx-16 px-16 mt-12">
       <p class="text-h3 text-center">如何提问</p>
       <div>
@@ -16,6 +17,14 @@
         <span class="text-h6 text-green">提问要求</span>
         <div class="d-answer-tip-recommend">
           <p class="card-text mdi">
+            《
+            <nuxt-link target="_blank" class="d-markdown-tip"
+                       href="https://github.com/tvvocold/How-To-Ask-Questions-The-Smart-Way">
+              提问的智慧
+            </nuxt-link>
+            》
+          </p>
+          <p class="card-text mdi">
             主题与编程技术、程序算法、开发工具相关
           </p>
           <p class="card-text mdi">
@@ -26,10 +35,10 @@
           </p>
           <p class="card-text mdi">
             遵循
-            <span class="d-markdown-tip">
-                        <nuxt-link href="/article/1" target="_blank">
-                          《Markdown 语法排版》
-                        </nuxt-link>
+            <span>
+                        《<nuxt-link href="/article/1" target="_blank" class="d-markdown-tip">
+                          Markdown 语法排版
+                        </nuxt-link>》
                       <v-icon size="x-large" class="mb-1">mdi-language-markdown-outline</v-icon></span>
             ，代码语义正确，易于阅读，准确使用标签关联问题
           </p>
@@ -95,6 +104,12 @@ const searchQuestion = async () => {
 </script>
 
 <style scoped>
+.d-markdown-tip {
+  border-bottom-color: #c2185b;
+  border-bottom-width: 2px;
+  border-bottom-style: dotted;
+}
+
 .d-answer-tip-card {
   font-size: 18px;
   border: 2px solid #1aad19;

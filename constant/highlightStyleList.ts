@@ -2,7 +2,7 @@ import {HighlightStyleNameBase16} from '~/types/other/HighlightStyle'
 
 export const changeHighlightStyle = async (name: string, ssr?: boolean) => {
     let css = null
-    // console.log('HighlightStyle', name)
+    console.log('HighlightStyle', name)
     switch (name) {
         case 'a11yDark':
             css = await import ('~~/constant/highlightCJs/a11yDark')

@@ -19,7 +19,7 @@
 }
 
 html {
-    scroll-padding-top: 55px;
+    scroll-padding-top: 55px !important;
 }
 
 /*html {*/

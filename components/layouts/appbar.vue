@@ -97,7 +97,7 @@ const isArticlePage = ref(true)
 onMounted(async () => {
   console.log('onMounted')
   watchEffect(() => {
-    console.log('route.path', route.path)
+    // console.log('route.path', route.path)
     isArticlePage.value = route.path.startsWith('/article')
   })
   await layout.getUnreadCount()

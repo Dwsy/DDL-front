@@ -133,102 +133,162 @@
                 </v-tooltip>
               </v-btn>
             </template>
-            <v-card min-width="450px" style="overflow: hidden" class="d-ArticleThemeSettings">
+            <v-card>
               <div class="text-h6 ma-2">
                 文章外观设置
               </div>
-              <v-divider class="mb-6 mt-n2"></v-divider>
+              <v-tabs
+                  v-model="selectThemeTabName"
+              >
+                <v-tab value="light">日间主题</v-tab>
+                <v-tab value="dark">夜间主题</v-tab>
+              </v-tabs>
 
-              <v-row class="pa-4 mb-n6">
+              <v-card-text>
+                <v-window v-model="selectThemeTabName">
 
-                <v-select prepend-icon="mdi-progress-pencil"
-                          label="掘金MarkdownTheme" class="mx-2 mt-n5"
-                          :items="themeNameList"
-                          item-title="text" item-value="value"
-                          return-object
-                          variant="underlined" v-model="themeName"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme(themeNameList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
-              <v-row class="pa-4 mb-n6">
+                  <v-window-item value="light">
+                    <v-card min-width="450px" style="overflow: hidden" class="d-ArticleThemeSettings">
+                      <v-divider class="mb-6 mt-n2"></v-divider>
 
-                <v-select prepend-icon="mdi-progress-pencil"
-                          label="LightMarkdownTheme" class="mx-2 mt-n5"
-                          :items="mwebLightNameList"
-                          item-title="text" item-value="value"
-                          return-object
-                          variant="underlined" v-model="themeName"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme(mwebLightNameList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
-              <v-row class="pa-4 mb-n6">
+                      <v-row class="pa-4 mb-n6">
 
-                <v-select prepend-icon="mdi-progress-pencil"
-                          label="PurpleMarkdownTheme" class="mx-2 mt-n5"
-                          :items="purpleLightList"
-                          item-title="text" item-value="value"
-                          return-object
-                          variant="underlined" v-model="themeName"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomTheme(purpleLightList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
-              <v-row class="pa-4 mb-n6">
+                        <v-select prepend-icon="mdi-progress-pencil"
+                                  label="掘金MarkdownTheme" class="mx-2 mt-n5"
+                                  :items="themeNameList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="themeName"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomTheme(themeNameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                      <v-row class="pa-4 mb-n6">
 
-                <v-select prepend-icon="mdi-progress-pencil"
-                          label="DarkMarkdownTheme" class="mx-2 mt-n5"
-                          :items="mwebDarkList"
-                          item-title="text" item-value="value"
-                          return-object
-                          variant="underlined" v-model="darkThemeName"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomThemeDark(mwebDarkList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
-              <!--              <v-btn @click="test()">test</v-btn>-->
-              <v-divider class="pb-6"></v-divider>
+                        <v-select prepend-icon="mdi-progress-pencil"
+                                  label="LightMarkdownTheme" class="mx-2 mt-n5"
+                                  :items="mwebLightNameList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="themeName"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomTheme(mwebLightNameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                      <v-row class="pa-4 mb-n6">
 
-              <v-row class="pa-4 ">
+                        <v-select prepend-icon="mdi-progress-pencil"
+                                  label="PurpleMarkdownTheme" class="mx-2 mt-n5"
+                                  :items="purpleLightList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="themeName"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomTheme(purpleLightList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
 
-                <v-select prepend-icon="mdi-code-tags"
-                          label="代码高亮风格" class="mx-2 mt-n5"
-                          :items="HighlightStyleNameList"
-                          item-title="text" item-value="value"
-                          return-object
-                          variant="underlined" v-model="highlightStyle"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomHighlightStyle(HighlightStyleNameList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
-              <v-divider class="pb-6"></v-divider>
+                      <!--              <v-btn @click="test()">test</v-btn>-->
+                      <v-divider class="pb-6"></v-divider>
 
-              <v-row class="pa-4 ">
+                      <v-row class="pa-4 ">
 
-                <v-select prepend-icon="mdi-code-tags"
-                          label="代码高亮风格Base16" class="mx-2 mt-n5"
-                          :items="HighlightStyleBase16NameList"
-                          return-object
-                          variant="underlined" v-model="highlightStyle"
-                ></v-select>
-                <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                       @click="randomHighlightStyle(HighlightStyleBase16NameList)">
-                  随便来一个
-                </v-btn>
-              </v-row>
+                        <v-select prepend-icon="mdi-code-tags"
+                                  label="代码高亮风格" class="mx-2 mt-n5"
+                                  :items="HighlightStyleNameList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="highlightStyle"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomHighlightStyle(HighlightStyleNameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                      <v-divider class="pb-6"></v-divider>
+
+                      <v-row class="pa-4 ">
+
+                        <v-select prepend-icon="mdi-code-tags"
+                                  label="代码高亮风格Base16" class="mx-2 mt-n5"
+                                  :items="HighlightStyleBase16NameList"
+                                  return-object
+                                  variant="underlined" v-model="highlightStyle"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomHighlightStyle(HighlightStyleBase16NameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                    </v-card>
+                  </v-window-item>
+
+                  <v-window-item value="dark">
+                    <v-card min-width="450px" style="overflow: hidden" class="d-ArticleThemeSettings">
+                      <v-divider class="mb-6 mt-n2"></v-divider>
+
+                      <v-row class="pa-4 mb-n6">
+
+                        <v-select prepend-icon="mdi-progress-pencil"
+                                  label="DarkMarkdownTheme" class="mx-2 mt-n5"
+                                  :items="mwebDarkList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="darkThemeName"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomThemeDark(mwebDarkList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                      <!--              <v-btn @click="test()">test</v-btn>-->
+                      <v-divider class="pb-6"></v-divider>
+
+                      <v-row class="pa-4 ">
+
+                        <v-select prepend-icon="mdi-code-tags"
+                                  label="代码高亮风格" class="mx-2 mt-n5"
+                                  :items="HighlightStyleNameList"
+                                  item-title="text" item-value="value"
+                                  return-object
+                                  variant="underlined" v-model="darkHighlightStyle"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomHighlightStyleDark(HighlightStyleNameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                      <v-divider class="pb-6"></v-divider>
+
+                      <v-row class="pa-4 ">
+
+                        <v-select prepend-icon="mdi-code-tags"
+                                  label="代码高亮风格Base16" class="mx-2 mt-n5"
+                                  :items="HighlightStyleBase16NameList"
+                                  return-object
+                                  variant="underlined" v-model="darkHighlightStyle"
+                        ></v-select>
+                        <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
+                               @click="randomHighlightStyleDark(HighlightStyleBase16NameList)">
+                          随便来一个
+                        </v-btn>
+                      </v-row>
+                    </v-card>
+                  </v-window-item>
+
+
+                </v-window>
+              </v-card-text>
             </v-card>
+
           </v-menu>
+
 
 
           <v-btn @click="layout.switchTheme(themeInstance)"
@@ -363,6 +423,8 @@ const settingsDialog = ref(false)
 const themeName = ref<string>('cyanosis')
 const darkThemeName = ref<string>('geekBlackDark')
 const highlightStyle = ref<string>('xcode')
+const darkHighlightStyle = ref<string>('xcode')
+const selectThemeTabName = ref('')
 onMounted(async () => {
   const id = route.query.id
   if (Boolean(id) === false) {
@@ -427,67 +489,25 @@ onMounted(async () => {
 
   watchEffect(async () => {
     if (themeInstance.global.name.value === 'dark') {
-      // document.querySelector('html').style.backgroundColor = '#0e0e0e'
-      // let element: HTMLElement = document.querySelector('#input-0')
-      // element.style.color = '#FFF'
-      // console.log('dark')
       await changeThemes(themes[darkThemeName.value])
-      // let right: HTMLElement = document.querySelector('.bytemd-status-right')
-      // right.style.color = '#FFF'
-      // let left: HTMLElement = document.querySelector('.bytemd-status-left')
-      // left.style.color = '#FFF'
-      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
-      //     .forEach((item: HTMLElement) => {
-      //       item.style.color = '#FFF'
-      //     })
-      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
-      //     .forEach((item: HTMLElement) => {
-      //       item.style.color = '#FFF'
-      //     })
-      // let css = await import('~~/constant/codemirrorTheme/monokai')
-      // let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
-      // if (markdownThemeStyleElement) {
-      //   markdownThemeStyleElement.innerHTML = css.default
-      // } else {
-      //   markdownThemeStyleElement = document.createElement('style')
-      //   markdownThemeStyleElement.id = 'codemirrorTheme'
-      //   markdownThemeStyleElement.innerHTML = css.default
-      //   document.head.appendChild(markdownThemeStyleElement)
-      // }
-
+      await changeHighlightStyle(darkHighlightStyle.value)
+      if (selectThemeTabName.value !== 'dark') {
+        selectThemeTabName.value = 'dark'
+      }
     } else {
-      // document.querySelector('html').style.backgroundColor = '#FFF'
-      // let element: HTMLElement = document.querySelector('#input-0')
-      // element.style.color = '#000'
       await changeThemes(themes[themeName.value])
-      // let right: HTMLElement = document.querySelector('.bytemd-status-right')
-      // right.style.color = '#000'
-      // let left: HTMLElement = document.querySelector('.bytemd-status-left')
-      // left.style.color = '#000'
-      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
-      //     .forEach((item: HTMLElement) => {
-      //       item.style.color = '#000'
-      //     })
-      // document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
-      //     .forEach((item: HTMLElement) => {
-      //       item.style.color = '#000'
-      //     })
-      // let css = await import('~~/constant/codemirrorTheme/default')
-      // let markdownThemeStyleElement = document.querySelector('#codemirrorTheme')
-      // if (markdownThemeStyleElement) {
-      //   markdownThemeStyleElement.innerHTML = css.default
-      // } else {
-      //   markdownThemeStyleElement = document.createElement('style')
-      //   markdownThemeStyleElement.id = 'codemirrorTheme'
-      //   markdownThemeStyleElement.innerHTML = css.default
-      //   document.head.appendChild(markdownThemeStyleElement)
-      // }
-
+      await changeHighlightStyle(highlightStyle.value)
+      if (selectThemeTabName.value !== 'light') {
+        selectThemeTabName.value = 'light'
+      }
     }
   })
-
-  watchEffect(async () => {
-    await changeHighlightStyle(highlightStyle.value)
+  watch(selectThemeTabName, (val) => {
+    if (val === 'dark') {
+      layout.switchDarkTheme(themeInstance)
+    } else {
+      layout.switchLightTheme(themeInstance)
+    }
   })
 
   watchEffect(async () => {
@@ -690,6 +710,12 @@ const randomThemeDark = (list: Array<string>) => {
 // }
 const randomHighlightStyle = (list: Array<string>) => {
   highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(highlightStyle.value)
+}
+
+const randomHighlightStyleDark = (list: Array<string>) => {
+  darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(darkHighlightStyle.value)
 }
 // const randomThemeLight = () => {
 //   themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]

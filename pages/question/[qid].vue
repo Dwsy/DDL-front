@@ -866,8 +866,10 @@ onMounted(async () => {
   // #answerId-1588022587668037632-#test
   let h = route.hash
   if (h) {
-    let hash = h.split('+')
-    document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
+    if (h.indexOf('+') > 0) {
+      let hash = h.split('+')
+      document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
+    }
   }
   watch(invitationAnswer, async (val) => {
     if (val) {
