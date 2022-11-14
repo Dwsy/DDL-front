@@ -290,7 +290,6 @@
           </v-menu>
 
 
-
           <v-btn @click="layout.switchTheme(themeInstance)"
                  icon="true" size="small" class="ml-5" elevation="0"
                  transition="fade-transition">
@@ -404,11 +403,9 @@ const bannerRules = [
     return !value || !value.length || value[0].size < 5000000 || '头图大小超过 5 MB!'
   },
 ]
-// import '~~/constant/mwebMarkDownThemes/dark/ayuMirage'
 
 const test = () => {
   changeThemes(themes['ayuMirage'])
-  // console.log(themes['ayuMirage'])
 }
 //todo 图片裁切功能
 const articleSource = ref<ArticleSource>()
@@ -427,23 +424,18 @@ const darkHighlightStyle = ref<string>('xcode')
 const selectThemeTabName = ref('')
 onMounted(async () => {
   const id = route.query.id
+  let version = Number(route.query.version || -1)
   if (Boolean(id) === false) {
-
     isNew.value = true
     await router.push({
       query: {
         new: 'true'
       }
     })
-    // disableUploadBtn.value = false
-    // articleFieldData.value = null
-    // articleFieldData.value.title = ''
-
   } else {
-
     if (route.query.id) {
       afId.value = String(route.query.id)
-      const {data: ArticleFieldResponse} = await useAxiosGetArticleField(afId.value)
+      const {data: ArticleFieldResponse} = await useAxiosGetArticleField(afId.value, version)
       //todo 优化
       if (ArticleFieldResponse.data === null) {
         await router.push({
@@ -464,7 +456,8 @@ onMounted(async () => {
           })
         }
         const {data: ContentResponse} = await useAxiosGetArticleContent(afId.value, {
-          type: ContentType.markdown
+          type: ContentType.markdown,
+          version: version
         })
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
@@ -518,12 +511,6 @@ onMounted(async () => {
 
   watch(bannerFile, () => {
     disableUploadBtn.value = bannerFile.value == null
-    // const reader = new FileReader()
-    // const file = bannerFile.value[0]
-    // reader.readAsDataURL(file)
-    // reader.onload = () => {
-    //   localBannerImg.value = reader.result
-    // }
   })
 
 })
@@ -556,7 +543,6 @@ const publishArticle = async () => {
   articleTagIds.value = new Set<string>()
   articleTagList.value.forEach((tag) => {
     articleTagIds.value.add(tag.id)
-    // articleTagIds.value.push(tag.id)
   })
   let body: CreateArticleBody = {
     allowComment: true,
@@ -704,10 +690,6 @@ const randomTheme = (list: Array<string>) => {
 const randomThemeDark = (list: Array<string>) => {
   darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1]
 }
-
-// const randomThemeJuejin = () => {
-//   themeName.value = themeNameList[Math.ceil(Math.random() * themeNameList.length) - 1]
-// }
 const randomHighlightStyle = (list: Array<string>) => {
   highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
   changeHighlightStyle(highlightStyle.value)
@@ -717,12 +699,6 @@ const randomHighlightStyleDark = (list: Array<string>) => {
   darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
   changeHighlightStyle(darkHighlightStyle.value)
 }
-// const randomThemeLight = () => {
-//   themeName.value = mwebLightNameList[Math.ceil(Math.random() * mwebLightNameList.length) - 1]
-// }
-// const randomThemeDark = () => {
-//   darkThemeName.value = mwebDarkList[Math.ceil(Math.random() * mwebDarkList.length) - 1]
-// }
 const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active
 onMounted(() => {

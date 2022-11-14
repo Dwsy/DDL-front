@@ -29,11 +29,11 @@ export const useAxiosPutUpdateAskQuestion = (body: CreateQuestionBody) => {
 }
 
 
-export const useAxiosGetQuestionContent = (id: string, type: ContentType) => {
-    return useGet<ResponseData<string>>('qa/question/content/' + id, {type})
+export const useAxiosGetQuestionContent = (id: string, type: ContentType, version: number) => {
+    return useGet<ResponseData<string>>('qa/question/manage/content/' + id, {type, version})
 }
 
-export const useAxiosGetQuestionField = (id) => {
-    return useGet<ResponseData<any>>('qa/question/field/' + id, null)
+export const useAxiosGetQuestionField = (id: string, version: number) => {
+    return useGet<ResponseData<any>>('qa/question/manage/field/' + id, {version})
 }
 

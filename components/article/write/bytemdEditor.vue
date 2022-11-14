@@ -188,6 +188,7 @@ const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boo
         if (lines[i].startsWith(string)) {
           lines[i] = lines[i].replace(string, '')
           ret = true
+          return ret
         }
       }
       // console.log(lines.join('\n'))
@@ -197,9 +198,9 @@ const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boo
         innerHTML = innerHTML.replace(string, '')
         p.innerHTML = innerHTML
         ret = true
+        return ret
       }
     }
-
   }
   return ret
 }

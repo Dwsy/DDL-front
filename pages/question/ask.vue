@@ -348,6 +348,8 @@ const selectThemeTabName = ref('')
 onMounted(async () => {
   document.title = '提问题'
   const id = route.query.id
+  let version = Number(route.query.version || -1)
+  console.log('version', version)
   if (Boolean(id) === false) {
     isNew.value = true
     await router.push({
@@ -359,7 +361,7 @@ onMounted(async () => {
 
     if (route.query.id) {
       questionId.value = String(route.query.id)
-      const {data: questionFieldResponse} = await useAxiosGetQuestionField(questionId.value)
+      const {data: questionFieldResponse} = await useAxiosGetQuestionField(questionId.value, version)
       //todo 优化
       if (questionFieldResponse.data === null) {
         await router.push({
@@ -378,7 +380,7 @@ onMounted(async () => {
             message: 'Unauthorized'
           })
         }
-        const {data: ContentResponse} = await useAxiosGetQuestionContent(questionId.value, ContentType.markdown)
+        const {data: ContentResponse} = await useAxiosGetQuestionContent(questionId.value, ContentType.markdown, version)
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
           title.value = questionFieldData.value.title

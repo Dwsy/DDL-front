@@ -12,9 +12,6 @@ export const useAxiosPutUpdateArticle = (body: CreateArticleBody) => {
     return usePut<ResponseData<any>>('article/article', body)
 }
 
-export const useAxiosGetArticleField = (id) => {
-    return useGet<ResponseData<any>>('article/article/field/' + id, null)
-}
 
 export enum ContentType {
     html,
@@ -22,9 +19,6 @@ export enum ContentType {
     markdown
 }
 
-export const useAxiosGetArticleContent = (id, params?: { type?: ContentType }) => {
-    return useGet<ResponseData<any>>('article/article/content/' + id, params)
-}
 
 export const useAxiosPostUploadImg = (file) => {
     let config: AxiosRequestConfig = {}
@@ -45,4 +39,11 @@ export const useAxiosGetUserArticleList = (params?: GetUserArticleListParams) =>
 
 export const useAxiosGetArticleCountByState = () => {
     return useGet<ResponseData<any>>('article/article/manage/field/num')
+}
+
+export const useAxiosGetArticleField = (id: string, version: number) => {
+    return useGet<ResponseData<any>>('article/article/manage/field/' + id, {version})
+}
+export const useAxiosGetArticleContent = (id, params?: { type?: ContentType, version }) => {
+    return useGet<ResponseData<any>>('article/article/manage/content/' + id, params)
 }
