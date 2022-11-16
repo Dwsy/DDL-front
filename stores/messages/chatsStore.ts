@@ -237,7 +237,7 @@ export const useChatsStore = defineStore('chats', {
         // },
         async scrollBottom() {
             await nextTick()
-            document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
+            document.querySelector('div.lite-chatbox > div:last-child > div > div > div > div > span.d-time').scrollIntoView()
             // let chatbox = document.querySelector('.lite-chatbox')
             // chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
             // let element = document.getElementsByClassName('lite-chatbox')[0]

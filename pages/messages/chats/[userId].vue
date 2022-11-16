@@ -75,12 +75,12 @@
                   </v-avatar>
                   <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
                 </div>
-                <template v-else>
+                <div v-else>
                   <v-avatar size="large">
                     <v-img :src="useUserStore().userInfo.avatar"></v-img>
                   </v-avatar>
                   <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
-                </template>
+                </div>
 
 
               </v-col>

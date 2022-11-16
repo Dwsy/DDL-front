@@ -1,7 +1,7 @@
 <template>
   <div id="chats-window">
 
-    <v-row class="mt-n3 ml-5">
+    <v-row class="mt-n3">
       <v-col cols="3">
 
         <v-list>

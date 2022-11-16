@@ -5,7 +5,7 @@
     <v-row class="box">
       <!--      style="height: calc(100% - 66px)"-->
 
-      <v-col class="d-messages-aside ml-n5 mr-2">
+      <v-col class="d-messages-aside mr-n41" cols="2">
 
         <v-list>
           <v-list-subheader>消息中心</v-list-subheader>
@@ -32,12 +32,12 @@
       </v-col>
 
       <v-divider :vertical="true"></v-divider>
-      <v-col xl="9" lg="9" md="10" sm="9" xs="12" class="d-messages-child">
+      <v-col xl="9" lg="9" md="10" sm="9" xs="12" cols="10" class="d-messages-child">
         <NuxtPage/>
       </v-col>
-      <v-col cols="1">
-        3
-      </v-col>
+      <!--      <v-col cols="1">-->
+      <!--        3-->
+      <!--      </v-col>-->
     </v-row>
   </v-container>
 
@@ -163,22 +163,23 @@ onBeforeRouteLeave((to, from) => {
   height: 100%;
 }
 
-.d-messages-child {
-  margin-left: 200px;
-}
+/*.d-messages-child {*/
+/*  margin-left: 200px;*/
+/*}*/
 
-@media (min-width: 1930px) {
-  .d-messages-child {
-    margin-left: 250px;
-  }
-}
+/*@media (min-width: 1930px) {*/
+/*  .d-messages-child {*/
+/*    margin-left: 250px;*/
+/*  }*/
+/*}*/
 
 .d-messages-aside {
-  position: fixed;
-  left: 300px;
-  top: 8%;
-  bottom: 0;
-  width: 230px;
+  position: sticky;
+  flex: 0 0 13.7% !important;
+  /*left: 300px;*/
+  /*top: 8%;*/
+  /*bottom: 0;*/
+  /*width: 230px;*/
   /*height: 100%;*/
   /*max-width: 200px;height:90%*/
 }
