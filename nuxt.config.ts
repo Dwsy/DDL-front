@@ -56,13 +56,21 @@ export default defineNuxtConfig({
             'composables/**'
         ]
     },
-    publicRuntimeConfig: {
-        axios: {
-            baseURL:
-                process.env.NODE_ENV === process.env.BASE_URL
-        },
-        app: {
-            baseURL: process.env.BASE_URL
+    // publicRuntimeConfig: {
+    //     axios: {
+    //         baseURL:
+    //             process.env.NODE_ENV === process.env.BASE_URL
+    //     },
+    //     app: {
+    //         baseURL: process.env.BASE_URL
+    //     }
+    // },
+    runtimeConfig: {
+        // Private keys are only available on the server
+        apiSecret: '123',
+        // Public keys that are exposed to the client
+        public: {
+            baseURL: process.env.NUXT_PUBLIC_API_BASE_URL
         }
     },
     typescript: {

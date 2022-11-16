@@ -29,6 +29,8 @@ export interface unreadNotifyI {
     unreadInvitationAnswerCount: number
 
     unreadAcceptedAnswerCount: number
+
+    unreadNotifyQuestionOrAnswerThumbCount: number
 }
 
 export enum unreadNotifyEnum {

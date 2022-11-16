@@ -1,14 +1,16 @@
 import {_AsyncData} from 'nuxt/dist/app/composables/asyncData'
 import {hash} from 'ohash'
-import {useFetch, useNuxtApp} from '#app'
+import {useFetch, useNuxtApp, useRuntimeConfig} from '#app'
 import {createError} from 'h3'
 import {ResponseData} from '~/types/utils/axios'
 
 const fetch = (url: string, options?: any): Promise<any> => {
-    const {$config} = useNuxtApp()
-    const reqUrl = $config.public.app.baseURL + url // 你的接口地址
+    const runtimeConfig = useRuntimeConfig()
+    const baseURL = runtimeConfig.public.baseURL
+    const reqUrl = baseURL + url // 你的接口地址
     // 不设置key，始终拿到的都是第一个请求的值，参数一样则不会进行第二次请求
-    const t = Math.trunc(new Date().getTime() / 12000) + ''
+    const t = Math.trunc(new Date().getTime() / 10000) + ''
+    // const t = Math.trunc(new Date().getTime() / 12000) + ''
     const key = hash(JSON.stringify(options) + url + t)
     //  const key = hash(JSON.stringify(options) + '_' + url+ new Date().getTime())
     //  console.log("h",hash(JSON.stringify(options) + url+t));

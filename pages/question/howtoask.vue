@@ -1,7 +1,7 @@
 <template>
   <div>
     <Title>如何提问</Title>
-    <v-card class="mx-16 px-16 mt-12">
+    <v-card class="mx-16 px-16 mt-12 py-4">
       <p class="text-h3 text-center">如何提问</p>
       <div>
         <p class="text-h6">
