@@ -3,7 +3,7 @@
 
 
     <client-only>
-      <v-toolbar density="compact">
+      <v-toolbar density="compact" multiple>
         <emoji-picker @addEmoji="addEmoji"></emoji-picker>
         <input type="file" id="file" style="display:none;" v-on:change="changeImgFile($event)"
                accept="image/gif,image/jpeg,image/jpg,image/png">
@@ -13,6 +13,17 @@
           </v-icon>
           <v-tooltip activator="parent" location="top">
             发送图片
+          </v-tooltip>
+        </v-btn>
+        <v-btn icon @click="chatsStore.enableMdMode=!chatsStore.enableMdMode">
+          <v-icon v-if="chatsStore.enableMdMode">
+            mdi-language-markdown
+          </v-icon>
+          <v-icon v-else>
+            mdi-language-markdown-outline
+          </v-icon>
+          <v-tooltip activator="parent" location="top">
+            {{ chatsStore.enableMdMode ? '关闭' : '开启' }}markdown模式
           </v-tooltip>
         </v-btn>
       </v-toolbar>
@@ -35,10 +46,15 @@ import {onMounted, ref, watch} from 'vue'
 import {defaultMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
 import {useAxiosPostUploadAvatar} from '~/composables/Api/user/settings'
 import mediumZoom from 'medium-zoom'
+import {changeThemes, themes} from '~/constant/markdownThemeList'
+import {changeHighlightStyle} from '~/constant/highlightStyleList'
 
 const imgFile = ref()
 const chatsStore = useChatsStore()
-onMounted(() => {
+
+onMounted(async () => {
+  await changeThemes(themes['hydrogen'], false)
+  await changeHighlightStyle('github')
   watch(imgFile, (val) => {
     console.log(val)
     // if(val){

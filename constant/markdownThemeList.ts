@@ -10,6 +10,9 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
         case 'smartblue':
             css = await import ('juejin-markdown-themes/dist/smartblue')
             break
+        case 'github':
+            css = await import ('juejin-markdown-themes/dist/github')
+            break
         case 'cyanosis':
             css = await import ('juejin-markdown-themes/dist/cyanosis')
             break
@@ -195,6 +198,11 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
 export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {
     geekBlackDark: {
         name: 'geekBlackDark',
+        path: '',
+        highlight: ''
+    },
+    github: {
+        name: 'github',
         path: '',
         highlight: ''
     },

@@ -45,6 +45,7 @@ export type typoraPurpleThemeLight =
 export type MarkdownThemeNameList =
     mwebDark | mwebLight | typoraPurpleThemeLight
     | 'smartblue'
+    | 'github'
     | 'cyanosis'
     | 'channingCyan'
     | 'fancy'
