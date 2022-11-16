@@ -2,20 +2,15 @@
   <div id="reply-window">
     <v-row class="ml-5">
       <v-col>
-
         <v-tabs
             v-model="tab"
         >
           <v-tab value="newAnswer">最新回答({{ newAnswerCount }})</v-tab>
           <v-tab value="acceptedAnswer">被采纳回答({{ acceptedAnswerCount }})</v-tab>
         </v-tabs>
-
-
         <v-window v-model="tab">
-
           <v-window-item value="newAnswer">
             <v-list>
-
               <v-list-item
                   v-for="(item, i) in qaWatchStore.qaWatchNotifyList"
                   :key="item.id"
@@ -25,8 +20,6 @@
                   :href="qaWatchStore.getGoToLink(item)"
                   target="_blank"
               >
-                <!--            :href="qaAnswerStore.getGoToLink(item)"-->
-                <!--            target="_blank"-->
                 <template v-slot:prepend>
                   <v-badge color="red" :dot="true" class="mr-3"
                            :model-value="item.notifyState===NotifyState.UNREAD">
@@ -34,12 +27,8 @@
                       <v-img :src="item.formUserAvatar"></v-img>
                     </v-avatar>
                   </v-badge>
-
-
                 </template>
-
                 <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
-                <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
                 <div>
               <span class="text-grey">
                 {{ NotifyType[item.notifyType] }}
@@ -51,14 +40,10 @@
                 </div>
                 <span>{{ dateFilter(item.createTime) }}</span>
                 <v-divider></v-divider>
-
-
               </v-list-item>
             </v-list>
           </v-window-item>
-
           <v-window-item value="acceptedAnswer">
-
             <v-list-item
                 v-for="(item, i) in qaWatchStore.qaWatchNotifyList"
                 :key="item.id"
@@ -68,8 +53,6 @@
                 :href="qaWatchStore.getGoToLink(item)"
                 target="_blank"
             >
-              <!--            :href="qaAnswerStore.getGoToLink(item)"-->
-              <!--            target="_blank"-->
               <template v-slot:prepend>
                 <v-badge color="red" :dot="true" class="mr-3"
                          :model-value="item.notifyState===NotifyState.UNREAD">
@@ -77,12 +60,8 @@
                     <v-img :src="item.formUserAvatar"></v-img>
                   </v-avatar>
                 </v-badge>
-
-
               </template>
-
               <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
-              <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
               <div>
               <span class="text-grey">
                 {{ NotifyType[item.notifyType] }}
@@ -94,13 +73,9 @@
               </div>
               <span>{{ dateFilter(item.createTime) }}</span>
               <v-divider></v-divider>
-
-
             </v-list-item>
           </v-window-item>
         </v-window>
-
-
       </v-col>
     </v-row>
   </div>
@@ -119,11 +94,9 @@ import {ResponseData} from '~/types/utils/axios'
 definePageMeta({
   keepalive: false,
 })
-
 let theme = useTheme()
 const tab = ref()
 const type = ref(QaWatchType.new)
-// let replyStore = useReplyStore()
 const qaWatchStore = useQaWatchStore()
 const newAnswerCount = ref()
 const acceptedAnswerCount = ref()
@@ -134,10 +107,8 @@ onMounted(async () => {
   acceptedAnswerCount.value = acceptedAnswerNumR.data
   document.documentElement.scrollTop = 0
   await qaWatchStore.loadQaWatchNotifyList(type.value, false)
-  // document.body.onscroll =  useLoadingWin(loadingMore)
   document.body.onscroll = useLoadingWin(loadingMore)
   watch(tab, async (val) => {
-
     val === 'newAnswer' ? type.value = QaWatchType.new : val === 'acceptedAnswer' ? type.value = QaWatchType.accepted : type.value = QaWatchType.new
     qaWatchStore.page = 1
     qaWatchStore.totalPages = null
@@ -148,12 +119,9 @@ onUnmounted(() => {
   qaWatchStore.page = 1
   qaWatchStore.totalPages = null
 })
-
-
 const loadingMore = async () => {
   if (qaWatchStore.page >= qaWatchStore.totalPages) {
     if (qaWatchStore.qaWatchNotifyList.length > 15) {
-      // alert.value = true
       document.body.onscroll = null
     }
     return

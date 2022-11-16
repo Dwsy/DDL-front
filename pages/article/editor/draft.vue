@@ -96,7 +96,7 @@
               ></v-select>
               <!--              {{ articleSourceItem }}-->
               <!--              {{ articleSource }}-->
-              <v-text-field v-if="articleSource!==ArticleSource.original"
+              <v-text-field v-if="articleSource!==ArticleSource.original" v-model="articleSourceUrl"
                             label="来源文章URL" variant="outlined" class="mx-2">
               </v-text-field>
               <v-card-actions>
@@ -274,9 +274,10 @@
                                   return-object
                                   variant="underlined" v-model="darkHighlightStyle"
                         ></v-select>
+
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
                                @click="randomHighlightStyleDark(HighlightStyleBase16NameList)">
-                          随便来一个
+                          随便来一个123{{ darkHighlightStyle }}
                         </v-btn>
                       </v-row>
                     </v-card>
@@ -556,6 +557,7 @@ const publishArticle = async () => {
     articleSource: articleSource.value,
     articleSourceUrl: articleSourceUrl.value,
     codeHighlightStyle: highlightStyle.value,
+    codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value
   }
@@ -592,6 +594,7 @@ const updateArticle = async () => {
     articleSourceUrl: articleSourceUrl.value,
     articleId: afId.value,
     codeHighlightStyle: highlightStyle.value,
+    codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value
   }

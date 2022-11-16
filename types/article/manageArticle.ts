@@ -14,6 +14,7 @@ export interface CreateArticleBody {
     articleSource: ArticleSource;
     articleSourceUrl?: string;
     codeHighlightStyle?: HighlightStyleName | string
+    codeHighlightStyleDark?: string
     markDownTheme?: MarkdownTheme | string
     markDownThemeDark?: mwebDark | string
 
