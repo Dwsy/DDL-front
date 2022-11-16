@@ -8,7 +8,7 @@ import {
 import {nextTick, successMsg} from '#imports'
 import {defaultMsg, errorMsg, warningMsg} from '~~/composables/utils/toastification'
 import {useUserStore} from '~/stores/user'
-import {chatTextConvert} from '~/composables/useTools'
+import {chatTextConvert, getChatType} from '~/composables/useTools'
 
 interface ChatsStore {
     chatsList: Ref<ChatsListData[]>
@@ -23,6 +23,7 @@ interface ChatsStore {
     chatWsMsgUnreadNum: Map<string, number>
     auth: boolean
     load: boolean
+    enableMdMode: boolean
 }
 
 export const useChatsStore = defineStore('chats', {
@@ -39,7 +40,8 @@ export const useChatsStore = defineStore('chats', {
             chatWsMap: new Map<string, WebSocket>(),
             chatWsMsgUnreadNum: new Map<string, number>(),
             auth: false,
-            load: true
+            load: true,
+            enableMdMode: false
         }
     },
     getters: {},
@@ -59,9 +61,14 @@ export const useChatsStore = defineStore('chats', {
                 return
             }
             this.chatsList.forEach((item) => {
-                if (item.content.startsWith('img||')) {
+                const chatType = getChatType(item.content)
+                if (chatType === ChatType.img) {
                     item.content = '[图片]'
                 }
+                if (chatType === ChatType.markdown) {
+                    item.content = '[Markdwon消息]'
+                }
+
                 if (item.toUserId == item.chatUserId) {
                     item.content = '我: ' + item.content
                 }
@@ -85,8 +92,10 @@ export const useChatsStore = defineStore('chats', {
                 if (response.code === 0) {
                     let ra: Array<ChatRecord> = []
                     ra = response.data.content
-                    ra.forEach((item) => {
-                        item.content = decodeURI(chatTextConvert(item.content))
+                    ra.forEach((item, index) => {
+                        const chatType: ChatType = getChatType(item.content)
+                        item.chatType = chatType
+                        item.content = decodeURI(chatTextConvert(item.content, chatType))
                     })
                     this.chatRecord = ra.reverse()
                     this.chatUserNickname = this.chatRecord[0].chatUserNickname
@@ -114,7 +123,9 @@ export const useChatsStore = defineStore('chats', {
                         let ra: Array<ChatRecord> = []
                         ra = response.data.content
                         ra.forEach((item) => {
-                            item.content = decodeURI(chatTextConvert(item.content))
+                            const chatType: ChatType = getChatType(item.content)
+                            item.chatType = chatType
+                            item.content = decodeURI(chatTextConvert(item.content, chatType))
                         })
                         this.chatRecord.unshift(...ra.reverse())
                     } else {
@@ -233,7 +244,13 @@ export const useChatsStore = defineStore('chats', {
             // element.scrollTo(0, element.scrollHeight)
         },
         async sendMessage() {
-            let content = this.msg
+            let content: string
+            if (this.enableMdMode) {
+                content = 'md||' + this.msg
+            } else {
+                content = this.msg
+            }
+
             let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
             if (response.code === 0) {
 
@@ -280,7 +297,8 @@ export const useChatsStore = defineStore('chats', {
 
 
             }
-            Message.content = decodeURI(chatTextConvert(Message.content))
+            Message.chatType = getChatType(Message.content)
+            Message.content = decodeURI(chatTextConvert(Message.content, Message.chatType))
             Message.chatUserNickname = this.chatUserNickname
             Message.chatUserAvatar = this.chatUserAvatar
             // console.log('this.chatsToUserId', this.chatsToUserId)
@@ -362,6 +380,11 @@ interface ChatRecord {
     chatUserAvatar: any;
     content: string;
     status: ChatRecordStatus;
+    chatType: ChatType
+}
+
+export enum ChatType {
+    text, img, markdown
 }
 
 export enum ChatRecordStatus {

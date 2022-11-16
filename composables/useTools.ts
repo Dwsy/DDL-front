@@ -3,6 +3,8 @@ import dayjs from 'dayjs'
 // import {el} from 'vuetify/locale'
 // import 'dayjs/locale/zh-cn'
 import {format as timeAgoFormat} from 'timeago.js'
+import {marked} from 'marked'
+import {ChatType} from '~/stores/messages/chatsStore'
 
 export const dateFilter = (val: any, format = 'YYYY-MM-DD hh:mm:ss') => {
     if (!isNaN(val)) {
@@ -76,14 +78,35 @@ export function isNumber(str: any) {
     return /^\d+$/.test(str)
 }
 
-
-export const chatTextConvert = (str: string) => {
-    if (!str) return ''
-    let r = chatToImg(str)
-    if (!r) {
-        return urlToLink(str)
+export const getChatType = (str: string) => {
+    if (str.startsWith('img||')) {
+        return ChatType.img
     }
-    return r
+    if (str.startsWith('md||')) {
+        return ChatType.markdown
+    }
+    return ChatType.text
+}
+
+export const chatTextConvert = (str, type?: ChatType) => {
+    if (!str) return ''
+    switch (type) {
+        case ChatType.text:
+            return str
+        case ChatType.img:
+            return chatToImg(str)
+        case ChatType.markdown:
+            return chatMdToHtml(str)
+    }
+    // let r = chatToImg(str)
+    // if (!r) {
+    //     let md = chatMdToHtml(str)
+    //     if (!md) {
+    //         return urlToLink(str)
+    //     }
+    //     return md
+    // }
+    return str
 }
 
 /**
@@ -110,6 +133,13 @@ export const chatToImg = (str: string) => {
     return false
 }
 
+export const chatMdToHtml = (str: string) => {
+    if (str.startsWith('md||')) {
+        let s = str.replace('md||', '')
+        return marked.parse(s)
+    }
+    return false
+}
 
 export const xssFilter = (html: string) => {
     const divStub = document.createElement('div')

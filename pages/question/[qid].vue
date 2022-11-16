@@ -313,7 +313,8 @@
 
                 </div>
 
-                <div class="markdown-body question-content" v-html="questionStore.content" v-hljs></div>
+                <div class="markdown-body question-content" v-html="questionStore.content"
+                     v-hljs="{addCopy:true}"></div>
 
                 <v-chip-group class="mt-7">
                   <v-chip v-for="tag in questionStore.filed.questionTags" :key="tag.id" size="small">
@@ -518,7 +519,7 @@
                     <v-card class="pa-4">
                       <!--                    <v-row>-->
                       <!--                      <v-col>-->
-                      <div v-html="answer.textHtml" v-hljs class="markdown-body"></div>
+                      <div v-html="answer.textHtml" v-hljs="{addCopy:true}" class="markdown-body"></div>
                       <!--                      <div v-html="answer.textHtml" class="markdown-body"></div>-->
                       <div class="mt-4">
                         <div class="float-left">

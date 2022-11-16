@@ -42,7 +42,12 @@
                   <v-avatar size="large">
                     <v-img :src="i.chatUserAvatar"></v-img>
                   </v-avatar>
-                  <span class="content" style="font-size: 18px" v-html="i.content"></span>
+                  <span class="content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
+                        v-hljs="{addCopy:false}"
+                        v-if="i.chatType===ChatType.markdown">
+                  </span>
+                  <span class="content" style="font-size: 18px" v-html="i.content" v-else>
+                  </span>
                   <span class="d-read ml-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
                   <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
                 </v-col>
@@ -57,7 +62,13 @@
               <v-col>
                 <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
                 <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
-                <span class="content" style="font-size: 18px" v-html="i.content"></span>
+                <span class="md-content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
+                      v-hljs="{addCopy:false}"
+                      v-if="i.chatType===ChatType.markdown">
+                </span>
+                <span class="content" style="font-size: 18px" v-html="i.content" v-else>
+
+                </span>
                 <v-avatar size="large">
                   <v-img :src="useUserStore().userInfo.avatar"></v-img>
                 </v-avatar>
@@ -80,7 +91,7 @@
 <script setup lang="ts">
 import {definePageMeta, isNumber} from '#imports'
 import {defaultMsg, errorMsg, warningMsg} from '~/composables/utils/toastification'
-import {useChatsStore, ChatRecordStatus} from '~/stores/messages/chatsStore'
+import {useChatsStore, ChatRecordStatus, ChatType} from '~/stores/messages/chatsStore'
 import {nextTick, onMounted, onUnmounted, onUpdated, ref, watch} from 'vue'
 import {useRoute} from '#app'
 import {useHead} from '#head'
@@ -220,7 +231,6 @@ const mediumZoomFn = () => {
     background: 'rgba(0,0,0,0.4)',
     scrollOffset: 0,
   })
-  document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
 }
 </script>
 
@@ -242,6 +252,19 @@ const mediumZoomFn = () => {
 .box {
   height: 100%;
 }
+
+.md-content {
+  display: inline-block;
+  /*border: 1px solid rgb(246, 245, 247) !important;*/
+  /*position: relative;*/
+  /*line-height: 1.75;*/
+  /*width: auto;*/
+  text-align: start;
+  /*margin: 0 !important;*/
+  /*background: v-bind('toBubbleColor.back') !important;*/
+  color: v-bind('toBubbleColor.font') !important;
+}
+
 
 .lite-chatbox .cleft .content {
   max-width: 45%;

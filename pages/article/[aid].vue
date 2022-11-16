@@ -82,7 +82,7 @@
           <div v-html="articleStore.contentHtml"
                v-show="!articleStore.loading"
                class=" js-toc-content markdown-body"
-               v-hljs
+               v-hljs="{addCopy:true}"
           ></div>
           <!--          v-intersect="()=>{gotoTitle=true}"-->
           <div v-show="articleStore.loading" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
