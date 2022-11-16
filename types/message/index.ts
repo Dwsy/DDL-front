@@ -30,7 +30,9 @@ export enum NotifyType {
     '支持了你的问题:',
     '支持了你的回答:',
     '邀请回答问题',
-    '被采纳'
+    '被采纳',
+    '回答 通知',
+    '被采纳 通知'
 }
 
 export enum NotifyTypeEn {
@@ -44,7 +46,11 @@ export enum NotifyTypeEn {
     answer_comment,
     up_question,
     up_question_answer,
-    invitation_user_answer_question
+    invitation_user_answer_question,
+    accepted_question_answer,
+    ///
+    watch_answer,
+    watch_accepted_question_answer,
 }
 
 export enum NotifyState {

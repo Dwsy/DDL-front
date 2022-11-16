@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 
-import {onMounted, onUnmounted, reactive, ref} from 'vue'
+import {inject, onMounted, onUnmounted, provide, reactive, ref} from 'vue'
 import {definePageMeta} from '#imports'
 import {warningMsg} from '~/composables/utils/toastification'
 import {useLayout} from '~/stores/layout'
@@ -105,6 +105,7 @@ let items = ref([
   },
   {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation'},
   {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted'},
+  {text: '跟踪问题', icon: 'mdi-eye', to: '/messages/qa/watch'},
 ])
 //todo read --
 onMounted(async () => {
@@ -113,9 +114,11 @@ onMounted(async () => {
 
   const {data: axiosResponse} = await useAxiosGetUnreadMessageCount(CountType.Detail)
 
+
   if (axiosResponse.code == 0) {
     const unreadNotify = axiosResponse.data
 
+    provide('unreadNotify', unreadNotify)
     items.value[0].unreadCount = unreadNotify.unreadNotifyReplyCommentCount || 0
     items.value[1].unreadCount = unreadNotify.unreadAtMeCount || 0
     items.value[2].unreadCount = unreadNotify.ArticleOrCommentThumbCount || 0
@@ -126,6 +129,7 @@ onMounted(async () => {
     items.value[7].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
     items.value[8].unreadCount = unreadNotify.unreadInvitationAnswerCount || 0
     items.value[9].unreadCount = unreadNotify.unreadAcceptedAnswerCount || 0
+    items.value[10].unreadCount = unreadNotify.unreadWatchAnswer + unreadNotify.unreadWatchAcceptedQuestionAnswer || 0
 
   } else {
     warningMsg('获取未读消息数量失败')

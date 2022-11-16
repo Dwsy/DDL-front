@@ -7,6 +7,3 @@ export const UseAxiosGetReplyMeNotify = (page: number) => {
     return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/reply', {page})
 }
 
-
-
-
