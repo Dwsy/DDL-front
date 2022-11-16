@@ -90,6 +90,7 @@ import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
 import ChatInputBox from '~/components/messages/chatInputBox.vue'
 import {timeAgoFilter} from '~~/composables/useTools'
+import mediumZoom from 'medium-zoom'
 
 definePageMeta({
   keepalive: false,
@@ -174,7 +175,13 @@ onMounted(async () => {
     await chatsStore.pullLastMessage(true, userId)
     loading.value = false
     document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
+
     await chatsStore.scrollBottom()
+    setTimeout(() => {
+      // document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
+      mediumZoomFn()
+    }, 500)
+
   } else {
     errorMsg('路径错误')
   }
@@ -187,7 +194,10 @@ onMounted(() => {
 
 })
 const loadMore = async (entries) => {
-  await chatsStore.pullLastMessage(false)
+  if (!chatsStore.load) {
+    await chatsStore.pullLastMessage(false)
+  }
+  mediumZoomFn()
   console.log('loadMore', entries)
 }
 
@@ -198,7 +208,20 @@ const readMsg = async (e, msg) => {
     }
   }
 }
+onMounted(() => {
 
+})
+const mediumZoomFn = () => {
+  const imgNodes: NodeListOf<HTMLImageElement> = document
+      .querySelector('.lite-chatbox')
+      .querySelectorAll('.d-chat-img')
+  mediumZoom(imgNodes, {
+    margin: 24,
+    background: 'rgba(0,0,0,0.4)',
+    scrollOffset: 0,
+  })
+  document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
+}
 </script>
 
 <style scoped>

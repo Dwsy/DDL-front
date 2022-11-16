@@ -45,6 +45,7 @@ import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
 import {useHead} from '#head'
 import {useLayout} from '~/stores/layout'
+import {useTheme} from 'vuetify'
 //todo 因为做了瀑布流需要加一个 seo 隐藏分页
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
@@ -52,6 +53,7 @@ import {useLayout} from '~/stores/layout'
 definePageMeta({
   keepalive: true
 })
+const theme = useTheme()
 useLayout().showFooter = true
 const showText = ref(false)
 onMounted(() => {
@@ -123,6 +125,8 @@ const loadingMore = async () => {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css" scoped>
+:deep(.v-card--variant-elevated, .v-card--variant-flat) {
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0f0f0f" : "#FFF"') !important;
+}
 </style>

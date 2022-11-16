@@ -76,17 +76,22 @@ export function isNumber(str: any) {
     return /^\d+$/.test(str)
 }
 
+
+export const chatTextConvert = (str: string) => {
+    if (!str) return ''
+    let r = chatToImg(str)
+    if (!r) {
+        return urlToLink(str)
+    }
+    return r
+}
+
 /**
  * 转换一段文字中的 url 为 a 标签
  * @param {String} str 要转换的字符串
  * @returns {String} linkStr 转换后的字符串
  */
 export const urlToLink = (str: string) => {
-    if (!str) {
-        return str
-    }
-
-    // 防止 XSS攻击
     str = xssFilter(str)
 
     const re = /(f|ht){1}(tp|tps):\/\/([\w-]+\S)+[\w-]+([\w-?%#&=]*)?(\/[\w- ./?%#&=]*)?/g
@@ -96,6 +101,15 @@ export const urlToLink = (str: string) => {
     })
     return str
 }
+
+export const chatToImg = (str: string) => {
+    if (str.startsWith('img||')) {
+        let s = str.replace('img||', '')
+        return `<img class="d-chat-img" alt="" src="${s}">`
+    }
+    return false
+}
+
 
 export const xssFilter = (html: string) => {
     const divStub = document.createElement('div')

@@ -5,10 +5,10 @@ import {
     UseAxiosGetHistoryMessage, UseAxiosGetMessageByLatestId,
     UseAxiosGetPrivateMessageList, UseAxiosPostReadMessageById, UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
-import {nextTick} from '#imports'
+import {nextTick, successMsg} from '#imports'
 import {defaultMsg, errorMsg, warningMsg} from '~~/composables/utils/toastification'
 import {useUserStore} from '~/stores/user'
-import {urlToLink} from '~/composables/useTools'
+import {chatTextConvert} from '~/composables/useTools'
 
 interface ChatsStore {
     chatsList: Ref<ChatsListData[]>
@@ -17,11 +17,12 @@ interface ChatsStore {
     chatsToUserId: string
     chatUserNickname: string
     totalPages: number
-    sendMsg: string
+    msg: string
     chatUserAvatar: number
     chatWsMap: Map<string, WebSocket>
     chatWsMsgUnreadNum: Map<string, number>
     auth: boolean
+    load: boolean
 }
 
 export const useChatsStore = defineStore('chats', {
@@ -34,10 +35,11 @@ export const useChatsStore = defineStore('chats', {
             chatUserNickname: '',
             chatUserAvatar: 0,
             totalPages: 0,
-            sendMsg: '',
+            msg: '',
             chatWsMap: new Map<string, WebSocket>(),
             chatWsMsgUnreadNum: new Map<string, number>(),
-            auth: false
+            auth: false,
+            load: true
         }
     },
     getters: {},
@@ -48,6 +50,7 @@ export const useChatsStore = defineStore('chats', {
                     return
                 }
             }
+
             let {data: response} = await UseAxiosGetPrivateMessageList()
             if (response.code === 0) {
                 this.chatsList = response.data.content
@@ -56,12 +59,16 @@ export const useChatsStore = defineStore('chats', {
                 return
             }
             this.chatsList.forEach((item) => {
+                if (item.content.startsWith('img||')) {
+                    item.content = '[图片]'
+                }
                 if (item.toUserId == item.chatUserId) {
                     item.content = '我: ' + item.content
                 }
                 this.connectWsChannel(Number(item.chatUserId))
                 this.chatWsMsgUnreadNum.set(item.chatUserId, 0)
             })
+
             // this.chatsList.forEach(item => {
             //     this.connectWsChannel(Number(item.chatUserId))
             //     this.chatWsMsgUnreadNum.set(item.chatUserId, 0)
@@ -72,14 +79,14 @@ export const useChatsStore = defineStore('chats', {
         async pullLastMessage(init: boolean, toUserId?: string, latest?: number) {
             console.log('拉取消息', init, toUserId, latest)
             if (init) {
-                console.log('init')
+                this.msg = ''
                 this.chatWsMsgUnreadNum.set(Number(toUserId), 0)
                 let {data: response} = await UseAxiosGetMessageByLatestId(toUserId)
                 if (response.code === 0) {
                     let ra: Array<ChatRecord> = []
                     ra = response.data.content
                     ra.forEach((item) => {
-                        item.content = decodeURI(urlToLink(item.content))
+                        item.content = decodeURI(chatTextConvert(item.content))
                     })
                     this.chatRecord = ra.reverse()
                     this.chatUserNickname = this.chatRecord[0].chatUserNickname
@@ -90,6 +97,7 @@ export const useChatsStore = defineStore('chats', {
                     if (response.data.content.length === 1) {
                         await this.loadChatsList()
                     }
+                    this.load = false
                 } else {
                     warningMsg(response.msg)
                     return
@@ -106,7 +114,7 @@ export const useChatsStore = defineStore('chats', {
                         let ra: Array<ChatRecord> = []
                         ra = response.data.content
                         ra.forEach((item) => {
-                            item.content = decodeURI(urlToLink(item.content))
+                            item.content = decodeURI(chatTextConvert(item.content))
                         })
                         this.chatRecord.unshift(...ra.reverse())
                     } else {
@@ -202,7 +210,7 @@ export const useChatsStore = defineStore('chats', {
         //         let ra: Array<ChatRecord> = []
         //         ra = response.data.content
         //         ra.forEach((item) => {
-        //             item.content = decodeURI(urlToLink(item.content))
+        //             item.content = decodeURI(chatTextConvert(item.content))
         //         })
         //         if (this.chatRecord == undefined) {
         //             this.chatRecord = ra.reverse()
@@ -218,13 +226,14 @@ export const useChatsStore = defineStore('chats', {
         // },
         async scrollBottom() {
             await nextTick()
-            let div = document.getElementsByClassName('lite-chatbox')[0]
-            div.scrollTop = div.scrollHeight //当前div的滚轮始终保持最下面
+            document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
+            // let chatbox = document.querySelector('.lite-chatbox')
+            // chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
             // let element = document.getElementsByClassName('lite-chatbox')[0]
             // element.scrollTo(0, element.scrollHeight)
         },
         async sendMessage() {
-            let content = this.sendMsg
+            let content = this.msg
             let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
             if (response.code === 0) {
 
@@ -233,8 +242,19 @@ export const useChatsStore = defineStore('chats', {
                 warningMsg(response.msg)
                 return
             }
-            this.sendMsg = ''
+            this.msg = ''
 
+        },
+        async sendImg(url: string) {
+            let content = `img||${url}`
+            let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
+            if (response.code === 0) {
+                successMsg('发送成功')
+                return true
+            } else {
+                warningMsg(response.msg)
+                return false
+            }
         },
         async receiveMessage(msg: string) {
             let Message: ChatRecord = JSON.parse(msg)
@@ -260,17 +280,17 @@ export const useChatsStore = defineStore('chats', {
 
 
             }
-            Message.content = decodeURI(urlToLink(Message.content))
+            Message.content = decodeURI(chatTextConvert(Message.content))
             Message.chatUserNickname = this.chatUserNickname
             Message.chatUserAvatar = this.chatUserAvatar
             // console.log('this.chatsToUserId', this.chatsToUserId)
             // console.log('Message.formUserId', Message.formUserId)
 
-            // let sendMsg: ChatRecord = {
+            // let msg: ChatRecord = {
             //     chatUserAvatar: undefined,
             //     chatUserId: 0,
             //     chatUserNickname: undefined,
-            //     content: decodeURI(urlToLink(content)),
+            //     content: decodeURI(chatTextConvert(content)),
             //     createTime: new Date().getTime(),
             //     deleted: false,
             //     formUserId: 0,
@@ -279,7 +299,7 @@ export const useChatsStore = defineStore('chats', {
             //     status: '0',
             //     toUserId: this.toUserId
             // }
-            // this.chatRecord.push(sendMsg)
+            // this.chatRecord.push(msg)
 
 
             if (this.chatsToUserId === Message.formUserId ||

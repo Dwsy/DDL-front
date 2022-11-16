@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-card elevation="1" outlined transition="scroll-y-transition">
+    <v-card elevation="1" outlined transition="scroll-y-transition" variant="elevated">
       <!--    <v-card elevation="1" outlined transition="scroll-y-transition" :theme="theme">-->
       <v-row no-gutters>
         <v-col class="pl-2" cols="4">
@@ -22,49 +22,53 @@
       </v-row>
       <v-divider class="mx-3"></v-divider>
 
-      <v-card target="_blank" :href="`/article/${id}`">
+      <!--      <v-card target="_blank" :href="`/article/${id}`">-->
+      <nuxt-link target="_blank" :href="`/article/${id}`">
+
         <!--      <v-card target="_blank" :href="`/article/${id}`" :theme="theme">-->
-        <v-row>
+        <v-row align="start">
           <v-col cols="8">
-            <v-row>
-              <v-col>
-                <v-row class="h-75">
-                  <v-col>
-                    <v-card-title>{{ title }}</v-card-title>
-                    <v-card-text class="overflow-hidden ml-3 mb-n6"
-                                 style="max-height: 75px;font-size: 19px;line-height:25px;color: #86909c">{{ summary }}
-                    </v-card-text>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="6" class="ml-8 mt-4">
-                    <!--                      <v-btn icon="true">-->
-                    <v-icon size="x-small">mdi-eye-outline</v-icon>
-                    <!--                      </v-btn>-->
-                    <span class="text-subtitle-2 mx-1">{{ viewNum }}</span>
-                    <!--                      <v-btn icon="true">-->
-                    <v-icon size="x-small">mdi-comment-outline</v-icon>
-                    <!--                      </v-btn>-->
-                    <span class="text-subtitle-2 mx-1">{{ commentNum }}</span>
-                    <!--                      <v-btn icon="true">-->
-                    <v-icon size="x-small">mdi-heart-outline</v-icon>
-                    <!--                      </v-btn>-->
-                    <span class="text-subtitle-2 mx-1">{{ collectNum }}</span>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
+            <v-col>
+              <v-row>
+                <v-col>
+                  <v-card-title>{{ title }}</v-card-title>
+                  <v-card-text class="overflow-hidden ml-3 mb-n6"
+                               style="height: 50px;font-size: 19px;line-height:25px;color: #86909c">{{
+                      summary
+                    }}
+                  </v-card-text>
+                </v-col>
+              </v-row>
+              <v-row align="end" class="mt-6">
+                <v-col cols="6" class="ml-8 float-end">
+                  <!--                      <v-btn icon="true">-->
+                  <v-icon size="x-small">mdi-eye-outline</v-icon>
+                  <!--                      </v-btn>-->
+                  <span class="text-subtitle-2 mx-1">{{ viewNum }}</span>
+                  <!--                      <v-btn icon="true">-->
+                  <v-icon size="x-small">mdi-comment-outline</v-icon>
+                  <!--                      </v-btn>-->
+                  <span class="text-subtitle-2 mx-1">{{ commentNum }}</span>
+                  <!--                      <v-btn icon="true">-->
+                  <v-icon size="x-small">mdi-heart-outline</v-icon>
+                  <!--                      </v-btn>-->
+                  <span class="text-subtitle-2 mx-1">{{ collectNum }}</span>
+                </v-col>
+              </v-row>
+            </v-col>
+
           </v-col>
           <v-col>
             <!--              <v-img :src="imgList[Math.ceil(Math.random()*imgList.length)-1]" transition="slide-y-reverse-transition"-->
-            <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]"
-                   transition="slide-y-reverse-transition" :aspect-ratio="16 / 6" :cover="true"
+            <v-img :src="banner||imgList[Math.ceil(Math.random()*imgList.length)-1]" style="max-height: 180px"
+                   transition="slide-y-reverse-transition" :aspect-ratio="16/6" :cover="true"
             ></v-img>
 
           </v-col>
         </v-row>
-      </v-card>
+      </nuxt-link>
     </v-card>
+    <!--    </v-card>-->
 
     <v-divider class="my-2"></v-divider>
   </div>

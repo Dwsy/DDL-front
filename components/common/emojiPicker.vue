@@ -5,14 +5,19 @@
       :close-on-content-click="false"
   >
     <template v-slot:activator="{ props }">
-      <v-icon v-bind="props">
-        mdi-sticker-emoji
-      </v-icon>
+      <v-btn v-bind="props" icon size="small">
+        <v-icon>
+          mdi-sticker-emoji
+        </v-icon>
+        <v-tooltip activator="parent" location="top">
+          表情
+        </v-tooltip>
+      </v-btn>
 
     </template>
-    <client-only>
-      <EmojiPicker :native="true" @select="onSelectEmoji"/>
-    </client-only>
+
+    <EmojiPicker :native="true" @select="onSelectEmoji"/>
+
   </v-menu>
 
 </template>
@@ -26,7 +31,12 @@ const emojiPickerMenu = ref(false)
 const emit = defineEmits(['addEmoji'])
 
 function onSelectEmoji(emoji) {
-  emit('addEmoji', emoji.t)
+  emit('addEmoji', emoji.i)
+}
+
+// http://img//
+const sendImg = () => {
+
 }
 </script>
 

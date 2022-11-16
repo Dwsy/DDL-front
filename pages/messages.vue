@@ -16,6 +16,7 @@
               :to="item.to"
               active-color="primary"
               rounded="xl"
+              @click="changeTitle(item.text)"
           >
             <template v-slot:prepend>
               <v-badge :content="item.unreadCount" :model-value="item.unreadCount" color="red" class="mr-3"
@@ -63,14 +64,22 @@ definePageMeta({
 const unReadCount = ref<unreadNotifyI>()
 // const chatsStore = useChatsStore()
 const layout = useLayout()
-let items = ref([
+
+interface items {
+  text: string,
+  icon: string,
+  to: string,
+  unreadCount: number
+}
+
+let items = ref<items[]>([
   {
     text: '回复我的',
     icon: 'mdi-reply',
     to: '/messages/reply',
     unreadCount: undefined
   },
-  {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at'},
+  {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at', unreadCount: undefined},
   {
     text: '受到的赞',
     icon: 'mdi-thumb-up-outline',
@@ -103,9 +112,9 @@ let items = ref([
     text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats',
     unreadCount: undefined
   },
-  {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation'},
-  {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted'},
-  {text: '跟踪问题', icon: 'mdi-eye', to: '/messages/qa/watch'},
+  {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation', unreadCount: undefined},
+  {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted', unreadCount: undefined},
+  {text: '跟踪问题', icon: 'mdi-eye', to: '/messages/qa/watch', unreadCount: undefined},
 ])
 //todo read --
 onMounted(async () => {
@@ -138,6 +147,9 @@ onMounted(async () => {
 onUnmounted(() => {
   layout.showFooter = true
 })
+const changeTitle = (title) => {
+  document.title = '消息中：' + title
+}
 onBeforeRouteLeave((to, from) => {
   console.log('leave')
   console.log('to', to)
