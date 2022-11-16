@@ -15,7 +15,7 @@
             发送图片
           </v-tooltip>
         </v-btn>
-        <v-btn icon @click="chatsStore.enableMdMode=!chatsStore.enableMdMode">
+        <v-btn icon @click="changeInputMode()">
           <v-icon v-if="chatsStore.enableMdMode">
             mdi-language-markdown
           </v-icon>
@@ -26,11 +26,39 @@
             {{ chatsStore.enableMdMode ? '关闭' : '开启' }}markdown模式
           </v-tooltip>
         </v-btn>
+
+        <v-dialog :open-on-click="false" v-model="previewMd">
+          <template v-slot:activator="{ props }">
+            <v-btn v-if="chatsStore.enableMdMode" class="ml-1" icon v-bind="props"
+                   key="reply" @click="openPreviewDialog">
+              <v-tooltip activator="parent" location="top">
+                预览markdown
+              </v-tooltip>
+              <v-icon>
+                mdi-eye
+              </v-icon>
+            </v-btn>
+          </template>
+          <template v-slot:default="{ isActive }">
+
+            <v-card style="margin-left: 15%;width:70%" class="px-4">
+              <div class="markdown-body mt-n4"
+                   v-html="previewMdFn()" v-hljs="{addCopy:false}">
+              </div>
+              <v-card-actions>
+                <v-btn color="primary" block @click="previewMd = false">关闭</v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+
+
       </v-toolbar>
     </client-only>
 
 
-    <v-textarea fluid placeholder="输入消息..." clearable v-model="chatsStore.msg"
+    <v-textarea fluid :placeholder="`输入${chatsStore.enableMdMode ? 'Markdown格式' : '纯文本格式' }消息...`" clearable
+                v-model="chatsStore.msg"
                 clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
                 rows="4">
     </v-textarea>
@@ -48,13 +76,16 @@ import {useAxiosPostUploadAvatar} from '~/composables/Api/user/settings'
 import mediumZoom from 'medium-zoom'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
+import {marked} from 'marked'
+import {useTheme} from 'vuetify'
 
+const theme = useTheme()
 const imgFile = ref()
 const chatsStore = useChatsStore()
-
+const previewMd = ref(false)
 onMounted(async () => {
   await changeThemes(themes['hydrogen'], false)
-  await changeHighlightStyle('github')
+  await changeHighlightStyle('after')
   watch(imgFile, (val) => {
     console.log(val)
     // if(val){
@@ -62,6 +93,20 @@ onMounted(async () => {
     // }
   })
 })
+const openPreviewDialog = () => {
+  if (chatsStore.enableMdMode) {
+    if (chatsStore.msg) {
+      previewMd.value = true
+    } else {
+      warningMsg('请输入先内容')
+    }
+  } else {
+    warningMsg('请先开启markdown模式')
+  }
+}
+const previewMdFn = () => {
+  return marked.parse(chatsStore.msg)
+}
 const addEmoji = (emojiStr) => {
   chatsStore.msg += emojiStr
 }
@@ -80,9 +125,21 @@ const changeImgFile = async (e) => {
   }
 }
 
+const changeInputMode = () => {
 
+  chatsStore.enableMdMode = !chatsStore.enableMdMode
+  if (chatsStore.enableMdMode) {
+    successMsg('开启markdown模式')
+  } else {
+    defaultMsg('关闭markdown模式')
+  }
+
+}
 </script>
 
 <style scoped>
+:deep(.markdown-body code, .markdown-body pre) {
+  font-family: sans-serif !important;
+}
 
 </style>

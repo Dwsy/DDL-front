@@ -35,11 +35,11 @@
           </v-btn>
         </div>
       </v-col>
-      <v-divider vertical="true"></v-divider>
-      <v-col>
+      <v-divider :vertical="true"></v-divider>
+      <v-col cols="9">
         <NuxtPage/>
       </v-col>
-      <v-divider vertical="true"></v-divider>
+      <v-divider :vertical="true"></v-divider>
       <!--        <v-col cols="1">-->
       <!--          3-->
       <!--        </v-col>-->

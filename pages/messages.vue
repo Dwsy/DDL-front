@@ -31,7 +31,7 @@
 
       </v-col>
 
-      <v-divider vertical="true"></v-divider>
+      <v-divider :vertical="true"></v-divider>
       <v-col xl="9" lg="9" md="10" sm="9" xs="12" class="d-messages-child">
         <NuxtPage/>
       </v-col>

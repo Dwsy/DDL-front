@@ -10,7 +10,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.directive('hljs', {
         mounted(el, binding) {
             let addCopy = binding.value.addCopy
-            console.log('hljs', binding.value.addCopy)
             const CodeNodeList: NodeListOf<HTMLElement> = el.querySelectorAll('pre code')
             // console.log('CodeNodeList', CodeNodeList)
             const CodeLength = CodeNodeList.length

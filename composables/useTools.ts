@@ -92,7 +92,7 @@ export const chatTextConvert = (str, type?: ChatType) => {
     if (!str) return ''
     switch (type) {
         case ChatType.text:
-            return str
+            return urlToLink(str)
         case ChatType.img:
             return chatToImg(str)
         case ChatType.markdown:
@@ -126,19 +126,13 @@ export const urlToLink = (str: string) => {
 }
 
 export const chatToImg = (str: string) => {
-    if (str.startsWith('img||')) {
-        let s = str.replace('img||', '')
-        return `<img class="d-chat-img" alt="" src="${s}">`
-    }
-    return false
+    let s = str.replace('img||', '')
+    return `<img class="d-chat-img" alt="" src="${s}">`
 }
 
 export const chatMdToHtml = (str: string) => {
-    if (str.startsWith('md||')) {
-        let s = str.replace('md||', '')
-        return marked.parse(s)
-    }
-    return false
+    let s = str.replace('md||', '')
+    return marked.parse(s)
 }
 
 export const xssFilter = (html: string) => {

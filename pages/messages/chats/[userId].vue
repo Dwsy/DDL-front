@@ -42,10 +42,10 @@
                   <v-avatar size="large">
                     <v-img :src="i.chatUserAvatar"></v-img>
                   </v-avatar>
-                  <span class="content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
-                        v-hljs="{addCopy:false}"
-                        v-if="i.chatType===ChatType.markdown">
-                  </span>
+                  <div class="content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
+                       v-hljs="{addCopy:true}"
+                       v-if="i.chatType===ChatType.markdown">
+                  </div>
                   <span class="content" style="font-size: 18px" v-html="i.content" v-else>
                   </span>
                   <span class="d-read ml-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
@@ -62,18 +62,27 @@
               <v-col>
                 <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
                 <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
-                <span class="md-content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
-                      v-hljs="{addCopy:false}"
-                      v-if="i.chatType===ChatType.markdown">
-                </span>
+                <div class="md-content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
+                     v-hljs="{addCopy:true}"
+                     v-if="i.chatType===ChatType.markdown">
+                </div>
                 <span class="content" style="font-size: 18px" v-html="i.content" v-else>
 
                 </span>
-                <v-avatar size="large">
-                  <v-img :src="useUserStore().userInfo.avatar"></v-img>
-                </v-avatar>
+                <div v-if="i.chatType===ChatType.markdown" style="position: sticky;bottom: 4%">
+                  <v-avatar size="large">
+                    <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                  </v-avatar>
+                  <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                </div>
+                <template v-else>
+                  <v-avatar size="large">
+                    <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                  </v-avatar>
+                  <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                </template>
 
-                <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+
               </v-col>
             </v-row>
           </div>
@@ -103,6 +112,7 @@ import ChatInputBox from '~/components/messages/chatInputBox.vue'
 import {timeAgoFilter} from '~~/composables/useTools'
 import mediumZoom from 'medium-zoom'
 
+const theme = useTheme()
 definePageMeta({
   keepalive: false,
   // pageTransition: AbstractRange
@@ -141,7 +151,7 @@ definePageMeta({
 })
 onMounted(async () => {
   //todo css统一管理
-  if (useTheme().global.name.value == 'dark') {
+  if (theme.global.name.value == 'dark') {
     toBubbleColor.value = {
       back: '#303030',
       font: '#ffffff'
@@ -151,7 +161,7 @@ onMounted(async () => {
       font: '#ffffff'
     }
   }
-  watch(useTheme().global.name, (val) => {
+  watch(theme.global.name, (val) => {
     if (val === 'dark') {
       toBubbleColor.value = {
         back: '#303030',
@@ -324,4 +334,19 @@ const mediumZoomFn = () => {
   display: inline !important;
 }
 
+</style>
+
+<style scoped>
+:deep(.markdown-body pre code ul) {
+  list-style-type: none;
+  counter-reset: linenumber;
+}
+
+:deep(.markdown-body pre code ul li:before) {
+  counter-increment: linenumber;
+  content: counter(linenumber);
+  margin-left: -20px;
+  margin-right: 14px;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+}
 </style>
