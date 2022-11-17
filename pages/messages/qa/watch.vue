@@ -1,6 +1,6 @@
 <template>
   <div id="reply-window">
-    <v-row class="ml-5">
+    <v-row class="">
       <v-col>
         <v-tabs
             v-model="tab"

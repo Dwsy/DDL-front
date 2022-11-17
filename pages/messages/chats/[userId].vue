@@ -1,100 +1,104 @@
 <template>
-  <div style="height: 90%">
-    <div style="height: 80%">
-      <v-divider class="mb-4 "></v-divider>
-      <v-row class="">
-        <v-col cols="5" offset="5" class="mr-n4 ">
+  <client-only>
+    <div style="height: 90%">
+      <div style="height: 80%">
+        <v-divider class="mb-4 "></v-divider>
+        <v-row class="">
+          <v-col cols="5" offset="5" class="mr-n4 ">
         <span style="font-weight: bold;font-size: 21px">
         {{ chatsStore.chatUserNickname }}</span>
-        </v-col>
-        <v-col cols="2">
-          <v-btn color="blue" elevation="0" class="mb-1  mx-16">
-            <span style="color: white">关注</span>
-          </v-btn>
-        </v-col>
-      </v-row>
+          </v-col>
+          <v-col cols="2">
+            <v-btn color="blue" elevation="0" class="mb-1  mx-16">
+              <span style="color: white">关注</span>
+            </v-btn>
+          </v-col>
+        </v-row>
 
 
-      <v-divider class="mb-4 mt-2"></v-divider>
-      <div class="lite-chatbox">
-        <div v-if="loading">
-          <v-row class="my-n12">
-            <v-col cols="12" class="text-center">
-              <span style="font-size: 20px" class="mt-16">加载中...</span>
-            </v-col>
-          </v-row>
-        </div>
-        <div v-else v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
-          <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
-            <!--            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : ''  }}</span>-->
-            <span> {{ index + 1 % 10 === 1 ? timeAgoFilter(i.createTime) : '' }}</span>
-          </div>
-          <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
-          <div v-if="i.toUserId===uid">
-            <div v-if="i.status===ChatRecordStatus.WITHDRAW">
-              <div class="tips">
-                <span>撤回了一条消息</span>
-              </div>
-            </div>
-            <div v-else class="cleft cmsg" v-intersect.once="(e)=>{readMsg(e,i);i.status=ChatRecordStatus.READ}">
-              <v-row class="my-n12">
-                <v-col>
-                  <v-avatar size="large">
-                    <v-img :src="i.chatUserAvatar"></v-img>
-                  </v-avatar>
-                  <div class="content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
-                       v-hljs="{addCopy:true}"
-                       v-if="i.chatType===ChatType.markdown">
-                  </div>
-                  <span class="content" style="font-size: 18px" v-html="i.content" v-else>
-                  </span>
-                  <span class="d-read ml-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
-                  <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
-                </v-col>
-
-              </v-row>
-            </div>
-          </div>
-
-
-          <div v-else class="cright cmsg">
+        <v-divider class="mb-4 mt-2"></v-divider>
+        <div class="lite-chatbox">
+          <div v-if="loading">
             <v-row class="my-n12">
-              <v-col>
-                <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
-                <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
-                <div class="md-content markdown-body" style="font-size: 18px;max-width: 100%" v-html="i.content"
-                     v-hljs="{addCopy:true}"
-                     v-if="i.chatType===ChatType.markdown">
-                </div>
-                <span class="content" style="font-size: 18px" v-html="i.content" v-else>
-
-                </span>
-                <div v-if="i.chatType===ChatType.markdown" style="position: sticky;bottom: 4%">
-                  <v-avatar size="large">
-                    <v-img :src="useUserStore().userInfo.avatar"></v-img>
-                  </v-avatar>
-                  <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
-                </div>
-                <div v-else>
-                  <v-avatar size="large">
-                    <v-img :src="useUserStore().userInfo.avatar"></v-img>
-                  </v-avatar>
-                  <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
-                </div>
-
-
+              <v-col cols="12" class="text-center">
+                <span style="font-size: 20px" class="mt-16">加载中...</span>
               </v-col>
             </v-row>
           </div>
+          <div v-else v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
+            <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
+              <!--            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : ''  }}</span>-->
+              <span> {{ index + 1 % 10 === 1 ? timeAgoFilter(i.createTime) : '' }}</span>
+            </div>
+            <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
+            <div v-if="i.toUserId===uid">
+              <div v-if="i.status===ChatRecordStatus.WITHDRAW">
+                <div class="tips">
+                  <span>撤回了一条消息</span>
+                </div>
+              </div>
+              <div v-else class="cleft cmsg" v-intersect.once="(e)=>{readMsg(e,i);i.status=ChatRecordStatus.READ}">
+                <v-row class="my-n12">
+                  <v-col>
+                    <v-avatar size="large">
+                      <v-img :src="i.chatUserAvatar"></v-img>
+                    </v-avatar>
+                    <div class="content markdown-body" :id="i.id" style="font-size: 18px;max-width: 100%"
+                         v-html="i.content"
+                         v-hljs="{addCopy:true}"
+                         v-if="i.chatType===ChatType.markdown">
+                    </div>
+                    <span class="content" :id="i.id" style="font-size: 18px" v-html="i.content" v-else>
+                  </span>
+                    <span class="d-read ml-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
+                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                  </v-col>
+
+                </v-row>
+              </div>
+            </div>
+
+
+            <div v-else class="cright cmsg">
+              <v-row class="my-n12">
+                <v-col>
+                  <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
+                  <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
+                  <div class="md-content markdown-body" :id="i.id" style="font-size: 18px;max-width: 100%"
+                       v-html="i.content"
+                       v-hljs="{addCopy:true}"
+                       v-if="i.chatType===ChatType.markdown">
+                  </div>
+                  <span class="content" :id="i.id" style="font-size: 18px" v-html="i.content" v-else>
+
+                </span>
+                  <template v-if="i.chatType===ChatType.markdown" style="position: sticky;bottom: 4%">
+                    <v-avatar size="large">
+                      <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                    </v-avatar>
+                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                  </template>
+                  <template v-else>
+                    <v-avatar size="large">
+                      <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                    </v-avatar>
+                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                  </template>
+
+
+                </v-col>
+              </v-row>
+            </div>
+          </div>
         </div>
+
       </div>
 
+      <chat-input-box>
+      </chat-input-box>
     </div>
 
-    <chat-input-box>
-    </chat-input-box>
-  </div>
-
+  </client-only>
 </template>
 
 <script setup lang="ts">
@@ -196,30 +200,35 @@ onMounted(async () => {
     await chatsStore.pullLastMessage(true, userId)
     loading.value = false
     document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
-
+    chatsStore.load = false
     await chatsStore.scrollBottom()
     setTimeout(() => {
-      // document.querySelector('div.lite-chatbox > div:last-child > div > div > div > span.d-time').scrollIntoView()
+      let chatbox = document.querySelector('.lite-chatbox')
+      chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
       mediumZoomFn()
     }, 500)
 
   } else {
     errorMsg('路径错误')
   }
+  watch(chatsStore.chatRecord, (val) => {
+    setTimeout(() => {
+      mediumZoomFn()
+    }, 500)
+  })
   // chatsStore.connectWsChannel()
 })
 onMounted(() => {
   console.log('window onMounted')
   chatsStore.totalPages = 1
   chatsStore.chatRecord = []
-
+  chatsStore.load = true
 })
 const loadMore = async (entries) => {
   if (!chatsStore.load) {
     await chatsStore.pullLastMessage(false)
   }
   mediumZoomFn()
-  console.log('loadMore', entries)
 }
 
 const readMsg = async (e, msg) => {
@@ -232,15 +241,26 @@ const readMsg = async (e, msg) => {
 onMounted(() => {
 
 })
+const alreadyMediumZoomChatIdList = ref<string[]>([])
 const mediumZoomFn = () => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
       .querySelector('.lite-chatbox')
       .querySelectorAll('.d-chat-img')
-  mediumZoom(imgNodes, {
-    margin: 24,
-    background: 'rgba(0,0,0,0.4)',
-    scrollOffset: 0,
+  imgNodes.forEach((imgNode) => {
+
+    if (!alreadyMediumZoomChatIdList.value.includes(imgNode.parentElement.id)) {
+      alreadyMediumZoomChatIdList.value.push(imgNode.parentElement.id)
+      mediumZoom(imgNode, {
+        background: 'rgba(0,0,0,0.8)'
+      })
+      console.log('mediumZoom:', imgNode.parentElement.id)
+    }
   })
+  // mediumZoom(imgNodes, {
+  //   margin: 24,
+  //   background: 'rgba(0,0,0,0.4)',
+  //   scrollOffset: 0,
+  // })
 }
 </script>
 
@@ -259,9 +279,9 @@ const mediumZoomFn = () => {
 }
 
 
-.box {
-  height: 100%;
-}
+/*.box {*/
+/*  height: 100%;*/
+/*}*/
 
 .md-content {
   display: inline-block;

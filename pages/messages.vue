@@ -1,47 +1,49 @@
 <template>
 
-  <v-container fluid id="message" class="d-messages-box" style="">
-    <v-divider class="mb-3"></v-divider>
-    <v-row class="box">
-      <!--      style="height: calc(100% - 66px)"-->
+  <client-only>
+    <v-container fluid id="message" class="d-messages-box" style="">
 
-      <v-col class="d-messages-aside mr-n41" cols="2">
+      <v-row class="box">
+        <!--      style="height: calc(100% - 66px)"-->
 
-        <v-list>
-          <v-list-subheader>消息中心</v-list-subheader>
-          <v-list-item
-              v-for="(item, i) in items"
-              :key="i"
-              :value="item"
-              :to="item.to"
-              active-color="primary"
-              rounded="xl"
-              @click="changeTitle(item.text)"
-          >
-            <template v-slot:prepend>
-              <v-badge :content="item.unreadCount" :model-value="item.unreadCount" color="red" class="mr-3"
-                       :floating="true">
-                <v-icon :icon="item.icon"></v-icon>
-              </v-badge>
+        <v-col class="d-messages-aside" cols="2">
 
-            </template>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item>
-        </v-list>
+          <v-list>
+            <v-list-subheader>消息中心</v-list-subheader>
+            <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+                :value="item"
+                :to="item.to"
+                active-color="primary"
+                rounded="xl"
+                @click="changeTitle(item.text)"
+            >
+              <template v-slot:prepend>
+                <v-badge :content="item.unreadCount" :model-value="item.unreadCount" color="red" class="mr-3"
+                         :floating="true">
+                  <v-icon :icon="item.icon"></v-icon>
+                </v-badge>
 
-      </v-col>
+              </template>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item>
+          </v-list>
 
-      <v-divider :vertical="true"></v-divider>
-      <v-col xl="9" lg="9" md="10" sm="9" xs="12" cols="10" class="d-messages-child">
-        <NuxtPage/>
-      </v-col>
-      <!--      <v-col cols="1">-->
-      <!--        3-->
-      <!--      </v-col>-->
-    </v-row>
-  </v-container>
+        </v-col>
+
+        <v-divider :vertical="true"></v-divider>
+        <v-col xl="9" lg="9" md="10" sm="9" xs="12" cols="10" class="d-messages-child">
+          <NuxtPage/>
+        </v-col>
+        <!--      <v-col cols="1">-->
+        <!--        3-->
+        <!--      </v-col>-->
+      </v-row>
+    </v-container>
 
 
+  </client-only>
 </template>
 
 <script setup lang="ts">
@@ -158,10 +160,10 @@ onBeforeRouteLeave((to, from) => {
 })
 </script>
 
-<style>
-.d-messages-box {
-  height: 100%;
-}
+<style scoped>
+/*.d-messages-box {*/
+/*  height: 100%;*/
+/*}*/
 
 /*.d-messages-child {*/
 /*  margin-left: 200px;*/
@@ -174,8 +176,18 @@ onBeforeRouteLeave((to, from) => {
 /*}*/
 
 .d-messages-aside {
-  position: sticky;
   flex: 0 0 13.7% !important;
+  /*left: 300px;*/
+  /*top: 8%;*/
+  /*bottom: 0;*/
+  /*width: 230px;*/
+  /*height: 100%;*/
+  /*max-width: 200px;height:90%*/
+}
+
+#message > div > div.v-col.v-col-2.d-messages-aside > div {
+  position: sticky;
+  top: 8%;
   /*left: 300px;*/
   /*top: 8%;*/
   /*bottom: 0;*/

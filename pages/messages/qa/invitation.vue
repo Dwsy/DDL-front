@@ -1,6 +1,6 @@
 <template>
   <div id="reply-window">
-    <v-row class="ml-5">
+    <v-row class="">
       <v-col>
         <!--        <div class="text-start ">-->
         <!--          <v-btn icon elevation="0" @click="qaInvitationAnswerStore.loadQaAnswerNotifyList()">-->

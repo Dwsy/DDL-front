@@ -1,6 +1,6 @@
 <template>
   <div id="thumb-window">
-    <v-row class="ml-5">
+    <v-row class="">
       <v-col>
         <!--        <div class="text-end ">-->
         <!--          <v-btn icon="true" elevation="0" @click="thumbStore.loadThumbNotifyList()">-->

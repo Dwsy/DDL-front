@@ -67,21 +67,21 @@ onUnmounted(() => {
 </script>
 
 <style>
-.d-messages-box {
-  height: 100%;
-}
+/*.d-messages-box {*/
+/*  height: 100%;*/
+/*}*/
 
 .d-messages-aside {
-  left: 5%;
-  /*z-index: 1004;*/
-  /*transform: translateX(0%);*/
-  position: fixed;
-  /*height: calc((100% - 48px) - 0px);*/
-  top: 7.5%;
-  bottom: 0;
-  width: 15%;
-  max-width: 200px;
-  height: 90%
+  /*left: 5%;*/
+  /*!*z-index: 1004;*!*/
+  /*!*transform: translateX(0%);*!*/
+  /*position: fixed;*/
+  /*!*height: calc((100% - 48px) - 0px);*!*/
+  /*top: 7.5%;*/
+  /*bottom: 0;*/
+  /*width: 15%;*/
+  /*max-width: 200px;*/
+  /*height: 90%*/
 }
 
 

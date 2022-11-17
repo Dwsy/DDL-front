@@ -1,7 +1,7 @@
 <template>
   <div id="chats-window">
 
-    <v-row class="mt-n3">
+    <v-row style="height: 100%">
       <v-col cols="3">
 
         <v-list>
@@ -80,6 +80,14 @@ onUnmounted(() => {
 
 <style>
 #chats-window {
-  max-height: 800px;
+  /*max-height: 800px;*/
+  max-height: calc(100vh - 10rem);
+}
+
+@media (min-width: 2300px) {
+  #chats-window {
+    /*max-height: 800px;*/
+    max-height: calc(100vh - 5rem) !important;
+  }
 }
 </style>

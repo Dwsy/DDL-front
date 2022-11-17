@@ -106,7 +106,6 @@ export const useChatsStore = defineStore('chats', {
                     if (response.data.content.length === 1) {
                         await this.loadChatsList()
                     }
-                    this.load = false
                 } else {
                     warningMsg(response.msg)
                     return
@@ -237,9 +236,9 @@ export const useChatsStore = defineStore('chats', {
         // },
         async scrollBottom() {
             await nextTick()
-            document.querySelector('div.lite-chatbox > div:last-child > div > div > div > div > span.d-time').scrollIntoView()
-            // let chatbox = document.querySelector('.lite-chatbox')
-            // chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
+            // document.querySelector('div.lite-chatbox > div:last-child > div > div > div > div > span.d-time').scrollIntoView()
+            let chatbox = document.querySelector('.lite-chatbox')
+            chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
             // let element = document.getElementsByClassName('lite-chatbox')[0]
             // element.scrollTo(0, element.scrollHeight)
         },
@@ -253,8 +252,7 @@ export const useChatsStore = defineStore('chats', {
 
             let {data: response} = await UseAxiosSendMessage(content, this.chatsToUserId)
             if (response.code === 0) {
-
-                // await this.scrollBottom()
+                await this.scrollBottom()
             } else {
                 warningMsg(response.msg)
                 return
