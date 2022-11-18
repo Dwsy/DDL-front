@@ -57,7 +57,8 @@ export const useAnswerStore = defineStore('AnswerStore', {
         },
 
         async answerOrCommentQuestion(body: AnswerQuestionRB, handle?: () => void) {
-            if (body.mdText === '') {
+            if (body.mdText.trim() === '') {
+                console.log('body.mdText.trim() === \'\'', body.mdText.trim() === '')
                 if (body.answerType == AnswerType.answer) {
                     customMsg('回答不能为空', {
                         type: TYPE.WARNING,

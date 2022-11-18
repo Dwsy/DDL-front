@@ -803,7 +803,6 @@ import {
 } from '~/composables/Api/question/answer'
 import http from '~~/utils/fetch'
 import {useFetch} from '#imports'
-
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()

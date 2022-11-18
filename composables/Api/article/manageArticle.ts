@@ -47,3 +47,7 @@ export const useAxiosGetArticleField = (id: string, version: number) => {
 export const useAxiosGetArticleContent = (id, params?: { type?: ContentType, version }) => {
     return useGet<ResponseData<any>>('article/article/manage/content/' + id, params)
 }
+
+export const useAxiosGetHistoryVersionTitleList = (id, params?: { type?: ContentType, version }) => {
+    return useGet<ResponseData<any>>('article/article/manage/content/' + id, params)
+}

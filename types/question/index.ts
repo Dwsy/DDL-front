@@ -72,11 +72,13 @@ export interface QuestionField {
 }
 
 export enum QuestionState {
-    ASK,
-    HAVE_ANSWER,
-    RESOLVED,
-    UNRESOLVED,
-    HIDE,
-    AUDITING,
-    REJECTED
+    ASK = 'ask',
+    DRAFT = 'draft',
+    HAVE_ANSWER = 'have_answer',
+    RESOLVED = 'resolved',
+    UNRESOLVED = 'unresolved',
+    HIDE = 'hide',
+    AUDITING = 'auditing',
+    REJECTED = 'rejected',
+    ALL = 'all'
 }

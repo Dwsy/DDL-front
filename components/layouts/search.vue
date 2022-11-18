@@ -1,11 +1,18 @@
 <template>
 
-  <div>
+  <div style="align-items:center;display: flex">
+
     <v-autocomplete v-model="model" v-model:search="text" :items="sug" :loading="isLoading" @keyup.enter="query"
                     hide-no-data flat clearable hide-details rounded hide-selected item-title="Description"
                     item-value="API" variant="filled"
                     :label="searchLabelText" placeholder="Search" prepend-inner-icon="mdi-magnify"
                     return-object></v-autocomplete>
+    <v-btn v-if="searchType==='question'" class="float-end ml-2" color="#4caf50"
+           target="_blank" href="/question/howtoask" variant="text">
+      提问题
+    </v-btn>
+
+
   </div>
 
 </template>

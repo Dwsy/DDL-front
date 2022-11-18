@@ -42,7 +42,7 @@
           <template v-slot:default="{ isActive }">
 
             <v-card style="margin-left: 15%;width:70%" class="px-4">
-              <div class="markdown-body mt-n4"
+              <div class="markdown-body mt-3"
                    v-html="previewMdFn()" v-hljs="{addCopy:false}">
               </div>
               <v-card-actions>

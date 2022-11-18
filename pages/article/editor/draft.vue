@@ -5,12 +5,28 @@
       <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入文章标题..." label="标题"
                     variant="underlined" clearable>
       </v-text-field>
-      <div class="mt-1 mr-4">
-        <v-btn elevation="1">手动保存</v-btn>
-        <!--        <v-btn elevation="1" :theme="themeInstance.global.name.value">手动保存</v-btn>-->
-        <v-btn elevation="0" color="blue" class="mx-1" variant="outlined">草稿箱</v-btn>
+      <div class="mt-2 mr-4 ml-2">
+        <v-btn elevation="0" variant="tonal" color="#39c7af">手动保存</v-btn>
 
-
+        <client-only>
+          <v-menu v-model="versionHistoryMenu" location="bottom">
+            <template v-slot:activator="{ props }">
+              <v-btn elevation="0" variant="tonal" color="#00a381" class="ml-1"
+                     v-bind="props" @click="getVersionHistoryList()">
+                历史版本
+              </v-btn>
+            </template>
+            <v-card class="pa-3" style="width: 300px">
+              <v-row v-for="(item,index) in versionHistoryList">
+                <v-col @click="gotoVersion(index)">
+                  <span class="text-subtitle-1">标题：{{ item.title }}</span>
+                  <span class="text-grey float-right">{{ timeAgoFilter(item.date) }}</span>
+                  <v-divider></v-divider>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-menu>
+        </client-only>
         <client-only>
           <v-menu
               v-model="menu"
@@ -20,12 +36,12 @@
               :open-on-click="false"
           >
             <template v-slot:activator="{ props }">
-              <v-btn v-if="isNew" color="blue" elevation="0"
+              <v-btn v-if="isNew" color="blue" elevation="0" class="ml-1"
                      v-bind="props" @click="send()">
                 发布
               </v-btn>
-              <v-btn v-else color="#f48fb1" v-bind="props" elevation="0" variant="outlined"
-                     @click="send()">
+              <v-btn v-else color="#f48fb1" v-bind="props" elevation="0"
+                     variant="outlined" @click="send()">
                 更新
               </v-btn>
             </template>
@@ -348,8 +364,8 @@ import {
   definePageMeta,
   errorMsg,
   infoMsg,
-  successMsg, useCookie,
-  useFetchGetArticleGroupList,
+  successMsg, timeAgoFilter, useCookie,
+  useFetchGetArticleGroupList, useGet,
   warningMsg
 } from '#imports'
 import {
@@ -372,13 +388,13 @@ import {useTheme} from 'vuetify'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
 import {useLayout} from '~/stores/layout'
+import {ResponseData} from '~/types/utils/axios'
 
 
 definePageMeta({
   layout: false
 })
 const themeInstance = useTheme()
-
 const layout = useLayout()
 const userStore = useUserStore()
 const route = useRoute()
@@ -423,9 +439,49 @@ const darkThemeName = ref<string>('geekBlackDark')
 const highlightStyle = ref<string>('xcode')
 const darkHighlightStyle = ref<string>('xcode')
 const selectThemeTabName = ref('')
+
+
 onMounted(async () => {
-  const id = route.query.id
+  const id = String(route.query.id)
   let version = Number(route.query.version || -1)
+  await load(id, version)
+
+  watchEffect(async () => {
+    if (themeInstance.global.name.value === 'dark') {
+      await changeThemes(themes[darkThemeName.value])
+      await changeHighlightStyle(darkHighlightStyle.value)
+      if (selectThemeTabName.value !== 'dark') {
+        selectThemeTabName.value = 'dark'
+      }
+    } else {
+      await changeThemes(themes[themeName.value])
+      await changeHighlightStyle(highlightStyle.value)
+      if (selectThemeTabName.value !== 'light') {
+        selectThemeTabName.value = 'light'
+      }
+    }
+  })
+  watch(selectThemeTabName, (val) => {
+    if (val === 'dark') {
+      layout.switchDarkTheme(themeInstance)
+    } else {
+      layout.switchLightTheme(themeInstance)
+    }
+  })
+
+  watchEffect(async () => {
+    if (articleSourceItem.value) {
+      articleSource.value = articleSourceItem.value.value
+    }
+  })
+
+  watch(bannerFile, () => {
+    disableUploadBtn.value = bannerFile.value == null
+  })
+
+})
+
+async function load(id: string, version: number) {
   if (Boolean(id) === false) {
     isNew.value = true
     await router.push({
@@ -480,41 +536,9 @@ onMounted(async () => {
       }
     }
   }
+}
 
-  watchEffect(async () => {
-    if (themeInstance.global.name.value === 'dark') {
-      await changeThemes(themes[darkThemeName.value])
-      await changeHighlightStyle(darkHighlightStyle.value)
-      if (selectThemeTabName.value !== 'dark') {
-        selectThemeTabName.value = 'dark'
-      }
-    } else {
-      await changeThemes(themes[themeName.value])
-      await changeHighlightStyle(highlightStyle.value)
-      if (selectThemeTabName.value !== 'light') {
-        selectThemeTabName.value = 'light'
-      }
-    }
-  })
-  watch(selectThemeTabName, (val) => {
-    if (val === 'dark') {
-      layout.switchDarkTheme(themeInstance)
-    } else {
-      layout.switchLightTheme(themeInstance)
-    }
-  })
 
-  watchEffect(async () => {
-    if (articleSourceItem.value) {
-      articleSource.value = articleSourceItem.value.value
-    }
-  })
-
-  watch(bannerFile, () => {
-    disableUploadBtn.value = bannerFile.value == null
-  })
-
-})
 const rules = {
   email: v => !!(v || '').match(/@/) || '请输入有效的电子邮件',
   length: len => v => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
@@ -701,6 +725,26 @@ const randomHighlightStyle = (list: Array<string>) => {
 const randomHighlightStyleDark = (list: Array<string>) => {
   darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
   changeHighlightStyle(darkHighlightStyle.value)
+}
+
+
+const versionHistoryMenu = ref()
+const versionHistoryList = ref<versionDataI[]>()
+
+interface versionDataI {
+  title: string
+  date: string
+}
+
+const getVersionHistoryList = async () => {
+  const {data: response} = await useGet<ResponseData<versionDataI[]>>
+  ('article/article/manage/historyVersion/' + afId.value)
+  versionHistoryList.value = response.data
+}
+
+const gotoVersion = async (version: number) => {
+  await load(afId.value, version)
+  // successMsg('切换版本成功')
 }
 const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active

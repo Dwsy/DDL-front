@@ -15,7 +15,7 @@
       <v-app-bar-nav-icon @click.stop="layout.switchDrawer()"></v-app-bar-nav-icon>
 
       <v-row>
-        <v-col sm="1" md="4" cols="4" offset="3">
+        <v-col sm="1" md="5" cols="5" offset="3">
 
           <Search/>
 
@@ -23,13 +23,13 @@
 
 
         <client-only>
-          <v-col class="pt-4" offset="3">
+          <v-col class="pt-4" offset="2">
 
             <v-btn icon target="_blank" href="/article/creator" v-if="isArticlePage">
               <v-icon>mdi-fountain-pen-tip</v-icon>
             </v-btn>
 
-            <v-btn icon target="_blank" href="/question/howtoask" v-else>
+            <v-btn icon target="_blank" href="/question/manage" v-else>
               <v-icon>mdi-head-question-outline</v-icon>
             </v-btn>
 
