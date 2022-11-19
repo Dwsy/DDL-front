@@ -28,7 +28,7 @@
           <div v-else v-for="(i,index) in chatsStore.chatRecord" :key="i.createTime">
             <div class="tips" v-intersect.once="loadMore" v-if="index + 1 % 10 === 1">
               <!--            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : ''  }}</span>-->
-              <span> {{ index + 1 % 10 === 1 ? timeAgoFilter(i.createTime) : '' }}</span>
+              <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime) : '' }}</span>
             </div>
             <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
             <div v-if="i.toUserId===uid">
@@ -51,7 +51,7 @@
                     <span class="content" :id="i.id" style="font-size: 18px" v-html="i.content" v-else>
                   </span>
                     <span class="d-read ml-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
-                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </v-col>
 
                 </v-row>
@@ -63,7 +63,7 @@
               <v-row class="my-n12">
                 <v-col>
                   <span class="d-unRade mr-1" v-if="i.status===ChatRecordStatus.UNREAD">送达</span>
-                  <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已读</span>
+                  <span class="d-read mr-1" v-if="i.status===ChatRecordStatus.READ">已送达</span>
                   <div class="md-content markdown-body" :id="i.id" style="font-size: 18px;max-width: 100%"
                        v-html="i.content"
                        v-hljs="{addCopy:true}"
@@ -76,13 +76,13 @@
                     <v-avatar size="large">
                       <v-img :src="useUserStore().userInfo.avatar"></v-img>
                     </v-avatar>
-                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
                   <template v-else>
                     <v-avatar size="large">
                       <v-img :src="useUserStore().userInfo.avatar"></v-img>
                     </v-avatar>
-                    <span class="d-time mt-n5 mb-3">{{ dateFilter(i.createTime, 'hh:mm:ss') }}</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
 
 
@@ -109,7 +109,6 @@ import {nextTick, onMounted, onUnmounted, onUpdated, ref, watch} from 'vue'
 import {useRoute} from '#app'
 import {useHead} from '#head'
 import {useUserStore} from '~/stores/user'
-
 import {dateFilter} from '#imports'
 import {useTheme} from 'vuetify'
 import ChatInputBox from '~/components/messages/chatInputBox.vue'
