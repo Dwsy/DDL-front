@@ -223,8 +223,11 @@ onMounted(() => {
   chatsStore.chatRecord = []
   chatsStore.load = true
 })
+
+let loadMoreThrottle
 const loadMore = async (entries) => {
   if (!chatsStore.load) {
+
     await chatsStore.pullLastMessage(false)
   }
   mediumZoomFn()
@@ -367,5 +370,10 @@ const mediumZoomFn = () => {
   margin-left: -20px;
   margin-right: 14px;
   color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+}
+
+:deep(.d-chat-img) {
+  max-width: 100%;
+  height: auto;
 }
 </style>

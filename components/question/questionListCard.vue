@@ -27,7 +27,7 @@
               <v-chip-group class="mt-7">
                 <v-chip v-for="tag in questionTags" :key="tag.id" :color="getRandomColor()" size="small">
                   <v-icon>
-                    mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                    {{ tag.name === 'C++' ? 'mdi-language-cpp' : `mdi-language-${tag.name.toLocaleLowerCase()}` }}
                   </v-icon>
                   {{ tag.name }}
                 </v-chip>
@@ -56,19 +56,9 @@
 <script setup lang="ts">
 
 import {Group, QuestionData, QuestionTag} from '~/types/question'
-import {dateFilter, timeAgoFilter} from '~/composables/useTools'
+import {dateFilter, getRandomColor, timeAgoFilter} from '~/composables/useTools'
+import {User} from '~/types/user'
 
-function getRandomColor() {
-  let letters = '0123456789ABCDEF'.split(''),
-      color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  // console.log(color)
-  return color
-}
-
-// type Props = QuestionData
 
 interface Props {
   id: string;

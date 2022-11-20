@@ -126,13 +126,15 @@
       </v-col>
       <v-col>
         <v-row>
-          <v-row>
-            <v-col offset="1" cols="8" class="pa-8">
-              <span class="text-h6">关注了：1|</span>
-              <span class="text-h6">关注者：2</span>
-            </v-col>
-            <v-divider></v-divider>
-          </v-row>
+
+          <v-col offset="1" cols="11" class="pa-8">
+            <span class="text-h6">关注了：1|</span>
+            <span class="text-h6">关注者：2</span>
+          </v-col>
+          <v-col offset="1" cols="11" class="pa-8">
+            <span class="text-h6" :title="dateFilter(user.createTime)">{{ timeAgoFilter(user.createTime) }}加入</span>
+          </v-col>
+          <v-divider></v-divider>
         </v-row>
       </v-col>
     </v-row>
@@ -148,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import {useRoute} from '#imports'
+import {dateFilter, timeAgoFilter, useRoute} from '#imports'
 import {user, UserInfo, useUserStore} from '~/stores/user'
 import {onMounted, ref, watch, watchEffect} from 'vue'
 import {
@@ -165,7 +167,6 @@ import {
 } from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
-// import Test from '~~/components/test.vue'
 import {useRouter} from '#app'
 import {warningMsg} from '~/composables/utils/toastification'
 import {userData} from '~/types/user'

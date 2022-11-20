@@ -14,16 +14,14 @@
       <v-window-item value="article">
         <Essays></Essays>
       </v-window-item>
-
       <v-window-item value="draft">
-        <List v-for="data in draftListContent " v-bind="data" :key="data.id"></List>
+        <ArticleManageCard/>
         <v-container class="max-width ml-n16">
           <v-pagination v-model="params.page" class="my-4"
                         :length="totalPages">
           </v-pagination>
         </v-container>
       </v-window-item>
-
     </v-window>
   </div>
 
@@ -40,10 +38,13 @@ import {useAxiosGetArticleList} from '~/composables/Api/article'
 import {defaultMsg, warningMsg} from '~/composables/utils/toastification'
 import {useRoute} from '#app'
 import {onBeforeRouteUpdate} from 'vue-router'
+import {dateFilter, getRandomColor, timeAgoFilter} from '#imports'
+import ArticleManageCard from '~~/components/article/creator/content/article/articleManageCard.vue'
 
 const tab = ref('null')
 const counts = ref({})
 const draftListContent = ref<Array<articleListData>>(null)
+provide('manage-articleFiled', draftListContent)
 const totalPages = ref(null)
 const params = ref<GetUserArticleListParams>({
   order: null,

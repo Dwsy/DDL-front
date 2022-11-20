@@ -26,7 +26,7 @@
 
             </v-list-item>
 
-            <v-list-group :value="test">
+            <v-list-group value="内容管理">
               <template v-slot:activator="{ props }">
                 <v-list-item
                     v-bind="props"
@@ -46,39 +46,6 @@
               <v-list-item
                   title="文章管理"
               ></v-list-item>
-              <!--              <v-list-group value="Admin">-->
-              <!--                <template v-slot:activator="{ props }">-->
-              <!--                  <v-list-item-->
-              <!--                      v-bind="props"-->
-              <!--                      title="Admin"-->
-              <!--                  ></v-list-item>-->
-              <!--                </template>-->
-
-              <!--                <v-list-item-->
-              <!--                    v-for="([title, icon], i) in admins"-->
-              <!--                    :key="i"-->
-              <!--                    :title="title"-->
-              <!--                    :prepend-icon="icon"-->
-              <!--                    :value="title"-->
-              <!--                ></v-list-item>-->
-              <!--              </v-list-group>-->
-
-              <!--              <v-list-group value="Actions">-->
-              <!--                <template v-slot:activator="{ props }">-->
-              <!--                  <v-list-item-->
-              <!--                      v-bind="props"-->
-              <!--                      title="Actions"-->
-              <!--                  ></v-list-item>-->
-              <!--                </template>-->
-
-              <!--                <v-list-item-->
-              <!--                    v-for="([title, icon], i) in cruds"-->
-              <!--                    :key="i"-->
-              <!--                    :value="title"-->
-              <!--                    :title="title"-->
-              <!--                    :prepend-icon="icon"-->
-              <!--                ></v-list-item>-->
-              <!--              </v-list-group>-->
             </v-list-group>
           </v-list>
         </v-card>
@@ -104,23 +71,7 @@ import {definePageMeta} from '#imports'
 useLayout().showFooter = false
 const userStore = useUserStore()
 const test = ref(true)
-</script>
-<script lang="ts">
-export default {
-  data: () => ({
-    open: ['Users'],
-    admins: [
-      ['Management', 'mdi-account-multiple-outline'],
-      ['Settings', 'mdi-cog-outline'],
-    ],
-    cruds: [
-      ['Create', 'mdi-plus-outline'],
-      ['Read', 'mdi-file-outline'],
-      ['Update', 'mdi-update'],
-      ['Delete', 'mdi-delete'],
-    ],
-  }),
-}
+const open = ref(['内容管理'])
 </script>
 
 <style scoped>

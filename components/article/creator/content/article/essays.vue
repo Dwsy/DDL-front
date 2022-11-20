@@ -7,54 +7,30 @@
       <v-tab value="auditing">审核中 {{ counts[ArticleState.auditing] }}</v-tab>
       <v-tab value="rejected">未通过 {{ counts[ArticleState.rejected] }}</v-tab>
     </v-tabs>
-
-    <!--    <v-window-item >-->
-    <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>
-    <!--    </v-window-item>-->
-    <!--    <v-window v-model="tab">-->
-
-    <!--    <v-window-item >-->
-    <!--      <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>-->
-    <!--    </v-window-item>-->
-    <!--      <v-window-item value="published">-->
-    <!--        <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>-->
-    <!--      </v-window-item>-->
-
-    <!--      <v-window-item value="hide">-->
-    <!--        <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>-->
-    <!--      </v-window-item>-->
-
-    <!--      <v-window-item value="auditing">-->
-    <!--        <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>-->
-    <!--      </v-window-item>-->
-
-    <!--      <v-window-item value="rejected">-->
-    <!--        <List v-for="data in ListContent " v-bind="data" :key="data.id"></List>-->
-    <!--      </v-window-item>-->
-    <!--    </v-window>-->
+    <ArticleManageCard/>
     <v-container class="max-width ml-n16">
       <v-pagination v-model="params.page" class="ml-n16"
                     :length="totalPages">
       </v-pagination>
     </v-container>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
-import {inject, onMounted, ref, watch, watchEffect} from 'vue'
+import {inject, onMounted, provide, ref, watch, watchEffect} from 'vue'
 import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import List from '~~/components/article/index/list.vue'
 import {articleListData} from '~/types/article'
 import {useAxiosGetArticleList} from '~/composables/Api/article'
 import {ArticleState, GetUserArticleListParams} from '~/types/article/manageArticle'
 import {useAxiosGetArticleCountByState, useAxiosGetUserArticleList} from '~/composables/Api/article/manageArticle'
+import {dateFilter, getRandomColor, timeAgoFilter} from '#imports'
 
 const route = useRoute()
 const router = useRouter()
 const tab = ref()
 const ListContent = ref<Array<articleListData>>(null)
+provide('manage-articleFiled', ListContent)
 // const allListContent = ref<Array<articleListData>>(null)
 // const publishedListContent = ref<Array<articleListData>>(null)
 // const hideListContent = ref<Array<articleListData>>(null)
@@ -110,9 +86,16 @@ onBeforeRouteUpdate(async (to, from, next) => {
   next()
 })
 
-
 </script>
 
 <style scoped>
-
+.d-article-manage-summary {
+  font-size: 14px;
+  line-height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
 </style>

@@ -52,7 +52,7 @@ export interface QuestionField {
     lastModifiedTime: number;
     user: User;
     title: string;
-    questionState: string;
+    questionState: QuestionState;
     allowAnswer: boolean;
     answerNum: number;
     viewNum: number;
@@ -81,4 +81,26 @@ export enum QuestionState {
     AUDITING = 'auditing',
     REJECTED = 'rejected',
     ALL = 'all'
+}
+
+export enum QuestionStateZh {
+    ASK = '发起问题',
+    DRAFT = '超高',
+    HAVE_ANSWER = '已有答案',
+    RESOLVED = '以解决',
+    UNRESOLVED = '未解决',
+    HIDE = '隐藏',
+    AUDITING = '审核中',
+    REJECTED = '未通过',
+}
+
+export enum QuestionStateColor {
+    ASK = '#e18a3b',
+    DRAFT = '#ffd900',
+    HAVE_ANSWER = '#00a3af',
+    RESOLVED = '#37b24d',
+    UNRESOLVED = '#f03e3e',
+    HIDE = '#f03e3e',
+    AUDITING = '#868e96',
+    REJECTED = '#c92a2a',
 }
