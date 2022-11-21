@@ -48,6 +48,7 @@ export default defineNuxtConfig({
 
         ],
         '@vueuse/nuxt',
+        '@nuxtjs/tailwindcss'
     ],
     imports: {
         dirs: [

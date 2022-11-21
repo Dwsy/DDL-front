@@ -247,19 +247,13 @@ import {onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
   ContentType,
-
-  useAxiosPostCreateArticle,
-  useAxiosPutUpdateArticle
 } from '~/composables/Api/article/manageArticle'
-import {ArticleField} from '~/stores/article/articleStore'
-import {ArticleSource, ArticleSourceZh, ArticleState,} from '~/types/article/manageArticle'
-import {ArticleGroup, ArticleTag} from '~/types/article'
 import {
   ComponentToastMsg,
   createError,
   definePageMeta,
   errorMsg,
-  infoMsg,
+  infoMsg, timeAgoFilter,
   useAxiosGetQuestionField, useAxiosPostAskQuestion, useAxiosPutUpdateAskQuestion, useFetchGetQuestionGroupList,
 } from '#imports'
 import {
@@ -276,7 +270,6 @@ import {
   HighlightStyleBase16NameList
 } from '~~/constant/highlightStyleList'
 import {useUserStore} from '~/stores/user'
-import SelectTag from '~/components/article/write/selectTag.vue'
 import {useTheme} from 'vuetify'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
@@ -388,13 +381,13 @@ const load = async (id: string, version: number) => {
         }
         const {data: ContentResponse} = await useAxiosGetQuestionContent(questionId.value, ContentType.markdown, version)
         if (ContentResponse.code === 0) {
-          content.value = ContentResponse.data
           title.value = questionFieldData.value.title
-          questionGroupId.value = questionFieldData.value.group.id
+          content.value = ContentResponse.data
           summary.value = questionFieldData.value.summary
           themeName.value = questionFieldData.value.markDownTheme
           darkThemeName.value = questionFieldData.value.markDownThemeDark
           highlightStyle.value = questionFieldData.value.codeHighlightStyle
+          questionGroupId.value = questionFieldData.value.group.id
           darkHighlightStyle.value = questionFieldData.value.codeHighlightStyleDark
         }
       }
@@ -405,7 +398,7 @@ const load = async (id: string, version: number) => {
 const rules = {
   email: v => !!(v || '').match(/@/) || '请输入有效的电子邮件',
   length: len => v => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
-  password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+  password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|\W)).+$/) ||
       '密码必须包含大写字母、数字字符和特殊字符',
   required: v => !!v || '此字段是必需的。',
 }
