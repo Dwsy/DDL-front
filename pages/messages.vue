@@ -20,7 +20,7 @@
                 @click="changeTitle(item.text)"
             >
               <template v-slot:prepend>
-                <v-badge :content="item.unreadCount" :model-value="item.unreadCount" color="red" class="mr-3"
+                <v-badge :content="item.unreadCount" :model-value="!!item.unreadCount" color="red" class="mr-3"
                          :floating="true">
                   <v-icon :icon="item.icon"></v-icon>
                 </v-badge>
