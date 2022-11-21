@@ -250,4 +250,4 @@ export default `@charset "UTF-8";
 :root {
   --link-color: #745fb5;
   --code-color: #ec71b7;
-}`
+}`;

@@ -1,11 +1,5 @@
-<template>
-  123
-</template>
+<template>123</template>
 
-<script setup lang="ts">
+<script lang="ts" setup></script>
 
-</script>
-
-<style>
-
-</style>
+<style></style>

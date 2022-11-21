@@ -2,25 +2,30 @@
   <div>
     T2
     <test-components></test-components>
-    <v-btn @click="()=>{this.location='provide'}">provide</v-btn>
+    <v-btn
+      @click="
+        () => {
+          this.location = 'provide';
+        }
+      "
+      >provide</v-btn
+    >
   </div>
 </template>
 
 <script setup lang="ts">
-import {provide, ref} from 'vue'
+import { provide, ref } from "vue";
 
-const location = ref('North Pole')
+const location = ref("North Pole");
 
 function updateLocation() {
-  location.value = 'South Pole'
+  location.value = "South Pole";
 }
 
-provide('location', {
+provide("location", {
   location,
-  updateLocation
-})
+  updateLocation,
+});
 </script>
 
-<style>
-
-</style>
+<style></style>

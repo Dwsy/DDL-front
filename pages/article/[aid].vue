@@ -2,59 +2,98 @@
   <div class="v-container abc" v-if="ArticleField.data">
     <Head>
       <Title>{{ title }}</Title>
-      <Meta name="description" :content="title"/>
-      <Style id="highlightStyle" type="text/css" :children="articleStore.HighlightStyleStr"/>
-      <Style id="markdownTheme" type="text/css" :children="articleStore.MarkdownThemeStr"/>
+      <Meta :content="title" name="description" />
+      <Style
+        id="highlightStyle"
+        :children="articleStore.HighlightStyleStr"
+        type="text/css"
+      />
+      <Style
+        id="markdownTheme"
+        :children="articleStore.MarkdownThemeStr"
+        type="text/css"
+      />
     </Head>
     <v-row class="article-content">
-      <v-col xl="10" lg="10" md="10" sm="10" xs="12" class="ml-0 ml-md-2 ml-lg-6">
+      <v-col
+        class="ml-md-2 ml-lg-6 ml-0"
+        lg="10"
+        md="10"
+        sm="10"
+        xl="10"
+        xs="12"
+      >
         <div class="mt-n8">
           <div>
             <v-row class="mb-1">
               <v-col>
-              <span class="text-h3" id="T-title">
-                {{ articleStore.articleField.title }}
-              </span>
+                <span id="T-title" class="text-h3">
+                  {{ articleStore.articleField.title }}
+                </span>
               </v-col>
             </v-row>
             <v-divider class="my-1"></v-divider>
             <v-row>
               <v-col cols="1" class="mr-lg-1 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
                 <v-avatar size="60">
-                  <v-img :src="articleStore.articleField.user.userInfo.avatar"></v-img>
+                  <v-img
+                    :src="articleStore.articleField.user.userInfo.avatar"
+                  ></v-img>
                 </v-avatar>
               </v-col>
               <v-col cols="5" class="ml-n1 mt-1">
                 <v-row>
-                  <v-col class="ml-n8 ">
+                  <v-col class="ml-n8">
                     <span>{{ articleStore.articleField.user.nickname }}</span>
-                    <span class="pl-3">Level:{{ articleStore.articleField.user.level }}</span>
-
+                    <span class="pl-3"
+                      >Level:{{ articleStore.articleField.user.level }}</span
+                    >
                   </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-col class="ml-n8 mt-n3 d-none d-sm-flex" style="color:#8a919f">
+                  <v-col
+                    class="ml-n8 mt-n3 d-none d-sm-flex"
+                    style="color: #8a919f"
+                  >
                     <!--                    <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>-->
-                    <span>  {{ timeAgoFilter(articleStore.articleField.createTime) }} · </span>
+                    <span>
+                      {{
+                        timeAgoFilter(articleStore.articleField.createTime)
+                      }}
+                      ·
+                    </span>
                     <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                   </v-col>
                 </v-row>
-
-
               </v-col>
-              <v-col class="mt-2" v-if="user.user?.id!==articleStore.articleField.user.id">
-
-                <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
-                  <span style="color: white" @click="unsubscribe()">已关注</span>
+              <v-col
+                v-if="user.user?.id !== articleStore.articleField.user.id"
+                class="mt-2"
+              >
+                <v-btn
+                  v-if="articleStore.follow"
+                  class="float-end mx-4"
+                  color="pink lighten-3"
+                >
+                  <span style="color: white" @click="unsubscribe()"
+                    >已关注</span
+                  >
                 </v-btn>
-                <v-btn v-else class="float-end mx-4" color="blue lighten-3"
-                       @click="subscribe()">
+                <v-btn
+                  v-else
+                  class="float-end mx-4"
+                  color="blue lighten-3"
+                  @click="subscribe()"
+                >
                   <span style="color: white">关注</span>
                 </v-btn>
               </v-col>
               <v-col class="mt-2" v-else>
-                <a :href="`/article/editor/draft?id=${articleStore.articleField.id}`" target="_blank">
+                <a
+                  :href="`/article/editor/draft?id=${articleStore.articleField.id}`"
+                  target="_blank"
+                >
                   <v-btn class="float-end mx-4" color="blue lighten-3">
                     <span style="color: white">编辑</span>
                   </v-btn>
@@ -64,33 +103,46 @@
 
             <v-row class="d-flex d-sm-none mx-4">
               <v-col>
-                <v-col class="ml-n8 mt-n3 " style="color:#8a919f">
-                  <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>
+                <v-col class="ml-n8 mt-n3" style="color: #8a919f">
+                  <span>
+                    {{
+                      dateFilter(
+                        articleStore.articleField.createTime,
+                        "YYYY-MM-DD hh:mm"
+                      )
+                    }}
+                    ·
+                  </span>
                   <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
-
                 </v-col>
               </v-col>
             </v-row>
           </div>
           <v-divider class="my-1"></v-divider>
-          <v-img :src="articleStore.articleField.banner"
-                 :aspect-ratio="8/3" :cover="true" width="100%"
-                 class="d-article-banner">
+          <v-img
+            :aspect-ratio="8 / 3"
+            :cover="true"
+            :src="articleStore.articleField.banner"
+            class="d-article-banner"
+            width="100%"
+          >
           </v-img>
           <v-divider class="mb-2"></v-divider>
           <!--          :class="articleStore.markdownTheme"-->
-          <div v-html="articleStore.contentHtml"
-               v-show="!articleStore.loading"
-               class=" js-toc-content markdown-body"
-               v-hljs="{addCopy:true}"
+          <div
+            v-show="!articleStore.loading"
+            v-hljs="{ addCopy: true }"
+            class="js-toc-content markdown-body"
+            v-html="articleStore.contentHtml"
           ></div>
           <!--          v-intersect="()=>{gotoTitle=true}"-->
-          <div v-show="articleStore.loading" class="text-center text-h4 mt-16" style="margin-bottom:100% ">
-            <span>
-              加载中...
-            </span>
+          <div
+            v-show="articleStore.loading"
+            class="text-h4 mt-16 text-center"
+            style="margin-bottom: 100%"
+          >
+            <span> 加载中... </span>
           </div>
-
         </div>
         <v-divider class="mt-8 mb-6"></v-divider>
 
@@ -100,12 +152,16 @@
               <v-icon left>mdi-format-list-group</v-icon>
               分组：{{ articleStore.articleField.articleGroup.name }}
             </v-chip>
-            <div class="my-3  d-md-none"></div>
+            <div class="d-md-none my-3"></div>
             <v-chip class="mr-2" color="pink lighten-1" :label="true">
               <v-icon left>mdi-tag</v-icon>
               <span>标签</span>
             </v-chip>
-            <v-chip class="mr-1" v-for="tag in articleStore.articleField.articleTags" :key="tag.id">
+            <v-chip
+              v-for="tag in articleStore.articleField.articleTags"
+              :key="tag.id"
+              class="mr-1"
+            >
               <nuxt-link :to="`/article/tag/${tag.id}`">
                 {{ tag.name }}
               </nuxt-link>
@@ -124,16 +180,26 @@
               </v-avatar>
             </v-col>
             <v-col class="ml-xl-n8 ml-lg-n2">
-              <v-textarea fluid placeholder="评论点啥吧。" clearable v-model="articleCommentStore.replyCommentText"
-                          clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                          rows="4">
+              <v-textarea
+                v-model="articleCommentStore.replyCommentText"
+                clear-icon="mdi-close-circle"
+                clearable
+                fluid
+                placeholder="评论点啥吧。"
+                prepend-inner-icon="mdi-comment"
+                rows="4"
+              >
                 <!--                auto-grow-->
               </v-textarea>
-              <v-btn class="float-end mx-6 mb-4" color="primary" @click="ReplyComment()">发送</v-btn>
+              <v-btn
+                class="float-end mx-6 mb-4"
+                color="primary"
+                @click="ReplyComment()"
+                >发送</v-btn
+              >
             </v-col>
-            <v-divider class="mb-6 mt-n4"></v-divider>
+            <v-divider class="mt-n4 mb-6"></v-divider>
           </v-row>
-
 
           <!--// todo 这功能啥正常到但是会runtime-dom.esm-bundler.js:13 等vuetify更新在改 -->
           <!--          Uncaught (in promise) TypeError: Cannot read properties of null (reading 'parentNode')-->
@@ -145,67 +211,85 @@
                   <v-menu location="bottom" nudge-bottom>
                     <template v-slot:activator="{ props }">
                       <v-btn
-                          class="d-article-comment-oder-btn"
-                          color="info"
-                          v-bind="props"
-                          prepend-icon="mdi-menu"
+                        class="d-article-comment-oder-btn"
+                        color="info"
+                        prepend-icon="mdi-menu"
+                        v-bind="props"
                       >
-                        <span>{{ articleCommentStore.CommentMenuList[articleCommentStore.selectCommentMenu] }}</span>
+                        <span>{{
+                          articleCommentStore.CommentMenuList[
+                            articleCommentStore.selectCommentMenu
+                          ]
+                        }}</span>
                       </v-btn>
                     </template>
 
                     <v-list>
                       <v-list-item
-                          v-for="(item, index) in articleCommentStore.CommentMenuList"
-                          :key="index"
+                        v-for="(
+                          item, index
+                        ) in articleCommentStore.CommentMenuList"
+                        :key="index"
                       >
-                        <v-btn elevation="0" @click="articleCommentStore.clickSelectCommentMenu(index)">
+                        <v-btn
+                          elevation="0"
+                          @click="
+                            articleCommentStore.clickSelectCommentMenu(index)
+                          "
+                        >
                           {{ item }}
                         </v-btn>
                       </v-list-item>
                     </v-list>
-
                   </v-menu>
                 </div>
               </v-col>
             </v-row>
           </client-only>
 
-
-          <div v-if="articleCommentStore.loadingComment"
-               class="text-h3 my-16 text-center">
-
-            <span>
-            加载中...
-          </span>
+          <div
+            v-if="articleCommentStore.loadingComment"
+            class="text-h3 my-16 text-center"
+          >
+            <span> 加载中... </span>
           </div>
-          <div v-if="articleCommentStore.commentList.length===0">
-            <div class="text-center my-8">
-              <span class="text-h6 ">
-                暂无评论
-              </span>
+          <div v-if="articleCommentStore.commentList.length === 0">
+            <div class="my-8 text-center">
+              <span class="text-h6"> 暂无评论 </span>
             </div>
           </div>
 
-          <div v-else v-for="(comment,index) in articleCommentStore.commentList" key="comment.id">
-            <v-row class="mt-2 mt-lg-3">
-
-              <v-col cols="1" xl="0" lg="1" sm="1" class="mr-8  mr-xl-n5 mr-lg-n2 d-comment">
+          <div
+            v-for="(comment, index) in articleCommentStore.commentList"
+            v-else
+            key="comment.id"
+          >
+            <v-row class="mt-lg-3 mt-2">
+              <v-col
+                class="mr-xl-n5 mr-lg-n2 d-comment mr-8"
+                cols="1"
+                lg="1"
+                sm="1"
+                xl="0"
+              >
                 <v-avatar size="x-large">
                   <v-img :src="comment.user.userInfo.avatar"></v-img>
                 </v-avatar>
-
               </v-col>
 
-
-              <v-col class="ml-xl-n8 " :id="`comment-${comment.id}`">
+              <v-col :id="`comment-${comment.id}`" class="ml-xl-n8">
                 #{{ comment.commentSerialNumber }}
                 <span>{{ comment.user.nickname }}</span>
-                <span class="pl-3 mr-4">Level:{{ comment.user.level }}</span>
-                <br class="d-md-none"/>
-                <span class="mr-4">  {{ dateFilter(comment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
+                <span class="mr-4 pl-3">Level:{{ comment.user.level }}</span>
+                <br class="d-md-none" />
+                <span class="mr-4">
+                  {{ dateFilter(comment.createTime, "YYYY-MM-DD hh:mm") }}</span
+                >
                 <div class="float-right" v-if="showDelBtn(comment.user.id)">
-                  <v-icon @click="articleCommentStore.deleteComment(aid,comment.id)">mdi-delete-outline</v-icon>
+                  <v-icon
+                    @click="articleCommentStore.deleteComment(aid, comment.id)"
+                    >mdi-delete-outline</v-icon
+                  >
                 </div>
                 <v-divider></v-divider>
                 <v-row class="mt-n2">
@@ -215,80 +299,176 @@
                 </v-row>
                 <v-row class="mt-n6">
                   <v-col>
-                    <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
-                           @click="articleCommentStore.ActionComment(CommentType.up,comment.id,index)">
-                      <v-icon :icon="articleCommentStore.getCommentActionIcon(CommentType.up,index)"
-                              :color="articleCommentStore.getCommentActionColor(CommentType.up,index)"></v-icon>
-                      <span v-if="comment.upNum>0">
-                      {{ comment.upNum }}
-                    </span>
+                    <v-btn
+                      class="mr-3"
+                      elevation="0"
+                      outlined
+                      plain
+                      rounded
+                      size="small"
+                      @click="
+                        articleCommentStore.ActionComment(
+                          CommentType.up,
+                          comment.id,
+                          index
+                        )
+                      "
+                    >
+                      <v-icon
+                        :color="
+                          articleCommentStore.getCommentActionColor(
+                            CommentType.up,
+                            index
+                          )
+                        "
+                        :icon="
+                          articleCommentStore.getCommentActionIcon(
+                            CommentType.up,
+                            index
+                          )
+                        "
+                      ></v-icon>
+                      <span v-if="comment.upNum > 0">
+                        {{ comment.upNum }}
+                      </span>
                     </v-btn>
-                    <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
-                           @click="articleCommentStore.ActionComment(CommentType.down,comment.id,index)">
-                      <v-icon :icon="articleCommentStore.getCommentActionIcon(CommentType.down,index)"
-                              :color="articleCommentStore.getCommentActionColor(CommentType.down,index)"></v-icon>
-                      <span v-if="comment.downNum>0">
-                      {{ comment.downNum }}
-                    </span>
+                    <v-btn
+                      class="mr-3"
+                      elevation="0"
+                      outlined
+                      plain
+                      rounded
+                      size="small"
+                      @click="
+                        articleCommentStore.ActionComment(
+                          CommentType.down,
+                          comment.id,
+                          index
+                        )
+                      "
+                    >
+                      <v-icon
+                        :color="
+                          articleCommentStore.getCommentActionColor(
+                            CommentType.down,
+                            index
+                          )
+                        "
+                        :icon="
+                          articleCommentStore.getCommentActionIcon(
+                            CommentType.down,
+                            index
+                          )
+                        "
+                      ></v-icon>
+                      <span v-if="comment.downNum > 0">
+                        {{ comment.downNum }}
+                      </span>
                     </v-btn>
 
-                    <v-btn size="small" rounded plain elevation="0" outlined
-                           @click="articleCommentStore.showCommentBox(index)">
+                    <v-btn
+                      elevation="0"
+                      outlined
+                      plain
+                      rounded
+                      size="small"
+                      @click="articleCommentStore.showCommentBox(index)"
+                    >
                       <v-icon size="large">mdi-reply-outline</v-icon>
-                      <span v-if="comment.childComments.length>0">
-<!--                      {{ comment.childComments.length }}-->
-                    </span>
+                      <span v-if="comment.childComments.length > 0">
+                        <!--                      {{ comment.childComments.length }}-->
+                      </span>
                     </v-btn>
-                    <v-col v-if="comment.showCommentBox"
-                           class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
+                    <v-col
+                      v-if="comment.showCommentBox"
+                      class="ml-n8 px-lg-8 px-md-8 px-sm-2 transition-swing px-0"
+                    >
                       <div v-if="user.token">
-                        <v-textarea fluid placeholder="回复点啥吧。" clearable
-                                    v-model="comment.replyCommentText"
-                                    clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                    rows="4" :auto-grow="true">
+                        <v-textarea
+                          v-model="comment.replyCommentText"
+                          :auto-grow="true"
+                          clear-icon="mdi-close-circle"
+                          clearable
+                          fluid
+                          placeholder="回复点啥吧。"
+                          prepend-inner-icon="mdi-comment"
+                          rows="4"
+                        >
                         </v-textarea>
 
-                        <v-btn class="float-end mx-6 mb-4" color="primary"
-                               @click="ReplyComment(comment.user.id,comment.id,index)">发送
+                        <v-btn
+                          class="float-end mx-6 mb-4"
+                          color="primary"
+                          @click="
+                            ReplyComment(comment.user.id, comment.id, index)
+                          "
+                          >发送
                         </v-btn>
                       </div>
                       <div v-else class="text-center">
                         <nuxt-link to="/user/login">
-                          <v-btn>
-                            登陆
-                          </v-btn>
+                          <v-btn> 登陆 </v-btn>
                         </nuxt-link>
                       </div>
                     </v-col>
 
                     <v-row>
                       <v-col cols="12">
-                        <div v-for="(childComment,Cindex) in childCommentLimit(comment)" key="comment.id">
-
+                        <div
+                          v-for="(childComment, Cindex) in childCommentLimit(
+                            comment
+                          )"
+                          key="comment.id"
+                        >
                           <v-row class="mt-1">
-
-                            <v-col cols="2" class="mr-4 mr-sm-4 mr-xl-n5 mr-lg-n12 d-comment" xl="1" lg="1" md="1"
-                                   sm="1">
+                            <v-col
+                              class="mr-sm-4 mr-xl-n5 mr-lg-n12 d-comment mr-4"
+                              cols="2"
+                              lg="1"
+                              md="1"
+                              sm="1"
+                              xl="1"
+                            >
                               <v-avatar>
                                 <v-img
-                                    :src="childComment.user.userInfo.avatar"></v-img>
+                                  :src="childComment.user.userInfo.avatar"
+                                ></v-img>
                               </v-avatar>
                             </v-col>
 
-
-                            <v-col class="ml-xl-n10" :id="`comment-${childComment.id}`"
-                                   style="font-size: 80%">
+                            <v-col
+                              :id="`comment-${childComment.id}`"
+                              class="ml-xl-n10"
+                              style="font-size: 80%"
+                            >
                               #{{ childComment.commentSerialNumber }}
                               <!--                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}-->
                               <span>{{ childComment.user.nickname }}</span>
-                              <span class="pl-3 mr-4">Level:{{ childComment.user.level }}</span>
-                              <br class="d-sm-none"/>
+                              <span class="mr-4 pl-3"
+                                >Level:{{ childComment.user.level }}</span
+                              >
+                              <br class="d-sm-none" />
                               <span class="mr-4">{{
-                                  dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm')
-                                }}</span>
+                                dateFilter(
+                                  childComment.createTime,
+                                  "YYYY-MM-DD hh:mm"
+                                )
+                              }}</span>
                               <div class="float-right">
-                                <v-icon @click="articleCommentStore.deleteComment(aid,childComment.id)"
-                                        v-if="showDelBtn(childComment.user.id,comment.user.id)">
+                                <v-icon
+                                  v-if="
+                                    showDelBtn(
+                                      childComment.user.id,
+                                      comment.user.id
+                                    )
+                                  "
+                                  @click="
+                                    articleCommentStore.deleteComment(
+                                      aid,
+                                      childComment.id
+                                    )
+                                  "
+                                >
                                   mdi-delete-outline
                                 </v-icon>
                               </div>
@@ -296,65 +476,159 @@
                               <div>
                                 <v-row class="mt-n3">
                                   <v-col>
-                                    <div v-if="childComment.replyUserCommentId==='0'">{{ childComment.text }}</div>
+                                    <div
+                                      v-if="
+                                        childComment.replyUserCommentId === '0'
+                                      "
+                                    >
+                                      {{ childComment.text }}
+                                    </div>
 
-                                    <div v-else
-                                         v-html="atSrtGotoHome(childComment.text,childComment.parentUserId)"></div>
+                                    <div
+                                      v-else
+                                      v-html="
+                                        atSrtGotoHome(
+                                          childComment.text,
+                                          childComment.parentUserId
+                                        )
+                                      "
+                                    ></div>
                                   </v-col>
                                 </v-row>
                                 <v-row>
                                   <v-col class="mt-n2">
-                                    <v-btn rounded plain elevation="0" outlined size="x-small" class="mr-3"
-                                           @click="articleCommentStore.ActionComment(CommentType.up,childComment.id,index,Cindex)">
+                                    <v-btn
+                                      class="mr-3"
+                                      elevation="0"
+                                      outlined
+                                      plain
+                                      rounded
+                                      size="x-small"
+                                      @click="
+                                        articleCommentStore.ActionComment(
+                                          CommentType.up,
+                                          childComment.id,
+                                          index,
+                                          Cindex
+                                        )
+                                      "
+                                    >
                                       <v-icon
-                                          :icon="articleCommentStore.getCommentActionIcon(CommentType.up,index,Cindex)"
-                                          :color="articleCommentStore.getCommentActionColor(CommentType.up,index,Cindex)"></v-icon>
-                                      <span v-if="childComment.upNum> 0">
-                                    {{ childComment.upNum }}
-                                  </span>
+                                        :color="
+                                          articleCommentStore.getCommentActionColor(
+                                            CommentType.up,
+                                            index,
+                                            Cindex
+                                          )
+                                        "
+                                        :icon="
+                                          articleCommentStore.getCommentActionIcon(
+                                            CommentType.up,
+                                            index,
+                                            Cindex
+                                          )
+                                        "
+                                      ></v-icon>
+                                      <span v-if="childComment.upNum > 0">
+                                        {{ childComment.upNum }}
+                                      </span>
                                     </v-btn>
-                                    <v-btn class="mr-3" rounded plain elevation="0" outlined size="x-small"
-                                           @click="articleCommentStore.ActionComment(CommentType.down,childComment.id,index,Cindex)">
+                                    <v-btn
+                                      class="mr-3"
+                                      elevation="0"
+                                      outlined
+                                      plain
+                                      rounded
+                                      size="x-small"
+                                      @click="
+                                        articleCommentStore.ActionComment(
+                                          CommentType.down,
+                                          childComment.id,
+                                          index,
+                                          Cindex
+                                        )
+                                      "
+                                    >
                                       <v-icon
-                                          :icon="articleCommentStore.getCommentActionIcon(CommentType.down,index,Cindex)"
-                                          :color="articleCommentStore.getCommentActionColor(CommentType.down,index,Cindex)"></v-icon>
-                                      <span v-if="childComment.downNum> 0">
-                                    {{ childComment.downNum }}
-                                  </span>
+                                        :color="
+                                          articleCommentStore.getCommentActionColor(
+                                            CommentType.down,
+                                            index,
+                                            Cindex
+                                          )
+                                        "
+                                        :icon="
+                                          articleCommentStore.getCommentActionIcon(
+                                            CommentType.down,
+                                            index,
+                                            Cindex
+                                          )
+                                        "
+                                      ></v-icon>
+                                      <span v-if="childComment.downNum > 0">
+                                        {{ childComment.downNum }}
+                                      </span>
                                     </v-btn>
 
-                                    <v-btn rounded plain elevation="0" outlined
-                                           @click="articleCommentStore.showCommentBox(index,Cindex)"
-                                           size="x-small">
-                                      <v-icon size="large">mdi-reply-outline</v-icon>
+                                    <v-btn
+                                      elevation="0"
+                                      outlined
+                                      plain
+                                      rounded
+                                      size="x-small"
+                                      @click="
+                                        articleCommentStore.showCommentBox(
+                                          index,
+                                          Cindex
+                                        )
+                                      "
+                                    >
+                                      <v-icon size="large"
+                                        >mdi-reply-outline</v-icon
+                                      >
                                     </v-btn>
-                                    <v-col v-if="childComment.showCommentBox"
-                                           class="ml-n8 px-0 px-lg-8 px-md-8 px-sm-2 transition-swing">
-
+                                    <v-col
+                                      v-if="childComment.showCommentBox"
+                                      class="ml-n8 px-lg-8 px-md-8 px-sm-2 transition-swing px-0"
+                                    >
                                       <div v-if="user.token">
-                                        <v-textarea fluid placeholder="回复点啥吧。" clearable
-                                                    v-model="childComment.replyCommentText"
-                                                    clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                                    rows="4" :auto-grow="true">
-
+                                        <v-textarea
+                                          v-model="
+                                            childComment.replyCommentText
+                                          "
+                                          :auto-grow="true"
+                                          clear-icon="mdi-close-circle"
+                                          clearable
+                                          fluid
+                                          placeholder="回复点啥吧。"
+                                          prepend-inner-icon="mdi-comment"
+                                          rows="4"
+                                        >
                                         </v-textarea>
-                                        <v-btn class="float-end mx-6 mb-4" color="primary"
-                                               @click="ReplyComment(childComment.user.id,comment.id,index,Cindex,childComment.id,childComment.user.nickname)">
+                                        <v-btn
+                                          class="float-end mx-6 mb-4"
+                                          color="primary"
+                                          @click="
+                                            ReplyComment(
+                                              childComment.user.id,
+                                              comment.id,
+                                              index,
+                                              Cindex,
+                                              childComment.id,
+                                              childComment.user.nickname
+                                            )
+                                          "
+                                        >
                                           发送
                                         </v-btn>
                                       </div>
                                       <div v-else class="text-center">
                                         <nuxt-link to="/user/login">
-                                          <v-btn>
-                                            登陆
-                                          </v-btn>
+                                          <v-btn> 登陆 </v-btn>
                                         </nuxt-link>
                                       </div>
                                     </v-col>
-                                    <v-row>
-
-                                    </v-row>
-
+                                    <v-row> </v-row>
                                   </v-col>
                                 </v-row>
                               </div>
@@ -364,56 +638,79 @@
                           </v-row>
 
                           <v-row>
-                            <div v-if="Cindex===2&&!comment.loadMore&&comment.childCommentNum>3" class="ml-4 pa-4">
-                              <v-btn @click="()=>{comment.loadMore=true}">
+                            <div
+                              v-if="
+                                Cindex === 2 &&
+                                !comment.loadMore &&
+                                comment.childCommentNum > 3
+                              "
+                              class="pa-4 ml-4"
+                            >
+                              <v-btn
+                                @click="
+                                  () => {
+                                    comment.loadMore = true;
+                                  }
+                                "
+                              >
                                 查看更多 共{{ comment.childCommentNum }} 条回复
                               </v-btn>
                             </div>
-
                           </v-row>
-
                         </div>
-                        <div v-if="comment.loadMore"
-                             class="text-start" style="width:30%">
+                        <div
+                          v-if="comment.loadMore"
+                          class="text-start"
+                          style="width: 30%"
+                        >
                           <!--                                            @input="(page)=> {-->
                           <!--                                             await articleCommentStore.loadChildComment(comment.id,page)-->
                           <!--                                            }"-->
                           <!--                                  <v-container class="max-width">-->
-                          <v-pagination v-model="comment.childCommentPage"
-                                        rounded="circle"
-                                        class="my-4"
-                                        @update:modelValue="(page)=> {articleCommentStore.loadChildComment(comment,page)}"
-                                        :length="comment.childCommentTotalPages"></v-pagination>
+                          <v-pagination
+                            v-model="comment.childCommentPage"
+                            :length="comment.childCommentTotalPages"
+                            class="my-4"
+                            rounded="circle"
+                            @update:modelValue="
+                              (page) => {
+                                articleCommentStore.loadChildComment(
+                                  comment,
+                                  page
+                                );
+                              }
+                            "
+                          ></v-pagination>
                           <!--                                  </v-container>-->
-
                         </div>
                       </v-col>
                     </v-row>
-
                   </v-col>
                 </v-row>
               </v-col>
-              <v-divider class="my-2" v-if="index+1!==articleCommentStore.commentList.length"></v-divider>
-
+              <v-divider
+                v-if="index + 1 !== articleCommentStore.commentList.length"
+                class="my-2"
+              ></v-divider>
             </v-row>
           </div>
           <!--          //评论分页-->
           <v-row>
             <v-col cols="10">
               <v-container class="max-width">
-                <v-pagination v-model="articleCommentStore.page"
-                              class="my-4" :length="articleCommentStore.totalPages"></v-pagination>
+                <v-pagination
+                  v-model="articleCommentStore.page"
+                  :length="articleCommentStore.totalPages"
+                  class="my-4"
+                ></v-pagination>
               </v-container>
             </v-col>
           </v-row>
-
         </div>
-
       </v-col>
       <!--      目录-->
       <v-col class="toc">
-        <div class="js-toc">
-        </div>
+        <div class="js-toc"></div>
       </v-col>
     </v-row>
     <!--    https://vuetifyjs.com/zh-Hans/components/floating-action-buttons/#section-5c0f578b630994ae-->
@@ -423,108 +720,132 @@
     <client-only>
       <div class="side-toolbar1">
         <a href="#comments" v-if="!gotoTitle">
-          <v-btn rounded elevation="0" @click="gotoTitle=true"
-                 size="small" class="mr-3" outlined>
+          <v-btn
+            class="mr-3"
+            elevation="0"
+            outlined
+            rounded
+            size="small"
+            @click="gotoTitle = true"
+          >
             <v-icon>mdi-message-reply-text-outline</v-icon>
-            <v-tooltip
-                activator="parent"
-                location="top"
-            >评论区
-            </v-tooltip>
+            <v-tooltip activator="parent" location="top">评论区 </v-tooltip>
           </v-btn>
         </a>
         <a href="#T-title" v-else>
-          <v-btn rounded elevation="0" @click="gotoTitle=false"
-                 size="small" class="mr-3" outlined>
+          <v-btn
+            class="mr-3"
+            elevation="0"
+            outlined
+            rounded
+            size="small"
+            @click="gotoTitle = false"
+          >
             <v-icon>mdi-arrow-up-circle-outline</v-icon>
-            <v-tooltip
-                activator="parent"
-                location="top"
-            >回到顶部
-            </v-tooltip>
+            <v-tooltip activator="parent" location="top">回到顶部 </v-tooltip>
           </v-btn>
         </a>
-        <v-btn rounded plain elevation="0" outlined size="small" class="mr-3"
-               @click="articleStore.ActionArticle(CommentType.up)">
-          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.up)"></v-icon>
-          <span v-if="articleStore.articleField.upNum>0">
-          {{ articleStore.articleField.upNum }}
-        </span>
+        <v-btn
+          class="mr-3"
+          elevation="0"
+          outlined
+          plain
+          rounded
+          size="small"
+          @click="articleStore.ActionArticle(CommentType.up)"
+        >
+          <v-icon
+            :icon="articleStore.getArticleActionIcon(CommentType.up)"
+          ></v-icon>
+          <span v-if="articleStore.articleField.upNum > 0">
+            {{ articleStore.articleField.upNum }}
+          </span>
         </v-btn>
-        <v-btn class="mr-3" rounded plain elevation="0" outlined size="small"
-               @click="articleStore.ActionArticle(CommentType.down)">
-          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.down)"></v-icon>
-          <span v-if="articleStore.articleField.downNum>0">
-          {{ articleStore.articleField.downNum }}
+        <v-btn
+          class="mr-3"
+          elevation="0"
+          outlined
+          plain
+          rounded
+          size="small"
+          @click="articleStore.ActionArticle(CommentType.down)"
+        >
+          <v-icon
+            :icon="articleStore.getArticleActionIcon(CommentType.down)"
+          ></v-icon>
+          <span v-if="articleStore.articleField.downNum > 0">
+            {{ articleStore.articleField.downNum }}
           </span>
         </v-btn>
 
-
         <v-dialog
-            v-model="collectionDialog"
-            persistent
-            transition="dialog-bottom-transition"
+          v-model="collectionDialog"
+          persistent
+          transition="dialog-bottom-transition"
         >
           <template v-slot:activator="{ props }">
-
-            <v-btn v-bind="props" class="mr-3" rounded plain elevation="0" outlined size="small"
-                   @click="collectionArticles()">
-              <v-icon v-if="!articleStore.collect"
-                      icon="mdi-cards-heart-outline">
+            <v-btn
+              class="mr-3"
+              elevation="0"
+              outlined
+              plain
+              rounded
+              size="small"
+              v-bind="props"
+              @click="collectionArticles()"
+            >
+              <v-icon
+                v-if="!articleStore.collect"
+                icon="mdi-cards-heart-outline"
+              >
               </v-icon>
-              <v-icon v-else icon="mdi-cards-heart">
-              </v-icon>
-              <span v-if="articleStore.articleField.collectNum>0">
-          {{ articleStore.articleField.collectNum }}
-        </span>
-              <v-tooltip
-                  activator="parent"
-                  location="top"
-              >收藏
-              </v-tooltip>
+              <v-icon v-else icon="mdi-cards-heart"> </v-icon>
+              <span v-if="articleStore.articleField.collectNum > 0">
+                {{ articleStore.articleField.collectNum }}
+              </span>
+              <v-tooltip activator="parent" location="top">收藏 </v-tooltip>
             </v-btn>
           </template>
-          <div style="margin:auto">
+          <div style="margin: auto">
             <v-card class="text-center" style="width: 600px">
               <v-card-title>
                 <span class="text-h6 ml-8">添加到收藏夹</span>
               </v-card-title>
-              <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
+              <div
+                v-for="group in collectionGroupList"
+                :key="group.id"
+                class="d-flex my-n6 px-4"
+              >
                 {{ group.select }}
                 <v-checkbox
-                    v-model="group.select"
-                    :label="group.groupName"
-                    :model-value="group.select"
-                    class="pr-2"
-                    @change="addCollectionToGroup(group.id,group.select)"
+                  v-model="group.select"
+                  :label="group.groupName"
+                  :model-value="group.select"
+                  class="pr-2"
+                  @change="addCollectionToGroup(group.id, group.select)"
                 ></v-checkbox>
-                <span class="pt-4">
-                  {{ group.collectionNum }} / 999
-                </span>
-
+                <span class="pt-4"> {{ group.collectionNum }} / 999 </span>
               </div>
               <v-divider class="my-3"></v-divider>
               <v-row class="pa-4 ml-2">
-
                 <!--                  <v-form ref="form">-->
                 <!--                    v-model="collectionName"-->
                 <!--                    :rules="collectionNameRules"-->
                 <v-text-field
-                    label="新建分组"
-                    required
-                    append-inner-icon="mdi-check-bold"
-                    @click:append-inner="newCollectionGroup()"
-                    v-model="newCollectionGroupName"
+                  v-model="newCollectionGroupName"
+                  append-inner-icon="mdi-check-bold"
+                  label="新建分组"
+                  required
+                  @click:append-inner="newCollectionGroup()"
                 ></v-text-field>
-
               </v-row>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                    color="red-darken-1"
-                    text
-                    @click="collectionDialog = false"
+                  color="red-darken-1"
+                  text
+                  @click="collectionDialog = false"
                 >
                   关闭
                 </v-btn>
@@ -535,21 +856,14 @@
                 <!--                >-->
                 <!--                  收藏-->
                 <!--                </v-btn>-->
-
               </v-card-actions>
             </v-card>
           </div>
         </v-dialog>
-
-
       </div>
     </client-only>
-
-
   </div>
-
 </template>
-
 
 <script setup lang="ts">
 import {
@@ -560,178 +874,198 @@ import {
   useAxiosPostAddCollectionToGroup,
   useAxiosPostCreateCollectionGroup,
   useFetchGetArticleContent,
-  useFetchGetArticleField
-} from '~/composables/Api/article'
-import {onMounted, onUnmounted, ref, toRef, watch} from 'vue'
-import {definePageMeta, useCookie, useRoute} from '#imports'
-import {warningMsg, errorMsg, successMsg} from '~/composables/utils/toastification'
-import {onBeforeRouteUpdate} from 'vue-router'
-import {useArticleStore} from '~/stores/article/articleStore'
-import {CommentContent, useArticleCommentStore} from '~/stores/article/articleCommentStore'
-import {useUserStore} from '~/stores/user'
-import {useTheme} from 'vuetify'
-import {useHead} from '#head'
-import {atSrtGotoHome, dateFilter, handleCopy, timeAgoFilter} from '~/composables/useTools'
-import {followUser, unFollowUser} from '~/composables/Api/user/following'
-import {collectionData, collectionGroupData, collectionType} from '~/types/article'
-import {useLayout} from '~/stores/layout'
-import {useRouter} from '#app'
-import mediumZoom from 'medium-zoom'
-import {changeHighlightStyle} from '~/constant/highlightStyleList'
-import {changeThemes, themes} from '~/constant/markdownThemeList'
+  useFetchGetArticleField,
+} from "~/composables/Api/article";
+import { onMounted, onUnmounted, ref, toRef, watch } from "vue";
+import { definePageMeta, useCookie, useRoute } from "#imports";
+import {
+  warningMsg,
+  errorMsg,
+  successMsg,
+} from "~/composables/utils/toastification";
+import { onBeforeRouteUpdate } from "vue-router";
+import { useArticleStore } from "~/stores/article/articleStore";
+import {
+  CommentContent,
+  useArticleCommentStore,
+} from "~/stores/article/articleCommentStore";
+import { useUserStore } from "~/stores/user";
+import { useTheme } from "vuetify";
+import { useHead } from "#head";
+import {
+  atSrtGotoHome,
+  dateFilter,
+  handleCopy,
+  timeAgoFilter,
+} from "~/composables/useTools";
+import { followUser, unFollowUser } from "~/composables/Api/user/following";
+import {
+  collectionData,
+  collectionGroupData,
+  collectionType,
+} from "~/types/article";
+import { useLayout } from "~/stores/layout";
+import { useRouter } from "#app";
+import mediumZoom from "medium-zoom";
+import { changeHighlightStyle } from "~/constant/highlightStyleList";
+import { changeThemes, themes } from "~/constant/markdownThemeList";
 
 definePageMeta({
-  keepalive: false
-})
+  keepalive: false,
+});
 
-useLayout().showFooter = true
+useLayout().showFooter = true;
 
 //todo 移动端适配
-let route = useRoute()
-let aid = String(route.params.aid)
-const cookieThemeState = useCookie('theme')
-let theme = useTheme()
-let user = useUserStore()
-const router = useRouter()
-let articleStore = useArticleStore()
-let articleCommentStore = useArticleCommentStore()
-let ArticleField = await useFetchGetArticleField(aid)
+let route = useRoute();
+let aid = String(route.params.aid);
+const cookieThemeState = useCookie("theme");
+let theme = useTheme();
+let user = useUserStore();
+const router = useRouter();
+let articleStore = useArticleStore();
+let articleCommentStore = useArticleCommentStore();
+let ArticleField = await useFetchGetArticleField(aid);
 
-
-articleStore.articleField = ArticleField.data
+articleStore.articleField = ArticleField.data;
 if (ArticleField.data == undefined) {
-  router.push('/article')
+  router.push("/article");
 }
 // console.log('title', ArticleField.data.title)
-const title = ref<string>(ArticleField.data.title)
-let ArticleContent = await useFetchGetArticleContent(aid)
-articleStore.contentHtml = ArticleContent.data
+const title = ref<string>(ArticleField.data.title);
+let ArticleContent = await useFetchGetArticleContent(aid);
+articleStore.contentHtml = ArticleContent.data;
 
+const ReplyComment = articleCommentStore.ReplyComment;
 
-const ReplyComment = articleCommentStore.ReplyComment
+const gotoTitle = ref(false);
 
-const gotoTitle = ref(false)
-
-const message = ref('')
+const message = ref("");
 // const showMessage = ref(false)
 const getMarkdownThemeName = () => {
-  if (cookieThemeState.value === 'dark') {
-    return ArticleField.data?.markDownThemeDark
+  if (cookieThemeState.value === "dark") {
+    return ArticleField.data?.markDownThemeDark;
   } else {
-    return ArticleField.data?.markDownTheme
+    return ArticleField.data?.markDownTheme;
   }
-}
+};
 const getHighlightStyleName = () => {
-  if (cookieThemeState.value === 'dark') {
-    return ArticleField.data?.codeHighlightStyleDark
+  if (cookieThemeState.value === "dark") {
+    return ArticleField.data?.codeHighlightStyleDark;
   } else {
-    return ArticleField.data?.codeHighlightStyle
+    return ArticleField.data?.codeHighlightStyle;
   }
-}
+};
 
-if (typeof window == 'undefined') {
-  articleStore.HighlightStyleStr = await changeHighlightStyle(getHighlightStyleName(), true)
-  articleStore.MarkdownThemeStr = await changeThemes(themes[getMarkdownThemeName()], true)
+if (typeof window == "undefined") {
+  articleStore.HighlightStyleStr = await changeHighlightStyle(
+    getHighlightStyleName(),
+    true
+  );
+  articleStore.MarkdownThemeStr = await changeThemes(
+    themes[getMarkdownThemeName()],
+    true
+  );
 }
 
 onMounted(async () => {
   //
-  if (user.token === '') {
-    articleCommentStore.replyCommentText = '请先登陆'
+  if (user.token === "") {
+    articleCommentStore.replyCommentText = "请先登陆";
   }
-  await articleStore.init()
+  await articleStore.init();
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   setTimeout(() => {
-    createToc()
+    createToc();
     if (route.hash) {
-      const el: HTMLElement = document.querySelector(route.hash)
+      const el: HTMLElement = document.querySelector(route.hash);
       if (el) {
         el.scrollIntoView({
-          behavior: 'smooth',
-        })
+          behavior: "smooth",
+        });
       }
     } else {
-      document.documentElement.scrollTop = 0
+      document.documentElement.scrollTop = 0;
     }
-  }, 200)
-  await articleCommentStore.init(articleStore.articleField)
-  if (route.hash.startsWith('#comment-')) {
-    console.log('goto comment:', route.hash)
-    const el = document.querySelector(route.hash)
+  }, 200);
+  await articleCommentStore.init(articleStore.articleField);
+  if (route.hash.startsWith("#comment-")) {
+    console.log("goto comment:", route.hash);
+    const el = document.querySelector(route.hash);
     if (el) {
       el.scrollIntoView({
         // behavior:"smooth"
-      })
+      });
     }
   }
-  await loadArticleCollectionState()
+  await loadArticleCollectionState();
 
   watch(theme.global.name, async (val) => {
-    if (val === 'dark') {
-      await articleStore.changeThemeDark()
-      await articleStore.changeHighlightStyleDark()
+    if (val === "dark") {
+      await articleStore.changeThemeDark();
+      await articleStore.changeHighlightStyleDark();
     } else {
-      await articleStore.changeThemeLight()
-      await articleStore.changeHighlightStyleLight()
+      await articleStore.changeThemeLight();
+      await articleStore.changeHighlightStyleLight();
     }
-  })
+  });
 
-  watch(toRef(articleCommentStore, 'page'), async (page) => {
-    await articleCommentStore.loadComment(page)
-    const el = document.querySelector('.d-article-comment-oder-btn')
-    el.scrollIntoView()
-  })
-})
+  watch(toRef(articleCommentStore, "page"), async (page) => {
+    await articleCommentStore.loadComment(page);
+    const el = document.querySelector(".d-article-comment-oder-btn");
+    el.scrollIntoView();
+  });
+});
 
 onUnmounted(() => {
-  console.log('onUnmounted')
-  articleStore.$reset()
-  articleCommentStore.$reset()
-})
+  console.log("onUnmounted");
+  articleStore.$reset();
+  articleCommentStore.$reset();
+});
 // todo 返回滚动位置
 onBeforeRouteUpdate(async (to, from, next) => {
   if (to.hash) {
     if (to.path !== from.path) {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 const childCommentLimit = (comments): CommentContent[] => {
   if (comments.loadMore === undefined) {
-    return comments.childComments.slice(0, 3)
+    return comments.childComments.slice(0, 3);
   } else {
-    return comments.childComments
+    return comments.childComments;
   }
-}
+};
 
-const onIntersect = (entries) => gotoTitle.value = !!entries
+const onIntersect = (entries) => (gotoTitle.value = !!entries);
 const createToc = () => {
   // @ts-ignore
   tocbot.init({
-    tocSelector: '.js-toc',
-    contentSelector: '.js-toc-content',
-    headingSelector: 'h1, h2,h3,h4',
+    tocSelector: ".js-toc",
+    contentSelector: ".js-toc-content",
+    headingSelector: "h1, h2,h3,h4",
     scrollSmooth: true,
     scrollSmoothDuration: 500,
     scrollSmoothOffset: -70,
-    headingsOffset: -20
-  })
-}
+    headingsOffset: -20,
+  });
+};
 
-const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
-const collectionDialog = ref(false)
-const selectCollectionGroup = ref<Array<number>>([])
-const articleCollectionState = ref()
+const collectionGroupList = ref<Array<collectionGroupData>>(); // 收藏分组列表
+const collectionDialog = ref(false);
+const selectCollectionGroup = ref<Array<number>>([]);
+const articleCollectionState = ref();
 const collectionArticles = async () => {
-  const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+  const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
   if (axiosResponse.code === 0) {
-    collectionGroupList.value = axiosResponse.data
-    await loadArticleCollectionState()
+    collectionGroupList.value = axiosResponse.data;
+    await loadArticleCollectionState();
     if (articleCollectionState.value.code === 0) {
-      const state = articleCollectionState.value.data
+      const state = articleCollectionState.value.data;
       // selectCollectionGroup.value = state
       // console.log(state)
       for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
@@ -739,149 +1073,147 @@ const collectionArticles = async () => {
           // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
           // console.log("state[iKey].value[i].id",state[iKey])
           if (state[iKey] === collectionGroupList.value[i].id) {
-            collectionGroupList.value[i].select = true
+            collectionGroupList.value[i].select = true;
           }
         }
       }
     }
-
   }
-}
-const newCollectionGroupName = ref('')
+};
+const newCollectionGroupName = ref("");
 const newCollectionGroup = async () => {
   let body: any = {
-    groupName: newCollectionGroupName.value
-  }
-  const {data: axiosResponse} = await useAxiosPostCreateCollectionGroup(body)
+    groupName: newCollectionGroupName.value,
+  };
+  const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body);
   if (axiosResponse.code === 0) {
-    successMsg('创建成功')
-    const {data: axiosResponse} = await useAxiosGetCollectionGroupList()
+    successMsg("创建成功");
+    const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
     if (axiosResponse.code === 0) {
-      collectionGroupList.value = axiosResponse.data
-      newCollectionGroupName.value = ''
+      collectionGroupList.value = axiosResponse.data;
+      newCollectionGroupName.value = "";
     }
   } else {
-    errorMsg(axiosResponse.msg)
+    errorMsg(axiosResponse.msg);
   }
-}
+};
 const loadArticleCollectionState = async () => {
-  console.log('loadArticleCollectionState')
-  const {data: articleCollectionStateData} = await useAxiosGetArticleCollectionState(aid)
-  articleCollectionState.value = articleCollectionStateData
-}
+  console.log("loadArticleCollectionState");
+  const { data: articleCollectionStateData } =
+    await useAxiosGetArticleCollectionState(aid);
+  articleCollectionState.value = articleCollectionStateData;
+};
 const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.Article,
     sourceId: articleStore.articleField.id,
-    groupId
-  }
+    groupId,
+  };
   if (select) {
-    const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(body)
+    const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(
+      body
+    );
     if (axiosResponse.code === 0) {
       // await loadArticleCollectionState()
-      successMsg('收藏成功')
-      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
-
+      successMsg("收藏成功");
+      collectionGroupList.value.find((value) => value.id === groupId)
+        .collectionNum++;
     } else {
-      warningMsg(axiosResponse.msg)
+      warningMsg(axiosResponse.msg);
     }
   } else {
-    const {data: axiosResponse} = await useAxiosCancelCollectionToGroup(body)
+    const { data: axiosResponse } = await useAxiosCancelCollectionToGroup(body);
     if (axiosResponse.code === 0) {
-      successMsg('取消收藏成功')
-      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
+      successMsg("取消收藏成功");
+      collectionGroupList.value.find((value) => value.id === groupId)
+        .collectionNum--;
     } else {
-      errorMsg(axiosResponse.msg)
+      errorMsg(axiosResponse.msg);
     }
   }
-
-}
+};
 
 const subscribe = () => {
-  followUser(articleStore.articleField.user.id)
-  articleStore.follow = true
-}
+  followUser(articleStore.articleField.user.id);
+  articleStore.follow = true;
+};
 
 const unsubscribe = () => {
-  unFollowUser(articleStore.articleField.user.id)
-  articleStore.follow = false
-}
+  unFollowUser(articleStore.articleField.user.id);
+  articleStore.follow = false;
+};
 
 const showDelBtn = (commentUserId: string, parentCommentUserId?: string) => {
   // if (articleStore.articleField.user.id === userStore.user.id) {
   //   return true
   // }
-  const uid = user.user.id
+  const uid = user.user.id;
   if (articleStore.articleField.user.id == uid) {
-    return true
+    return true;
   }
   if (commentUserId == uid) {
-    return true
+    return true;
   }
   if (parentCommentUserId != undefined) {
-    return parentCommentUserId == uid
+    return parentCommentUserId == uid;
   }
-}
+};
 
-const tocOverflow = ref('hidden')
+const tocOverflow = ref("hidden");
 
 onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
-      .querySelector('.markdown-body')
-      .querySelectorAll('img')
+    .querySelector(".markdown-body")
+    .querySelectorAll("img");
   const interval = setInterval(() => {
-    const bannerElement: HTMLImageElement = document.querySelector('.d-article-banner > img')
+    const bannerElement: HTMLImageElement = document.querySelector(
+      ".d-article-banner > img"
+    );
     if (bannerElement) {
       mediumZoom(bannerElement, {
         margin: 24,
-        background: 'rgba(0,0,0,0.4)',
+        background: "rgba(0,0,0,0.4)",
         scrollOffset: 0,
-      })
-      clearInterval(interval)
+      });
+      clearInterval(interval);
     }
-  }, 1000)
-
+  }, 1000);
 
   mediumZoom(imgNodes, {
     margin: 24,
-    background: 'rgba(0,0,0,0.4)',
+    background: "rgba(0,0,0,0.4)",
     scrollOffset: 0,
-  })
-  let t
+  });
+  let t;
   const autoOverflow = () => {
-    clearTimeout(t)
+    clearTimeout(t);
     t = setTimeout(() => {
-      let active = document.querySelector('.is-active-li')
-      let listOf = document.querySelectorAll('.toc > div > ol > li')
-      let viewCount = active.parentElement.childNodes.length + listOf.length
+      let active = document.querySelector(".is-active-li");
+      let listOf = document.querySelectorAll(".toc > div > ol > li");
+      let viewCount = active.parentElement.childNodes.length + listOf.length;
       if (viewCount > 15 && active.parentElement !== listOf[0].parentElement) {
-        tocOverflow.value = 'auto'
+        tocOverflow.value = "auto";
       } else {
         listOf[0].scrollIntoView({
-          behavior: 'smooth',
-        })
-        tocOverflow.value = 'hidden'
-        document.onscroll = null
+          behavior: "smooth",
+        });
+        tocOverflow.value = "hidden";
+        document.onscroll = null;
         setTimeout(() => {
           document.onscroll = () => {
-            autoOverflow()
-          }
-        }, 1000)
+            autoOverflow();
+          };
+        }, 1000);
       }
-    }, 900)
-  }
+    }, 900);
+  };
   // window.addEventListener('scroll', )
   if (document.documentElement.clientWidth > 1280)
-    document.onscroll = autoOverflow
-
-
-})
-
+    document.onscroll = autoOverflow;
+});
 </script>
 
-<style>
-
-</style>
+<style></style>
 
 <style lang="sass" scoped>
 //@import "../../assets/sass/mdTheme/cyanosis"
@@ -905,7 +1237,6 @@ onMounted(() => {
 }
 
 :deep(.markdown-body pre code ul li) {
-
 }
 
 :deep(.markdown-body pre code ul li:before) {
@@ -913,7 +1244,9 @@ onMounted(() => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+  color: v-bind(
+    'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
+  ) !important;
 }
 
 :deep(.markdown-body p) {
@@ -940,7 +1273,6 @@ onMounted(() => {
 :deep(.toc::-webkit-scrollbar) {
   width: 0 !important;
 }
-
 
 :deep(.toc) {
   position: sticky;
@@ -996,7 +1328,6 @@ onMounted(() => {
   font-size: 18px !important;
 }
 
-
 /** 滚动条 */
 :deep(.hljs) {
   overflow-x: auto;
@@ -1040,52 +1371,61 @@ onMounted(() => {
 }
 </style>
 
-
 <style>
-
 .toc-link::before {
-  background-color: v-bind('theme.global.name.value === "dark" ? "#2e2e2e" : "#eee"');
+  background-color: v-bind(
+    'theme.global.name.value === "dark" ? "#2e2e2e" : "#eee"'
+  );
   /*content:' ';*/
   /*display:inline-block;*/
   /*height:inherit;*/
   /*left:0;*/
   /*margin-top:-1px;*/
   /*position:absolute;*/
-  width: 4px
+  width: 4px;
 }
 
 .d-tip-error {
   /*background: #fcf1f1 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  background: v-bind(
+    'theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"'
+  ) !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
 .d-tip-success {
   /*background: #f0f8e5 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  background: v-bind(
+    'theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"'
+  ) !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
 .d-tip-warning {
   /*background: #fcf2e9 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  background: v-bind(
+    'theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"'
+  ) !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
 .d-tip-info {
   /*background: #eef6fd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  background: v-bind(
+    'theme.global.name.value === "dark" ? "#162430" : "#eef6fd"'
+  ) !important;
   border-left-color: #40c4ff !important;
   /*color: black!important;*/
 }
 
-
 .d-tip-share {
   /*background: #dddddd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  background: v-bind(
+    'theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"'
+  ) !important;
   border-left-color: #8b968d !important;
   /*color: black!important;*/
 }
@@ -1114,7 +1454,9 @@ onMounted(() => {
 .d-tip-success p:first-child:before {
   content: "\F012C";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  color: v-bind(
+    'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
+  ) !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
@@ -1143,7 +1485,9 @@ onMounted(() => {
 .d-tip-share p:first-child:before {
   content: "\F0065";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
+  color: v-bind(
+    'theme.global.name.value === "dark" ? "" : "#858585"'
+  ) !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
@@ -1152,9 +1496,7 @@ onMounted(() => {
 .d-tip > p:not(:first-child) {
   margin-left: 22px;
 }
-
 </style>
-
 
 <!--<style>-->
 <!--.img-select img {-->

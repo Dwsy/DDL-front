@@ -1,44 +1,50 @@
 <template>
   <div>
-
     <div v-if="loading" class="flex items-center justify-center py-6">
-      <UISpinner/>
+      <UISpinner />
     </div>
     <div v-else>
-      <TweetItem :tweet="props.replyTo" v-if="props.replyTo && props.showReply" hideActions/>
-      <TweetFormInput :placeholder="props.placeholder" :user="props.user" @onSubmit="handleFormSubmit"/>
+      <TweetItem
+        v-if="props.replyTo && props.showReply"
+        :tweet="props.replyTo"
+        hideActions
+      />
+      <TweetFormInput
+        :placeholder="props.placeholder"
+        :user="props.user"
+        @onSubmit="handleFormSubmit"
+      />
     </div>
-
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue'
-import UISpinner from '~/components/Tcomponents/UI/Spinner'
-import TweetItem from '~/components/Tcomponents/Tweet/Item'
-import TweetFormInput from '~/components/Tcomponents/Tweet/Form/Input.vue'
+import { ref } from "vue";
+import UISpinner from "~/components/Tcomponents/UI/Spinner";
+import TweetItem from "~/components/Tcomponents/Tweet/Item";
+import TweetFormInput from "~/components/Tcomponents/Tweet/Form/Input.vue";
 
-const emits = defineEmits(['onSuccess'])
-const loading = ref(false)
+const emits = defineEmits(["onSuccess"]);
+const loading = ref(false);
 // const { postTweet } = useTweets()
 
 const props = defineProps({
   user: {
     type: Object,
-    required: true
+    required: true,
   },
   placeholder: {
     type: String,
-    default: 'What\'s happening ?'
+    default: "What's happening ?",
   },
   replyTo: {
     type: Object,
-    default: null
+    default: null,
   },
   showReply: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
 async function handleFormSubmit(data) {
   // loading.value = true
@@ -56,5 +62,4 @@ async function handleFormSubmit(data) {
   //     loading.value = false
   // }
 }
-
 </script>

@@ -1,11 +1,19 @@
 <template>
   <div class="border-x" :class="twitterBorderColor">
-    <div class="sticky top-0 px-4 py-3 bg-white/80 backdrop-blur-md dark:bg-dim-900/80">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">{{ props.title }}</h2>
+    <div
+      class="dark:bg-dim-900/80 sticky top-0 bg-white/80 px-4 py-3 backdrop-blur-md"
+    >
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
+        {{ props.title }}
+      </h2>
     </div>
 
-    <div v-if="props.loading" class="flex items-center justify-center p-4 border-b" :class="twitterBorderColor">
-      <UISpinner/>
+    <div
+      v-if="props.loading"
+      class="flex items-center justify-center border-b p-4"
+      :class="twitterBorderColor"
+    >
+      <UISpinner />
     </div>
     <div v-else>
       <slot></slot>
@@ -13,20 +21,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from '../../composables/useTailwindConfig'
-import UISpinner from '/components/Tcomponents/UI/Spinner.vue'
+import useTailwindConfig from "../../composables/useTailwindConfig";
+import UISpinner from "/components/Tcomponents/UI/Spinner.vue";
 
-const {twitterBorderColor} = useTailwindConfig()
+const { twitterBorderColor } = useTailwindConfig();
 
 const props = defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   loading: {
     type: Boolean,
-    required: true
-  }
-})
-
+    required: true,
+  },
+});
 </script>

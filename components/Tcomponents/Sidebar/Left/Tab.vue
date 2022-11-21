@@ -1,32 +1,32 @@
 <template>
-    <nuxt-link to="#"
-        class="flex items-center p-3 text-black rounded-full w-min hover:bg-gray-200 dark:hover:bg-dim-200 dark:text-white"
-        :class="defaultTransition">
+  <nuxt-link
+    to="#"
+    class="dark:hover:bg-dim-200 flex w-min items-center rounded-full p-3 text-black hover:bg-gray-200 dark:text-white"
+    :class="defaultTransition"
+  >
+    <div class="text-dark h-6 w-6">
+      <slot name="icon"></slot>
+    </div>
 
-        <div class="w-6 h-6 text-dark">
-            <slot name="icon"></slot>
-        </div>
-
-        <div class="hidden ml-4 text-xl xl:block" :class="textClasses">
-            <slot name="name"></slot>
-        </div>
-
-    </nuxt-link>
+    <div class="ml-4 hidden text-xl xl:block" :class="textClasses">
+      <slot name="name"></slot>
+    </div>
+  </nuxt-link>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from '~/composables/useTailwindConfig'
-import {computed} from 'vue'
+import useTailwindConfig from "~/composables/useTailwindConfig";
+import { computed } from "vue";
 
-const {defaultTransition} = useTailwindConfig()
+const { defaultTransition } = useTailwindConfig();
 
 const props = defineProps({
   active: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const textClasses = computed(() => props.active ? 'font-semibold' : 'font-normal')
-
-
+const textClasses = computed(() =>
+  props.active ? "font-semibold" : "font-normal"
+);
 </script>

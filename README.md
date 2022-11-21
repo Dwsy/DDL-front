@@ -1,42 +1,29 @@
-# Nuxt 3 Minimal Starter
+## DDL-front (D-DeveloperLink)
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+### 程序员社区前端
 
-## Setup
+#### 项目介绍
 
-Make sure to install the dependencies:
+----
+技术栈：Vue3 + Nuxt3 + Vuetify + Axios + Typescript + Pinia + Tailwindcss
 
-```bash
-# yarn
-yarn install
+后端地址：[https://github.com/Dwsy/DDL]()
 
-# npm
-npm install
+---
+#### 开发截图
 
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-<!-- Start the development server on http://localhost:3000 -->
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+![](./doc/img/index.png)
+![](./doc/img/indexDark.png)
+![](./doc/img/article.png)
+![](./doc/img/question.png)
+![](./doc/img/question2.png)
+![](./doc/img/answer.png)
+![](./doc/img/answerEditor.png)
+![](./doc/img/articleDark.png)
+![](./doc/img/articleEditor.png)
+![](./doc/img/articleEditorDark.png)
+![](./doc/img/comment.png)
+![](./doc/img/how2ask.png)
+![](./doc/img/notify.png)
+![](./doc/img/private.png)
+![](./doc/img/private1.png)

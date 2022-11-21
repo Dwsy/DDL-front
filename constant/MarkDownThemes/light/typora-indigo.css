@@ -2,9 +2,15 @@
 .markdown-body {
   color: #595959;
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
   line-height: 1.8em;
-  background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.05) 3%, transparent 0), linear-gradient(1turn, rgba(60, 10, 30, 0.05) 3%, transparent 0);
+  background-image: linear-gradient(
+      90deg,
+      rgba(60, 10, 30, 0.05) 3%,
+      transparent 0
+    ),
+    linear-gradient(1turn, rgba(60, 10, 30, 0.05) 3%, transparent 0);
   background-size: 20px 20px;
   background-position: 50%;
   word-break: break-all;
@@ -125,7 +131,8 @@
   border-width: 0px;
 }
 .markdown-body code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 .markdown-body pre > code {
   font-weight: 400;
@@ -222,7 +229,9 @@
 }
 .markdown-body pre.md-fences,
 .markdown-body pre.md-meta-block,
-.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input {
+.markdown-body
+  .md-rawblock-control:not(.md-rawblock-tooltip)
+  .md-rawblock-input {
   padding: 12px;
   padding-top: 6px;
   margin: 0.5em 0;
@@ -249,7 +258,9 @@
 }
 .markdown-body pre.md-fences::before,
 .markdown-body pre.md-meta-block::before,
-.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input::before {
+.markdown-body
+  .md-rawblock-control:not(.md-rawblock-tooltip)
+  .md-rawblock-input::before {
   content: "";
   display: block;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K");
@@ -274,7 +285,8 @@
   color: #ae81ff;
 }
 .markdown-body .cm-s-inner .cm-qualifier,
-.markdown-body .cm-s-inner .cm-string, .markdown-body .cm-s-inner .cm-string-2,
+.markdown-body .cm-s-inner .cm-string,
+.markdown-body .cm-s-inner .cm-string-2,
 .markdown-body .cm-s-inner .cm-builtin {
   color: #a6e22e;
 }
@@ -290,7 +302,8 @@
 }
 .markdown-body .cm-s-inner .cm-def,
 .markdown-body .cm-s-inner .cm-variable,
-.markdown-body .cm-s-inner .cm-variable-2, .markdown-body .cm-s-inner .cm-variable-3 {
+.markdown-body .cm-s-inner .cm-variable-2,
+.markdown-body .cm-s-inner .cm-variable-3 {
   color: #f8f8f2;
 }
 .markdown-body .cm-s-inner .cm-type {

@@ -6,58 +6,60 @@
       </Head>
 
       <div class="border-b" :class="twitterBorderColor">
-        <TweetForm :user="user" @on-success="handleFormSuccess"/>
+        <TweetForm :user="user" @on-success="handleFormSuccess" />
       </div>
 
-      <TweetListFeed :tweets="homeTweets"/>
-
+      <TweetListFeed :tweets="homeTweets" />
     </MainSection>
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from '~~/composables/useTailwindConfig'
-import {ref, onBeforeMount} from 'vue'
-import MainSection from '~~/components/Tcomponents/MainSection.vue'
+import useTailwindConfig from "~~/composables/useTailwindConfig";
+import { ref, onBeforeMount } from "vue";
+import MainSection from "~~/components/Tcomponents/MainSection.vue";
 
-const {twitterBorderColor} = useTailwindConfig()
-import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
-import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
-import {navigateTo} from '#app'
+const { twitterBorderColor } = useTailwindConfig();
+import TweetForm from "~/components/Tcomponents/Tweet/Form/index.vue";
+import TweetListFeed from "~/components/Tcomponents/Tweet/ListFeed.vue";
+import { navigateTo } from "#app";
 // const {getTweets} = useTweets()
 
-const loading = ref(false)
+const loading = ref(false);
 // const homeTweets = ref([])
 // const {useAuthUser} = useAuth()
 const homeTweets = [
   {
-    mediaFiles: ['https://picsum.photos/300/300', 'https://picsum.photos/300/300', 'https://picsum.photos/300/300'],
-    text: 'test',
-    postedAtHuman: 'postedAtHuman',
+    mediaFiles: [
+      "https://picsum.photos/300/300",
+      "https://picsum.photos/300/300",
+      "https://picsum.photos/300/300",
+    ],
+    text: "test",
+    postedAtHuman: "postedAtHuman",
     author: {
-      name: 'name',
-      handle: 'handle',
-      profileImage: 'https://picsum.photos/300/300'
-    }
-  }
-]
+      name: "name",
+      handle: "handle",
+      profileImage: "https://picsum.photos/300/300",
+    },
+  },
+];
 const user = {
   id: 1,
-  name: 'John Doe',
-  username: 'johndoe',
-  profileImage: 'https://picsum.photos/300/300',
+  name: "John Doe",
+  username: "johndoe",
+  profileImage: "https://picsum.photos/300/300",
   replyTo: {
     id: 2,
-    name: 'dwsy',
-    username: 'ddy',
-    profileImage: 'https://picsum.photos/300/300',
+    name: "dwsy",
+    username: "ddy",
+    profileImage: "https://picsum.photos/300/300",
   },
-  repliesCount: 21
-}
-
+  repliesCount: 21,
+};
 
 onBeforeMount(async () => {
-  loading.value = true
-  loading.value = false
+  loading.value = true;
+  loading.value = false;
   // try {
   //     const { tweets } = await getTweets()
   //
@@ -67,12 +69,11 @@ onBeforeMount(async () => {
   // } finally {
   //     loading.value = false
   // }
-})
+});
 
 function handleFormSuccess(tweet) {
   navigateTo({
-    path: `/status/${tweet.id}`
-  })
+    path: `/status/${tweet.id}`,
+  });
 }
-
 </script>

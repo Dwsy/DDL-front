@@ -1,15 +1,18 @@
 <template>
-    <div class="p-3 border-b cursor-pointer hover:bg-gray-100 dark:hover:bg-dim-300" :class="wrapperClasses">
-        <slot></slot>
-    </div>
+  <div
+    :class="wrapperClasses"
+    class="dark:hover:bg-dim-300 cursor-pointer border-b p-3 hover:bg-gray-100"
+  >
+    <slot></slot>
+  </div>
 </template>
 <script setup lang="ts">
-import {computed} from 'vue'
-import useTailwindConfig from '~/composables/useTailwindConfig'
+import { computed } from "vue";
+import useTailwindConfig from "~/composables/useTailwindConfig";
 
-const {defaultTransition, twitterBorderColor} = useTailwindConfig()
+const { defaultTransition, twitterBorderColor } = useTailwindConfig();
 
-const wrapperClasses = computed(() => `${defaultTransition} ${twitterBorderColor}`)
-
-
+const wrapperClasses = computed(
+  () => `${defaultTransition} ${twitterBorderColor}`
+);
 </script>

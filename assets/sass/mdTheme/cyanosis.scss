@@ -72,23 +72,59 @@ $d-selectionPreCodeBgColor: rgba(160, 200, 255, 0.25);
   #{$id}-border-color-2: if($isDark, $d-borderColor2, $l-borderColor2);
   #{$id}-bg-color: if($isDark, $d-bgColor, $l-bgColor);
   #{$id}-blockquote-color: if($isDark, $d-blockquoteColor, $l-blockquoteColor);
-  #{$id}-blockquote-bg-color: if($isDark, $d-blockquoteBgColor, $l-blockquoteBgColor);
+  #{$id}-blockquote-bg-color: if(
+    $isDark,
+    $d-blockquoteBgColor,
+    $l-blockquoteBgColor
+  );
   #{$id}-code-color: if($isDark, $d-codeColor, $l-codeColor);
   #{$id}-code-bg-color: if($isDark, $d-codeBgColor, $l-codeBgColor);
   #{$id}-code-pre-color: if($isDark, $d-codePreColor, $l-codePreColor);
-  #{$id}-table-border-color: if($isDark, $d-tableBorderColor, $l-tableBorderColor);
+  #{$id}-table-border-color: if(
+    $isDark,
+    $d-tableBorderColor,
+    $l-tableBorderColor
+  );
   #{$id}-table-th-color: if($isDark, $d-tableThColor, $l-tableThColor);
   #{$id}-table-tht-color: if($isDark, $d-tableThtColor, $l-tableThtColor);
   #{$id}-table-tr-nc-color: if($isDark, $d-tableTrNcColor, $l-tableTrNcColor);
   #{$id}-table-trh-color: if($isDark, $d-tableTrhColor, $l-tableTrhColor);
-  #{$id}-slct-title-color: if($isDark, $d-selectionTitleColor, $l-selectionTitleColor);
-  #{$id}-slct-titlebg-color: if($isDark, $d-selectionTitlebgColor, $l-selectionTitlebgColor);
-  #{$id}-slct-text-color: if($isDark, $d-selectionTextColor, $l-selectionTextColor);
+  #{$id}-slct-title-color: if(
+    $isDark,
+    $d-selectionTitleColor,
+    $l-selectionTitleColor
+  );
+  #{$id}-slct-titlebg-color: if(
+    $isDark,
+    $d-selectionTitlebgColor,
+    $l-selectionTitlebgColor
+  );
+  #{$id}-slct-text-color: if(
+    $isDark,
+    $d-selectionTextColor,
+    $l-selectionTextColor
+  );
   #{$id}-slct-bg-color: if($isDark, $d-selectionBgColor, $l-selectionBgColor);
-  #{$id}-slct-del-color: if($isDark, $d-selectionDelColor, $l-selectionDelColor);
-  #{$id}-slct-elbg-color: if($isDark, $d-selectionElBgColor, $l-selectionElBgColor);
-  #{$id}-slct-codebg-color: if($isDark, $d-selectionCodeBgColor, $l-selectionCodeBgColor);
-  #{$id}-slct-prebg-color: if($isDark, $d-selectionPreCodeBgColor, $l-selectionPreCodeBgColor);
+  #{$id}-slct-del-color: if(
+    $isDark,
+    $d-selectionDelColor,
+    $l-selectionDelColor
+  );
+  #{$id}-slct-elbg-color: if(
+    $isDark,
+    $d-selectionElBgColor,
+    $l-selectionElBgColor
+  );
+  #{$id}-slct-codebg-color: if(
+    $isDark,
+    $d-selectionCodeBgColor,
+    $l-selectionCodeBgColor
+  );
+  #{$id}-slct-prebg-color: if(
+    $isDark,
+    $d-selectionPreCodeBgColor,
+    $l-selectionPreCodeBgColor
+  );
 }
 
 @mixin transitionColor() {
@@ -129,7 +165,7 @@ $d-selectionPreCodeBgColor: rgba(160, 200, 255, 0.25);
   @include transitionColor();
   @include LightAndDark();
 
-  &.__dark{
+  &.__dark {
     @include LightAndDark(true);
   }
 
@@ -209,12 +245,12 @@ $d-selectionPreCodeBgColor: rgba(160, 200, 255, 0.25);
     margin-top: 32px;
     margin-bottom: 32px;
     background-image: linear-gradient(
-                    90deg,
-                    var(--cyanosis-link-color),
-                    rgba(255, 0, 0, 0.3),
-                    rgba(255, 255, 255, 0.1),
-                    rgba(255, 0, 0, 0.3),
-                    var(--cyanosis-link-color)
+      90deg,
+      var(--cyanosis-link-color),
+      rgba(255, 0, 0, 0.3),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 0, 0, 0.3),
+      var(--cyanosis-link-color)
     );
     border-width: 0;
     overflow: visible;

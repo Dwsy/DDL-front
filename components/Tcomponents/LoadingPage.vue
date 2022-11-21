@@ -1,11 +1,10 @@
 <template>
-    <div class="flex items-center justify-center h-screen">
-
-        <div class="absolute w-20 h-20 animate-ping">
-            <LogoTwitter />
-        </div>
+  <div class="flex h-screen items-center justify-center">
+    <div class="absolute h-20 w-20 animate-ping">
+      <LogoTwitter />
     </div>
+  </div>
 </template>
 <script setup lang="ts">
-import LogoTwitter from '~~/components/Tcomponents/Logo/Twitter.vue'
+import LogoTwitter from "~~/components/Tcomponents/Logo/Twitter.vue";
 </script>

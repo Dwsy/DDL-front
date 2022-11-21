@@ -1,11 +1,10 @@
 <template>
   <v-list>
-    <v-toolbar-title class="dwsy pt-4 ml-0 pl-4">
+    <v-toolbar-title class="dwsy ml-0 pt-4 pl-4">
       <h1 style="font-size: 30px">DDL</h1>
     </v-toolbar-title>
 
-    <v-col cols="10">
-    </v-col>
+    <br />
 
     <!--    <template v-for="item in items">-->
 
@@ -17,48 +16,83 @@
     <!--        </v-list-item-title>-->
     <!--      </v-list-item>-->
     <!--    </template>-->
-
     <nav aria-label="Main Nav" class="flex flex-col space-y-1">
       <template v-for="item in items">
-        <nuxt-link :to="item.link"
-                   class="flex items-center rounded-lg  px-4 py-2 text-gray-500 active:bg-violet-50 hover:bg-gray-100 dark:hover:bg-amber-600 hover:text-gray-700">
-          <v-icon>
+        <nuxt-link
+          :class="{ active: item.active }"
+          :to="item.link"
+          class="flex items-center rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900"
+        >
+          <v-icon
+            v-if="item.link !== '/messages'"
+            class="mr-2 dark:text-slate-200"
+          >
             {{ item.icon }}
           </v-icon>
-          <span class="ml-3 text-sm font-medium"> {{ item.text }} </span>
+          <BellIcon
+            v-else
+            class="mr-2 dark:text-slate-200"
+            style="width: 27px"
+          />
+          <span class="ml-3 text-lg font-medium dark:text-slate-200">
+            {{ item.text }}
+          </span>
         </nuxt-link>
       </template>
     </nav>
-
   </v-list>
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount, reactive, watchEffect } from "vue";
+import { useTheme } from "vuetify";
+import { BellIcon } from "@heroicons/vue/24/outline/esm/index.js";
+import { useRoute } from "#app";
 
-import {reactive} from 'vue'
-import {useTheme} from 'vuetify'
-
-const theme = useTheme()
+const route = useRoute();
+const theme = useTheme();
 let items = reactive([
   {
-    icon: 'mdi-home-outline',
-    text: '文章',
-    link: '/article'
+    icon: "mdi-home-outline",
+    text: "文章",
+    link: "/article",
+    active: false,
   },
   {
-    icon: 'mdi-comment-question-outline',
-    text: '问答',
-    link: '/question',
+    icon: "mdi-comment-question-outline",
+    text: "问答",
+    link: "/question",
+    active: false,
   },
   {
-    icon: 'mdi-infinity',
-    text: '圈子',
-    link: '/infinity',
+    icon: "mdi-infinity",
+    text: "圈子",
+    link: "/infinity",
+    active: false,
   },
   {
-    icon: 'mdi-music-accidental-sharp',
-    text: '探索',
-    link: '/explore',
+    icon: "mdi-music-accidental-sharp",
+    text: "探索",
+    link: "/explore",
+    active: false,
+  },
+  {
+    icon: "mdi-chart-line-variant",
+    text: "排行",
+    link: "/explore",
+    active: false,
+  },
+  {
+    icon: "",
+    text: "通知",
+    link: "/messages",
+    active: false,
+  },
+  {
+    text: "私信",
+    icon: "mdi-message-badge-outline",
+    link: "/messages/chats",
+    active: false,
   },
   // {
   //   icon: 'mdi-timeline-clock-outline ',
@@ -89,17 +123,27 @@ let items = reactive([
   //   text: '关于',
   //   link: '',
   // },
-])
+]);
+
+watchEffect(() => {
+  items.forEach((item) => {
+    item.active = item.link === route.path;
+  });
+});
+onBeforeMount(() => {});
 </script>
 
-<style scoped>
-
+<style lang="css" scoped>
+.active {
+  @apply bg-gray-200 dark:bg-slate-800;
+}
 </style>
 <style>
 .v-navigation-drawer {
   /*background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCE" : "--v-theme-surface"');*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"') !important;
+  background-color: v-bind(
+    'theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"'
+  ) !important;
   backdrop-filter: saturate(150%) blur(10px) !important;
 }
-
 </style>

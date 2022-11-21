@@ -1,17 +1,7 @@
 <template>
   <v-row justify="center" no-gutters v-show="layout.showFooter">
-    <v-btn
-        v-for="(link, i) in links"
-        :key="i"
-        text
-        rounded
-        class="my-2"
-    >
-      <a
-          :href="link.url"
-          style="text-decoration: none"
-          target="_blank"
-      >
+    <v-btn v-for="(link, i) in links" :key="i" class="my-2" rounded text>
+      <a :href="link.url" style="text-decoration: none" target="_blank">
         {{ link.name }}
       </a>
     </v-btn>
@@ -22,17 +12,17 @@
 </template>
 
 <script setup lang="ts">
-import {useLayout} from '~/stores/layout'
+import { useLayout } from "~/stores/layout";
 
-const layout = useLayout()
+const layout = useLayout();
 let links = [
   {
-    name: 'Home',
-    url: 'https://nestblog.dwsy.link',
+    name: "Home",
+    url: "https://nestblog.dwsy.link",
   },
   {
-    name: 'About Us',
-    url: '1',
+    name: "About Us",
+    url: "1",
   },
   {
     name: "Admin",
@@ -50,10 +40,7 @@ let links = [
     name: "Contact Us",
     url: "1",
   },
-]
-
+];
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

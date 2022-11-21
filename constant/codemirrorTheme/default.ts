@@ -95,4 +95,4 @@ export default `
 
 .cm-s-default .cm-error, .cm-invalidchar {
   color: red
-}`
+}`;

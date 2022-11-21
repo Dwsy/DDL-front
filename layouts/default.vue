@@ -1,39 +1,67 @@
 <template>
-  <div class="loading" v-show="!show">
-    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-      <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+  <div v-show="!show" :class="{ dark: dark }" class="loading">
+    <svg
+        class="spinner"
+        height="65px"
+        viewBox="0 0 66 66"
+        width="65px"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+          class="path"
+          cx="33"
+          cy="33"
+          fill="none"
+          r="30"
+          stroke-linecap="round"
+          stroke-width="6"
+      ></circle>
     </svg>
   </div>
 
-  <v-app v-show="show">
-
+  <v-app v-show="show" :class="{ dark: dark }">
     <slot name="appbar"></slot>
 
-    <v-navigation-drawer v-model="layout.drawer">
+    <!--    <v-navigation-drawer v-model="layout.drawer" width="calc(100% - 70% - 20px)">-->
+    <!--      <slot name="drawer"></slot>-->
+    <!--    </v-navigation-drawer>-->
+    <v-navigation-drawer v-model="layout.drawer" style="width: 8%">
       <slot name="drawer"></slot>
-
     </v-navigation-drawer>
 
-    <v-main>
-      <!--      id="main-container"-->
+    <v-main :style="{'--v-layout-left':drawerWidth}">
       <v-container fluid id="main-container" class="box">
         <slot/>
         <slot name="footer"></slot>
       </v-container>
-
     </v-main>
-
-
   </v-app>
-
 </template>
 <script setup lang="ts">
 import {useLayout} from '~~/stores/layout'
-import {nextTick, onBeforeUpdate, onMounted, ref} from 'vue'
+import {
+  nextTick, onBeforeMount,
+  onBeforeUpdate,
+  onMounted,
+  ref,
+  watch,
+  watchEffect,
+} from 'vue'
+import {useTheme} from 'vuetify'
 
-let layout = useLayout()
+const theme = useTheme()
+const layout = useLayout()
+const dark = ref()
+const drawerWidth = ref('8%')
+watchEffect(() => {
+  dark.value = theme.global.name.value === 'dark'
+})
+
 const show = ref(false)
-onMounted(async () => {
+onBeforeMount(async () => {
+  watchEffect(() => {
+    drawerWidth.value = layout.drawer ? '8%' : '0px'
+  })
   // await nextTick()
   setTimeout(() => {
     show.value = true
@@ -74,24 +102,24 @@ $duration: 1.4s;
   stroke-dashoffset: 0;
   transform-origin: center;
   animation: dash $duration ease-in-out infinite,
-  colors ($duration*4) ease-in-out infinite;
+  colors ($duration * 4) ease-in-out infinite;
 }
 
 @keyframes colors {
   0% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
   25% {
-    stroke: #DE3E35;
+    stroke: #de3e35;
   }
   50% {
-    stroke: #F7C223;
+    stroke: #f7c223;
   }
   75% {
-    stroke: #1B9A59;
+    stroke: #1b9a59;
   }
   100% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
 }
 

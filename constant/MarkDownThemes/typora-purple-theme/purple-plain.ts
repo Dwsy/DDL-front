@@ -254,4 +254,4 @@ export default `@charset "UTF-8";
     --border-quote: var(--border-quote-grey);
     --inline-code-bg: #f3f4f4;
     --header-weight: bold;
-}`
+}`;

@@ -1,14 +1,11 @@
 <template>
-
   <div>
-
-
-    <label><input type="radio" v-model="current" :value="CompA"/> A</label>
-    <label><input type="radio" v-model="current" :value="CompB"/> B</label>
+    <label><input type="radio" v-model="current" :value="CompA" /> A</label>
+    <label><input type="radio" v-model="current" :value="CompB" /> B</label>
     <KeepAlive>
       <component :is="current"></component>
     </KeepAlive>
-    <br/>
+    <br />
 
     <nuxt-link to="/t4/a">
       <v-btn>a</v-btn>
@@ -19,10 +16,8 @@
     <nuxt-loading-indicator></nuxt-loading-indicator>
     11111
     <keep-alive>
-
-      <nuxt-page/>
+      <nuxt-page />
     </keep-alive>
-
 
     <v-btn @click="test()" color="red">test</v-btn>
     <v-btn @click="defaultMsg('defaultMsg')">defaultMsg</v-btn>
@@ -34,28 +29,32 @@
 </template>
 
 <script setup lang="tsx">
+import {
+  defaultMsg,
+  errorMsg,
+  infoMsg,
+  successMsg,
+  warningMsg,
+} from "~/composables/utils/toastification";
+import { shallowRef } from "vue";
+import { TYPE } from "vue-toastification/src/ts/constants";
+import CompA from "./t4/a.vue";
+import CompB from "./t4/b.vue";
+import { useToast } from "vue-toastification";
+import { useRouter } from "#app";
+import { VBtn } from "vuetify/components/VBtn";
+import { ComponentToastMsg } from "~/composables/utils/toastification";
+import JumpPrompt from "~~/components/common/Toast/jumpPrompt.vue";
 
-import {defaultMsg, errorMsg, infoMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
-import {shallowRef} from 'vue'
-import {TYPE} from 'vue-toastification/src/ts/constants'
-import CompA from './t4/a.vue'
-import CompB from './t4/b.vue'
-import {useToast} from 'vue-toastification'
-import {useRouter} from '#app'
-import {VBtn} from 'vuetify/components/VBtn'
-import {ComponentToastMsg} from '~/composables/utils/toastification'
-import JumpPrompt from '~~/components/common/Toast/jumpPrompt.vue'
+let toast = useToast();
 
-let toast = useToast()
-
-const current = shallowRef(CompA)
+const current = shallowRef(CompA);
 const test = () => {
-
   const timeout = setTimeout(() => {
-    useRouter().push('/article/9')
-  }, 5000)
+    useRouter().push("/article/9");
+  }, 5000);
 
-  ComponentToastMsg('test', TYPE.SUCCESS, JumpPrompt, 5, timeout)
+  ComponentToastMsg("test", TYPE.SUCCESS, JumpPrompt, 5, timeout);
   // const vNode: JSX.Element = (
   //     <div>
   //       更新成功5秒后跳转到文章
@@ -64,7 +63,7 @@ const test = () => {
   // )
   //
   // tsxToastMsg('test', TYPE.SUCCESS, vNode)
-}
+};
 </script>
 
 <style lang="scss">

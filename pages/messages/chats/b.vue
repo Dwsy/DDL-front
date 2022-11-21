@@ -3,13 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import {definePageMeta} from '#imports'
+import { definePageMeta } from "#imports";
 
 // definePageMeta({
 //   keepalive: true
 // })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
