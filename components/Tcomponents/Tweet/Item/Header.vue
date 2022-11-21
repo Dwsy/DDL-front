@@ -33,12 +33,14 @@
     </div>
 
 </template>
-<script setup>
+<script setup lang="ts">
+import {computed} from 'vue'
+
 const props = defineProps({
-    tweet: {
-        type: Object,
-        required: true
-    }
+  tweet: {
+    type: Object,
+    required: true
+  }
 })
 
 const author = props.tweet.author

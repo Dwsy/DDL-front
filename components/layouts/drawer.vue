@@ -7,16 +7,29 @@
     <v-col cols="10">
     </v-col>
 
-    <template v-for="item in items">
+    <!--    <template v-for="item in items">-->
 
-      <v-list-item :to="item.link" variant="flat" rounded="xl"
-                   :prepend-icon="item.icon">
-        <v-list-item-title>
-          {{ item.text }}
-          <v-divider></v-divider>
-        </v-list-item-title>
-      </v-list-item>
-    </template>
+    <!--      <v-list-item :to="item.link" variant="flat" rounded="xl"-->
+    <!--                   :prepend-icon="item.icon">-->
+    <!--        <v-list-item-title>-->
+    <!--          {{ item.text }}-->
+    <!--          <v-divider></v-divider>-->
+    <!--        </v-list-item-title>-->
+    <!--      </v-list-item>-->
+    <!--    </template>-->
+
+    <nav aria-label="Main Nav" class="flex flex-col space-y-1">
+      <template v-for="item in items">
+        <nuxt-link :to="item.link"
+                   class="flex items-center rounded-lg  px-4 py-2 text-gray-500 active:bg-violet-50 hover:bg-gray-100 dark:hover:bg-amber-600 hover:text-gray-700">
+          <v-icon>
+            {{ item.icon }}
+          </v-icon>
+          <span class="ml-3 text-sm font-medium"> {{ item.text }} </span>
+        </nuxt-link>
+      </template>
+    </nav>
+
   </v-list>
 </template>
 

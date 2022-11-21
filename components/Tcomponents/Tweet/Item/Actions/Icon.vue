@@ -14,17 +14,19 @@
 
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
 
-const { defaultTransition } = useTailwindConfig()
+import useTailwindConfig from '~/composables/useTailwindConfig'
+
+const {defaultTransition} = useTailwindConfig()
 const emits = defineEmits(['onClick'])
 
 const props = defineProps({
-    color: {
-        type: String,
-        required: true
-    },
-    size: {
+  color: {
+    type: String,
+    required: true
+  },
+  size: {
         type: Number,
         default: 5
     }

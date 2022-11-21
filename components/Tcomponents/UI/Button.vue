@@ -9,17 +9,17 @@
 
     </button>
 </template>
-<script setup>
+<script setup lang="ts">
 const emits = defineEmits(['onClick'])
 
 const props = defineProps({
-    disabled: {
-        type: Boolean,
-        default: false
-    },
-    size: {
-        type: String,
-        deafault: 'md'
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  size: {
+    type: String,
+    deafault: 'md'
     },
     liquid: {
         type: Boolean,

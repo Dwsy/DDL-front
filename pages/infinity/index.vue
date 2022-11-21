@@ -1,46 +1,20 @@
 <template>
-  <section class="bg-gray-900 text-white">
-    <div
-        class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center"
-    >
-      <div class="mx-auto max-w-3xl text-center">
-        <h1
-            class="bg-gradient-to-r  from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl"
-        >
-          Understand User Flow.
-
-          <span class="sm:block"> Increase Conversion. </span>
-        </h1>
-
-        <p class="mx-auto mt-4 max-w-xl sm:text-xl sm:leading-relaxed">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo
-          tenetur fuga ducimus numquam ea!
-        </p>
-
-        <div class="mt-8 flex flex-wrap justify-center gap-4">
-          <a
-              class="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
-              href="/get-started"
-          >
-            Get Started
-          </a>
-
-          <a
-              class="block w-f w-full rounded border border-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-              href="/about"
-          >
-            Learn More
-          </a>
-        </div>
-      </div>
+  <div class="dark bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+    <div>
+    <span class="inline-flex items-center justify-center p-2 bg-indigo-500 rounded-md shadow-lg">
+      <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+           stroke="currentColor" aria-hidden="true"><!-- ... --></svg>
+    </span>
     </div>
-  </section>
-
-
+    <h3 class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
+    <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">
+      The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+    </p>
+  </div>
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 </script>
 
 <style>

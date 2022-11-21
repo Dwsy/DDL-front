@@ -12,8 +12,8 @@
         </MainSection>
     </div>
 </template>
-<script setup>
-const { getTweets: getTweetsComposable } = useTweets()
+<script setup lang="ts">
+const {getTweets: getTweetsComposable} = useTweets()
 
 const loading = ref(false)
 const searchTweets = ref([])

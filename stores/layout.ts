@@ -43,12 +43,12 @@ export const useLayout = defineStore('layout', {
         },
         switchLightTheme(theme: ThemeInstance) {
             theme.global.name.value = 'light'
-
+            // document.documentElement.classList.add('dark')
             // document.cookie = `theme=${theme.global.name.value};path=/;max-age=31536000`
         },
         switchDarkTheme(theme: ThemeInstance) {
             theme.global.name.value = 'dark'
-
+            // document.documentElement.classList.remove('dark')
             // document.cookie = `theme=${theme.global.name.value};path=/;max-age=31536000`
         },
         async getUnreadCount() {

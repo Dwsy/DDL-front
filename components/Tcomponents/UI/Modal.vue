@@ -27,12 +27,12 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog,
-    DialogPanel,
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
 } from '@headlessui/vue'
 
 const emits = defineEmits(['onClose'])

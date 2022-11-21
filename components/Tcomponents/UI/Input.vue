@@ -9,17 +9,19 @@
         </div>
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
+import input from '/components/Tcomponents/Logo/Twitter'
+
 const emits = defineEmits(['update:modelValue'])
 
 const props = defineProps({
-    modelValue: {
-        type: String,
-        required: true
-    },
-    placeholder: {
-        type: String,
-        default: ''
+  modelValue: {
+    type: String,
+    required: true
+  },
+  placeholder: {
+    type: String,
+    default: ''
     },
     type: {
         type: String,

@@ -85,6 +85,6 @@ export default defineNuxtConfig({
         //         },
         //     },
         // },
-        transpile: ['vuetify', 'vue-toastification'],
+        transpile: ['vuetify', 'vue-toastification', '@heroicons/vue'],
     },
 })

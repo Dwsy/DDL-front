@@ -1,47 +1,53 @@
 <template>
-    <div>
-        <MainSection title="Tweet" :loading="loading">
+  <div>
+    <MainSection title="Tweet" :loading="loading">
+      <Head>
+        <Title></Title>
+      </Head>
 
-            <Head>
-                <Title></Title>
-            </Head>
 
+      <TweetDetails :user="user" :tweet="tweet"/>
 
-            <TweetDetails :user="user" :tweet="tweet" />
-
-        </MainSection>
-    </div>
+    </MainSection>
+  </div>
 </template>
-<script setup>
+<script setup lang="ts">
+
+import {onBeforeMount, ref, watch} from 'vue'
+import {useRoute} from '#app'
+import MainSection from '~/components/Tcomponents/MainSection.vue'
+import TweetDetails from '~/components/Tcomponents/Tweet/Details.vue'
 
 const loading = ref(false)
 const tweet = ref(null)
-const { getTweetById } = useTweets()
-const { useAuthUser } = useAuth()
-const user = useAuthUser()
+
+// const { getTweetById } = useTweets()
+// const { useAuthUser } = useAuth()
+// const user = useAuthUser()
 
 
-watch(() => useRoute().fullPath, () => getTweet())
+// watch(() => useRoute().fullPath, () => getTweet())
 
 function getTweetIdFromRoute() {
-    return useRoute().params.id
+  return useRoute().params.id
 }
 
 async function getTweet() {
-    loading.value = true
-    try {
-        const response = await getTweetById(getTweetIdFromRoute())
-
-        tweet.value = response.tweet
-    } catch (error) {
-        console.log(error);
-    } finally {
-        loading.value = false
-    }
+  loading.value = true
+  //     loading.value = false
+  // try {
+  //     const response = await getTweetById(getTweetIdFromRoute())
+  //
+  //     tweet.value = response.tweet
+  // } catch (error) {
+  //     console.log(error);
+  // } finally {
+  //     loading.value = false
+  // }
 }
 
 onBeforeMount(() => {
-    getTweet()
+  // getTweet()
 })
 
 </script>

@@ -3,8 +3,11 @@
         <slot></slot>
     </div>
 </template>
-<script setup>
-const { defaultTransition, twitterBorderColor } = useTailwindConfig()
+<script setup lang="ts">
+import {computed} from 'vue'
+import useTailwindConfig from '~/composables/useTailwindConfig'
+
+const {defaultTransition, twitterBorderColor} = useTailwindConfig()
 
 const wrapperClasses = computed(() => `${defaultTransition} ${twitterBorderColor}`)
 
