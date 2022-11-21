@@ -15,7 +15,7 @@
     "@types/crypto-js": "^4.1.1",
     "@vueuse/nuxt": "^9.4.0",
     "autoprefixer": "^10.4.13",
-    "nuxt": "^3.0.0-rc.14",
+    "nuxt": "^3.0.0",
     "prettier": "^2.7.1",
     "sass": "^1.56.0",
     "sass-loader": "13.1.0",
