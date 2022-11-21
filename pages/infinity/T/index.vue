@@ -10,7 +10,6 @@
       </div>
 
       <TweetListFeed :tweets="homeTweets"/>
-
     </MainSection>
   </div>
 </template>
@@ -30,15 +29,19 @@ const loading = ref(false)
 // const {useAuthUser} = useAuth()
 const homeTweets = [
   {
-    mediaFiles: ['https://picsum.photos/300/300', 'https://picsum.photos/300/300', 'https://picsum.photos/300/300'],
+    mediaFiles: [
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
+    ],
     text: 'test',
     postedAtHuman: 'postedAtHuman',
     author: {
       name: 'name',
       handle: 'handle',
-      profileImage: 'https://picsum.photos/300/300'
-    }
-  }
+      profileImage: 'https://picsum.photos/300/300',
+    },
+  },
 ]
 const user = {
   id: 1,
@@ -51,9 +54,8 @@ const user = {
     username: 'ddy',
     profileImage: 'https://picsum.photos/300/300',
   },
-  repliesCount: 21
+  repliesCount: 21,
 }
-
 
 onBeforeMount(async () => {
   loading.value = true
@@ -67,12 +69,11 @@ onBeforeMount(async () => {
   // } finally {
   //     loading.value = false
   // }
-})
+});
 
 function handleFormSuccess(tweet) {
   navigateTo({
-    path: `/status/${tweet.id}`
+    path: `/status/${tweet.id}`,
   })
 }
-
 </script>

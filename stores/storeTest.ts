@@ -6,10 +6,10 @@ export const useStest = defineStore('test', {
     state: () => ({
         test: {
             a: 1,
-            b: ref(2)
+            b: ref(2),
         },
         count: 0,
-        text: 'null;;;;'
+        text: 'null;;;;',
     }),
     actions: {},
 })

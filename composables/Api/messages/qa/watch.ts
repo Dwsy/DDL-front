@@ -5,9 +5,12 @@ import {NotifyMsg} from '~/types/message'
 
 export enum QaWatchType {
     new,
-    accepted
+    accepted,
 }
 
 export const UseAxiosGetQaWatchNotify = (page: number, type: QaWatchType) => {
-    return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/watch', {page, type})
+    return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/watch', {
+        page,
+        type,
+    })
 }

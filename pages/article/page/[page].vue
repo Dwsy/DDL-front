@@ -3,23 +3,25 @@
     <Group @select-tag="selectTag"></Group>
     <v-divider class="my-4"></v-divider>
 
-    <List v-for="data in listContent " v-bind="data" :key="data.id"></List>
-
+    <List v-for="data in listContent" v-bind="data" :key="data.id"></List>
 
     <v-row>
       <v-col cols="10">
         <v-container class="max-width">
-          <v-pagination v-model="urlPage" class="my-4" :length="totalPages"></v-pagination>
+          <v-pagination
+              v-model="urlPage"
+              class="my-4"
+              :length="totalPages"
+          ></v-pagination>
         </v-container>
       </v-col>
     </v-row>
-
   </div>
 </template>
-  
+
 <script setup lang="ts">
 // 搜索引擎 分页模式 SEO
-import List, { articleListData } from "~~/components/article/index/list.vue";
+import List, {articleListData} from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import {onMounted, watch} from 'vue'
 import {useFetchGetArticleList} from '~/composables/Api/article'
@@ -43,8 +45,14 @@ onMounted(() => {
     // listContent.value = data.content
   })
 })
-const params = ref({ size: 8, page: urlPage.value, tagId: null, order: null, properties: null })
-const { data: listData } = await useFetchGetArticleList(params.value)
+const params = ref({
+  size: 8,
+  page: urlPage.value,
+  tagId: null,
+  order: null,
+  properties: null,
+})
+const {data: listData} = await useFetchGetArticleList(params.value)
 const listContent = ref<Array<articleListData>>(null)
 listContent.value = listData.content
 // const page = ref(1)
@@ -60,7 +68,6 @@ const selectTag = async (tagID) => {
   const data = (await useFetchGetArticleList(params.value)).data
   listContent.value = data.content
   totalPages.value = data.totalPages
-
 }
 
 // const loadingWin = async () => {
@@ -91,7 +98,5 @@ const selectTag = async (tagID) => {
 //   listContent.value.push(...listDataNew.content)
 // }
 </script>
-  
-<style lang="scss" scoped>
 
-</style>
+<style lang="scss" scoped></style>

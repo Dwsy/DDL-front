@@ -13,32 +13,31 @@ export interface CreateArticleBody {
     title: string;
     articleSource: ArticleSource;
     articleSourceUrl?: string;
-    codeHighlightStyle?: HighlightStyleName | string
-    codeHighlightStyleDark?: string
-    markDownTheme?: MarkdownTheme | string
-    markDownThemeDark?: mwebDark | string
-
+    codeHighlightStyle?: HighlightStyleName | string;
+    codeHighlightStyleDark?: string;
+    markDownTheme?: MarkdownTheme | string;
+    markDownThemeDark?: mwebDark | string;
 }
 
 export enum ArticleState {
-    draft = ('draft'),
-    published = ('published'),
-    hide = ('hide'),
-    auditing = ('auditing'),
-    rejected = ('rejected'),
-    all = ('all')
+    draft = 'draft',
+    published = 'published',
+    hide = 'hide',
+    auditing = 'auditing',
+    rejected = 'rejected',
+    all = 'all',
 }
 
 export enum ArticleSource {
-    original = ('original'),
-    reprint = ('reprint'),
-    translation = ('translation'),
+    original = 'original',
+    reprint = 'reprint',
+    translation = 'translation',
 }
 
 export enum ArticleSourceZh {
-    original = ('原创'),
-    reprint = ('转载'),
-    translation = ('翻译'),
+    original = '原创',
+    reprint = '转载',
+    translation = '翻译',
 }
 
 export interface TagSuggestion {

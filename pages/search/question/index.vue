@@ -1,5 +1,3 @@
 <template>
-  <div>
-    seach
-  </div>
+  <div>seach</div>
 </template>

@@ -3,7 +3,6 @@ import {useDel, useGet, usePost} from '~/composables/useAxios'
 import {errorMsg, successMsg} from '~/composables/utils/toastification'
 import {ResponseData} from '~/types/utils/axios'
 
-
 export const useAxiosPostFollowUser = (fid: string) => {
     return usePost<ResponseData<any>>('user/follow/following', {fid})
 }
@@ -30,10 +29,16 @@ export const useAxiosPostUnFollowUser = (fid: string) => {
     return usePost<ResponseData<any>>('user/follow/unfollow', {fid})
 }
 
-export const useAxiosGetFollowingList = (params?: { size?: number, page?: number }) => {
+export const useAxiosGetFollowingList = (params?: {
+    size?: number;
+    page?: number;
+}) => {
     return useGet<ResponseData<any>>('user/follow/following/list', params)
 }
 
-export const useAxiosGetFollowerList = (params?: { size?: number, page?: number }) => {
+export const useAxiosGetFollowerList = (params?: {
+    size?: number;
+    page?: number;
+}) => {
     return useGet<ResponseData<any>>('user/follow/follower/list', params)
 }

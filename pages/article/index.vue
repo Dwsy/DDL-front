@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-row>
-
       <v-col xl="1" lg="1" md="0" sm="0" xs="0"></v-col>
 
       <v-col xl="10" lg="10" md="10" sm="12" xs="12">
@@ -9,10 +8,17 @@
           <Group @select-tag="selectTag"></Group>
           <v-divider class="my-4"></v-divider>
 
-          <List v-for="data in listContent " v-bind="data" :key="data.id"></List>
+          <List v-for="data in listContent" v-bind="data" :key="data.id"></List>
 
           <div>
-            <v-alert v-model="alert" dismissible type="info" elevation="2" colored-border icon="mdi-alert">
+            <v-alert
+                v-model="alert"
+                dismissible
+                type="info"
+                elevation="2"
+                colored-border
+                icon="mdi-alert"
+            >
               到头啦
             </v-alert>
           </div>
@@ -22,15 +28,17 @@
       <v-col xl="1" lg="1" md="1" sm="0" xs="0"></v-col>
     </v-row>
   </div>
-
-
 </template>
 
 <script setup lang="ts">
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import {onActivated, onMounted, onUnmounted, ref} from 'vue'
-import {definePageMeta, useFetchGetArticleList, useLoadingWin} from '#imports'
+import {
+  definePageMeta,
+  useFetchGetArticleList,
+  useLoadingWin,
+} from '#imports'
 import {articleListData} from '~/types/article'
 import {onBeforeRouteLeave} from 'vue-router'
 import {useHead} from '#head'
@@ -41,7 +49,7 @@ import {useTheme} from 'vuetify'
 // const { x, y } = useWindowScroll()
 // const page = ref(1)
 definePageMeta({
-  keepalive: true
+  keepalive: true,
 })
 const theme = useTheme()
 useLayout().showFooter = true
@@ -53,9 +61,21 @@ onMounted(() => {
   }, 1000)
 })
 let a = ref(0)
-const params = ref({size: 8, page: 1, tagId: null, order: null, properties: null})
+const params = ref({
+  size: 8,
+  page: 1,
+  tagId: null,
+  order: null,
+  properties: null,
+})
 
-const {data: listData} = await useFetchGetArticleList({size: 8, page: 1, tagId: null, order: null, properties: null})
+const {data: listData} = await useFetchGetArticleList({
+  size: 8,
+  page: 1,
+  tagId: null,
+  order: null,
+  properties: null,
+})
 const listContent = ref<Array<articleListData>>(null)
 listContent.value = listData.content
 
@@ -64,7 +84,7 @@ totalPages.value = listData.totalPages
 const alert = ref(false)
 
 useHead({
-  title: '文章'
+  title: '文章',
 })
 onMounted(() => {
   // console.log('index mounted')
@@ -98,7 +118,6 @@ const selectTag = async (tagID) => {
   const data = (await useFetchGetArticleList(params.value)).data
   listContent.value = data.content
   totalPages.value = data.totalPages
-
 }
 
 const loadingMore = async () => {
@@ -117,6 +136,8 @@ const loadingMore = async () => {
 
 <style lang="css" scoped>
 :deep(.v-card--variant-elevated, .v-card--variant-flat) {
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0f0f0f" : "#FFF"') !important;
+  background-color: v-bind(
+      'theme.global.name.value === "dark" ? "#0f0f0f" : "#FFF"'
+  ) !important;
 }
 </style>

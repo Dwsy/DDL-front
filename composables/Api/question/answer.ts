@@ -4,7 +4,10 @@ import {ResponseData} from '~/types/utils/axios'
 import {PageParam} from '~/types/common'
 import {AnswerType} from '~/types/question/answer'
 
-export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: PageParam) => {
+export const useAxiosGetQuestionAnswerPageList = (
+    questionId: string,
+    param: PageParam
+) => {
     return useGet<ResponseData<any>>(`qa/answer/${questionId}`, param)
 }
 
@@ -12,7 +15,9 @@ export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {
     return usePost<ResponseData<string>>('qa/answer', body)
 }
 
-export const userAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {
+export const userAxiosPostInvitationUserAnswerQuestion = (
+    body: InvitationUserAnswerQuestionRB
+) => {
     return usePost<ResponseData<any>>('qa/answer/invitation', body)
 }
 
@@ -22,7 +27,7 @@ export interface AnswerQuestionRB {
     questionId: string;
     replyUserAnswerId?: string;
     replyUserId?: string;
-    answerType: AnswerType
+    answerType: AnswerType;
 }
 
 export const useAxiosPostQaAction = (body: QaActionRB) => {
@@ -37,14 +42,17 @@ export interface QaActionRB {
 }
 
 export interface InvitationUserAnswerQuestionRB {
-    questionId: string
-    userId: string
-    cancel: boolean
+    questionId: string;
+    userId: string;
+    cancel: boolean;
 }
 
-
-export const userAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
+export const userAxiosGetAcceptAnswer = (
+    answerId: string,
+    accepted: boolean
+) => {
     return useGet<ResponseData<boolean>>('qa/answer/accept', {
-        answerId, accepted
+        answerId,
+        accepted,
     })
 }

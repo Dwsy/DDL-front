@@ -3,11 +3,10 @@ import {errorMsg, successMsg} from '~/composables/utils/toastification'
 import {UseAxiosGetThumbMeNotify} from '~/composables/Api/messages/thumb'
 import {NotifyMsg, NotifyType} from '~/types/message'
 
-
 interface ReplyState {
-    ThumbNotifyList: NotifyMsg[]
-    page: number
-    totalPages: number
+    ThumbNotifyList: NotifyMsg[];
+    page: number;
+    totalPages: number;
 }
 
 export const useThumbStore = defineStore('thumbStore', {
@@ -15,7 +14,7 @@ export const useThumbStore = defineStore('thumbStore', {
         return {
             ThumbNotifyList: [],
             page: 1,
-            totalPages: null
+            totalPages: null,
         }
     },
     getters: {},
@@ -24,7 +23,9 @@ export const useThumbStore = defineStore('thumbStore', {
             let {data: response} = await UseAxiosGetThumbMeNotify(this.page)
             if (response.code == 0) {
                 if (scroll) {
-                    this.ThumbNotifyList = this.ThumbNotifyList.concat(response.data.content)
+                    this.ThumbNotifyList = this.ThumbNotifyList.concat(
+                        response.data.content
+                    )
                 } else {
                     this.ThumbNotifyList = response.data.content
                     this.totalPages = response.data.totalPages
@@ -40,15 +41,14 @@ export const useThumbStore = defineStore('thumbStore', {
             if (notify.notifyType == NotifyType['点赞了你的文章:']) {
                 return '/article/' + notify.articleId
             }
-
         },
     },
 })
 
 interface ThumbNotify {
     id: string;
-    createTime: number
-    lastModifiedTime: number
+    createTime: number;
+    lastModifiedTime: number;
     fromUserId: string;
     toUserId: string;
     articleId: string;
@@ -60,8 +60,6 @@ interface ThumbNotify {
     toContent: string;
     replayCommentId: string;
     notifyState: number;
-    formUserAvatar: string
-    formUserNickname: string
+    formUserAvatar: string;
+    formUserNickname: string;
 }
-
-

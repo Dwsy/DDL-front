@@ -1,11 +1,8 @@
 <template>
   <div id="chats-window">
-
     <v-row style="height: 100%">
       <v-col cols="3">
-
         <v-list>
-
           <v-list-item
               v-for="(item, i) in chatsStore.chatsList"
               :key="item.id"
@@ -15,23 +12,36 @@
               rounded="xl"
           >
             <template v-slot:prepend>
-              <v-badge color="red"
-                       :model-value="chatsStore.chatWsMsgUnreadNum.get(item.chatUserId)> 0"
-                       :content="chatsStore.chatWsMsgUnreadNum.get(item.chatUserId)">
+              <v-badge
+                  color="red"
+                  :model-value="
+                  chatsStore.chatWsMsgUnreadNum.get(item.chatUserId) > 0
+                "
+                  :content="chatsStore.chatWsMsgUnreadNum.get(item.chatUserId)"
+              >
                 <v-avatar size="x-large">
                   <v-img :src="item.chatUserAvatar"></v-img>
                 </v-avatar>
               </v-badge>
             </template>
-            <v-list-item-subtitle class="ml-1" v-text="item.chatUserNickname"></v-list-item-subtitle>
-            <v-list-item-title class="ml-1" v-text="item.content"></v-list-item-title>
+            <v-list-item-subtitle
+                class="ml-1"
+                v-text="item.chatUserNickname"
+            ></v-list-item-subtitle>
+            <v-list-item-title
+                class="ml-1"
+                v-text="item.content"
+            ></v-list-item-title>
           </v-list-item>
         </v-list>
         <div class="text-end">
-          <v-btn icon elevation="0" size="small" @click="chatsStore.loadChatsList()">
-            <v-icon>
-              mdi-refresh
-            </v-icon>
+          <v-btn
+              icon
+              elevation="0"
+              size="small"
+              @click="chatsStore.loadChatsList()"
+          >
+            <v-icon> mdi-refresh</v-icon>
           </v-btn>
         </div>
       </v-col>
@@ -56,13 +66,16 @@ import {useHead} from '#head'
 definePageMeta({
   key: 'chats',
   keepalive: false,
-  pageTransition: false
+  pageTransition: false,
 })
 useHead({
   title: '私信列表',
   link: [
-    {rel: 'stylesheet', href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css'}
-  ]
+    {
+      rel: 'stylesheet',
+      href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css',
+    },
+  ],
 })
 
 const chatsStore = useChatsStore()
@@ -74,8 +87,6 @@ onMounted(async () => {
 onUnmounted(() => {
   console.log('onUnmounted')
 })
-
-
 </script>
 
 <style>

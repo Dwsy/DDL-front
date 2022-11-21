@@ -1,8 +1,8 @@
 <template>
-  {{paramId}}
+  {{ paramId }}
 </template>
-  
-<script setup lang=ts >
+
+<script setup lang="ts">
 import {definePageMeta, useRoute, useRouter} from '#imports'
 
 let paramId = useRoute().params.id
@@ -13,10 +13,8 @@ if (paramId == undefined) {
   Router.push('/paramId')
 }
 definePageMeta({
-  keepalive: true
+  keepalive: true,
 })
 </script>
-  
-<style scoped>
 
-</style>
+<style scoped></style>

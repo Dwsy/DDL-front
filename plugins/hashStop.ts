@@ -1,8 +1,15 @@
-import {abortNavigation, addRouteMiddleware, defineNuxtPlugin, navigateTo} from '#app'
+import {
+    abortNavigation,
+    addRouteMiddleware,
+    defineNuxtPlugin,
+    navigateTo,
+} from '#app'
 import {el} from 'vuetify/locale'
 
 export default defineNuxtPlugin(() => {
-    addRouteMiddleware('hashStop-middleware', (to, from) => {
+    addRouteMiddleware(
+        'hashStop-middleware',
+        (to, from) => {
             // if (to.hash) {
             //
             //     if (to.fullPath===from.fullPath){

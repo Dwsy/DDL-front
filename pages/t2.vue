@@ -2,7 +2,15 @@
   <div>
     T2
     <test-components></test-components>
-    <v-btn @click="()=>{this.location='provide'}">provide</v-btn>
+    <v-btn
+        @click="
+        () => {
+          this.location = 'provide';
+        }
+      "
+    >provide
+    </v-btn
+    >
   </div>
 </template>
 
@@ -17,10 +25,8 @@ function updateLocation() {
 
 provide('location', {
   location,
-  updateLocation
+  updateLocation,
 })
 </script>
 
-<style>
-
-</style>
+<style></style>

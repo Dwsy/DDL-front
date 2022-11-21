@@ -2,8 +2,17 @@
   <div class="main">
     <!--    <v-btn @click="changeThemes(themes[themeNameList[0]])">test</v-btn>-->
     <!--    <v-btn @click="changeThemes(themes.jzman)">test1</v-btn>-->
-    <Editor id="d-Editor" :uploadImages="uploadImages" class="editor" :value="content" mode='split' :plugins="plugins"
-            :locale='zhHans' @change="handleChange" placeholder="请输入。"/>
+    <Editor
+        id="d-Editor"
+        :uploadImages="uploadImages"
+        class="editor"
+        :value="content"
+        mode="split"
+        :plugins="plugins"
+        :locale="zhHans"
+        @change="handleChange"
+        placeholder="请输入。"
+    />
   </div>
 </template>
 
@@ -25,13 +34,12 @@ import zhHans from 'bytemd/locales/zh_Hans.json'
 import {useTheme} from 'vuetify'
 import '~~/constant/codemirrorTheme/main.css'
 
-
 const theme = useTheme()
 let props = defineProps({
   content: {
     type: String,
-    default: '1'
-  }
+    default: '1',
+  },
 })
 const emit = defineEmits(['changeText'])
 // const content = ref('')
@@ -48,7 +56,10 @@ onMounted(async () => {
     let btn: HTMLElement = document.querySelector('.d-send-answer')
 
     if (theme.global.name.value === 'dark') {
-      let toolbarRightSvgEl: NodeListOf<HTMLElement> = document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+      let toolbarRightSvgEl: NodeListOf<HTMLElement> =
+          document.querySelectorAll(
+              '#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg'
+          )
       let fullscreenSvgEl = toolbarRightSvgEl[4]
       fullscreenSvgEl.style.color = '#fff'
     }
@@ -77,7 +88,7 @@ onMounted(async () => {
     }
   })
   observer.observe(bytemdElement, {
-    attributes: true
+    attributes: true,
   })
   // document.body.className = 'main'
   await editorTheme()
@@ -85,7 +96,6 @@ onMounted(async () => {
     await editorTheme()
   })
 })
-
 
 const plugins = [
   gfm(),
@@ -96,11 +106,10 @@ const plugins = [
   mermaid(),
   breaks(),
   footnotes(),
-  frontmatter()
+  frontmatter(),
 ]
 
 const editorTheme = async () => {
-
   if (theme.global.name.value === 'dark') {
     document.querySelector('html').style.backgroundColor = '#0e0e0e'
     // let element: HTMLElement = document.querySelector('#input-0')
@@ -111,11 +120,17 @@ const editorTheme = async () => {
     right.style.color = '#FFF'
     let left: HTMLElement = document.querySelector('.bytemd-status-left')
     left.style.color = '#ffffff'
-    document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+    document
+        .querySelectorAll(
+            '#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg'
+        )
         .forEach((item: HTMLElement) => {
           item.style.color = '#FFF'
         })
-    document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+    document
+        .querySelectorAll(
+            '#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg'
+        )
         .forEach((item: HTMLElement) => {
           item.style.color = '#FFF'
         })
@@ -129,7 +144,6 @@ const editorTheme = async () => {
       markdownThemeStyleElement.innerHTML = css.default
       document.head.appendChild(markdownThemeStyleElement)
     }
-
   } else {
     document.querySelector('html').style.backgroundColor = '#FFF'
     // let element: HTMLElement = document.querySelector('#input-0')
@@ -139,11 +153,17 @@ const editorTheme = async () => {
     right.style.color = '#000'
     let left: HTMLElement = document.querySelector('.bytemd-status-left')
     left.style.color = '#000'
-    document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg')
+    document
+        .querySelectorAll(
+            '#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-left > div > svg'
+        )
         .forEach((item: HTMLElement) => {
           item.style.color = '#000'
         })
-    document.querySelectorAll('#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg')
+    document
+        .querySelectorAll(
+            '#d-Editor > div > div.bytemd-toolbar > div.bytemd-toolbar-right > div > svg'
+        )
         .forEach((item: HTMLElement) => {
           item.style.color = '#000'
         })
@@ -158,11 +178,9 @@ const editorTheme = async () => {
       document.head.appendChild(markdownThemeStyleElement)
     }
   }
-}
-
+};
 
 const handleChange = async (text) => {
-
   await emit('changeText', text)
   setTimeout(() => {
     tipSyntaxParsing()
@@ -176,7 +194,7 @@ const uploadImages = async (files) => {
   return [
     {
       title: files.map((i) => i.name),
-      url: 'http://' + response.data + '?imageslim'
+      url: 'http://' + response.data + '?imageslim',
     },
   ]
 }
@@ -200,7 +218,10 @@ const goodPrefix = ['√', 'good:', 'ok:', 'yes:', 'right:']
 const infoPrefix = ['i:', 'I:', 'i', 'I', 'tip:']
 const warnPrefix = ['!:', '！:', '!', '！', 'warn:', 'warning:']
 const sharePrefix = ['@:', '@', 'at:']
-const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boolean => {
+const hasTipPrefixAndReplace = (
+    p: Element,
+    replacePrefixStrList: string[]
+): boolean => {
   let innerHTML: string = p.innerHTML
   let ret: boolean = false
   let lines = innerHTML.split('\n')
@@ -221,13 +242,13 @@ const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boo
         ret = true
       }
     }
-
   }
   return ret
 }
 const tipSyntaxParsing = () => {
-  let nodeList: NodeListOf<Element> = document
-      .querySelectorAll('#d-Editor > div > div.bytemd-body > div.bytemd-preview > div > blockquote')
+  let nodeList: NodeListOf<Element> = document.querySelectorAll(
+      '#d-Editor > div > div.bytemd-body > div.bytemd-preview > div > blockquote'
+  )
   for (let blockquote of nodeList) {
     let p = blockquote.querySelector('p')
     let text = p.innerHTML
@@ -252,7 +273,6 @@ const tipSyntaxParsing = () => {
     }
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -264,8 +284,6 @@ const tipSyntaxParsing = () => {
 </style>
 
 <style scoped>
-
-
 /* {*/
 /*  width: 4px;*/
 /*  height: 4px;*/
@@ -273,36 +291,45 @@ const tipSyntaxParsing = () => {
 :deep(.d-tip-error) {
   /*background: #fcf1f1 !important;*/
   /*bac*/
-  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"'
+  ) !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-success) {
   /*background: #f0f8e5 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"'
+  ) !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-warning) {
   /*background: #fcf2e9 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"'
+  ) !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-info) {
   /*background: #eef6fd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#162430" : "#eef6fd"'
+  ) !important;
   border-left-color: #40c4ff !important;
   /*color: black!important;*/
 }
 
-
 :deep(.d-tip-share) {
   /*background: #dddddd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"'
+  ) !important;
   border-left-color: #8b968d !important;
   /*color: black!important;*/
 }
@@ -320,7 +347,6 @@ const tipSyntaxParsing = () => {
 
   color: red;
   font-weight: bold;
-
 }
 
 :deep(.d-tip-error > p:not(:first-child)) {
@@ -330,9 +356,10 @@ const tipSyntaxParsing = () => {
 :deep(.d-tip-success p:first-child:before) {
   content: "\F012C";
 
-  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
+  ) !important;
   font-weight: bold;
-
 }
 
 :deep(.d-tip-warning p:first-child:before) {
@@ -342,7 +369,6 @@ const tipSyntaxParsing = () => {
   height: 100%;
   color: #ff6800;
   font-weight: bold;
-
 }
 
 :deep(.d-tip-info p:first-child:before) {
@@ -350,21 +376,20 @@ const tipSyntaxParsing = () => {
 
   color: #40c4ff;
   font-weight: bold;
-
 }
 
 :deep(.d-tip-share p:first-child:before) {
   content: "\F0065";
 
-  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "" : "#858585"'
+  ) !important;
   font-weight: bold;
-
 }
 
 :deep(.d-tip > p:not(:first-child)) {
   margin-left: 22px;
 }
-
 </style>
 
 <style>
@@ -372,16 +397,29 @@ const tipSyntaxParsing = () => {
   font-size: 18px !important;
 }
 
-body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu > div > div > div > div > div.v-input__control > div > div.v-field__outline > label {
+body
+> div.v-overlay-container
+> div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu
+> div
+> div
+> div
+> div
+> div.v-input__control
+> div
+> div.v-field__outline
+> label {
   font-size: 16px !important;
 }
 
 .bytemd {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+  sans-serif, Apple Color Emoji, Segoe UI Emoji;
   color: #24292e;
-  background-color: v-bind('theme.global.name.value === "dark" ? "#171717" : "#fff"');
-  height: 300px
+  background-color: v-bind(
+      'theme.global.name.value === "dark" ? "#171717" : "#fff"'
+  );
+  height: 300px;
 }
 
 .CodeMirror-line span {
@@ -393,5 +431,4 @@ body > div.v-overlay-container > div.v-overlay.v-overlay--absolute.v-overlay--ac
   overflow: hidden;
   background: v-bind('theme.global.name.value === "dark" ? "#171717" : "#fff"');
 }
-
 </style>

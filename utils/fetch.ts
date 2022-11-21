@@ -18,36 +18,37 @@ const fetch = (url: string, options?: any): Promise<any> => {
     console.info(url)
     // 如果需要统一加参数可以options.params.token = 'xxx'
     return new Promise((resolve, reject) => {
-        useFetch(reqUrl, {...options, key}).then(({data, error}: _AsyncData<any, any>) => {
-            if (error.value) {
-                reject(error.value)
-                return
-            }
-            const value = data.value
-            // console.log("data",data)
-            // console.log("value",value)
-            if (!value) {
-                // 这里处理错你自定义的错误，例如code !== 1
-
-                throw createError({
-                    statusCode: 500,
-                    statusMessage: reqUrl,
-                    message: '自己后端接口的报错信息',
-                })
-            } else {
-                if (!url.endsWith('.min.css.map')) {
-                    resolve(value)
+        useFetch(reqUrl, {...options, key})
+            .then(({data, error}: _AsyncData<any, any>) => {
+                if (error.value) {
+                    reject(error.value)
+                    return
                 }
-            }
-        }).catch((err: any) => {
-            console.log(err)
-            reject(err)
-        })
+                const value = data.value
+                // console.log("data",data)
+                // console.log("value",value)
+                if (!value) {
+                    // 这里处理错你自定义的错误，例如code !== 1
+
+                    throw createError({
+                        statusCode: 500,
+                        statusMessage: reqUrl,
+                        message: '自己后端接口的报错信息',
+                    })
+                } else {
+                    if (!url.endsWith('.min.css.map')) {
+                        resolve(value)
+                    }
+                }
+            })
+            .catch((err: any) => {
+                console.log(err)
+                reject(err)
+            })
     })
 }
 
-export default new class Http {
-
+export default new (class Http {
     GET(url: string, params?: any): Promise<ResponseData<any>> {
         return fetch(url, {method: 'get', params})
     }
@@ -63,4 +64,4 @@ export default new class Http {
     DELETE(url: string, body?: any): Promise<any> {
         return fetch(url, {method: 'delete', body})
     }
-}
+})()

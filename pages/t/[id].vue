@@ -1,16 +1,16 @@
 <template>
-<!-- <div>
+  <!-- <div>
   <v-list-group v-for="i in data.data">
     <v-list>{{i}}</v-list>
   </v-list-group>
 </div> -->
-<div>
-<pre>
-  {{r}}
-</pre>
-</div>
+  <div>
+    <pre>
+  {{ r }}
+</pre
+>
+  </div>
 </template>
-
 
 <script setup lang="ts">
 // import { getById } from "~~/api/useApiTest"
@@ -44,7 +44,7 @@ let r = data.value['content']['text']
 // let array: Array<any> = null
 // data.map(e => {
 //   console.log(e._id);
-//   // let { data } =  
+//   // let { data } =
 //   let body = {
 //     url: "https://nestapi.dwsy.link/api/contents/all/" + e._id,
 //     methods: "get",
@@ -55,15 +55,12 @@ let r = data.value['content']['text']
 //   array.push(d)
 //   /* do things with response and response.data */
 // })
-  // 
-
-
+//
 
 // let d = await getById("6039284a2684e22ec8291c64")
-
 
 // axios.get('/req/path/123').then((response) => {
 //   /* do things with response and response.data */
 // })
-// let data = 
+// let data =
 </script>

@@ -1,7 +1,7 @@
 export interface NotifyMsg {
     id: string;
-    createTime: number
-    lastModifiedTime: number
+    createTime: number;
+    lastModifiedTime: number;
     fromUserId: string;
     toUserId: string;
     articleId: string;
@@ -13,10 +13,9 @@ export interface NotifyMsg {
     toContent: string;
     replayCommentId: string;
     notifyState: NotifyState;
-    formUserAvatar: string
-    formUserNickname: string
+    formUserAvatar: string;
+    formUserNickname: string;
 }
-
 
 export enum NotifyType {
     '评论了文章:',
@@ -32,7 +31,7 @@ export enum NotifyType {
     '邀请回答问题',
     '被采纳',
     '回答 通知',
-    '被采纳 通知'
+    '被采纳 通知',
 }
 
 export enum NotifyTypeEn {
@@ -57,9 +56,13 @@ export enum NotifyState {
     /**
      * 未读  已读 删除
      */
-    UNREAD, READ, DELETE
+    UNREAD,
+    READ,
+    DELETE,
 }
 
 export enum NotifyStateZh {
-    '未读', '已读', '删除'
+    '未读',
+    '已读',
+    '删除',
 }

@@ -1,17 +1,7 @@
 <template>
   <v-row justify="center" no-gutters v-show="layout.showFooter">
-    <v-btn
-        v-for="(link, i) in links"
-        :key="i"
-        text
-        rounded
-        class="my-2"
-    >
-      <a
-          :href="link.url"
-          style="text-decoration: none"
-          target="_blank"
-      >
+    <v-btn v-for="(link, i) in links" :key="i" text rounded class="my-2">
+      <a :href="link.url" style="text-decoration: none" target="_blank">
         {{ link.name }}
       </a>
     </v-btn>
@@ -40,20 +30,17 @@ let links = [
   },
   {
     name: "Github",
-    url: "https://github.com/Dwsy",
+    url: 'https://github.com/Dwsy',
   },
   {
-    name: "Blog",
-    url: "https://www.dwsy.link",
+    name: 'Blog',
+    url: 'https://www.dwsy.link',
   },
   {
-    name: "Contact Us",
-    url: "1",
+    name: 'Contact Us',
+    url: '1',
   },
-]
-
+];
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

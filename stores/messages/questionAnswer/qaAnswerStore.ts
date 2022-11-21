@@ -4,11 +4,10 @@ import {errorMsg} from '~/composables/utils/toastification'
 import {NotifyMsg, NotifyType} from '~/types/message'
 import {UseAxiosGetQaAnswerNotify} from '~/composables/Api/messages/qa/answer'
 
-
 interface State {
-    qaAnswerNotifyList: NotifyMsg[]
-    page: number
-    totalPages: number
+    qaAnswerNotifyList: NotifyMsg[];
+    page: number;
+    totalPages: number;
 }
 
 export const useQaAnswerStore = defineStore('qaAnswerStore', {
@@ -16,7 +15,7 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
         return {
             qaAnswerNotifyList: [],
             page: 1,
-            totalPages: 0
+            totalPages: 0,
         }
     },
     getters: {},
@@ -25,8 +24,9 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
             let {data: response} = await UseAxiosGetQaAnswerNotify(this.page)
             if (response.code == 0) {
                 if (scroll) {
-                    this.qaAnswerNotifyList = this.qaAnswerNotifyList
-                        .concat(response.data.content)
+                    this.qaAnswerNotifyList = this.qaAnswerNotifyList.concat(
+                        response.data.content
+                    )
                 } else {
                     this.qaAnswerNotifyList = response.data.content
                     this.totalPages = response.data.totalPages
@@ -37,13 +37,15 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
         },
         getGoToLink(notify: NotifyMsg) {
             if (notify.notifyType == NotifyType['回复了你的评论:']) {
-                return '/article/' + notify.articleId + '#comment-' + notify.replayCommentId
+                return (
+                    '/article/' + notify.articleId + '#comment-' + notify.replayCommentId
+                )
                 // return '/article/' + notify.articleId
             }
             if (notify.notifyType == NotifyType['评论了文章:']) {
                 return '/article/' + notify.articleId
             }
-        }
+        },
     },
 })
 
@@ -60,6 +62,6 @@ export interface replyNotify {
     toContent: string;
     replayCommentId: string;
     notifyState: number;
-    formUserAvatar: string
-    formUserNickname: string
+    formUserAvatar: string;
+    formUserNickname: string;
 }

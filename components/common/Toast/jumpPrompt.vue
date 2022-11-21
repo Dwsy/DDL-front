@@ -2,7 +2,7 @@
   <div style="font-size: 18px">
     {{ message }}
   </div>
-  <button v-if="url" @click="go()" class="d-cancel-btn  mx-4 px-3 py-1 mt-1">
+  <button v-if="url" @click="go()" class="d-cancel-btn mx-4 px-3 py-1 mt-1">
     立即跳转
   </button>
 
@@ -17,13 +17,13 @@ import {onMounted, onUnmounted, ref} from 'vue'
 
 const props = defineProps<{
   // type: TYPE
-  msg: string
-  time: number
-  url: string
+  msg: string;
+  time: number;
+  url: string;
 }>()
 const emits = defineEmits<{
-  (e: 'cancel'): void
-  (e: 'close-toast'): void
+  (e: 'cancel'): void;
+  (e: 'close-toast'): void;
 }>()
 const message = ref()
 let second = ref(props.time)

@@ -5,14 +5,13 @@ import {NotifyMsg, NotifyType} from '~/types/message'
 import {
     useAxiosGetQaAcceptedAnswerNotify,
     UseAxiosGetQaAnswerNotify,
-    useAxiosGetQaInvitationAnswerNotify
+    useAxiosGetQaInvitationAnswerNotify,
 } from '~/composables/Api/messages/qa/answer'
 
-
 interface State {
-    notifyList: NotifyMsg[]
-    page: number
-    totalPages: number
+    notifyList: NotifyMsg[];
+    page: number;
+    totalPages: number;
 }
 
 export const useQaAcceptedAnswerStore = defineStore('acceptedAnswerStore', {
@@ -20,17 +19,18 @@ export const useQaAcceptedAnswerStore = defineStore('acceptedAnswerStore', {
         return {
             notifyList: [],
             page: 1,
-            totalPages: 0
+            totalPages: 0,
         }
     },
     getters: {},
     actions: {
         async loadQaAcceptedAnswerStore(scroll?: boolean) {
-            let {data: response} = await useAxiosGetQaAcceptedAnswerNotify(this.page)
+            let {data: response} = await useAxiosGetQaAcceptedAnswerNotify(
+                this.page
+            )
             if (response.code == 0) {
                 if (scroll) {
-                    this.notifyList = this.notifyList
-                        .concat(response.data.content)
+                    this.notifyList = this.notifyList.concat(response.data.content)
                 } else {
                     this.notifyList = response.data.content
                     this.totalPages = response.data.totalPages
@@ -43,6 +43,6 @@ export const useQaAcceptedAnswerStore = defineStore('acceptedAnswerStore', {
             if (notify.notifyType == NotifyType['被采纳']) {
                 return `/question/${notify.questionId}`
             }
-        }
+        },
     },
 })

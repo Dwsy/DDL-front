@@ -1,14 +1,19 @@
-import axios, {AxiosError, AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosStatic} from 'axios'
+import axios, {
+    AxiosError,
+    AxiosInstance,
+    AxiosPromise,
+    AxiosRequestConfig,
+    AxiosStatic,
+} from 'axios'
 import {useUserStore} from '~/stores/user'
 import {warningMsg} from '~/composables/utils/toastification'
 import {useAppConfig, useFetch, useRouter, useRuntimeConfig} from '#app'
-
 
 export const CreateAxios = (url, method, config): AxiosPromise => {
     const runtimeConfig = useRuntimeConfig()
     const baseURL = runtimeConfig.public.baseURL
     const Axios = axios.create({
-        baseURL
+        baseURL,
     })
     Axios.interceptors.request.use(
         (config: AxiosRequestConfig) => {
@@ -73,6 +78,6 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
     )
     return Axios(url, {
         method,
-        ...config
+        ...config,
     })
 }

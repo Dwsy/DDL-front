@@ -13,7 +13,7 @@
     <nuxt-link to="/t3">
       <h2>t3</h2>
     </nuxt-link>
-        <nuxt-link to="/user/login">
+    <nuxt-link to="/user/login">
       <h2>login</h2>
     </nuxt-link>
   </div>

@@ -10,6 +10,4 @@ import {definePageMeta} from '#imports'
 // })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

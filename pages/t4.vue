@@ -1,8 +1,5 @@
 <template>
-
   <div>
-
-
     <label><input type="radio" v-model="current" :value="CompA"/> A</label>
     <label><input type="radio" v-model="current" :value="CompB"/> B</label>
     <KeepAlive>
@@ -19,10 +16,8 @@
     <nuxt-loading-indicator></nuxt-loading-indicator>
     11111
     <keep-alive>
-
       <nuxt-page/>
     </keep-alive>
-
 
     <v-btn @click="test()" color="red">test</v-btn>
     <v-btn @click="defaultMsg('defaultMsg')">defaultMsg</v-btn>
@@ -34,8 +29,13 @@
 </template>
 
 <script setup lang="tsx">
-
-import {defaultMsg, errorMsg, infoMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
+import {
+  defaultMsg,
+  errorMsg,
+  infoMsg,
+  successMsg,
+  warningMsg,
+} from '~/composables/utils/toastification'
 import {shallowRef} from 'vue'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import CompA from './t4/a.vue'
@@ -50,7 +50,6 @@ let toast = useToast()
 
 const current = shallowRef(CompA)
 const test = () => {
-
   const timeout = setTimeout(() => {
     useRouter().push('/article/9')
   }, 5000)

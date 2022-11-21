@@ -3,13 +3,19 @@ import {defineStore} from 'pinia'
 import {
     ArticleCommentAction,
     CommentType,
-    ReplyArticleCommentBody, useAxiosDeleteCommentById, useAxiosGetArticleChildComment, useAxiosGetArticleComment,
+    ReplyArticleCommentBody,
+    useAxiosDeleteCommentById,
+    useAxiosGetArticleChildComment,
+    useAxiosGetArticleComment,
     useAxiosPostActionArticleComment,
     useAxiosPostReplyArticleComment,
-
 } from '~/composables/Api/article'
 import {useRoute} from '#imports'
-import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
+import {
+    errorMsg,
+    successMsg,
+    warningMsg,
+} from '~/composables/utils/toastification'
 
 import {useUserStore} from '~/stores/user'
 
@@ -63,13 +69,16 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             let params = {
                 properties: this.properties,
                 order: this.order,
-                page: page
+                page: page,
             }
-            let {data: commentData} = await useAxiosGetArticleComment(this.aid, params)
+            let {data: commentData} = await useAxiosGetArticleComment(
+                this.aid,
+                params
+            )
             this.commentList = commentData.data.content
             for (let commentContent of this.commentList) {
                 commentContent.replyCommentText = ref('')
-                commentContent.childComments.forEach(childComment => {
+                commentContent.childComments.forEach((childComment) => {
                     childComment.replyCommentText = ref('')
                 })
                 commentContent.childCommentPage = 1
@@ -83,12 +92,16 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             console.log('pid', pid)
             console.log('aid', this.aid)
             console.log('page', page)
-            let {data: commentData} = await useAxiosGetArticleChildComment(this.aid, pid, {
-                page
-            })
+            let {data: commentData} = await useAxiosGetArticleChildComment(
+                this.aid,
+                pid,
+                {
+                    page,
+                }
+            )
             if (commentData.code === 0) {
                 pComment.childComments = commentData.data.content
-                pComment.childComments.forEach(childComment => {
+                pComment.childComments.forEach((childComment) => {
                     childComment.replyCommentText = ref('')
                 })
                 const el = document.querySelector(`#comment-${pid}`)
@@ -97,12 +110,19 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             }
         },
 
-        async ReplyComment(replyUserId?: string, parentCommentId?: string,
-                           pIndexId?: number, cIndexId?: number, replyUserCommentId?: string, replyUserCommentName?: string) {
+        async ReplyComment(
+            replyUserId?: string,
+            parentCommentId?: string,
+            pIndexId?: number,
+            cIndexId?: number,
+            replyUserCommentId?: string,
+            replyUserCommentName?: string
+        ) {
             let text = null
             if (pIndexId !== undefined) {
                 if (cIndexId !== undefined) {
-                    text = this.commentList[pIndexId].childComments[cIndexId].replyCommentText
+                    text =
+                        this.commentList[pIndexId].childComments[cIndexId].replyCommentText
                 } else {
                     text = this.commentList[pIndexId].replyCommentText
                 }
@@ -124,14 +144,18 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 parentCommentId,
                 replyUserId,
                 text,
-                replyUserCommentId
+                replyUserCommentId,
             }
-            let {data: ReplyCommentRetData} = await useAxiosPostReplyArticleComment(body)
+            let {data: ReplyCommentRetData} = await useAxiosPostReplyArticleComment(
+                body
+            )
             if (ReplyCommentRetData.code === 0) {
                 successMsg('评论成功')
                 if (pIndexId !== undefined) {
                     if (cIndexId !== undefined) {
-                        this.commentList[pIndexId].childComments[cIndexId].replyCommentText = ''
+                        this.commentList[pIndexId].childComments[
+                            cIndexId
+                            ].replyCommentText = ''
                     } else {
                         this.commentList[pIndexId].replyCommentText = ''
                     }
@@ -147,8 +171,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     //todo 使用后端返回数据
                     const childComments = this.commentList[pIndexId].childComments
                     if (childComments.length > 0) {
-                        commentSerialNumber = childComments[childComments.length - 1]
-                            .commentSerialNumber + 1
+                        commentSerialNumber =
+                            childComments[childComments.length - 1].commentSerialNumber + 1
                     }
                     let newComment: CommentContent = {
                         childCommentNum: 0,
@@ -177,7 +201,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                         },
                         commentSerialNumber,
                         // replayCommentId: 1,
-                        userAction: undefined
+                        userAction: undefined,
                     }
                     this.commentList[pIndexId].childComments.push(newComment)
                 } else {
@@ -189,10 +213,13 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 // console.log('articleCommentStore.commentList', this.commentList)
                 //前端填充2或重新加载后端数据
                 // this.commentList.unshift(newComment)
-
             }
         },
-        getCommentActionIcon(action: CommentType, pIndexId: number, cIndexId?: number) {
+        getCommentActionIcon(
+            action: CommentType,
+            pIndexId: number,
+            cIndexId?: number
+        ) {
             if (cIndexId === undefined) {
                 if (this.commentList[pIndexId].userAction === action) {
                     if (action === CommentType.up) {
@@ -208,7 +235,10 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     }
                 }
             } else {
-                if (this.commentList[pIndexId].childComments[cIndexId].userAction === action) {
+                if (
+                    this.commentList[pIndexId].childComments[cIndexId].userAction ===
+                    action
+                ) {
                     if (action === CommentType.up) {
                         return 'mdi-thumb-up'
                     } else {
@@ -222,9 +252,12 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     }
                 }
             }
-
         },
-        getCommentActionColor(action: CommentType, pIndexId: number, cIndexId?: number) {
+        getCommentActionColor(
+            action: CommentType,
+            pIndexId: number,
+            cIndexId?: number
+        ) {
             if (cIndexId === undefined) {
                 if (this.commentList[pIndexId].userAction === action) {
                     return 'pink lighten-2'
@@ -232,14 +265,22 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     return ''
                 }
             } else {
-                if (this.commentList[pIndexId].childComments[cIndexId].userAction === action) {
+                if (
+                    this.commentList[pIndexId].childComments[cIndexId].userAction ===
+                    action
+                ) {
                     return 'pink lighten-2'
                 } else {
                     return ''
                 }
             }
         },
-        async ActionComment(commentType: CommentType, cid: string, pIndexId: number, cIndexId?: number) {
+        async ActionComment(
+            commentType: CommentType,
+            cid: string,
+            pIndexId: number,
+            cIndexId?: number
+        ) {
             let body: ArticleCommentAction = {
                 actionCommentId: cid,
                 articleFieldId: this.field.id,
@@ -299,7 +340,6 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     pComment.downNum = Math.max(pComment.downNum, 0)
                     return
                 }
-
             } else {
                 let cComment = pComment.childComments[cIndexId]
                 if (retType === CommentType.upToDown) {
@@ -346,15 +386,15 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     return
                 }
             }
-
         },
         showCommentBox(pIndexId: number, cIndexId?: number) {
             if (cIndexId == undefined) {
-                this.commentList[pIndexId].showCommentBox = !this.commentList[pIndexId].showCommentBox
+                this.commentList[pIndexId].showCommentBox =
+                    !this.commentList[pIndexId].showCommentBox
                 this.commentList.forEach((value, index) => {
                     if (index !== pIndexId) {
                         value.showCommentBox = false
-                        value.childComments.forEach(value1 => {
+                        value.childComments.forEach((value1) => {
                             value1.showCommentBox = false
                         })
                     }
@@ -367,7 +407,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                     }
                 })
             } else {
-                this.commentList[pIndexId].childComments[cIndexId].showCommentBox = !this.commentList[pIndexId].childComments[cIndexId].showCommentBox
+                this.commentList[pIndexId].childComments[cIndexId].showCommentBox =
+                    !this.commentList[pIndexId].childComments[cIndexId].showCommentBox
                 this.commentList.forEach((value, index) => {
                     if (index !== pIndexId) {
                         value.showCommentBox = false
@@ -398,7 +439,10 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
             }
         },
         async deleteComment(articleId: string, commentId: string) {
-            const {data: axiosResponse} = await useAxiosDeleteCommentById(articleId, commentId)
+            const {data: axiosResponse} = await useAxiosDeleteCommentById(
+                articleId,
+                commentId
+            )
             if (axiosResponse.code === 0) {
                 if (axiosResponse.data) {
                     successMsg('删除成功')
@@ -407,13 +451,9 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
                 errorMsg(axiosResponse.msg)
             }
             // await
-        }
-
+        },
     },
-
-
 })
-
 
 // interface Iarticle{
 //     articleField:Ref<ArticleField>;
@@ -477,7 +517,6 @@ interface UserInfo {
     birth: any;
 }
 
-
 export interface CommentContent {
     id: string;
     deleted: boolean;
@@ -501,6 +540,6 @@ export interface CommentContent {
     replyCommentText: any;
     loadMore?: boolean;
     replayCommentId?: number;
-    commentSerialNumber?: number
+    commentSerialNumber?: number;
     // fixme ref 2层不需要value然后极会报错 ？ 先用any了
 }

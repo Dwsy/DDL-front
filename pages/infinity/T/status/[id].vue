@@ -5,26 +5,48 @@
         <Title></Title>
       </Head>
 
-
       <TweetDetails :user="user" :tweet="tweet"/>
-
     </MainSection>
   </div>
 </template>
 <script setup lang="ts">
-
 import {onBeforeMount, ref, watch} from 'vue'
 import {useRoute} from '#app'
 import MainSection from '~/components/Tcomponents/MainSection.vue'
 import TweetDetails from '~/components/Tcomponents/Tweet/Details.vue'
 
 const loading = ref(false)
-const tweet = ref(null)
+const tweet = ref({
+  mediaFiles: [
+    'https://picsum.photos/300/300',
+    'https://picsum.photos/300/300',
+    'https://picsum.photos/300/300',
+  ],
+  text: 'test',
+  postedAtHuman: 'postedAtHuman',
+  author: {
+    name: 'name',
+    handle: 'handle',
+    profileImage: 'https://picsum.photos/300/300',
+  },
+})
 
+const user = {
+  id: 1,
+  name: 'John Doe',
+  username: 'johndoe',
+  profileImage: 'https://picsum.photos/300/300',
+  replyTo: {
+    id: 2,
+    name: 'dwsy',
+    username: 'ddy',
+    profileImage: 'https://picsum.photos/300/300',
+  },
+  repliesCount: 21,
+}
 // const { getTweetById } = useTweets()
 // const { useAuthUser } = useAuth()
 // const user = useAuthUser()
-
 
 // watch(() => useRoute().fullPath, () => getTweet())
 
@@ -49,5 +71,4 @@ async function getTweet() {
 onBeforeMount(() => {
   // getTweet()
 })
-
 </script>

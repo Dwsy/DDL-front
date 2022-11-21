@@ -8,7 +8,7 @@ const path = require('path')
 const dirName = 'light'
 const filePath = path.resolve(`${cwd}/${dirName}`)
 // 收集所有的文件路径
-const fileDisplay = filePath => {
+const fileDisplay = (filePath) => {
     // fs.exists('./highlightCJs', function (exists) {
     //     if (!exists) {
     //         fs.mkdir('./highlightCJs', function (err) {
@@ -21,7 +21,6 @@ const fileDisplay = filePath => {
     //根据文件路径读取文件，返回文件列表
     let arr = []
     fs.readdir(filePath, function (err, files) {
-
         if (err) return console.error('Error:(spec)', err)
         files.forEach((filename) => {
             //获取当前文件的绝对路径
@@ -45,24 +44,25 @@ const fileDisplay = filePath => {
                         }
                         arr.push(o.replace('', '.js'))
                         // console.log(arr)
-                        fs.writeFile(`./${dirName}/${o.replace('.css', '.js')}`, cjs, function (err) {
-                            // 如果err为true，则文件写入失败，并返回失败信息
-                            if (err) {
-                                return console.error('文件写入失败！' + err.message)
+                        fs.writeFile(
+                            `./${dirName}/${o.replace('.css', '.js')}`,
+                            cjs,
+                            function (err) {
+                                // 如果err为true，则文件写入失败，并返回失败信息
+                                if (err) {
+                                    return console.error('文件写入失败！' + err.message)
+                                }
+                                // 若文件写入成功，将显示“文件写入成功”
+                                // console.log(filename)
+                                // console.log('文件写入成功！')
                             }
-                            // 若文件写入成功，将显示“文件写入成功”
-                            // console.log(filename)
-                            // console.log('文件写入成功！')
-                        })
+                        )
                         // console.log(dataStr)
                     })
                 }
-
             })
-
         })
     })
-
 }
 
 fileDisplay(filePath)
@@ -79,9 +79,8 @@ let light = [
     'duotoneLight',
     'oliveDunk',
     'redGraphite',
-    'solarizedLight'
+    'solarizedLight',
 ]
-
 
 let dark = [
     'ayuMirage',
@@ -95,9 +94,8 @@ let dark = [
     'panic',
     'gotham',
     'solarizedDark',
-    'toothpaste'
+    'toothpaste',
 ]
-
 
 let nameList = [
     'a11yDark',
@@ -173,5 +171,5 @@ let nameList = [
     'vs',
     'vs2015',
     'xcode',
-    'xt256.css'
+    'xt256.css',
 ]

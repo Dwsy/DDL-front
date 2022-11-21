@@ -9,8 +9,8 @@ let TABLE_NAME = 'hljs-ln',
     BREAK_LINE_REGEXP = /\r\n|\r|\n/g
 
 interface optionsI {
-    singleLine: boolean
-    startFrom?: any
+    singleLine: boolean;
+    startFrom?: any;
 }
 
 export function addStyles() {
@@ -20,16 +20,16 @@ export function addStyles() {
         '.{0}{border-collapse:collapse}' +
         '.{0} td{padding:0}' +
         '.{1}:before{content:attr({2})}',
-        [
-            TABLE_NAME,
-            NUMBER_LINE_NAME,
-            DATA_ATTR_NAME
-        ])
+        [TABLE_NAME, NUMBER_LINE_NAME, DATA_ATTR_NAME]
+    )
     document.getElementsByTagName('head')[0].appendChild(css)
 }
 
 function initLineNumbersOnLoad(options) {
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    if (
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+    ) {
         documentReady(options)
     } else {
         window.addEventListener('DOMContentLoaded', function () {
@@ -65,7 +65,6 @@ function lineNumbersBlock(element, options?: optionsI) {
 }
 
 function lineNumbersInternal(element, options) {
-
     let internalOptions = mapOptions(element, options)
 
     duplicateMultilineNodes(element)
@@ -101,8 +100,9 @@ function addLineNumbersBlockFor(inputHtml, options) {
                     DATA_ATTR_NAME,
                     CODE_BLOCK_NAME,
                     i + options.startFrom,
-                    lines[i].length > 0 ? lines[i] : ' '
-                ])
+                    lines[i].length > 0 ? lines[i] : ' ',
+                ]
+            )
         }
 
         return format('<table class="{0}">{1}</table>', [TABLE_NAME, html])
@@ -120,7 +120,7 @@ function mapOptions(element, options) {
     options = options || {}
     return {
         singleLine: getSingleLineOption(options),
-        startFrom: getStartFromOption(element, options)
+        startFrom: getStartFromOption(element, options),
     }
 }
 
@@ -198,7 +198,6 @@ function getLines(text) {
 function getLinesCount(text) {
     return (text.trim().match(BREAK_LINE_REGEXP) || []).length
 }
-
 
 /**
  * {@link https://wcoder.github.io/notes/string-format-for-string-formating-in-javascript}

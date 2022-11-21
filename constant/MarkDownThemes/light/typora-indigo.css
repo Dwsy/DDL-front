@@ -1,20 +1,26 @@
 @charset "UTF-8";
 .markdown-body {
-  color: #595959;
-  font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
-  line-height: 1.8em;
-  background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.05) 3%, transparent 0), linear-gradient(1turn, rgba(60, 10, 30, 0.05) 3%, transparent 0);
-  background-size: 20px 20px;
-  background-position: 50%;
-  word-break: break-all;
-  /* 颜色配置 */
-  /* 颜色配置 end */
-  /* 布局，一般不需要改动 */
-  /* 布局 end */
-  /* 任务列表 */
-  /* 任务列表 end */
-  /* 代码块框架 */
+    color: #595959;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    line-height: 1.8em;
+    background-image: linear-gradient(
+            90deg,
+            rgba(60, 10, 30, 0.05) 3%,
+            transparent 0
+    ),
+    linear-gradient(1turn, rgba(60, 10, 30, 0.05) 3%, transparent 0);
+    background-size: 20px 20px;
+    background-position: 50%;
+    word-break: break-all;
+    /* 颜色配置 */
+    /* 颜色配置 end */
+    /* 布局，一般不需要改动 */
+    /* 布局 end */
+    /* 任务列表 */
+    /* 任务列表 end */
+    /* 代码块框架 */
   /* 代码语法高亮 CodeMirror */
   /* 代码语法高亮 end */
 }
@@ -125,7 +131,8 @@
   border-width: 0px;
 }
 .markdown-body code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 .markdown-body pre > code {
   font-weight: 400;
@@ -212,53 +219,60 @@
 }
 .markdown-body .task-list-item > input[checked]::after {
   content: "";
-  position: absolute;
-  top: 46%;
-  left: 25%;
-  height: 30%;
-  width: 2px;
-  transform: rotate(-40deg);
-  background: #5a67d8;
+    position: absolute;
+    top: 46%;
+    left: 25%;
+    height: 30%;
+    width: 2px;
+    transform: rotate(-40deg);
+    background: #5a67d8;
 }
+
 .markdown-body pre.md-fences,
 .markdown-body pre.md-meta-block,
-.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input {
-  padding: 12px;
-  padding-top: 6px;
-  margin: 0.5em 0;
-  overflow: auto;
-  border-radius: 6px;
-  color: #f8f8f2;
-  background: #272822;
-  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-  font-size: 1em;
+.markdown-body
+.md-rawblock-control:not(.md-rawblock-tooltip)
+.md-rawblock-input {
+    padding: 12px;
+    padding-top: 6px;
+    margin: 0.5em 0;
+    overflow: auto;
+    border-radius: 6px;
+    color: #f8f8f2;
+    background: #272822;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+    font-size: 1em;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
   line-height: 1.5;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
 }
+
 .markdown-body pre.md-fences::before,
 .markdown-body pre.md-meta-block::before,
-.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input::before {
-  content: "";
-  display: block;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K");
-  height: 30px;
-  width: 100%;
-  margin-bottom: -7px;
-  background-size: 40px;
-  background-repeat: no-repeat;
+.markdown-body
+.md-rawblock-control:not(.md-rawblock-tooltip)
+.md-rawblock-input::before {
+    content: "";
+    display: block;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K");
+    height: 30px;
+    width: 100%;
+    margin-bottom: -7px;
+    background-size: 40px;
+    background-repeat: no-repeat;
 }
+
 .markdown-body .cm-s-inner .cm-comment {
   color: #8292a2;
 }
@@ -273,8 +287,10 @@
 .markdown-body .cm-s-inner .cm-number {
   color: #ae81ff;
 }
+
 .markdown-body .cm-s-inner .cm-qualifier,
-.markdown-body .cm-s-inner .cm-string, .markdown-body .cm-s-inner .cm-string-2,
+.markdown-body .cm-s-inner .cm-string,
+.markdown-body .cm-s-inner .cm-string-2,
 .markdown-body .cm-s-inner .cm-builtin {
   color: #a6e22e;
 }
@@ -284,15 +300,19 @@
 .markdown-body .cm-s-inner .cm-operator {
   color: #f8f8f2;
 }
+
 .markdown-body .cm-s-inner .cm-atom,
 .markdown-body .cm-s-inner .cm-keyword {
-  color: #66d9ef;
+    color: #66d9ef;
 }
+
 .markdown-body .cm-s-inner .cm-def,
 .markdown-body .cm-s-inner .cm-variable,
-.markdown-body .cm-s-inner .cm-variable-2, .markdown-body .cm-s-inner .cm-variable-3 {
-  color: #f8f8f2;
+.markdown-body .cm-s-inner .cm-variable-2,
+.markdown-body .cm-s-inner .cm-variable-3 {
+    color: #f8f8f2;
 }
+
 .markdown-body .cm-s-inner .cm-type {
-  color: #cbcb9f;
+    color: #cbcb9f;
 }

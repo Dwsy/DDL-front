@@ -46,9 +46,8 @@ const vCode = {
         })
         el.addEventListener('mouseover', () => {
             copy.style.display = 'block'
-
         })
-    }
-}
+    },
+};
 
 export default vCode

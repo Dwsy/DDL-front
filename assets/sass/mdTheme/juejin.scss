@@ -1,4 +1,4 @@
-$monospace-font: Menlo, Monaco, Consolas, 'Courier New', monospace;
+$monospace-font: Menlo, Monaco, Consolas, "Courier New", monospace;
 $line-space: 22px;
 
 .markdown-body-juejin {
@@ -25,13 +25,20 @@ $line-space: 22px;
     font-size: 24px;
     margin-bottom: 5px;
   }
-  h2, h3, h4, h5, h6 {
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-size: 20px;
   }
+
   h2 {
     padding-bottom: 12px;
     border-bottom: 1px solid #ececec;
   }
+
   h3 {
     font-size: 18px;
     padding-bottom: 0;
@@ -130,7 +137,7 @@ $line-space: 22px;
     background-color: #f8f8f8;
     &::after {
       display: block;
-      content: '';
+      content: "";
     }
     & > p {
       margin: 10px 0;
@@ -160,7 +167,7 @@ $line-space: 22px;
   ol li {
     padding-left: 6px;
   }
-  
+
   .contains-task-list {
     padding-left: 0;
   }

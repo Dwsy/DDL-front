@@ -2,7 +2,7 @@
 
 ## 主题介绍
 
-`purple.css` 和 `purple-classic.css` 是2 种紫色调：
+`purple.css` 和 `purple-classic.css` 是 2 种紫色调：
 
 ![purple.css](./ScreenShots/0.png)
 

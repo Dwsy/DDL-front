@@ -1,5 +1,4 @@
 <template>
-
   <NuxtLayout>
     <!--  <NuxtLayout >-->
     <template #appbar>
@@ -15,11 +14,7 @@
     <!--    </v-footer>-->
     <NuxtLoadingIndicator color="#9d5b8b"/>
     <NuxtPage/>
-
-
   </NuxtLayout>
-
-
 </template>
 
 <script setup lang="ts">
@@ -37,13 +32,12 @@ import {useTheme} from 'vuetify'
 //
 // // 推荐：只在非生产环境初始化
 
-
 definePageMeta({
-  key: route => route.fullPath,
+  key: (route) => route.fullPath,
   pageTransition: {
     name: 'slide-x-reverse-transition',
     mode: 'out-in',
-  }
+  },
 })
 let user = useUserStore()
 let theme = useTheme()
@@ -82,15 +76,10 @@ onMounted(async () => {
 if (typeof window === 'undefined') {
   console.log('NODE')
 } else {
-
 }
 </script>
 
-
-<style scoped>
-
-
-</style>
+<style scoped></style>
 
 <style>
 /*.toc-link::before {*/
@@ -103,5 +92,4 @@ if (typeof window === 'undefined') {
 /*  !*position:absolute;*!*/
 /*  width: 4px*/
 /*}*/
-
 </style>

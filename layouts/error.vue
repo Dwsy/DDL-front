@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div v-if="error.statusCode === 404" class="grid h-screen place-content-center bg-white">
+    <div
+        v-if="error.statusCode === 404"
+        class="grid h-screen place-content-center bg-white"
+    >
       <div class="text-center">
         <strong class="text-9xl font-black text-gray-200">404</strong>
 
@@ -26,6 +29,6 @@
 <script>
 export default {
   props: ['error'],
-  layout: 'blog' // you can set a custom layout for the error page
+  layout: 'blog', // you can set a custom layout for the error page
 }
 </script>

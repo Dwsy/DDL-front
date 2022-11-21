@@ -7,7 +7,7 @@ export interface user {
     IsLogin: Ref<boolean>;
     token: Ref<string>;
     user: tokenMsg;
-    userInfo: UserInfo
+    userInfo: UserInfo;
 }
 
 export interface UserInfo {
@@ -27,14 +27,13 @@ interface tokenMsg {
     // level: number;
 }
 
-
 export const useUserStore = defineStore('user', {
     state: (): user => {
         return {
             IsLogin: ref<boolean>(false),
             user: null,
             token: ref<string>(''),
-            userInfo: null
+            userInfo: null,
         }
     },
     actions: {
@@ -47,8 +46,7 @@ export const useUserStore = defineStore('user', {
         setUser(user: any) {
             // console.log('setUser:', user)
             // console.log('setUserType:', typeof user)
-            if (user != null)
-                this.user = user
+            if (user != null) this.user = user
         },
         async getUserInfo(refresh = false) {
             console.log('getUserInfo', this.userInfo === null)
@@ -59,13 +57,10 @@ export const useUserStore = defineStore('user', {
                         this.userInfo = data.data
                     }
                 }
-
             }
         },
         async CheckIn() {
             return await useAxiosPostCheck()
-        }
-        ,
-
+        },
     },
 })

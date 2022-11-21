@@ -1,4 +1,4 @@
-$ak-font: -apple-system, system-ui, Menlo, Monaco, Consolas, 'Courier New';
+$ak-font: -apple-system, system-ui, Menlo, Monaco, Consolas, "Courier New";
 $line-space: 22px;
 $bg-color: rgba(224, 224, 224, 0.1);
 $blue: #37b2ff;
@@ -15,7 +15,12 @@ $green: #a7ecad;
   overflow-x: hidden;
   color: #333;
   position: relative;
-  background-image: linear-gradient(90deg, rgba(217, 234, 251, 0.25) 3%, transparent 0), linear-gradient(360deg, rgba(217, 234, 251, 0.25) 3%, transparent 0);
+  background-image: linear-gradient(
+                  90deg,
+                  rgba(217, 234, 251, 0.25) 3%,
+                  transparent 0
+  ),
+  linear-gradient(360deg, rgba(217, 234, 251, 0.25) 3%, transparent 0);
   background-size: 20px 20px;
   background-position: 50%;
 
@@ -48,7 +53,7 @@ $green: #a7ecad;
     position: relative;
 
     &::after {
-      content: '';
+      content: "";
       left: 0;
       bottom: 0;
       width: 100%;
@@ -86,7 +91,12 @@ $green: #a7ecad;
     margin-top: 32px;
     margin-bottom: 32px;
     background-size: 4px 1px;
-    background-image: linear-gradient(to left, $blue 0%, $blue 25%, transparent 50%);
+    background-image: linear-gradient(
+                    to left,
+                    $blue 0%,
+                    $blue 25%,
+                    transparent 50%
+    );
   }
 
   code {
@@ -113,7 +123,7 @@ $green: #a7ecad;
       left: -4px;
       width: 20px;
       height: 20px;
-      content: '';
+      content: "";
       border-top: 8px solid $yellow;
       border-left: 8px solid $yellow;
       z-index: 10;
@@ -125,7 +135,7 @@ $green: #a7ecad;
       bottom: -4px;
       width: 20px;
       height: 20px;
-      content: '';
+      content: "";
       z-index: 10;
       border-right: 8px solid $blue;
       border-bottom: 8px solid $blue;
@@ -166,7 +176,7 @@ $green: #a7ecad;
     position: relative;
 
     &::before {
-      content: 'READ MORE +';
+      content: "READ MORE +";
       bottom: 90%;
       width: 120px;
       max-width: 0px;
@@ -181,7 +191,7 @@ $green: #a7ecad;
     }
 
     &::after {
-      content: '';
+      content: "";
       bottom: 0;
       left: 0;
       width: 100%;
@@ -247,7 +257,7 @@ $green: #a7ecad;
     }
 
     &::after {
-      content: 'FROM';
+      content: "FROM";
       top: 0;
       left: 0;
       width: 40px;
@@ -263,7 +273,7 @@ $green: #a7ecad;
     }
 
     &::before {
-      content: 'CITATION';
+      content: "CITATION";
       top: 0;
       left: 44px;
       line-height: 1;
@@ -320,7 +330,7 @@ $green: #a7ecad;
     list-style: none;
   }
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     position: relative;
 
     &::before {
@@ -328,7 +338,7 @@ $green: #a7ecad;
       left: 0;
       right: 0;
       bottom: 0;
-      content: '';
+      content: "";
       width: inherit;
       height: inherit;
       background: #f0f8ff;
@@ -340,7 +350,7 @@ $green: #a7ecad;
     }
 
     &:checked::after {
-      content: '';
+      content: "";
       top: 10%;
       left: 18%;
       width: 90%;

@@ -9,7 +9,6 @@
 import {onDeactivated} from '@vue/runtime-core'
 import {onMounted} from 'vue'
 
-
 onMounted(() => {
   console.log('mounted')
 })
@@ -21,6 +20,4 @@ onDeactivated(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,8 +1,10 @@
 <template>
-
-
   <div>
-    <v-tabs v-model="tab" active-class="d-article-tabs-active-class" transition="fade-transition">
+    <v-tabs
+        v-model="tab"
+        active-class="d-article-tabs-active-class"
+        transition="fade-transition"
+    >
       <v-tab value="null" v-show="false"></v-tab>
       <v-tab value="article">文章</v-tab>
       <v-tab value="draft">草稿箱 {{ counts[ArticleState.draft] }}</v-tab>
@@ -17,24 +19,28 @@
       <v-window-item value="draft">
         <ArticleManageCard/>
         <v-container class="max-width ml-n16">
-          <div class="text-center" v-if="draftListContent?.length===0">
+          <div class="text-center" v-if="draftListContent?.length === 0">
             空
           </div>
-          <v-pagination v-model="params.page" class="my-4"
-                        :length="totalPages">
+          <v-pagination v-model="params.page" class="my-4" :length="totalPages">
           </v-pagination>
         </v-container>
       </v-window-item>
     </v-window>
   </div>
-
 </template>
 
 <script setup lang="ts">
 import {onMounted, provide, ref, watchEffect} from 'vue'
 import Essays from '~/components/article/creator/content/article/essays.vue'
-import {useAxiosGetArticleCountByState, useAxiosGetUserArticleList} from '~/composables/Api/article/manageArticle'
-import {ArticleState, GetUserArticleListParams} from '~/types/article/manageArticle'
+import {
+  useAxiosGetArticleCountByState,
+  useAxiosGetUserArticleList,
+} from '~/composables/Api/article/manageArticle'
+import {
+  ArticleState,
+  GetUserArticleListParams,
+} from '~/types/article/manageArticle'
 import {articleListData} from '~/types/article'
 import {warningMsg} from '~/composables/utils/toastification'
 import {useRoute} from '#app'
@@ -51,7 +57,7 @@ const params = ref<GetUserArticleListParams>({
   properties: null,
   size: 8,
   state: ArticleState.draft,
-  tagId: null
+  tagId: null,
 })
 const route = useRoute()
 provide('articleCounts', counts)
@@ -73,8 +79,14 @@ onMounted(async () => {
     if (tab.value === 'draft') {
       let href = window.location.href
       let replaceId = 'state=' + 'draft'
-      window.history.replaceState({}, 'title', href.replace(/state=\w+/i, replaceId))
-      const {data: axiosResponse} = await useAxiosGetUserArticleList(params.value)
+      window.history.replaceState(
+          {},
+          'title',
+          href.replace(/state=\w+/i, replaceId)
+      )
+      const {data: axiosResponse} = await useAxiosGetUserArticleList(
+          params.value
+      )
       if (axiosResponse.code === 0) {
         draftListContent.value = axiosResponse.data.content
         totalPages.value = axiosResponse.data.totalPages
@@ -86,7 +98,11 @@ onMounted(async () => {
     if (tab.value === 'article') {
       let href = window.location.href
       let replaceId = 'state=' + 'all'
-      window.history.replaceState({}, 'title', href.replace(/state=\w+/i, replaceId))
+      window.history.replaceState(
+          {},
+          'title',
+          href.replace(/state=\w+/i, replaceId)
+      )
     }
   })
 })
@@ -98,6 +114,3 @@ onMounted(async () => {
   font-size: 90%;
 }
 </style>
-
-
-

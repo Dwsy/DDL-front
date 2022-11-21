@@ -6,16 +6,13 @@
     z-index: 99999 !important;
 }
 
-
 .d-custom-toast-warning {
     background-color: #9d5b8b;
     color: #ffffff;
 }
 
-
 .d-header header {
     backdrop-filter: saturate(100%) blur(20px) !important;
-
 }
 
 html {
@@ -57,7 +54,6 @@ a {
 /*    width: 4px*/
 /*}*/
 
-
 ::-webkit-scrollbar {
     width: 10px;
     height: 6px;
@@ -87,15 +83,14 @@ a {
     border-radius: 2em !important;
 }
 
-
 kbd {
     padding: 2px 4px;
     font-size: 90%;
     color: #fff;
     background-color: #333;
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 /*.d-code-copy {*/
@@ -120,7 +115,7 @@ code ul li {
 .hljs-ln-numbers {
     text-align: center;
     color: #ccc;
-    border-right: 1px solid #CCC;
+    border-right: 1px solid #ccc;
     vertical-align: top;
     padding-right: 5px !important;
 

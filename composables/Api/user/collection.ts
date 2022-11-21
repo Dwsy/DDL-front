@@ -6,7 +6,9 @@ export const useAxiosGetCollectionGroupListByUserId = (uid: string) => {
     return useGet<ResponseData<any>>('user/collection/group/list/' + uid)
 }
 
-
-export const useAxiosGetCollectionListByGroupId = (groupId: string, params?: getCollectionListByGroupIdParams) => {
+export const useAxiosGetCollectionListByGroupId = (
+    groupId: string,
+    params?: getCollectionListByGroupIdParams
+) => {
     return useGet<ResponseData<any>>('user/collection/list/' + groupId, params)
 }

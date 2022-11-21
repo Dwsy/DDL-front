@@ -654,5 +654,5 @@ const tagList = [
     'Fes.js',
     '青训营',
     '单片机',
-    'kerberos'
+    'kerberos',
 ]

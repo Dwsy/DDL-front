@@ -4,8 +4,7 @@
       <h1 style="font-size: 30px">DDL</h1>
     </v-toolbar-title>
 
-    <v-col cols="10">
-    </v-col>
+    <v-col cols="10"></v-col>
 
     <!--    <template v-for="item in items">-->
 
@@ -20,21 +19,23 @@
 
     <nav aria-label="Main Nav" class="flex flex-col space-y-1">
       <template v-for="item in items">
-        <nuxt-link :to="item.link"
-                   class="flex items-center rounded-lg  px-4 py-2 text-gray-500 active:bg-violet-50 hover:bg-gray-100 dark:hover:bg-amber-600 hover:text-gray-700">
-          <v-icon>
+        <nuxt-link
+            :to="item.link"
+            class="flex items-center rounded-lg px-4 py-2 text-gray-500 active:bg-violet-50 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-700"
+        >
+          <v-icon class="dark:text-slate-200 mr-2">
             {{ item.icon }}
           </v-icon>
-          <span class="ml-3 text-sm font-medium"> {{ item.text }} </span>
+          <span class="ml-3 text-lg font-medium dark:text-slate-200">
+            {{ item.text }}
+          </span>
         </nuxt-link>
       </template>
     </nav>
-
   </v-list>
 </template>
 
 <script setup lang="ts">
-
 import {reactive} from 'vue'
 import {useTheme} from 'vuetify'
 
@@ -43,7 +44,7 @@ let items = reactive([
   {
     icon: 'mdi-home-outline',
     text: '文章',
-    link: '/article'
+    link: '/article',
   },
   {
     icon: 'mdi-comment-question-outline',
@@ -89,17 +90,16 @@ let items = reactive([
   //   text: '关于',
   //   link: '',
   // },
-])
+]);
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 <style>
 .v-navigation-drawer {
   /*background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCE" : "--v-theme-surface"');*/
-  background-color: v-bind('theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"') !important;
+  background-color: v-bind(
+      'theme.global.name.value === "dark" ? "#0C0C0DCF" : "#FFFFFF"'
+  ) !important;
   backdrop-filter: saturate(150%) blur(10px) !important;
 }
-
 </style>

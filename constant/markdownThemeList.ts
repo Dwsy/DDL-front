@@ -1,83 +1,97 @@
 import 'juejin-markdown-themes/dist/vue-pro'
-import {MarkdownTheme, MarkdownThemeNameList} from '~/types/other/markdownTheme'
+import {
+    MarkdownTheme,
+    MarkdownThemeNameList,
+} from '~/types/other/markdownTheme'
 
 const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
-export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) => {
+export const changeThemes = async (
+    markdownTheme: MarkdownTheme,
+    ssr?: boolean
+) => {
     let css = null
 
     // console.log('markdownTheme.name', markdownTheme.name)
     switch (markdownTheme.name) {
         case 'smartblue':
-            css = await import ('juejin-markdown-themes/dist/smartblue')
+            css = await import('juejin-markdown-themes/dist/smartblue')
             break
         case 'github':
-            css = await import ('juejin-markdown-themes/dist/github')
+            css = await import('juejin-markdown-themes/dist/github')
             break
         case 'cyanosis':
-            css = await import ('juejin-markdown-themes/dist/cyanosis')
+            css = await import('juejin-markdown-themes/dist/cyanosis')
             break
         case 'channing-cyan':
-            css = await import ('juejin-markdown-themes/dist/channing-cyan')
+            css = await import('juejin-markdown-themes/dist/channing-cyan')
             break
         case 'fancy':
-            css = await import ('juejin-markdown-themes/dist/fancy')
+            css = await import('juejin-markdown-themes/dist/fancy')
             break
         case 'hydrogen':
-            css = await import ('juejin-markdown-themes/dist/hydrogen')
+            css = await import('juejin-markdown-themes/dist/hydrogen')
             break
         case 'condensed-night-purple':
-            css = await import ('juejin-markdown-themes/dist/condensed-night-purple')
-            css = {default: css.default + '.markdown-body pre>code{margin-bottom:15px!important;}'}
+            css = await import('juejin-markdown-themes/dist/condensed-night-purple')
+            css = {
+                default:
+                    css.default +
+                    '.markdown-body pre>code{margin-bottom:15px!important;}',
+            }
             break
         case 'greenwillow':
-            css = await import ('juejin-markdown-themes/dist/greenwillow')
+            css = await import('juejin-markdown-themes/dist/greenwillow')
             break
         case 'v-green':
-            css = await import ('juejin-markdown-themes/dist/v-green')
+            css = await import('juejin-markdown-themes/dist/v-green')
             break
         case 'vue-pro':
-            css = await import ('juejin-markdown-themes/dist/vue-pro')
+            css = await import('juejin-markdown-themes/dist/vue-pro')
             break
         case 'healer-readable':
-            css = await import ('juejin-markdown-themes/dist/healer-readable')
+            css = await import('juejin-markdown-themes/dist/healer-readable')
             break
         case 'mk-cute':
-            css = await import ('juejin-markdown-themes/dist/mk-cute')
+            css = await import('juejin-markdown-themes/dist/mk-cute')
             break
         case 'awesome-green':
-            css = await import ('juejin-markdown-themes/dist/awesome-green')
+            css = await import('juejin-markdown-themes/dist/awesome-green')
             break
         case 'geek-black':
-            css = await import ('juejin-markdown-themes/dist/geek-black')
+            css = await import('juejin-markdown-themes/dist/geek-black')
             break
         case 'jzman':
-            css = await import ('juejin-markdown-themes/dist/jzman')
+            css = await import('juejin-markdown-themes/dist/jzman')
             break
         case 'vuepress':
-            css = await import ('juejin-markdown-themes/dist/vuepress')
+            css = await import('juejin-markdown-themes/dist/vuepress')
             break
         case 'arknights':
-            css = await import ('juejin-markdown-themes/dist/arknights')
+            css = await import('juejin-markdown-themes/dist/arknights')
             break
         case 'simplicity-green':
-            css = await import ('juejin-markdown-themes/dist/simplicity-green')
+            css = await import('juejin-markdown-themes/dist/simplicity-green')
             break
         case 'scrolls':
-            css = await import ('juejin-markdown-themes/dist/scrolls-light')
+            css = await import('juejin-markdown-themes/dist/scrolls-light')
             break
         case 'orange':
-            let temp = await import ('juejin-markdown-themes/dist/orange')
+            let temp = await import('juejin-markdown-themes/dist/orange')
             // .markdown-body h4 a, .markdown-body h5 a, .markdown-body h6 a
-            css = {default: temp.default + '.markdown-body h1 a, .markdown-body h2 a, .markdown-body h3 a  {     color: #fff; }'}
+            css = {
+                default:
+                    temp.default +
+                    '.markdown-body h1 a, .markdown-body h2 a, .markdown-body h3 a  {     color: #fff; }',
+            }
             break
         case 'devui-blue':
-            css = await import ('juejin-markdown-themes/dist/devui-blue')
+            css = await import('juejin-markdown-themes/dist/devui-blue')
             break
         case 'nico':
-            css = await import ('juejin-markdown-themes/dist/nico')
+            css = await import('juejin-markdown-themes/dist/nico')
             break
         case 'Chinese-red':
-            css = await import ('juejin-markdown-themes/dist/Chinese-red')
+            css = await import('juejin-markdown-themes/dist/Chinese-red')
             break
         //--------------
         case 'ayuMirage':
@@ -157,26 +171,38 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
             break
         //--------
         case 'purple':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple'
+                )
             break
         case 'purple-plain':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-plain')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple-plain'
+                )
             break
         case 'purple-blue':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-blue')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple-blue'
+                )
             break
         case 'purple-green':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-green')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple-green'
+                )
             break
         case 'purple-classic':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-classic')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple-classic'
+                )
             break
         case 'purple-cesno':
-            css = await import('~~/constant/MarkDownThemes/typora-purple-theme/purple-cesno')
+            css = await import(
+                '~~/constant/MarkDownThemes/typora-purple-theme/purple-cesno'
+                )
             break
 
         default:
-            css = await import ('juejin-markdown-themes/dist/Chinese-red')
+            css = await import('juejin-markdown-themes/dist/Chinese-red')
     }
     if (ssr) {
         return css.default
@@ -199,281 +225,301 @@ export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {
     geekBlackDark: {
         name: 'geekBlackDark',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     github: {
         name: 'github',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     smartblue: {
         name: 'smartblue',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     cyanosis: {
         name: 'cyanosis',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     channingCyan: {
         name: 'channing-cyan',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     fancy: {
         name: 'fancy',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     hydrogen: {
         name: 'hydrogen',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     condensedNightPurple: {
         name: 'condensed-night-purple',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     greenwillow: {
         name: 'greenwillow',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     vGreen: {
         name: 'v-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     vuePro: {
         name: 'vue-pro',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     healerReadable: {
         name: 'healer-readable',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     mkCute: {
         name: 'mk-cute',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     awesomeGreen: {
         name: 'awesome-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     geekBlack: {
         name: 'geek-black',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     jzman: {
         name: 'jzman',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     vuepress: {
         name: 'vuepress',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     arknights: {
         name: 'arknights',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     simplicityGreen: {
         name: 'simplicity-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     scrolls: {
         name: 'scrolls',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     orange: {
         name: 'orange',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     devuiBlue: {
         name: 'devui-blue',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     nico: {
         name: 'nico',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     ChineseRed: {
         name: 'Chinese-red',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     //---
     ayu: {
         name: 'ayu',
         path: `${mwebThemePath}ayu`,
-        highlight: ''
+        highlight: '',
     },
     ayuMirage: {
         name: 'ayuMirage',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     charcoal: {
         name: 'charcoal',
         path: `${mwebThemePath}charcoal`,
-        highlight: ''
+        highlight: '',
     },
     cobalt: {
         name: 'cobalt',
         path: `${mwebThemePath}cobalt`,
-        highlight: ''
+        highlight: '',
     },
     contrast: {
         name: 'contrast',
         path: `${mwebThemePath}contrast`,
-        highlight: ''
+        highlight: '',
     },
     dBoring: {
         name: 'dBoring',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     darkGraphite: {
         name: 'darkGraphite',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     dieci: {
         name: 'dieci',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     dracula: {
         name: 'dracula',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     duotoneHeat: {
         name: 'duotoneHeat',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     duotoneLight: {
         name: 'duotoneLight',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     gandalf: {
         name: 'gandalf',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     gotham: {
         name: 'gotham',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     indigo: {
         name: 'indigo',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     lark: {
         name: 'lark',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     larkBoldColor: {
         name: 'larkBoldColor',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     lighthouse: {
         name: 'lighthouse',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     nord: {
         name: 'nord',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     oliveDunk: {
         name: 'oliveDunk',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     panic: {
         name: 'panic',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     redGraphite: {
         name: 'redGraphite',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     solarizedDark: {
         name: 'solarizedDark',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     solarizedLight: {
         name: 'solarizedLight',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     toothpaste: {
         name: 'toothpaste',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purpleBlue: {
         name: 'purple-blue',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purpleCesno: {
         name: 'purple-cesno',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purpleClassic: {
         name: 'purple-classic',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purpleGreen: {
         name: 'purple-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purplePlain: {
         name: 'purple-plain',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     purple: {
         name: 'purple',
         path: '',
-        highlight: ''
-    }
+        highlight: '',
+    },
     //------------typora-purple-theme
-
-
 }
 
-export let themeNameList = ['smartblue', 'cyanosis', 'channingCyan', 'fancy', 'hydrogen', 'condensedNightPurple', 'greenwillow', 'vGreen', 'vuePro', 'healerReadable', 'mkCute', 'awesomeGreen', 'geekBlack', 'jzman', 'vuepress', 'arknights', 'simplicityGreen', 'scrolls', 'orange', 'devuiBlue', 'nico', 'ChineseRed']
-
+export let themeNameList = [
+    'smartblue',
+    'cyanosis',
+    'channingCyan',
+    'fancy',
+    'hydrogen',
+    'condensedNightPurple',
+    'greenwillow',
+    'vGreen',
+    'vuePro',
+    'healerReadable',
+    'mkCute',
+    'awesomeGreen',
+    'geekBlack',
+    'jzman',
+    'vuepress',
+    'arknights',
+    'simplicityGreen',
+    'scrolls',
+    'orange',
+    'devuiBlue',
+    'nico',
+    'ChineseRed',
+]
 
 export let purpleLightList = [
     'purple',
@@ -481,7 +527,7 @@ export let purpleLightList = [
     'purpleBlue',
     'purpleGreen',
     'purpleClassic',
-    'purpleCesno'
+    'purpleCesno',
 ]
 
 export let mwebLightNameList = [
@@ -496,9 +542,8 @@ export let mwebLightNameList = [
     'duotoneLight',
     'oliveDunk',
     'redGraphite',
-    'solarizedLight'
+    'solarizedLight',
 ]
-
 
 export let mwebDarkList = [
     'geekBlackDark',
@@ -513,7 +558,7 @@ export let mwebDarkList = [
     'panic',
     'gotham',
     'solarizedDark',
-    'toothpaste'
+    'toothpaste',
 ]
 // themeNameList.push(...mwebLightNameList)
 // themeNameList.push(...mwebDarkList)
@@ -522,111 +567,111 @@ export const themesList: MarkdownTheme[] = [
     {
         name: 'smartblue',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'cyanosis',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'channing-cyan',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'fancy',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'hydrogen',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'condensed-night-purple',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'greenwillow',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'v-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'vue-pro',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'healer-readable',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'mk-cute',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'awesome-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'geek-black',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'jzman',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'vuepress',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'arknights',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'simplicity-green',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'scrolls',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'orange',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'devui-blue',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'nico',
         path: '',
-        highlight: ''
+        highlight: '',
     },
     {
         name: 'Chinese-red',
         path: '',
-        highlight: ''
+        highlight: '',
     },
 ]

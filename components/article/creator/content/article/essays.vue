@@ -2,15 +2,17 @@
   <div>
     <v-tabs v-model="tab" v-if="counts">
       <v-tab value="all">全部 {{ counts[ArticleState.all] }}</v-tab>
-      <v-tab value="published">已发布 {{ counts[ArticleState.published] }}</v-tab>
+      <v-tab value="published"
+      >已发布 {{ counts[ArticleState.published] }}
+      </v-tab
+      >
       <v-tab value="hide">已隐藏 {{ counts[ArticleState.hide] }}</v-tab>
       <v-tab value="auditing">审核中 {{ counts[ArticleState.auditing] }}</v-tab>
       <v-tab value="rejected">未通过 {{ counts[ArticleState.rejected] }}</v-tab>
     </v-tabs>
     <ArticleManageCard/>
     <v-container class="max-width ml-n16">
-      <v-pagination v-model="params.page" class="ml-n16"
-                    :length="totalPages">
+      <v-pagination v-model="params.page" class="ml-n16" :length="totalPages">
       </v-pagination>
     </v-container>
   </div>
@@ -22,8 +24,14 @@ import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import List from '~~/components/article/index/list.vue'
 import {articleListData} from '~/types/article'
 import {useAxiosGetArticleList} from '~/composables/Api/article'
-import {ArticleState, GetUserArticleListParams} from '~/types/article/manageArticle'
-import {useAxiosGetArticleCountByState, useAxiosGetUserArticleList} from '~/composables/Api/article/manageArticle'
+import {
+  ArticleState,
+  GetUserArticleListParams,
+} from '~/types/article/manageArticle'
+import {
+  useAxiosGetArticleCountByState,
+  useAxiosGetUserArticleList,
+} from '~/composables/Api/article/manageArticle'
 import {dateFilter, getRandomColor, timeAgoFilter} from '#imports'
 
 const route = useRoute()
@@ -43,7 +51,7 @@ const params = ref<GetUserArticleListParams>({
   properties: null,
   size: 8,
   state: ArticleState.all,
-  tagId: null
+  tagId: null,
 })
 // const counts = ref({})
 const counts = inject('articleCounts')
@@ -73,10 +81,13 @@ onMounted(async () => {
     params.value.page = 1
     let href = window.location.href
     let replaceId = 'state=' + val
-    window.history.replaceState({}, 'title', href.replace(/state=\w+/i, replaceId))
+    window.history.replaceState(
+        {},
+        'title',
+        href.replace(/state=\w+/i, replaceId)
+    )
   })
-
-})
+});
 
 onBeforeRouteUpdate(async (to, from, next) => {
   if (to.query.state) {
@@ -85,7 +96,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
   next()
 })
-
 </script>
 
 <style scoped>

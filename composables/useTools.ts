@@ -31,9 +31,10 @@ export const isUrl = (urls: string) => {
     if (urls.length <= 1) {
         return false
     }
-    let regexp = /((http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/ig
+    let regexp =
+        /((http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
     let url = urls.match(regexp)
-    return url && typeof (url) != 'undefined'
+    return url && typeof url != 'undefined'
 }
 
 export const rsaEncrypt = (pwd: string, publicKey: string) => {
@@ -117,13 +118,14 @@ export const chatTextConvert = (str, type?: ChatType) => {
 export const urlToLink = (str: string) => {
     str = xssFilter(str)
 
-    const re = /(f|ht){1}(tp|tps):\/\/([\w-]+\S)+[\w-]+([\w-?%#&=]*)?(\/[\w- ./?%#&=]*)?/g
+    const re =
+        /(f|ht){1}(tp|tps):\/\/([\w-]+\S)+[\w-]+([\w-?%#&=]*)?(\/[\w- ./?%#&=]*)?/g
 
     str = str.replace(re, function (url) {
         return `<a href=${url} target="_blank"> ${url} </a>`
     })
     return str
-}
+};
 
 export const chatToImg = (str: string) => {
     let s = str.replace('img||', '')
@@ -156,11 +158,22 @@ export const useLoadingWin = (loadingMore: Function) => {
     let loading = true
     return async () => {
         //文档内容实际高度（包括超出视窗的溢出部分）
-        let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+        let scrollHeight = Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight
+        )
         //滚动条滚动距离
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        let scrollTop =
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop
         //窗口可视范围高度
-        let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+        let clientHeight =
+            window.innerHeight ||
+            Math.min(
+                document.documentElement.clientHeight,
+                document.body.clientHeight
+            )
         console.log(clientHeight + scrollTop, scrollHeight)
         if (clientHeight + scrollTop + 100 >= scrollHeight) {
             if (loading) {
@@ -173,8 +186,7 @@ export const useLoadingWin = (loadingMore: Function) => {
             }
         }
     }
-}
-
+};
 
 export const handleCopy = (el: any) => {
     const range = document.createRange()

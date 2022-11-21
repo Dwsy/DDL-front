@@ -4,11 +4,11 @@ import Axios from "./axios";
 const get = async (url: string, params?: object) => {
     let r: AxiosResponse = undefined
     try {
-        r = await Axios.get(url, { params: params })
+        r = await Axios.get(url, {params: params})
     } catch (error) {
         r = error
     }
-    return r;
+    return r
 };
 
 const post = async (url: string, data?: object) => {
@@ -18,7 +18,7 @@ const post = async (url: string, data?: object) => {
     } catch (error) {
         r = error
     }
-    return r;
+    return r
 };
 
 export { get, post };

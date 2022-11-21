@@ -1,8 +1,6 @@
 <template>
   <div>
-    <nuxt-link to="/article">
-      Test keep-alive
-    </nuxt-link>
+    <nuxt-link to="/article"> Test keep-alive</nuxt-link>
     Parent/b
     <p>test:</p>
     <div v-if="showText">

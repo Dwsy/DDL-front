@@ -7,10 +7,8 @@ import {definePageMeta} from '#imports'
 
 definePageMeta({
   // key:route => route.fullPath,
-  keepalive: false
+  keepalive: false,
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

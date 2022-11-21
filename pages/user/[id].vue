@@ -24,21 +24,22 @@
               </div>
             </v-col>
             <v-col>
-              <div class="mx-6 mt-6  text-end">
-                <v-btn to="/user/settings" v-if="userStore.user?.id===uid">
+              <div class="mx-6 mt-6 text-end">
+                <v-btn to="/user/settings" v-if="userStore.user?.id === uid">
                   <div>编辑个人资料</div>
                 </v-btn>
                 <div v-else>
-                  <v-btn v-if="!user.following" color="#42a5f5"
-                         @click="subscribe(user)">
+                  <v-btn
+                      v-if="!user.following"
+                      color="#42a5f5"
+                      @click="subscribe(user)"
+                  >
                     <div style="color: white">关注</div>
                   </v-btn>
-                  <v-btn v-else
-                         @click="unSubscribe(user)">
+                  <v-btn v-else @click="unSubscribe(user)">
                     <div>取消关注</div>
                   </v-btn>
                 </div>
-
               </div>
             </v-col>
           </v-row>
@@ -46,10 +47,7 @@
         <v-divider class="my-2"></v-divider>
 
         <v-card class="mt-1">
-          <v-tabs
-              v-model="tab"
-              background-color="primary"
-          >
+          <v-tabs v-model="tab" background-color="primary">
             <v-tab value="dynamic">动态</v-tab>
             <v-tab value="article">文章</v-tab>
             <v-tab value="thumb">点赞</v-tab>
@@ -61,14 +59,15 @@
           <!--//todo double/mounted-->
           <v-card-text>
             <v-window v-model="tab">
-              <v-window-item value="dynamic">
-                dynamic
-              </v-window-item>
+              <v-window-item value="dynamic"> dynamic</v-window-item>
 
               <v-window-item value="article">
                 <!--                <List v-for="data in listContent " v-bind="data" :key="data.id"></List>-->
-                <article-index-list v-bind="articleFieldData" v-for="articleFieldData in userArticleList"
-                                    :key="articleFieldData.id"></article-index-list>
+                <article-index-list
+                    v-bind="articleFieldData"
+                    v-for="articleFieldData in userArticleList"
+                    :key="articleFieldData.id"
+                ></article-index-list>
               </v-window-item>
 
               <v-window-item value="thumb">
@@ -76,15 +75,12 @@
                 {{ userThumbList }}
               </v-window-item>
 
-              <v-window-item value="question">
-                question
-              </v-window-item>
+              <v-window-item value="question"> question</v-window-item>
 
               <v-window-item value="answer">
                 answer
                 <!--                <test></test>-->
               </v-window-item>
-
 
               <v-window-item value="collect">
                 <Collection></Collection>
@@ -93,10 +89,7 @@
               <v-window-item value="follow">
                 <div>
                   <v-card>
-                    <v-tabs
-                        v-model="followTab"
-                        background-color="primary"
-                    >
+                    <v-tabs v-model="followTab" background-color="primary">
                       <v-tab value="following">关注的用户</v-tab>
                       <v-tab value="follower">关注者</v-tab>
                     </v-tabs>
@@ -117,22 +110,20 @@
                   </v-card>
                 </div>
               </v-window-item>
-
             </v-window>
           </v-card-text>
         </v-card>
-
-
       </v-col>
       <v-col>
         <v-row>
-
           <v-col offset="1" cols="11" class="pa-8">
             <span class="text-h6">关注了：1|</span>
             <span class="text-h6">关注者：2</span>
           </v-col>
           <v-col offset="1" cols="11" class="pa-8">
-            <span class="text-h6" :title="dateFilter(user.createTime)">{{ timeAgoFilter(user.createTime) }}加入</span>
+            <span class="text-h6" :title="dateFilter(user.createTime)"
+            >{{ timeAgoFilter(user.createTime) }}加入</span
+            >
           </v-col>
           <v-divider></v-divider>
         </v-row>
@@ -140,13 +131,10 @@
     </v-row>
     <v-row v-if="userNotFount">
       <v-col class="mt-16">
-        <div class="text-center text-h3">
-          用户不存在
-        </div>
+        <div class="text-center text-h3">用户不存在</div>
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script setup lang="ts">
@@ -157,13 +145,13 @@ import {
   useAxiosGetArticleListByUserId,
   useAxiosGetUserInfoByUid,
   UserActiveType,
-  userAxiosGetUserThumbActiveListByUserId
+  userAxiosGetUserThumbActiveListByUserId,
 } from '~/composables/Api/user'
 import {
   followUser,
   unFollowUser,
   useAxiosGetFollowerList,
-  useAxiosGetFollowingList
+  useAxiosGetFollowingList,
 } from '~/composables/Api/user/following'
 import {articleListData} from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
@@ -202,8 +190,8 @@ onMounted(async () => {
     // console.log('watch tab', newTab)
     await router.push({
       query: {
-        tab: newTab
-      }
+        tab: newTab,
+      },
     })
   })
 
@@ -212,7 +200,9 @@ onMounted(async () => {
     const newTab = tab.value
 
     if (newTab === 'article') {
-      const {data: axiosResponse} = await useAxiosGetArticleListByUserId(Number(uid))
+      const {data: axiosResponse} = await useAxiosGetArticleListByUserId(
+          Number(uid)
+      )
       if (axiosResponse.code === 0) {
         userArticleList.value = axiosResponse.data.content
       }
@@ -222,9 +212,12 @@ onMounted(async () => {
     }
     if (newTab === 'thumb') {
       // let params = {}
-      const {data: response} = await userAxiosGetUserThumbActiveListByUserId(Number(uid), {
-        type: UserActiveType.UP_Article
-      })
+      const {data: response} = await userAxiosGetUserThumbActiveListByUserId(
+          Number(uid),
+          {
+            type: UserActiveType.UP_Article,
+          }
+      )
       if (response.code === 0) {
         console.log(response.data)
         userThumbList.value = response.data.content
@@ -241,7 +234,6 @@ onMounted(async () => {
       console.log('collect')
     }
     if (newTab === 'follow') {
-
       const newFollowTab = followTab.value
       if (newFollowTab === 'following') {
         const {data: response} = await useAxiosGetFollowingList()
@@ -262,8 +254,8 @@ onMounted(async () => {
 
       // console.log('follow')
     }
-  })
-})
+  });
+});
 
 const subscribe = (user: userData) => {
   followUser(user.id)
@@ -276,6 +268,4 @@ const unSubscribe = (user: userData) => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

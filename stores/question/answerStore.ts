@@ -5,51 +5,56 @@ import {
     QaActionRB,
     useAxiosGetQuestionAnswerPageList,
     useAxiosPostAnswerQuestion,
-    useAxiosPostQaAction
+    useAxiosPostQaAction,
 } from '~/composables/Api/question/answer'
 import {AnswerData, AnswerType} from '~/types/question/answer'
-import {customMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
+import {
+    customMsg,
+    successMsg,
+    warningMsg,
+} from '~/composables/utils/toastification'
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {TYPE} from 'vue-toastification/src/ts/constants'
 import {nextTick} from 'vue'
 
 interface AnswerStore {
-    pageParam: PageParam
-    dataList: Array<AnswerData>
-    loadingAnswer: boolean
-    totalPages: number
+    pageParam: PageParam;
+    dataList: Array<AnswerData>;
+    loadingAnswer: boolean;
+    totalPages: number;
 }
 
 export const useAnswerStore = defineStore('AnswerStore', {
-    state: (): AnswerStore => (
-        {
-            dataList: [],
-            pageParam: {
-                order: null,
-                page: 1,
-                properties: null,
-                size: 10
-            },
-            loadingAnswer: true,
-            totalPages: 0,
-
-        }
-    ),
+    state: (): AnswerStore => ({
+        dataList: [],
+        pageParam: {
+            order: null,
+            page: 1,
+            properties: null,
+            size: 10,
+        },
+        loadingAnswer: true,
+        totalPages: 0,
+    }),
     actions: {
-
         async loadAnswer(questionId: string, change?: boolean, Param?: PageParam) {
             this.loadingAnswer = true
             if (Param) {
                 this.pageParam = Param
             }
-            const {data: axiosResponse} = await useAxiosGetQuestionAnswerPageList(questionId, this.pageParam)
+            const {data: axiosResponse} = await useAxiosGetQuestionAnswerPageList(
+                questionId,
+                this.pageParam
+            )
             if (axiosResponse.code === 0) {
                 this.dataList = axiosResponse.data.content
                 this.totalPages = axiosResponse.data.totalPages
                 this.loadingAnswer = false
                 if (change) {
                     await nextTick()
-                    document.querySelector('.answerNum').scrollIntoView({behavior: 'smooth'})
+                    document
+                        .querySelector('.answerNum')
+                        .scrollIntoView({behavior: 'smooth'})
                 }
             } else {
                 warningMsg(axiosResponse.msg)
@@ -62,12 +67,12 @@ export const useAnswerStore = defineStore('AnswerStore', {
                 if (body.answerType == AnswerType.answer) {
                     customMsg('回答不能为空', {
                         type: TYPE.WARNING,
-                        toastClassName: 'd-custom-toast-warning'
+                        toastClassName: 'd-custom-toast-warning',
                     })
                 } else {
                     customMsg('回复不能为空', {
                         type: TYPE.WARNING,
-                        toastClassName: 'd-custom-toast-warning'
+                        toastClassName: 'd-custom-toast-warning',
                     })
                 }
 
@@ -120,8 +125,6 @@ export const useAnswerStore = defineStore('AnswerStore', {
                             answer.userAction = AnswerType.up
                             break
                     }
-
-
                 } else {
                     let questionStore = useQuestionStore()
                     let support = questionStore.support
@@ -155,7 +158,6 @@ export const useAnswerStore = defineStore('AnswerStore', {
                             questionStore.support = AnswerType.up
                             break
                     }
-
                 }
             }
         },
@@ -176,7 +178,9 @@ export const useAnswerStore = defineStore('AnswerStore', {
                     }
                 }
             } else {
-                if (this.dataList[pIndexId].childComments[cIndexId].userAction === action) {
+                if (
+                    this.dataList[pIndexId].childComments[cIndexId].userAction === action
+                ) {
                     if (action === AnswerType.up) {
                         return 'mdi-triangle'
                     } else {
@@ -190,7 +194,6 @@ export const useAnswerStore = defineStore('AnswerStore', {
                     }
                 }
             }
-
         },
         getActionColor(action: AnswerType, pIndexId: number, cIndexId?: number) {
             if (cIndexId === undefined) {
@@ -200,7 +203,9 @@ export const useAnswerStore = defineStore('AnswerStore', {
                     return 'grey'
                 }
             } else {
-                if (this.dataList[pIndexId].childComments[cIndexId].userAction === action) {
+                if (
+                    this.dataList[pIndexId].childComments[cIndexId].userAction === action
+                ) {
                     return 'blue-lighten-2'
                 } else {
                     return 'grey'

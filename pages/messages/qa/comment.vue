@@ -2,16 +2,11 @@
   <div id="reply-window">
     <v-row class="">
       <v-col>
-
-        <v-tabs
-            v-model="tab"
-            bg-color="primary"
-        >
+        <v-tabs v-model="tab" bg-color="primary">
           <v-tab value="all">全部</v-tab>
           <v-tab value="question">问题回复</v-tab>
           <v-tab value="answer">答案回复</v-tab>
         </v-tabs>
-
 
         <v-window v-model="tab">
           <v-window-item value="all">
@@ -26,18 +21,24 @@
                   target="_blank"
               >
                 <template v-slot:prepend>
-                  <v-badge color="red" :dot="true" class="mr-3"
-                           :model-value="item.notifyState===NotifyState.UNREAD">
+                  <v-badge
+                      color="red"
+                      :dot="true"
+                      class="mr-3"
+                      :model-value="item.notifyState === NotifyState.UNREAD"
+                  >
                     <v-avatar size="x-large">
                       <v-img :src="item.formUserAvatar"></v-img>
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
+                <v-list-item-title
+                    v-text="item.formUserNickname"
+                ></v-list-item-title>
                 <div>
-              <span class="text-grey">
-                {{ NotifyType[item.notifyType] }}
-              </span>
+                  <span class="text-grey">
+                    {{ NotifyType[item.notifyType] }}
+                  </span>
                   <span> {{ item.toContent }}</span>
                   <v-divider></v-divider>
                   <div class="d-qa-answer-comment">{{ item.formContent }}</div>
@@ -60,18 +61,24 @@
                   target="_blank"
               >
                 <template v-slot:prepend>
-                  <v-badge color="red" :dot="true" class="mr-3"
-                           :model-value="item.notifyState===NotifyState.UNREAD">
+                  <v-badge
+                      color="red"
+                      :dot="true"
+                      class="mr-3"
+                      :model-value="item.notifyState === NotifyState.UNREAD"
+                  >
                     <v-avatar size="x-large">
                       <v-img :src="item.formUserAvatar"></v-img>
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
+                <v-list-item-title
+                    v-text="item.formUserNickname"
+                ></v-list-item-title>
                 <div>
-              <span class="text-grey">
-                {{ NotifyType[item.notifyType] }}
-              </span>
+                  <span class="text-grey">
+                    {{ NotifyType[item.notifyType] }}
+                  </span>
                   <span> {{ item.toContent }}</span>
                   <v-divider></v-divider>
                   <div class="d-qa-answer-comment">{{ item.formContent }}</div>
@@ -94,18 +101,24 @@
                   target="_blank"
               >
                 <template v-slot:prepend>
-                  <v-badge color="red" :dot="true" class="mr-3"
-                           :model-value="item.notifyState===NotifyState.UNREAD">
+                  <v-badge
+                      color="red"
+                      :dot="true"
+                      class="mr-3"
+                      :model-value="item.notifyState === NotifyState.UNREAD"
+                  >
                     <v-avatar size="x-large">
                       <v-img :src="item.formUserAvatar"></v-img>
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
+                <v-list-item-title
+                    v-text="item.formUserNickname"
+                ></v-list-item-title>
                 <div>
-              <span class="text-grey">
-                {{ NotifyType[item.notifyType] }}
-              </span>
+                  <span class="text-grey">
+                    {{ NotifyType[item.notifyType] }}
+                  </span>
                   <span> {{ item.toContent }}</span>
                   <v-divider></v-divider>
                   <div class="d-qa-answer-comment">{{ item.formContent }}</div>
@@ -116,8 +129,6 @@
             </v-list>
           </v-window-item>
         </v-window>
-
-
       </v-col>
     </v-row>
   </div>
@@ -125,7 +136,14 @@
 
 <script setup lang="ts">
 import {dateFilter, definePageMeta, QaCommentType} from '#imports'
-import {onActivated, onDeactivated, onMounted, onUnmounted, ref, watch} from 'vue'
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue'
 // import {NotifyType} from '~/stores/messages/replyStrore'
 import {useLoadingWin} from '~/composables/useTools'
 import {NotifyState, NotifyType} from '~/types/message'
@@ -148,8 +166,11 @@ onMounted(async () => {
   // document.body.onscroll =  useLoadingWin(loadingMore)
   document.body.onscroll = useLoadingWin(loadingMore)
   watch(tab, async (val) => {
-
-    val === 'all' ? type.value = QaCommentType.all : val === 'question' ? type.value = QaCommentType.question : type.value = QaCommentType.answer
+    val === 'all'
+        ? (type.value = QaCommentType.all)
+        : val === 'question'
+            ? (type.value = QaCommentType.question)
+            : (type.value = QaCommentType.answer)
     qaCommentStore.page = 1
     qaCommentStore.totalPages = null
     await qaCommentStore.loadQaCommentNotifyList(type.value, false)
@@ -167,7 +188,6 @@ onDeactivated(() => {
   console.log('replyNotifyList deactivated')
 })
 
-
 const loadingMore = async () => {
   if (qaCommentStore.page >= qaCommentStore.totalPages) {
     if (qaCommentStore.qaCommentNotifyList.length > 15) {
@@ -184,6 +204,8 @@ const loadingMore = async () => {
 <style scoped>
 .d-qa-answer-comment {
   padding-left: 4px;
-  background-color: v-bind('theme.global.name.value === "dark" ? "#332d3b " : "#ffd6e7"');
+  background-color: v-bind(
+      'theme.global.name.value === "dark" ? "#332d3b " : "#ffd6e7"'
+  );
 }
 </style>

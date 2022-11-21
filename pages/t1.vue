@@ -1,7 +1,7 @@
 <template>
-<div>
-  {{ userStore.user?.nickname }}
-</div>
+  <div>
+    {{ userStore.user?.nickname }}
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,6 +11,4 @@ const userStore = useUserStore()
 console.log(userStore.user)
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -6,9 +6,15 @@ import {PageData} from '~/types/common'
 export enum QaCommentType {
     all,
     question,
-    answer
+    answer,
 }
 
-export const UseAxiosGetQaCommentNotify = (page: number, type: QaCommentType) => {
-    return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/comment', {page, type})
+export const UseAxiosGetQaCommentNotify = (
+    page: number,
+    type: QaCommentType
+) => {
+    return useGet<ResponseData<PageData<NotifyMsg>>>(
+        'message/notify/qa/comment',
+        {page, type}
+    )
 }

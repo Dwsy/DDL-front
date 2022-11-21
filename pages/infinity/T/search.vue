@@ -1,16 +1,13 @@
 <template>
-    <div>
-        <MainSection title="Search" :loading="loading">
+  <div>
+    <MainSection title="Search" :loading="loading">
+      <Head>
+        <Title>Search</Title>
+      </Head>
 
-            <Head>
-                <Title>Search</Title>
-            </Head>
-
-
-            <TweetListFeed :tweets="searchTweets" />
-
-        </MainSection>
-    </div>
+      <TweetListFeed :tweets="searchTweets"/>
+    </MainSection>
+  </div>
 </template>
 <script setup lang="ts">
 const {getTweets: getTweetsComposable} = useTweets()
@@ -19,27 +16,27 @@ const loading = ref(false)
 const searchTweets = ref([])
 const searchQuery = useRoute().query.q
 
-watch(() => useRoute().fullPath, () => getTweets())
-
+watch(
+    () => useRoute().fullPath,
+    () => getTweets()
+)
 
 onBeforeMount(() => {
-    getTweets()
+  getTweets()
 })
 
 async function getTweets() {
-    loading.value = true
-    try {
-        const { tweets } = await getTweetsComposable({
-            query: searchQuery
-        })
+  loading.value = true
+  try {
+    const {tweets} = await getTweetsComposable({
+      query: searchQuery,
+    })
 
-        searchTweets.value = tweets
-    } catch (error) {
-        console.log(error)
-    } finally {
-        loading.value = false
-    }
+    searchTweets.value = tweets
+  } catch (error) {
+    console.log(error)
+  } finally {
+    loading.value = false
+  }
 }
-
-
 </script>

@@ -11,7 +11,9 @@
         <!--        </div>-->
         <v-list>
           <v-list-item
-              v-for="(item, i) in qaInvitationAnswerStore.qaInvitationAnswerNotifyList"
+              v-for="(
+              item, i
+            ) in qaInvitationAnswerStore.qaInvitationAnswerNotifyList"
               :key="item.id"
               :value="item"
               active-color="pink"
@@ -22,17 +24,21 @@
             <!--            :href="qaInvitationAnswerStore.getGoToLink(item)"-->
             <!--            target="_blank"-->
             <template v-slot:prepend>
-              <v-badge color="red" :dot="true" class="mr-3"
-                       :model-value="item.notifyState===NotifyState.UNREAD">
+              <v-badge
+                  color="red"
+                  :dot="true"
+                  class="mr-3"
+                  :model-value="item.notifyState === NotifyState.UNREAD"
+              >
                 <v-avatar size="x-large">
                   <v-img :src="item.formUserAvatar"></v-img>
                 </v-avatar>
               </v-badge>
-
-
             </template>
 
-            <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
+            <v-list-item-title
+                v-text="item.formUserNickname"
+            ></v-list-item-title>
             <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
             <div>
               <span class="text-grey">
@@ -45,8 +51,6 @@
             </div>
             <span>{{ timeAgoFilter(item.createTime) }}</span>
             <v-divider></v-divider>
-
-
           </v-list-item>
         </v-list>
       </v-col>
@@ -64,7 +68,6 @@ import {useQaInvitationAnswerStore} from '~/stores/messages/questionAnswer/qaInv
 definePageMeta({
   keepalive: false,
 })
-
 
 let qaInvitationAnswerStore = useQaInvitationAnswerStore()
 onMounted(async () => {
@@ -100,6 +103,4 @@ const loadingMore = async () => {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

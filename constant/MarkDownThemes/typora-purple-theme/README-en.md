@@ -22,4 +22,3 @@ becomes so clean and pure. And there are various theme templates.
 > , [typora-theme-ursine](https://github.com/aCluelessDanny/typora-theme-ursine)
 > , [theigrams/My-typora-themes](https://github.com/theigrams/My-typora-themes)
 > , [typora-theme-autumnus](https://github.com/Soanguy/typora-theme-autumnus)
-

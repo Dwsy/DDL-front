@@ -1,10 +1,9 @@
 export interface PageParam {
-    properties?: string,
-    order?: string,
-    size?: number,
-    page?: number
+    properties?: string;
+    order?: string;
+    size?: number;
+    page?: number;
 }
-
 
 export interface PageData<C> {
     first: boolean;
@@ -16,6 +15,3 @@ export interface PageData<C> {
     empty: boolean;
     content: C;
 }
-
-
-

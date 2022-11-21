@@ -3,8 +3,14 @@ import {AxiosResponse} from 'axios'
 import {warningMsg} from '~/composables/utils/toastification'
 import {CreateAxios} from '~/utils/axios'
 
-export const getUploadPictureBase64AndAudit = async (url: string, msg?: string) => {
-    const response = await CreateAxios(url, 'post', {responseType: 'arraybuffer', headers: {}})
+export const getUploadPictureBase64AndAudit = async (
+    url: string,
+    msg?: string
+) => {
+    const response = await CreateAxios(url, 'post', {
+        responseType: 'arraybuffer',
+        headers: {},
+    })
     if (response.status == 403) {
         warningMsg(msg || '图片违规')
         return null

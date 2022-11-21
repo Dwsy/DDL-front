@@ -1,15 +1,17 @@
 import {ref, Ref} from 'vue'
 import {defineStore} from 'pinia'
-import {
-    CommentType,
-    useAxiosPostActionArticleComment,
-} from '#imports'
+import {CommentType, useAxiosPostActionArticleComment} from '#imports'
 import {themes, changeThemes} from '~~/constant/markdownThemeList'
-import {HighlightStyleName, changeHighlightStyle} from '~~/constant/highlightStyleList'
-import {UserActionI, useAxiosGetArticleAction} from '~/composables/Api/article'
+import {
+    HighlightStyleName,
+    changeHighlightStyle,
+} from '~~/constant/highlightStyleList'
+import {
+    UserActionI,
+    useAxiosGetArticleAction,
+} from '~/composables/Api/article'
 import {ArticleSource} from '~/types/article/manageArticle'
 import {MarkdownThemeNameList, mwebDark} from '~/types/other/markdownTheme'
-
 
 export const useArticleStore = defineStore('ArticleStore', {
     state: (): Iarticle => ({
@@ -27,7 +29,7 @@ export const useArticleStore = defineStore('ArticleStore', {
         thumb: 0,
         loading: true,
         HighlightStyleStr: '',
-        MarkdownThemeStr: ''
+        MarkdownThemeStr: '',
     }),
     getters: {},
     actions: {
@@ -44,7 +46,9 @@ export const useArticleStore = defineStore('ArticleStore', {
             this.markdownThemeLight = this.articleField.markDownTheme
             this.markdownThemeDark = this.articleField.markDownThemeDark
             // this.markdownThemeDark
-            let {data: response} = await useAxiosGetArticleAction(this.articleField.id)
+            let {data: response} = await useAxiosGetArticleAction(
+                this.articleField.id
+            )
             this.thumb = response.data.thumb
             this.follow = response.data.follow
             this.collect = response.data.collect
@@ -83,7 +87,7 @@ export const useArticleStore = defineStore('ArticleStore', {
         },
         async ActionArticle(commentType: CommentType) {
             const body = {
-                actionCommentId: '-1',//-1代表对文章的操作
+                actionCommentId: '-1', //-1代表对文章的操作
                 articleFieldId: this.articleField.id,
                 commentType: commentType,
             }
@@ -143,97 +147,94 @@ export const useArticleStore = defineStore('ArticleStore', {
                     return 'mdi-thumb-down-outline'
                 }
             }
-        }
-
-    }
+        },
+    },
 })
 
 interface Iarticle extends UserActionI {
-    articleField: Ref<ArticleField>
-    contentHtml: string
+    articleField: Ref<ArticleField>;
+    contentHtml: string;
     // mdThemeNameList: Array<string>
     // mdThemeNameListDark: Array<string>
     // markdownTheme: string
-    markdownThemeDark: string
-    markdownThemeLight: string
-    codeHighlightStyleDark: string
-    codeHighlightStyleLight: string
-    thumb: CommentType
-    collect: boolean
-    follow: boolean
-    loading: boolean
-    HighlightStyleStr: string
-    MarkdownThemeStr: string
+    markdownThemeDark: string;
+    markdownThemeLight: string;
+    codeHighlightStyleDark: string;
+    codeHighlightStyleLight: string;
+    thumb: CommentType;
+    collect: boolean;
+    follow: boolean;
+    loading: boolean;
+    HighlightStyleStr: string;
+    MarkdownThemeStr: string;
 }
 
-
 interface UserInfo {
-    id: string
-    avatar: string
-    sign: string
-    gender: string
-    birth: any
+    id: string;
+    avatar: string;
+    sign: string;
+    gender: string;
+    birth: any;
 }
 
 interface User {
-    id: string
-    nickname: string
-    userInfo: UserInfo
-    level: number
+    id: string;
+    nickname: string;
+    userInfo: UserInfo;
+    level: number;
 }
 
 interface ArticleTags {
-    id: string
-    name: string
-    articleNum: number
-    weight: number
-    indexPageDisplay: boolean
-    tagInfo: string
+    id: string;
+    name: string;
+    articleNum: number;
+    weight: number;
+    indexPageDisplay: boolean;
+    tagInfo: string;
 }
 
 interface ArticleGroup {
-    id: string
-    name: string
-    info: string
-    articleNum: number
+    id: string;
+    name: string;
+    info: string;
+    articleNum: number;
 }
 
 export interface ArticleField {
-    id: string
-    createTime: number
-    lastModifiedTime: number
-    user: User
-    title: string
-    summary: string
-    articleState: string
-    allowComment: boolean
-    viewNum: number
-    collectNum: number
-    upNum: number
-    downNum: number
-    banner: string
-    articleTags: ArticleTags[]
-    articleGroup: ArticleGroup
+    id: string;
+    createTime: number;
+    lastModifiedTime: number;
+    user: User;
+    title: string;
+    summary: string;
+    articleState: string;
+    allowComment: boolean;
+    viewNum: number;
+    collectNum: number;
+    upNum: number;
+    downNum: number;
+    banner: string;
+    articleTags: ArticleTags[];
+    articleGroup: ArticleGroup;
     //自定义
-    thumb: CommentType
-    collect: boolean
-    articleSource: ArticleSource
-    articleSourceUrl: string
-    markDownTheme: string | MarkdownThemeNameList,
-    markDownThemeDark: mwebDark | string,
-    codeHighlightStyle: HighlightStyleName | string,
+    thumb: CommentType;
+    collect: boolean;
+    articleSource: ArticleSource;
+    articleSourceUrl: string;
+    markDownTheme: string | MarkdownThemeNameList;
+    markDownThemeDark: mwebDark | string;
+    codeHighlightStyle: HighlightStyleName | string;
     // follow: boolean
 }
 
 //--
 interface UserInfo {
-    id: string
-    avatar: string
-    sign: string
-    gender: string
-    birth: any
+    id: string;
+    avatar: string;
+    sign: string;
+    gender: string;
+    birth: any;
 }
-
 
 // interface CommentContent {
 //     id: string

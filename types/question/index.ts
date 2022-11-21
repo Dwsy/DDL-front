@@ -1,7 +1,6 @@
 import {AnswerData} from '~/types/question/answer'
 import {User} from '~/types/user'
 
-
 export interface QaGroup {
     id: string;
     name: string;
@@ -45,7 +44,6 @@ export interface QuestionData {
     group: Group;
 }
 
-
 export interface QuestionField {
     id: string;
     createTime: number;
@@ -68,7 +66,7 @@ export interface QuestionField {
     group: Group;
     questionCommentList: AnswerData[];
     questionCommentNum: number;
-    questionCommentTotalPages: number
+    questionCommentTotalPages: number;
 }
 
 export enum QuestionState {
@@ -80,7 +78,7 @@ export enum QuestionState {
     HIDE = 'hide',
     AUDITING = 'auditing',
     REJECTED = 'rejected',
-    ALL = 'all'
+    ALL = 'all',
 }
 
 export enum QuestionStateZh {

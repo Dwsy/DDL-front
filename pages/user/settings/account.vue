@@ -5,30 +5,54 @@
       <v-col>
         <div class="mb-4">
           <v-row>
-            <v-text-field label="用户邮箱" :disabled="!modifyEmail" v-model="userSetting.email"
-                          class="mx-4"></v-text-field>
-            <v-text-field label="验证码" v-if="modifyEmail" v-model="modifyEmailCode"></v-text-field>
+            <v-text-field
+                label="用户邮箱"
+                :disabled="!modifyEmail"
+                v-model="userSetting.email"
+                class="mx-4"
+            ></v-text-field>
+            <v-text-field
+                label="验证码"
+                v-if="modifyEmail"
+                v-model="modifyEmailCode"
+            ></v-text-field>
           </v-row>
           <div class="text-end my-2">
-            <v-btn @click="sendEmailCode()" v-if="modifyEmail" :disabled="disableSendModifyEmailCode">
-              发送验证码{{ disableSendModifyEmailCode ? `:(${disableSendModifyEmailCodeTimeFreeze})` : '' }}
+            <v-btn
+                @click="sendEmailCode()"
+                v-if="modifyEmail"
+                :disabled="disableSendModifyEmailCode"
+            >
+              发送验证码{{
+                disableSendModifyEmailCode
+                    ? `:(${disableSendModifyEmailCodeTimeFreeze})`
+                    : ''
+              }}
             </v-btn>
             <v-btn @click="saveEmail()">
               {{ modifyEmail ? '保存' : '修改' }}
             </v-btn>
           </div>
         </div>
-        <v-text-field label="用户手机" :disabled="modifyPhone" v-model="userSetting.phone"></v-text-field>
-
+        <v-text-field
+            label="用户手机"
+            :disabled="modifyPhone"
+            v-model="userSetting.phone"
+        ></v-text-field>
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
   </div>
-
 </template>
 
 <script setup lang="ts">
-import {defaultMsg, definePageMeta, useAxiosGetUserSetting, useAxiosPostModifyEmail, warningMsg} from '#imports'
+import {
+  defaultMsg,
+  definePageMeta,
+  useAxiosGetUserSetting,
+  useAxiosPostModifyEmail,
+  warningMsg,
+} from '#imports'
 import {useUserStore} from '~/stores/user'
 import {onMounted, ref} from 'vue'
 
@@ -57,12 +81,14 @@ onMounted(async () => {
   }
 })
 const savePwd = () => {
-
 }
 const sendEmailCode = async () => {
   console.log('sendEmailCode', modifyEmailCode.value)
   if (modifyEmailCode.value === undefined) {
-    const {data: ret} = await useAxiosPostModifyEmail(true, userSetting.value.email)
+    const {data: ret} = await useAxiosPostModifyEmail(
+        true,
+        userSetting.value.email
+    )
     if (ret.code === 0) {
       defaultMsg('验证码已发送')
       disableSendModifyEmailCode.value = true
@@ -74,13 +100,11 @@ const sendEmailCode = async () => {
         disableSendModifyEmailCode.value = false
         clearInterval(interval)
       }, 1000 * 60)
-
     } else {
       warningMsg(ret.msg)
     }
     return
   }
-
 }
 const saveEmail = async () => {
   if (modifyEmail.value === false) {
@@ -89,7 +113,11 @@ const saveEmail = async () => {
     //get code
     // modifyEmail.value = false
 
-    const {data: ret} = await useAxiosPostModifyEmail(false, userSetting.value.email, modifyEmailCode.value)
+    const {data: ret} = await useAxiosPostModifyEmail(
+        false,
+        userSetting.value.email,
+        modifyEmailCode.value
+    )
     if (ret.code === 0) {
       if (ret.data === 2) {
         defaultMsg('修改成功')
@@ -103,13 +131,9 @@ const saveEmail = async () => {
       warningMsg('邮箱未更改')
     }
   }
-
 }
 const savePhone = () => {
-
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -3,8 +3,16 @@
     <Head>
       <Title>{{ title }}</Title>
       <Meta name="description" :content="title"/>
-      <Style id="highlightStyle" type="text/css" :children="questionStore.HighlightStyleStr"/>
-      <Style id="markdownTheme" type="text/css" :children="questionStore.MarkdownThemeStr"/>
+      <Style
+          id="highlightStyle"
+          type="text/css"
+          :children="questionStore.HighlightStyleStr"
+      />
+      <Style
+          id="markdownTheme"
+          type="text/css"
+          :children="questionStore.MarkdownThemeStr"
+      />
     </Head>
     <v-row>
       <v-col cols="10">
@@ -12,17 +20,27 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-col cols=1>
+              <v-col cols="1">
                 <client-only>
                   <div class="text-center d-question-aside">
-                    <v-btn icon="true" elevation="0"
-                           variant="plain"
-                           @click="answerStore.action({
-                                               answerType: AnswerType.up,
-                                               questionFieldId: questionId,
-                                               actionAnswerOrCommentId: '-1'
-                                               })">
-                      <v-icon :color="questionStore.support===AnswerType.up?'blue-lighten-2':'grey'"
+                    <v-btn
+                        icon="true"
+                        elevation="0"
+                        variant="plain"
+                        @click="
+                        answerStore.action({
+                          answerType: AnswerType.up,
+                          questionFieldId: questionId,
+                          actionAnswerOrCommentId: '-1',
+                        })
+                      "
+                    >
+                      <v-icon
+                          :color="
+                          questionStore.support === AnswerType.up
+                            ? 'blue-lighten-2'
+                            : 'grey'
+                        "
                       >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
@@ -30,40 +48,60 @@
                       </v-tooltip>
                     </v-btn>
 
-                    <p> {{ questionStore.filed.upNum - questionStore.filed.downNum }}</p>
-                    <v-btn icon="true" elevation="0"
-                           variant="plain"
-                           @click="answerStore.action({
-                                               answerType: AnswerType.down,
-                                               questionFieldId: questionId,
-                                               actionAnswerOrCommentId: '-1'
-                                               })">
-                      <v-icon class="mdi-rotate-180"
-                              :color="questionStore.support===AnswerType.down?'blue-lighten-2':'grey'"
+                    <p>
+                      {{
+                        questionStore.filed.upNum - questionStore.filed.downNum
+                      }}
+                    </p>
+                    <v-btn
+                        icon="true"
+                        elevation="0"
+                        variant="plain"
+                        @click="
+                        answerStore.action({
+                          answerType: AnswerType.down,
+                          questionFieldId: questionId,
+                          actionAnswerOrCommentId: '-1',
+                        })
+                      "
+                    >
+                      <v-icon
+                          class="mdi-rotate-180"
+                          :color="
+                          questionStore.support === AnswerType.down
+                            ? 'blue-lighten-2'
+                            : 'grey'
+                        "
                       >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题没有认真研究用或描述不清晰
                       </v-tooltip>
                     </v-btn>
-                    <br>
+                    <br/>
 
-
-                    <v-dialog
-                        v-model="collectionDialog"
-                        persistent
-                    >
-
+                    <v-dialog v-model="collectionDialog" persistent>
                       <template v-slot:activator="{ props }">
-                        <v-btn icon="true" elevation="0" class="mt-2" size="small"
-                               @click="openCollectionDialog(1,questionId)">
+                        <v-btn
+                            icon="true"
+                            elevation="0"
+                            class="mt-2"
+                            size="small"
+                            @click="openCollectionDialog(1, questionId)"
+                        >
                           <!--                               @click="openCollectionDialog(collectionType.Question,questionId)">-->
-                          <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
+                          <v-icon class="text-grey"
+                          >mdi-book-heart-outline
+                          </v-icon
+                          >
                           <v-tooltip activator="parent" location="right">
                             收藏并跟踪这个问题
                           </v-tooltip>
                         </v-btn>
-                        <div v-if="questionStore.filed.collectNum>0" class="text-grey">
+                        <div
+                            v-if="questionStore.filed.collectNum > 0"
+                            class="text-grey"
+                        >
                           {{ questionStore.filed.collectNum }}
                         </div>
                       </template>
@@ -72,23 +110,27 @@
                           <v-card-title>
                             <span class="text-h6 ml-8">添加到收藏夹</span>
                           </v-card-title>
-                          <div class="d-flex my-n6 px-4" v-for="group in collectionGroupList" :key="group.id">
+                          <div
+                              class="d-flex my-n6 px-4"
+                              v-for="group in collectionGroupList"
+                              :key="group.id"
+                          >
                             {{ group.select }}
                             <v-checkbox
                                 v-model="group.select"
                                 :label="group.groupName"
                                 :model-value="group.select"
                                 class="pr-2"
-                                @change="addCollectionToGroup(group.id,group.select)"
+                                @change="
+                                addCollectionToGroup(group.id, group.select)
+                              "
                             ></v-checkbox>
                             <span class="pt-4">
                               {{ group.collectionNum }} / 999
                             </span>
-
                           </div>
                           <v-divider class="my-3"></v-divider>
                           <v-row class="pa-4 ml-2">
-
                             <!--                  <v-form ref="form">-->
                             <!--                    v-model="collectionName"-->
                             <!--                    :rules="collectionNameRules"-->
@@ -99,7 +141,6 @@
                                 @click:append-inner="newCollectionGroup()"
                                 v-model="newCollectionGroupName"
                             ></v-text-field>
-
                           </v-row>
 
                           <v-card-actions>
@@ -118,40 +159,53 @@
                             <!--                >-->
                             <!--                  收藏-->
                             <!--                </v-btn>-->
-
                           </v-card-actions>
                         </v-card>
                       </div>
                     </v-dialog>
-
-
                   </div>
                 </client-only>
-
               </v-col>
-              <v-col cols=11>
-                <div class="text-h5"> {{ questionStore.filed?.title }}</div>
+              <v-col cols="11">
+                <div class="text-h5">{{ questionStore.filed?.title }}</div>
 
                 <div class="mt-1">
-                  <nuxt-link target="_blank" :href="`/user/${questionStore.filed.user.id}`">
+                  <nuxt-link
+                      target="_blank"
+                      :href="`/user/${questionStore.filed.user.id}`"
+                  >
                     <v-avatar>
-                      <v-img :src="questionStore.filed.user.userInfo.avatar"></v-img>
+                      <v-img
+                          :src="questionStore.filed.user.userInfo.avatar"
+                      ></v-img>
                     </v-avatar>
 
-
-                    <span class="ml-1 mr-4 text-blue">{{ questionStore.filed.user.nickname }}</span>
+                    <span class="ml-1 mr-4 text-blue">{{
+                        questionStore.filed.user.nickname
+                      }}</span>
                   </nuxt-link>
                   <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
-                  <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
-                  <span class="ml-4">修改：{{
-                      dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
-                    }}</span>
+                  <span
+                  >发起于：{{
+                      timeAgoFilter(questionStore.filed.createTime)
+                    }}</span
+                  >
+                  <span class="ml-4"
+                  >修改：{{
+                      dateFilter(
+                          questionStore.filed.lastModifiedTime,
+                          'YYYY年MM月DD日'
+                      )
+                    }}</span
+                  >
                   <div class="float-right">
                     <client-only>
                       <v-dialog v-model="invitationAnswer">
                         <template v-slot:activator="{ props }">
-                          <v-btn variant="outlined" color="primary"
-                                 v-bind="props"
+                          <v-btn
+                              variant="outlined"
+                              color="primary"
+                              v-bind="props"
                           >
                             邀请回答
                           </v-btn>
@@ -160,20 +214,25 @@
                         <v-card width="40%" class="mx-auto">
                           <v-card-title>邀请回答</v-card-title>
 
-                          <v-row v-show="invitationTab==='search'">
+                          <v-row v-show="invitationTab === 'search'">
                             <v-col>
-                              <v-text-field append-inner-icon="mdi-magnify" single-line label="搜索用户"
-                                            @click:append-inner="searchInvitationUser(invitationSearchText)"
-                                            v-model="invitationSearchText" class="mx-4">
+                              <v-text-field
+                                  append-inner-icon="mdi-magnify"
+                                  single-line
+                                  label="搜索用户"
+                                  @click:append-inner="
+                                  searchInvitationUser(invitationSearchText)
+                                "
+                                  v-model="invitationSearchText"
+                                  class="mx-4"
+                              >
                               </v-text-field>
                             </v-col>
                           </v-row>
                           <v-row>
                             <v-col>
                               <v-card>
-                                <v-tabs
-                                    v-model="invitationTab"
-                                >
+                                <v-tabs v-model="invitationTab">
                                   <v-tab value="following">关注</v-tab>
                                   <v-tab value="recommended">推荐</v-tab>
                                   <v-tab value="search">搜索</v-tab>
@@ -182,28 +241,72 @@
                                 <v-card-text>
                                   <v-window v-model="invitationTab">
                                     <v-window-item value="following">
-                                      <v-list v-for="(u,index) in invitationFollowingUserList">
+                                      <v-list
+                                          v-for="(
+                                          u, index
+                                        ) in invitationFollowingUserList"
+                                      >
                                         <v-list-item>
-                                          <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                          <nuxt-link
+                                              target="_blank"
+                                              :href="`/user/${u.id}`"
+                                          >
                                             <v-avatar>
-                                              <v-img :src="u.userInfo.avatar"></v-img>
+                                              <v-img
+                                                  :src="u.userInfo.avatar"
+                                              ></v-img>
                                             </v-avatar>
-                                            <span class="mx-3" v-text="u.nickname"></span>
+                                            <span
+                                                class="mx-3"
+                                                v-text="u.nickname"
+                                            ></span>
                                           </nuxt-link>
-                                          <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                          <v-chip
+                                              v-for="tag in u.userTags"
+                                              :key="tag.id"
+                                              size="small"
+                                          >
                                             <v-icon>
-                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                              mdi-language-{{
+                                                tag.name.toLocaleLowerCase()
+                                              }}
                                             </v-icon>
                                             {{ tag.name }}
                                           </v-chip>
-                                          <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
-                                                 @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:false},index)">
+                                          <v-btn
+                                              v-if="!u.invited"
+                                              variant="tonal"
+                                              color="red"
+                                              class="float-right"
+                                              @click="
+                                              InvitationUserAnswerQuestion(
+                                                {
+                                                  questionId: questionId,
+                                                  userId: u.id,
+                                                  cancel: false,
+                                                },
+                                                index
+                                              )
+                                            "
+                                          >
                                             邀请 {{ u.id }}
                                           </v-btn>
                                           <template v-else>
-                                            <v-btn variant="tonal" color="#3eb370"
-                                                   class="d-invited float-right"
-                                                   @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:true},index)">
+                                            <v-btn
+                                                variant="tonal"
+                                                color="#3eb370"
+                                                class="d-invited float-right"
+                                                @click="
+                                                InvitationUserAnswerQuestion(
+                                                  {
+                                                    questionId: questionId,
+                                                    userId: u.id,
+                                                    cancel: true,
+                                                  },
+                                                  index
+                                                )
+                                              "
+                                            >
                                               取消邀请{{ u.userId }}
                                             </v-btn>
                                           </template>
@@ -213,66 +316,151 @@
                                     </v-window-item>
 
                                     <v-window-item value="recommended">
-                                      <v-list v-for="(u,index) in invitationRecommendedUserList">
+                                      <v-list
+                                          v-for="(
+                                          u, index
+                                        ) in invitationRecommendedUserList"
+                                      >
                                         <v-list-item>
                                           <v-row>
                                             <v-col cols="12">
-                                              <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                              <nuxt-link
+                                                  target="_blank"
+                                                  :href="`/user/${u.id}`"
+                                              >
                                                 <v-avatar>
-                                                  <v-img :src="u.userInfo.avatar"></v-img>
+                                                  <v-img
+                                                      :src="u.userInfo.avatar"
+                                                  ></v-img>
                                                 </v-avatar>
 
-                                                <span class="mx-3" v-text="u.nickname"></span>
+                                                <span
+                                                    class="mx-3"
+                                                    v-text="u.nickname"
+                                                ></span>
                                               </nuxt-link>
-                                              <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                              <v-chip
+                                                  v-for="tag in u.userTags"
+                                                  :key="tag.id"
+                                                  size="small"
+                                              >
                                                 <v-icon>
-                                                  mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                                  mdi-language-{{
+                                                    tag.name.toLocaleLowerCase()
+                                                  }}
                                                 </v-icon>
                                                 {{ tag.name }}
                                               </v-chip>
-                                              <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
-                                                     @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:false},index)">
+                                              <v-btn
+                                                  v-if="!u.invited"
+                                                  variant="tonal"
+                                                  color="red"
+                                                  class="float-right"
+                                                  @click="
+                                                  InvitationUserAnswerQuestion(
+                                                    {
+                                                      questionId: questionId,
+                                                      userId: u.id,
+                                                      cancel: false,
+                                                    },
+                                                    index
+                                                  )
+                                                "
+                                              >
                                                 邀请 {{ u.id }}
                                               </v-btn>
                                               <template v-else>
-                                                <v-btn variant="tonal" color="#3eb370"
-                                                       class="d-invited float-right"
-                                                       @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.id,cancel:true},index)">
+                                                <v-btn
+                                                    variant="tonal"
+                                                    color="#3eb370"
+                                                    class="d-invited float-right"
+                                                    @click="
+                                                    InvitationUserAnswerQuestion(
+                                                      {
+                                                        questionId: questionId,
+                                                        userId: u.id,
+                                                        cancel: true,
+                                                      },
+                                                      index
+                                                    )
+                                                  "
+                                                >
                                                   取消邀请{{ u.userId }}
                                                 </v-btn>
                                               </template>
                                             </v-col>
                                           </v-row>
-
                                         </v-list-item>
                                         <v-divider></v-divider>
                                       </v-list>
                                     </v-window-item>
 
                                     <v-window-item value="search">
-                                      <v-list v-for="(u,index) in invitationSearchUserList">
+                                      <v-list
+                                          v-for="(
+                                          u, index
+                                        ) in invitationSearchUserList"
+                                      >
                                         <v-list-item>
-                                          <nuxt-link target="_blank" :href="`/user/${u.id}`">
+                                          <nuxt-link
+                                              target="_blank"
+                                              :href="`/user/${u.id}`"
+                                          >
                                             <v-avatar>
                                               <v-img :src="u.avatar"></v-img>
                                             </v-avatar>
 
-                                            <span class="mx-3" v-text="u.userNickName"></span>
+                                            <span
+                                                class="mx-3"
+                                                v-text="u.userNickName"
+                                            ></span>
                                           </nuxt-link>
-                                          <v-chip v-for="tag in u.userTags" :key="tag.id" size="small">
+                                          <v-chip
+                                              v-for="tag in u.userTags"
+                                              :key="tag.id"
+                                              size="small"
+                                          >
                                             <v-icon>
-                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                              mdi-language-{{
+                                                tag.name.toLocaleLowerCase()
+                                              }}
                                             </v-icon>
                                             {{ tag.name }}
                                           </v-chip>
-                                          <v-btn v-if="!u.invited" variant="tonal" color="red" class="float-right"
-                                                 @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.userId,cancel:false},index)">
+                                          <v-btn
+                                              v-if="!u.invited"
+                                              variant="tonal"
+                                              color="red"
+                                              class="float-right"
+                                              @click="
+                                              InvitationUserAnswerQuestion(
+                                                {
+                                                  questionId: questionId,
+                                                  userId: u.userId,
+                                                  cancel: false,
+                                                },
+                                                index
+                                              )
+                                            "
+                                          >
                                             邀请{{ u.userId }}
                                           </v-btn>
                                           <template v-else>
-                                            <v-btn variant="tonal" color="#3eb370"
-                                                   class="d-invited float-right"
-                                                   @click="InvitationUserAnswerQuestion({questionId:questionId,userId:u.userId,cancel:true},index)">
+                                            <v-btn
+                                                variant="tonal"
+                                                color="#3eb370"
+                                                class="d-invited float-right"
+                                                @click="
+                                                InvitationUserAnswerQuestion(
+                                                  {
+                                                    questionId: questionId,
+                                                    userId: u.userId,
+                                                    cancel: true,
+                                                  },
+                                                  index
+                                                )
+                                              "
+                                            >
                                               取消邀请{{ u.userId }}
                                             </v-btn>
                                           </template>
@@ -283,41 +471,73 @@
                                   </v-window>
                                 </v-card-text>
                               </v-card>
-
                             </v-col>
                           </v-row>
                           <v-card-actions class="justify-end">
-                            <v-btn color="primary" @click="invitationAnswer = false">邀请</v-btn>
-                            <v-btn color="primary" @click="invitationAnswer = false">关闭</v-btn>
+                            <v-btn
+                                color="primary"
+                                @click="invitationAnswer = false"
+                            >邀请
+                            </v-btn
+                            >
+                            <v-btn
+                                color="primary"
+                                @click="invitationAnswer = false"
+                            >关闭
+                            </v-btn
+                            >
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
                     </client-only>
 
-                    <template v-if="questionStore.filed.user.id!==userStore.user?.id">
-
-                      <v-btn v-if="questionStore.follow" class="mx-4" color="pink lighten-3">
-                        <span style="color: white" @click="unsubscribe()">已关注</span>
+                    <template
+                        v-if="questionStore.filed.user.id !== userStore.user?.id"
+                    >
+                      <v-btn
+                          v-if="questionStore.follow"
+                          class="mx-4"
+                          color="pink lighten-3"
+                      >
+                        <span style="color: white" @click="unsubscribe()"
+                        >已关注</span
+                        >
                       </v-btn>
-                      <v-btn v-else class="mx-4" color="blue lighten-3"
-                             @click="subscribe()">
+                      <v-btn
+                          v-else
+                          class="mx-4"
+                          color="blue lighten-3"
+                          @click="subscribe()"
+                      >
                         <span style="color: white">关注</span>
                       </v-btn>
                     </template>
 
-                    <v-btn v-else class="" variant="outlined" color="#c42161"
-                           :href="`/question/ask?id=${questionId}`" target="_blank">
+                    <v-btn
+                        v-else
+                        class=""
+                        variant="outlined"
+                        color="#c42161"
+                        :href="`/question/ask?id=${questionId}`"
+                        target="_blank"
+                    >
                       重新编辑
                     </v-btn>
                   </div>
-
                 </div>
 
-                <div class="markdown-body question-content" v-html="questionStore.content"
-                     v-hljs="{addCopy:true}"></div>
+                <div
+                    class="markdown-body question-content"
+                    v-html="questionStore.content"
+                    v-hljs="{ addCopy: true }"
+                ></div>
 
                 <v-chip-group class="mt-7">
-                  <v-chip v-for="tag in questionStore.filed.questionTags" :key="tag.id" size="small">
+                  <v-chip
+                      v-for="tag in questionStore.filed.questionTags"
+                      :key="tag.id"
+                      size="small"
+                  >
                     <v-icon>
                       mdi-language-{{ tag.name.toLocaleLowerCase() }}
                     </v-icon>
@@ -328,17 +548,27 @@
                 <v-row class="">
                   <v-col>
                     <client-only>
-                      <v-btn variant="tonal" key="answer" color="#47885e" @click="scrollIntoAnswer()">
+                      <v-btn
+                          variant="tonal"
+                          key="answer"
+                          color="#47885e"
+                          @click="scrollIntoAnswer()"
+                      >
                         <!--                        <v-tooltip activator="parent" location="top">-->
                         <!--                          回答问题-->
                         <!--                        </v-tooltip>-->
                         回答
                       </v-btn>
 
-
                       <v-dialog>
                         <template v-slot:activator="{ props }">
-                          <v-btn class="ml-4" v-bind="props" variant="tonal" key="reply" color="#00a3af">
+                          <v-btn
+                              class="ml-4"
+                              v-bind="props"
+                              variant="tonal"
+                              key="reply"
+                              color="#00a3af"
+                          >
                             <v-tooltip activator="parent" location="top">
                               询问问题其他细节或提出修改意见
                             </v-tooltip>
@@ -346,8 +576,7 @@
                           </v-btn>
                         </template>
                         <template v-slot:default="{ isActive }">
-
-                          <v-card style="margin-left: 20%;width:55%">
+                          <v-card style="margin-left: 20%; width: 55%">
                             <v-toolbar
                                 color="#9d5b8b"
                                 style="color: white"
@@ -357,65 +586,120 @@
                             <!--                                  <div class="text-h2 pa-12">Hello world!</div>-->
                             <!--                                </v-card-text>-->
                             <v-form>
-                              <v-textarea fluid placeholder="" clearable
-                                          v-model="replyCommentText"
-                                          clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                          rows="4">
+                              <v-textarea
+                                  fluid
+                                  placeholder=""
+                                  clearable
+                                  v-model="replyCommentText"
+                                  clear-icon="mdi-close-circle"
+                                  prepend-inner-icon="mdi-comment"
+                                  rows="4"
+                              >
                                 <!--                auto-grow-->
                               </v-textarea>
                             </v-form>
                             <v-card-actions class="justify-end">
                               <v-btn
-                                  variant="outlined" color="#e2041b" class="mr-2"
-                                  @click="isActive.value = false" append-icon="mdi-close"
+                                  variant="outlined"
+                                  color="#e2041b"
+                                  class="mr-2"
+                                  @click="isActive.value = false"
+                                  append-icon="mdi-close"
                               >关闭
                               </v-btn>
-                              <v-btn color="#98d98e" @click="answerStore.answerOrCommentQuestion(
-                                      {
+                              <v-btn
+                                  color="#98d98e"
+                                  @click="
+                                  answerStore.answerOrCommentQuestion(
+                                    {
                                       mdText: replyCommentText,
                                       parentAnswerId: '0',
                                       questionId: questionId,
-                                      answerType: AnswerType.comment
-                                      },()=>{isActive.value = false})"
-                                     variant="outlined" append-icon="mdi-reply"
+                                      answerType: AnswerType.comment,
+                                    },
+                                    () => {
+                                      isActive.value = false;
+                                    }
+                                  )
+                                "
+                                  variant="outlined"
+                                  append-icon="mdi-reply"
                               >回复
                               </v-btn>
                             </v-card-actions>
                           </v-card>
                         </template>
                       </v-dialog>
-                      <v-btn class="ml-4" variant="tonal" key="follow" color="#ffbd2f"
-                             @click="watchQuestion(questionStore.watch)">
+                      <v-btn
+                          class="ml-4"
+                          variant="tonal"
+                          key="follow"
+                          color="#ffbd2f"
+                          @click="watchQuestion(questionStore.watch)"
+                      >
                         {{ questionStore.watch ? '取消追踪' : '追踪' }}
                         <v-tooltip activator="parent" location="top">
                           关注跟踪这个问题，当有新的回答时会收到通知
                         </v-tooltip>
                       </v-btn>
-
-
                     </client-only>
                     <!--                    {{ questionStore.filed }}-->
                     <!--                    <v-divider class="my-2"></v-divider>-->
 
-
-                    <v-card v-if="questionStore.filed.questionCommentList.length>0" class="pa-5 mt-2"
+                    <v-card
+                        v-if="questionStore.filed.questionCommentList.length > 0"
+                        class="pa-5 mt-2"
                     >
                       <!--                            :theme="useCookie('theme')">-->
 
-                      <template v-for="comment in questionStore.filed.questionCommentList">
+                      <template
+                          v-for="comment in questionStore.filed
+                          .questionCommentList"
+                      >
                         <div class="float-left">
-                          <a :href="`/user/${comment.user.id}`" target="_blank" class="text-blue">
+                          <a
+                              :href="`/user/${comment.user.id}`"
+                              target="_blank"
+                              class="text-blue"
+                          >
                             {{ comment.user.nickname }}：
                           </a>
                         </div>
-                        <div v-if="comment.replyUserAnswerId==='0'">{{ comment.textHtml }}</div>
-                        <div v-else v-html="atSrtGotoHome(comment.textHtml,comment.parentUserId)"></div>
+                        <div v-if="comment.replyUserAnswerId === '0'">
+                          {{ comment.textHtml }}
+                        </div>
+                        <div
+                            v-else
+                            v-html="
+                            atSrtGotoHome(
+                              comment.textHtml,
+                              comment.parentUserId
+                            )
+                          "
+                        ></div>
                         <div>
                           <span class="text-subtitle-2 text-grey">
-                            {{ dateFilter(comment.createTime, 'YYYY年MM月DD hh:mm') }}
+                            {{
+                              dateFilter(
+                                  comment.createTime,
+                                  'YYYY年MM月DD hh:mm'
+                              )
+                            }}
                           </span>
-                          <v-btn icon="true" variant="text" size="small" color="blue"
-                                 @click="showCommentDialog(comment.user,comment.id,'0',AnswerType.comment)">
+                          <v-btn
+                              icon="true"
+                              variant="text"
+                              size="small"
+                              color="blue"
+                              @click="
+                              showCommentDialog(
+                                comment.user,
+                                comment.id,
+                                '0',
+                                AnswerType.comment
+                              )
+                            "
+                          >
                             <v-icon>mdi-reply</v-icon>
                           </v-btn>
                         </div>
@@ -423,7 +707,6 @@
                       </template>
                     </v-card>
                   </v-col>
-
                 </v-row>
                 <v-divider class="my-3"></v-divider>
 
@@ -432,24 +715,33 @@
                     {{ questionStore.filed.answerNum }}个回答
                   </div>
                 </div>
-                <v-row>
-
-                </v-row>
+                <v-row></v-row>
               </v-col>
             </v-row>
-            <template v-for="(answer,index) in answerStore.dataList">
+            <template v-for="(answer, index) in answerStore.dataList">
               <v-row class="mt-4" :id="`answerId-${answer.id}`">
-                <v-col cols=1>
+                <v-col cols="1">
                   <client-only>
                     <div class="text-center d-answer-aside">
-                      <v-btn icon="true" elevation="0"
-                             variant="plain"
-                             @click="answerStore.action({
-                             answerType: AnswerType.up,
-                             questionFieldId: questionId,
-                             actionAnswerOrCommentId: answer.id
-                             },index)">
-                        <v-icon :color="answerStore.getActionColor(AnswerType.up, index)"
+                      <v-btn
+                          icon="true"
+                          elevation="0"
+                          variant="plain"
+                          @click="
+                          answerStore.action(
+                            {
+                              answerType: AnswerType.up,
+                              questionFieldId: questionId,
+                              actionAnswerOrCommentId: answer.id,
+                            },
+                            index
+                          )
+                        "
+                      >
+                        <v-icon
+                            :color="
+                            answerStore.getActionColor(AnswerType.up, index)
+                          "
                         >mdi-triangle
                         </v-icon>
                         <v-tooltip activator="parent" location="right">
@@ -457,43 +749,78 @@
                         </v-tooltip>
                       </v-btn>
                       <!--                      {{ answer.userAction }}-->
-                      <p> {{ answer.upNum - answer.downNum }}</p>
-                      <v-btn icon="true" elevation="0"
-                             variant="plain"
-                             @click="answerStore.action({
-                             answerType: AnswerType.down,
-                             questionFieldId: questionId,
-                             actionAnswerOrCommentId: answer.id
-                             },index)">
-                        <v-icon class=" mdi-rotate-180"
-                                :color="answerStore.getActionColor(AnswerType.down, index)"
+                      <p>{{ answer.upNum - answer.downNum }}</p>
+                      <v-btn
+                          icon="true"
+                          elevation="0"
+                          variant="plain"
+                          @click="
+                          answerStore.action(
+                            {
+                              answerType: AnswerType.down,
+                              questionFieldId: questionId,
+                              actionAnswerOrCommentId: answer.id,
+                            },
+                            index
+                          )
+                        "
+                      >
+                        <v-icon
+                            class="mdi-rotate-180"
+                            :color="
+                            answerStore.getActionColor(AnswerType.down, index)
+                          "
                         >mdi-triangle
                         </v-icon>
                         <v-tooltip activator="parent" location="right">
                           这个回答没有用
                         </v-tooltip>
                       </v-btn>
-                      <br>
+                      <br/>
                       <template v-if="answer.accepted">
-                        <v-btn icon="true" elevation="0"
-                               v-if="questionStore.filed.user.id!==userStore.user?.id" class="my-2">
-                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
+                        <v-btn
+                            icon="true"
+                            elevation="0"
+                            v-if="
+                            questionStore.filed.user.id !== userStore.user?.id
+                          "
+                            class="my-2"
+                        >
+                          <v-icon class="" color="#00c13c" size="large">
+                            mdi-check-bold
+                          </v-icon
+                          >
                           <v-tooltip activator="parent" location="right">
-                            这个答案被提问者采纳在 {{ timeAgoFilter(answer.acceptedTime) }}
+                            这个答案被提问者采纳在
+                            {{ timeAgoFilter(answer.acceptedTime) }}
                           </v-tooltip>
                         </v-btn>
-                        <v-btn icon="true" elevation="0" v-else class="my-2"
-                               @click="acceptedAnswer(answer.id,false,index)">
-                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
+                        <v-btn
+                            icon="true"
+                            elevation="0"
+                            v-else
+                            class="my-2"
+                            @click="acceptedAnswer(answer.id, false, index)"
+                        >
+                          <v-icon class="" color="#00c13c" size="large">
+                            mdi-check-bold
+                          </v-icon
+                          >
                           <v-tooltip activator="parent" location="right">
                             取消采纳
                           </v-tooltip>
                         </v-btn>
                       </template>
                       <template v-else>
-                        <v-btn icon="true" elevation="0"
-                               v-if="questionStore.filed.user.id===userStore.user?.id"
-                               @click="acceptedAnswer(answer.id,true,index)" class="my-2">
+                        <v-btn
+                            icon="true"
+                            elevation="0"
+                            v-if="
+                            questionStore.filed.user.id === userStore.user?.id
+                          "
+                            @click="acceptedAnswer(answer.id, true, index)"
+                            class="my-2"
+                        >
                           <v-icon class="" size="large"> mdi-check-bold</v-icon>
                           <v-tooltip activator="parent" location="right">
                             采纳这个回答
@@ -501,11 +828,19 @@
                         </v-btn>
                       </template>
 
-                      <br>
-                      <v-btn icon="true" elevation="0" class="mt-2" size="small"
-                             @click="openCollectionDialog(3,answer.id)">
+                      <br/>
+                      <v-btn
+                          icon="true"
+                          elevation="0"
+                          class="mt-2"
+                          size="small"
+                          @click="openCollectionDialog(3, answer.id)"
+                      >
                         <!--                             @click="openCollectionDialog(collectionType.Answer,answer.id)">-->
-                        <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
+                        <v-icon class="text-grey"
+                        >mdi-book-heart-outline
+                        </v-icon
+                        >
                         <v-tooltip activator="parent" location="right">
                           收藏这个回答
                         </v-tooltip>
@@ -513,19 +848,28 @@
                     </div>
                   </client-only>
                 </v-col>
-                <v-col cols=11>
+                <v-col cols="11">
                   <client-only>
-
                     <v-card class="pa-4">
                       <!--                    <v-row>-->
                       <!--                      <v-col>-->
-                      <div v-html="answer.textHtml" v-hljs="{addCopy:true}" class="markdown-body"></div>
+                      <div
+                          v-html="answer.textHtml"
+                          v-hljs="{ addCopy: true }"
+                          class="markdown-body"
+                      ></div>
                       <!--                      <div v-html="answer.textHtml" class="markdown-body"></div>-->
                       <div class="mt-4">
                         <div class="float-left">
                           <v-dialog>
                             <template v-slot:activator="{ props }">
-                              <v-btn class="ml-1" v-bind="props" variant="tonal" key="reply" color="#00a3af">
+                              <v-btn
+                                  class="ml-1"
+                                  v-bind="props"
+                                  variant="tonal"
+                                  key="reply"
+                                  color="#00a3af"
+                              >
                                 <v-tooltip activator="parent" location="top">
                                   询问问题其他细节或提出修改意见
                                 </v-tooltip>
@@ -533,8 +877,7 @@
                               </v-btn>
                             </template>
                             <template v-slot:default="{ isActive }">
-
-                              <v-card style="margin-left: 20%;width:55%">
+                              <v-card style="margin-left: 20%; width: 55%">
                                 <v-toolbar
                                     color="#9d5b8b"
                                     style="color: white"
@@ -544,27 +887,44 @@
                                 <!--                                  <div class="text-h2 pa-12">Hello world!</div>-->
                                 <!--                                </v-card-text>-->
                                 <v-form>
-                                  <v-textarea fluid placeholder="" clearable
-                                              v-model="replyCommentText"
-                                              clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                                              rows="4">
+                                  <v-textarea
+                                      fluid
+                                      placeholder=""
+                                      clearable
+                                      v-model="replyCommentText"
+                                      clear-icon="mdi-close-circle"
+                                      prepend-inner-icon="mdi-comment"
+                                      rows="4"
+                                  >
                                     <!--                auto-grow-->
                                   </v-textarea>
                                 </v-form>
                                 <v-card-actions class="justify-end">
                                   <v-btn
-                                      variant="outlined" color="#e2041b" class="mr-2"
-                                      @click="isActive.value = false" append-icon="mdi-close"
+                                      variant="outlined"
+                                      color="#e2041b"
+                                      class="mr-2"
+                                      @click="isActive.value = false"
+                                      append-icon="mdi-close"
                                   >关闭
                                   </v-btn>
-                                  <v-btn color="#92398e" @click="answerStore.answerOrCommentQuestion(
-                                      {
-                                      mdText: replyCommentText,
-                                      parentAnswerId: answer.id,
-                                      questionId: questionId,
-                                      answerType: AnswerType.answer_comment
-                                      },()=>{isActive.value = false})"
-                                         variant="outlined" append-icon="mdi-reply"
+                                  <v-btn
+                                      color="#92398e"
+                                      @click="
+                                      answerStore.answerOrCommentQuestion(
+                                        {
+                                          mdText: replyCommentText,
+                                          parentAnswerId: answer.id,
+                                          questionId: questionId,
+                                          answerType: AnswerType.answer_comment,
+                                        },
+                                        () => {
+                                          isActive.value = false;
+                                        }
+                                      )
+                                    "
+                                      variant="outlined"
+                                      append-icon="mdi-reply"
                                   >回复
                                   </v-btn>
                                 </v-card-actions>
@@ -585,38 +945,77 @@
                           <!--                        </v-btn>-->
                         </div>
                         <div class="text-end">
-                          <nuxt-link target="_blank" :href="`/user/${answer.user.id}`">
+                          <nuxt-link
+                              target="_blank"
+                              :href="`/user/${answer.user.id}`"
+                          >
                             <v-avatar>
                               <v-img :src="answer.user.userInfo.avatar"></v-img>
                             </v-avatar>
                             <span>{{ answer.user.nickname }}/</span>
                           </nuxt-link>
 
-                          <span class="text-grey">{{ dateFilter(answer.createTime) }}</span>
+                          <span class="text-grey">{{
+                              dateFilter(answer.createTime)
+                            }}</span>
                         </div>
                       </div>
                       <!--                      </v-col>-->
                       <!--                    </v-row>-->
-                      <v-card v-if="answer.childQaAnswers.length>0" class="pa-5">
+                      <v-card
+                          v-if="answer.childQaAnswers.length > 0"
+                          class="pa-5"
+                      >
                         <template v-for="childAnswer in answer.childQaAnswers">
                           <div class="float-left">
-                            <nuxt-link :href="`/user/${childAnswer.user.id}`" target="_blank" class="text-blue">
+                            <nuxt-link
+                                :href="`/user/${childAnswer.user.id}`"
+                                target="_blank"
+                                class="text-blue"
+                            >
                               {{ childAnswer.user.nickname }}：
                             </nuxt-link>
                           </div>
-                          <div v-if="childAnswer.replyUserAnswerId==='0'">{{ childAnswer.textHtml }}</div>
-                          <div v-else v-html="atSrtGotoHome(childAnswer.textHtml,childAnswer.parentUserId)"></div>
+                          <div v-if="childAnswer.replyUserAnswerId === '0'">
+                            {{ childAnswer.textHtml }}
+                          </div>
+                          <div
+                              v-else
+                              v-html="
+                              atSrtGotoHome(
+                                childAnswer.textHtml,
+                                childAnswer.parentUserId
+                              )
+                            "
+                          ></div>
                           <!--                        <div>-->
                           <!--                          <v-btn size="x-small" icon="mdi-thumb-up-outline" :icon="true" elevation="0"></v-btn>-->
                           <!--                          <v-btn size="x-small" icon="mdi-thumb-down-outline" :icon="true" elevation="0"></v-btn>-->
                           <!--                          <v-btn size="x-small" icon="mdi-reply-outline" :icon="true" elevation="0"></v-btn>-->
                           <!--                        </div>-->
                           <div>
-                          <span class="text-subtitle-2 text-grey">
-                            {{ dateFilter(childAnswer.createTime, 'YYYY年MM月DD hh:mm') }}
-                          </span>
-                            <v-btn icon="true" variant="text" size="small" color="blue"
-                                   @click="showCommentDialog(childAnswer.user,childAnswer.id,answer.id,AnswerType.answer_comment)">
+                            <span class="text-subtitle-2 text-grey">
+                              {{
+                                dateFilter(
+                                    childAnswer.createTime,
+                                    'YYYY年MM月DD hh:mm'
+                                )
+                              }}
+                            </span>
+                            <v-btn
+                                icon="true"
+                                variant="text"
+                                size="small"
+                                color="blue"
+                                @click="
+                                showCommentDialog(
+                                  childAnswer.user,
+                                  childAnswer.id,
+                                  answer.id,
+                                  AnswerType.answer_comment
+                                )
+                              "
+                            >
                               <v-icon>mdi-reply</v-icon>
                             </v-btn>
                           </div>
@@ -630,11 +1029,13 @@
             </template>
             <v-row>
               <v-col>
-                <v-pagination v-model="answerStore.pageParam.page"
-                              rounded="circle"
-                              class="my-4"
-                              @update:modelValue="answerStore.loadAnswer(questionId,true)"
-                              :length="answerStore.totalPages">
+                <v-pagination
+                    v-model="answerStore.pageParam.page"
+                    rounded="circle"
+                    class="my-4"
+                    @update:modelValue="answerStore.loadAnswer(questionId, true)"
+                    :length="answerStore.totalPages"
+                >
                 </v-pagination>
               </v-col>
             </v-row>
@@ -643,46 +1044,61 @@
                 <v-divider class="my-4"></v-divider>
                 <v-row class="pa-4">
                   <v-col cols="2">
-
                     <div class="text-h5" id="answer">撰写回答</div>
                   </v-col>
                   <v-col offset="9">
-                    <v-btn variant="tonal" color="#669651" v-if="showAnswerWindow" class=""
-                           @click="answerStore.answerOrCommentQuestion(
-                               {parentAnswerId: '0',
-                                     questionId: questionId,
-                                     answerType: AnswerType.answer,
-                                     // replyUserAnswerId: ,
-                                     // replyUserId: '',
-                                     mdText: content
-                                     })">
+                    <v-btn
+                        variant="tonal"
+                        color="#669651"
+                        v-if="showAnswerWindow"
+                        class=""
+                        @click="
+                        answerStore.answerOrCommentQuestion({
+                          parentAnswerId: '0',
+                          questionId: questionId,
+                          answerType: AnswerType.answer,
+                          // replyUserAnswerId: ,
+                          // replyUserId: '',
+                          mdText: content,
+                        })
+                      "
+                    >
                       发送
                     </v-btn>
-                    <v-btn variant="outlined" color="#669651" v-if="showAnswerWindow" class="d-send-answer mt-n1 h-75"
-                           size="small"
-                           style="display: none"
-                           @click="answerStore.answerOrCommentQuestion(
-                                   {parentAnswerId: '0',
-                                         questionId: questionId,
-                                         answerType: AnswerType.answer,
-                                         // replyUserAnswerId: ,
-                                         // replyUserId: '',
-                                         mdText: content
-                                         })">
+                    <v-btn
+                        variant="outlined"
+                        color="#669651"
+                        v-if="showAnswerWindow"
+                        class="d-send-answer mt-n1 h-75"
+                        size="small"
+                        style="display: none"
+                        @click="
+                        answerStore.answerOrCommentQuestion({
+                          parentAnswerId: '0',
+                          questionId: questionId,
+                          answerType: AnswerType.answer,
+                          // replyUserAnswerId: ,
+                          // replyUserId: '',
+                          mdText: content,
+                        })
+                      "
+                    >
                       <p class="ml-4">发送回答</p>
                     </v-btn>
                   </v-col>
                 </v-row>
 
-                <AnswerBytemdEditor v-if="showAnswerWindow" :content="content" @change-text="changeText"
-                                    style="margin-bottom: 100px">
+                <AnswerBytemdEditor
+                    v-if="showAnswerWindow"
+                    :content="content"
+                    @change-text="changeText"
+                    style="margin-bottom: 100px"
+                >
                 </AnswerBytemdEditor>
                 <div v-else class="pa-8 d-answer-tip-card">
                   <span class="text-h6 text-green">适合作为回答的</span>
                   <div class="d-answer-tip-recommend">
-                    <p class="card-text mdi">
-                      经过验证的有效解决办法
-                    </p>
+                    <p class="card-text mdi">经过验证的有效解决办法</p>
                     <p class="card-text mdi">
                       自己的经验指引，对解决问题有帮助
                     </p>
@@ -692,35 +1108,42 @@
                         <nuxt-link href="/article/1" target="_blank">
                           《Markdown 语法排版》
                         </nuxt-link>
-                      <v-icon size="x-large" class="mb-1">mdi-language-markdown-outline</v-icon></span>
+                        <v-icon size="x-large" class="mb-1"
+                        >mdi-language-markdown-outline</v-icon
+                        ></span
+                      >
                       ，代码语义正确
                     </p>
                   </div>
                   <span class="text-h6 text-red">不该作为回答的</span>
                   <div class="d-answer-tip-inappropriate">
-                    <p class="card-text mdi">
-                      询问内容细节或回复楼层
-                    </p>
-                    <p class="card-text mdi">
-                      与题目无关的内容
-                    </p>
+                    <p class="card-text mdi">询问内容细节或回复楼层</p>
+                    <p class="card-text mdi">与题目无关的内容</p>
                     <p class="card-text mdi">
                       “赞”“顶”“同问”“看手册”“解决了没”等毫无意义的内容
                     </p>
                   </div>
                   <div class="my-3">
-                    <v-btn color="#1aad19" variant="tonal" @click="showAnswerWin()" size="large">撰写解决方法</v-btn>
+                    <v-btn
+                        color="#1aad19"
+                        variant="tonal"
+                        @click="showAnswerWin()"
+                        size="large"
+                    >撰写解决方法
+                    </v-btn
+                    >
                   </div>
                   <div class="d-answer-tip-comment">
                     <p class="card-text mdi">
-                      询问细节、提出修改意见时，请使用每条内容下方的<span style="color: #12a9b5">“回复”</span>功能
+                      询问细节、提出修改意见时，请使用每条内容下方的<span
+                        style="color: #12a9b5"
+                    >“回复”</span
+                    >功能
                     </p>
                   </div>
                 </div>
-
               </v-col>
             </v-row>
-
           </v-col>
         </v-row>
       </v-col>
@@ -733,35 +1156,52 @@
       </v-col>
       <client-only>
         <v-dialog v-model="commentDialog">
-          <v-card style="margin-left: 20%;width:55%">
+          <v-card style="margin-left: 20%; width: 55%">
             <v-toolbar
                 color="#9d5b8b"
                 style="color: white"
                 :title="`回复${commentUser.nickname}询问其他细节或提出修改意见`"
             ></v-toolbar>
             <v-form>
-              <v-textarea fluid placeholder="" clearable
-                          v-model="replyCommentText"
-                          clear-icon="mdi-close-circle" prepend-inner-icon="mdi-comment"
-                          rows="4">
+              <v-textarea
+                  fluid
+                  placeholder=""
+                  clearable
+                  v-model="replyCommentText"
+                  clear-icon="mdi-close-circle"
+                  prepend-inner-icon="mdi-comment"
+                  rows="4"
+              >
               </v-textarea>
             </v-form>
             <v-card-actions class="justify-end">
               <v-btn
-                  variant="outlined" color="#e2041b" class="mr-2"
-                  @click="commentDialog = false" append-icon="mdi-close"
+                  variant="outlined"
+                  color="#e2041b"
+                  class="mr-2"
+                  @click="commentDialog = false"
+                  append-icon="mdi-close"
               >关闭
               </v-btn>
-              <v-btn color="#98d98e" @click="answerStore.answerOrCommentQuestion(
-                                      {
-                                      mdText: replyCommentText,
-                                      parentAnswerId: commentParentAnswerId,
-                                      questionId: questionId,
-                                      answerType: commentAnswerType,
-                                      replyUserAnswerId: commentCommentId,//todo name
-                                      replyUserId:commentUser.id
-                                      },()=>{this.commentDialog = false})"
-                     variant="outlined" append-icon="mdi-reply"
+              <v-btn
+                  color="#98d98e"
+                  @click="
+                  answerStore.answerOrCommentQuestion(
+                    {
+                      mdText: replyCommentText,
+                      parentAnswerId: commentParentAnswerId,
+                      questionId: questionId,
+                      answerType: commentAnswerType,
+                      replyUserAnswerId: commentCommentId, //todo name
+                      replyUserId: commentUser.id,
+                    },
+                    () => {
+                      this.commentDialog = false;
+                    }
+                  )
+                "
+                  variant="outlined"
+                  append-icon="mdi-reply"
               >回复
               </v-btn>
             </v-card-actions>
@@ -775,11 +1215,18 @@
 <script setup lang="ts">
 import {useQuestionStore} from '~/stores/question/questionStore'
 import {useCookie, useRoute, useRouter} from '#app'
-import {atSrtGotoHome, dateFilter, timeAgoFilter} from '~/composables/useTools'
+import {
+  atSrtGotoHome,
+  dateFilter,
+  timeAgoFilter,
+} from '~/composables/useTools'
 import {nextTick, onMounted, ref, toRaw, watch} from 'vue'
 import {changeHighlightStyle} from '~/constant/highlightStyleList'
 import {changeThemes, themes} from '~/constant/markdownThemeList'
-import {useFetchGetQuestionContent, useFetchGetQuestionField} from '~/composables/Api/question'
+import {
+  useFetchGetQuestionContent,
+  useFetchGetQuestionField,
+} from '~/composables/Api/question'
 import {useTheme} from 'vuetify'
 import {useAnswerStore} from '~/stores/question/answerStore'
 import {AnswerType, User0} from '~/types/question/answer'
@@ -788,21 +1235,36 @@ import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
   useAxiosGetCollectionGroupList,
-  useAxiosPostAddCollectionToGroup, useAxiosPostCreateCollectionGroup
+  useAxiosPostAddCollectionToGroup,
+  useAxiosPostCreateCollectionGroup,
 } from '~/composables/Api/article'
-import {collectionData, collectionGroupData, collectionType} from '~/types/article'
-import {errorMsg, successMsg, warningMsg} from '~/composables/utils/toastification'
-import {followUser, unFollowUser, useAxiosGetFollowingList} from '~/composables/Api/user/following'
+import {
+  collectionData,
+  collectionGroupData,
+  collectionType,
+} from '~/types/article'
+import {
+  errorMsg,
+  successMsg,
+  warningMsg,
+} from '~/composables/utils/toastification'
+import {
+  followUser,
+  unFollowUser,
+  useAxiosGetFollowingList,
+} from '~/composables/Api/user/following'
 import {useLayout} from '~/stores/layout'
 import {useUserStore} from '~/stores/user'
 import {useGet, usePost} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 import {
-  InvitationUserAnswerQuestionRB, userAxiosGetAcceptAnswer,
-  userAxiosPostInvitationUserAnswerQuestion
+  InvitationUserAnswerQuestionRB,
+  userAxiosGetAcceptAnswer,
+  userAxiosPostInvitationUserAnswerQuestion,
 } from '~/composables/Api/question/answer'
 import http from '~~/utils/fetch'
 import {useFetch} from '#imports'
+
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
@@ -825,9 +1287,9 @@ const commentAnswerType = ref<AnswerType>()
 const collectionDialog = ref(false)
 const invitationSearchText = ref()
 
-const invitationSearchUserList = ref<User0 []>()
-const invitationRecommendedUserList = ref<User0 []>()
-const invitationFollowingUserList = ref<User0 []>()
+const invitationSearchUserList = ref<User0[]>()
+const invitationRecommendedUserList = ref<User0[]>()
+const invitationFollowingUserList = ref<User0[]>()
 const invitationAnswer = ref()
 const invitationTab = ref()
 const invitedBtn: Element = ref()
@@ -847,8 +1309,14 @@ questionStore.init(questionId)
 const title = ref(questionStore.filed.title)
 const showAnswerWindow = ref(false)
 if (typeof window == 'undefined') {
-  questionStore.HighlightStyleStr = await changeHighlightStyle(questionStore.getHighlightStyleName(), true)
-  questionStore.MarkdownThemeStr = await changeThemes(themes[questionStore.getMarkdownThemeName()], true)
+  questionStore.HighlightStyleStr = await changeHighlightStyle(
+      questionStore.getHighlightStyleName(),
+      true
+  )
+  questionStore.MarkdownThemeStr = await changeThemes(
+      themes[questionStore.getMarkdownThemeName()],
+      true
+  )
 }
 
 onMounted(async () => {
@@ -884,16 +1352,16 @@ onMounted(async () => {
 
   watch(invitationTab, async (val) => {
     if (val == 'recommended') {
-
-      const {data: response} = await usePost<ResponseData<User[]>>('user/tag/user', {
-        tagIds: questionStore.filed.questionTags.map(t => t.id)
-      })
+      const {data: response} = await usePost<ResponseData<User[]>>(
+          'user/tag/user',
+          {
+            tagIds: questionStore.filed.questionTags.map((t) => t.id),
+          }
+      )
       invitationRecommendedUserList.value = response.data
     }
   })
-
-})
-
+});
 
 const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
 const collectionType = ref<collectionType>()
@@ -921,21 +1389,22 @@ const openCollectionDialog = async (type: collectionType, sourceId: string) => {
     //     }
     //   }
     // }
-
   }
 }
 const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.value,
     sourceId: collectionSourceId.value,
-    groupId
+    groupId,
   }
   if (select) {
-    const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(body)
+    const {data: axiosResponse} = await useAxiosPostAddCollectionToGroup(
+        body
+    )
     if (axiosResponse.code === 0) {
       successMsg('收藏成功')
-      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
-
+      collectionGroupList.value.find((value) => value.id === groupId)
+          .collectionNum++
     } else {
       warningMsg(axiosResponse.msg)
     }
@@ -943,18 +1412,18 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
     const {data: axiosResponse} = await useAxiosCancelCollectionToGroup(body)
     if (axiosResponse.code === 0) {
       successMsg('取消收藏成功')
-      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
+      collectionGroupList.value.find((value) => value.id === groupId)
+          .collectionNum--
     } else {
       errorMsg(axiosResponse.msg)
     }
   }
-
 }
 
 const newCollectionGroupName = ref('')
 const newCollectionGroup = async () => {
   let body: any = {
-    groupName: newCollectionGroupName.value
+    groupName: newCollectionGroupName.value,
   }
   const {data: axiosResponse} = await useAxiosPostCreateCollectionGroup(body)
   if (axiosResponse.code === 0) {
@@ -969,7 +1438,6 @@ const newCollectionGroup = async () => {
   }
 }
 
-
 const subscribe = () => {
   followUser(questionStore.filed.user.id)
   questionStore.follow = true
@@ -980,7 +1448,12 @@ const unsubscribe = () => {
   questionStore.follow = false
 }
 
-const showCommentDialog = (user: User, CommentId: string, ParentAnswerId: string, answerType: AnswerType) => {
+const showCommentDialog = (
+    user: User,
+    CommentId: string,
+    ParentAnswerId: string,
+    answerType: AnswerType
+) => {
   commentDialog.value = true
   commentUser.value = user
   commentParentAnswerId.value = ParentAnswerId
@@ -993,15 +1466,16 @@ const showAnswerWin = async () => {
   await nextTick()
   let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: 'smooth'
+    behavior: 'smooth',
   })
 }
 
 const searchInvitationUser = async (query: string) => {
   const {data: axiosResponse} = await useGet<ResponseData<User0[]>>(
-      `search/user/invitation-user/${query}`, {
+      `search/user/invitation-user/${query}`,
+      {
         page: 1,
-        questionId
+        questionId,
       }
   )
   if (axiosResponse.code === 0) {
@@ -1010,10 +1484,14 @@ const searchInvitationUser = async (query: string) => {
   } else {
     warningMsg(axiosResponse.msg)
   }
-}
+};
 
-const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB, index) => {
-  const {data: axiosResponse} = await userAxiosPostInvitationUserAnswerQuestion(body)
+const InvitationUserAnswerQuestion = async (
+    body: InvitationUserAnswerQuestionRB,
+    index
+) => {
+  const {data: axiosResponse} =
+      await userAxiosPostInvitationUserAnswerQuestion(body)
   if (axiosResponse.code == 0) {
     if (body.cancel) {
       invitationSearchUserList.value[index].invited = false
@@ -1027,7 +1505,6 @@ const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB
   }
 }
 
-
 const scrollIntoAnswer = () => {
   let element = document.querySelector('#answer')
   element.scrollIntoView({
@@ -1035,7 +1512,11 @@ const scrollIntoAnswer = () => {
   })
 }
 
-const acceptedAnswer = async (answerId: string, accept: boolean, index?: number) => {
+const acceptedAnswer = async (
+    answerId: string,
+    accept: boolean,
+    index?: number
+) => {
   const {data: response} = await userAxiosGetAcceptAnswer(answerId, accept)
 
   if (response.code === 0 && response.data) {
@@ -1052,7 +1533,9 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
 
 const watchQuestion = async (cancel = false) => {
   if (cancel) {
-    const {data: axiosResponse} = await usePost<ResponseData<boolean>>('qa/question/unwatch/' + questionId)
+    const {data: axiosResponse} = await usePost<ResponseData<boolean>>(
+        'qa/question/unwatch/' + questionId
+    )
     if (axiosResponse.code == 0 && axiosResponse.data) {
       questionStore.watch = false
       successMsg('取消追踪成功')
@@ -1060,7 +1543,9 @@ const watchQuestion = async (cancel = false) => {
       warningMsg(axiosResponse.msg)
     }
   } else {
-    const {data: response} = await usePost<ResponseData<boolean>>('qa/question/watch/' + questionId)
+    const {data: response} = await usePost<ResponseData<boolean>>(
+        'qa/question/watch/' + questionId
+    )
     if (response.code == 0 && response.data) {
       questionStore.watch = true
       successMsg('追踪问题成功')
@@ -1068,11 +1553,8 @@ const watchQuestion = async (cancel = false) => {
       warningMsg(response.msg)
     }
   }
-
-}
-
+};
 </script>
-
 
 <style scoped>
 :deep(.markdown-body pre code ul li:before) {
@@ -1080,7 +1562,9 @@ const watchQuestion = async (cancel = false) => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
+  ) !important;
 }
 
 :deep(.markdown-body pre code ul) {
@@ -1089,7 +1573,6 @@ const watchQuestion = async (cancel = false) => {
 }
 
 :deep(.markdown-body pre code ul li) {
-
 }
 
 :deep(.markdown-body pre code ul li:before) {
@@ -1097,7 +1580,9 @@ const watchQuestion = async (cancel = false) => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
+  ) !important;
 }
 
 :deep(.markdown-body p) {
@@ -1108,8 +1593,6 @@ const watchQuestion = async (cancel = false) => {
   padding: 0 10px !important;
   background-repeat: initial !important;
 }
-
-
 </style>
 
 <style scoped>
@@ -1131,7 +1614,9 @@ const watchQuestion = async (cancel = false) => {
 .d-answer-tip-recommend p:before {
   content: "\F012C";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
+  ) !important;
   font-weight: bold;
   margin-right: 3px;
 }
@@ -1154,36 +1639,45 @@ const watchQuestion = async (cancel = false) => {
 
 :deep(.d-tip-error) {
   /*background: #fcf1f1 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"'
+  ) !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-success) {
   /*background: #f0f8e5 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"'
+  ) !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-warning) {
   /*background: #fcf2e9 !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"'
+  ) !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-info) {
   /*background: #eef6fd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#162430" : "#eef6fd"'
+  ) !important;
   border-left-color: #40c4ff !important;
   /*color: black!important;*/
 }
 
-
 :deep(.d-tip-share) {
   /*background: #dddddd !important;*/
-  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
+  background: v-bind(
+      'theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"'
+  ) !important;
   border-left-color: #8b968d !important;
   /*color: black!important;*/
 }
@@ -1212,7 +1706,9 @@ const watchQuestion = async (cancel = false) => {
 .d-tip-success p:first-child:before {
   content: "\F012C";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
+  ) !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
@@ -1241,7 +1737,9 @@ const watchQuestion = async (cancel = false) => {
 .d-tip-share p:first-child:before {
   content: "\F0065";
   font-size: 135%;
-  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
+  color: v-bind(
+      'theme.global.name.value === "dark" ? "" : "#858585"'
+  ) !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
@@ -1256,7 +1754,6 @@ const watchQuestion = async (cancel = false) => {
   border-bottom-width: 2px;
   border-bottom-style: dotted;
 }
-
 </style>
 
 <style>

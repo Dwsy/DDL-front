@@ -15,7 +15,10 @@ export default defineNuxtConfig({
                 {src: 'https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js'},
             ],
             link: [
-                {rel: 'stylesheet', href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css'}
+                {
+                    rel: 'stylesheet',
+                    href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css',
+                },
             ],
         },
         // keepalive:true
@@ -31,9 +34,9 @@ export default defineNuxtConfig({
         },
         server: {
             hmr: {
-                overlay: true
-            }
-        }
+                overlay: true,
+            },
+        },
     },
     css: ['vuetify/lib/styles/main.sass'],
     modules: [
@@ -45,17 +48,16 @@ export default defineNuxtConfig({
             //         ['defineStore', 'definePiniaStore'],
             //     ],
             // },
-
         ],
         '@vueuse/nuxt',
-        '@nuxtjs/tailwindcss'
+        '@nuxtjs/tailwindcss',
     ],
     imports: {
         dirs: [
             'composables',
             'composables/*/index.{ts,js,mjs,mts}',
-            'composables/**'
-        ]
+            'composables/**',
+        ],
     },
     // publicRuntimeConfig: {
     //     axios: {
@@ -71,11 +73,11 @@ export default defineNuxtConfig({
         apiSecret: '123',
         // Public keys that are exposed to the client
         public: {
-            baseURL: process.env.NUXT_PUBLIC_API_BASE_URL
-        }
+            baseURL: process.env.NUXT_PUBLIC_API_BASE_URL,
+        },
     },
     typescript: {
-        strict: false
+        strict: false,
     },
     build: {
         // postcss: {

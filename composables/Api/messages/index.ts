@@ -2,39 +2,43 @@ import {useGet} from '~/composables/useAxios'
 import {ResponseData} from '~/types/utils/axios'
 
 export const useAxiosGetUnreadMessageCount = (type: CountType) => {
-    return useGet<ResponseData<unreadNotifyI>>('message/notify/unread', {type}, true)
+    return useGet<ResponseData<unreadNotifyI>>(
+        'message/notify/unread',
+        {type},
+        true
+    )
 }
 
 export interface unreadNotifyI {
-    unreadNotifyCount: number
+    unreadNotifyCount: number;
 
-    unreadNotifyReplyCommentCount: number
+    unreadNotifyReplyCommentCount: number;
 
-    ArticleOrCommentThumbCount: number
+    ArticleOrCommentThumbCount: number;
 
-    QuestionOrAnswerThumbCount: number
+    QuestionOrAnswerThumbCount: number;
 
-    unreadNotifyAnswerCount: number
+    unreadNotifyAnswerCount: number;
 
-    unreadNotifyAnswerCommentCount: number
+    unreadNotifyAnswerCommentCount: number;
 
-    unreadNotifyQuestionCommentCount: number
+    unreadNotifyQuestionCommentCount: number;
 
-    unreadPrivateMessageCount: number
+    unreadPrivateMessageCount: number;
 
-    unreadSystemMessageCount: number
+    unreadSystemMessageCount: number;
 
-    unreadAtMeCount: number
+    unreadAtMeCount: number;
 
-    unreadInvitationAnswerCount: number
+    unreadInvitationAnswerCount: number;
 
-    unreadAcceptedAnswerCount: number
+    unreadAcceptedAnswerCount: number;
 
-    unreadNotifyQuestionOrAnswerThumbCount: number
+    unreadNotifyQuestionOrAnswerThumbCount: number;
 
-    unreadWatchAnswer: number
+    unreadWatchAnswer: number;
 
-    unreadWatchAcceptedQuestionAnswer: number
+    unreadWatchAcceptedQuestionAnswer: number;
 }
 
 export enum unreadNotifyEnum {
@@ -60,10 +64,10 @@ export enum unreadNotifyEnum {
 
     unreadInvitationAnswerCount,
 
-    unreadAcceptedAnswerCount
+    unreadAcceptedAnswerCount,
 }
 
 export enum CountType {
-    All = 'all',//只显示总数
-    Detail = 'detail'//明细
+    All = 'all', //只显示总数
+    Detail = 'detail', //明细
 }

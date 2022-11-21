@@ -1,26 +1,28 @@
 <template>
-  <div :class="{ 'dark': darkMode }">
+  <div>
     <div class="bg-white dark:bg-dim-900">
       <LoadingPage v-if="isAuthLoading"/>
 
       <!--      App-->
       <div v-else-if="user" class="min-h-full">
-
-        <div class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5">
-
+        <div
+            class="grid grid-cols-12 mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5"
+        >
           <!-- Left sidebar -->
           <div class="hidden md:block xs-col-span-1 xl:col-span-2">
             <div class="sticky top-0">
-              <SidebarLeft :user="user" @on-tweet="handleOpenTweetModal" @on-logout="handleUserLogout"/>
+              <SidebarLeft
+                  :user="user"
+                  @on-tweet="handleOpenTweetModal"
+                  @on-logout="handleUserLogout"
+              />
             </div>
           </div>
 
           <!-- Main content -->
           <main class="col-span-12 md:col-span-8 xl:col-span-6">
             <!--            <router-view/>-->
-            <nuxt-page>
-
-            </nuxt-page>
+            <nuxt-page></nuxt-page>
           </main>
 
           <!-- Right Sidebar -->
@@ -29,22 +31,15 @@
               <SidebarRight/>
             </div>
           </div>
-
-
         </div>
-
-
       </div>
 
       <AuthPage v-else/>
 
-
       <!--      <UIModal :isOpen="postTweetModal" @on-close="handleModalClose">-->
       <!--        <TweetForm :replyTo="replyTweet" showReply :user="user" @onSuccess="handleFormSuccess"/>-->
       <!--      </UIModal>-->
-
     </div>
-
   </div>
 </template>
 <script setup lang="ts">
@@ -63,7 +58,7 @@ const replyTweet = ref({
     name: 'dwsy',
     username: 'ddy',
     profileImage: 'https://picsum.photos/300/300',
-  }
+  },
 })
 const darkMode = ref(false)
 // const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
@@ -77,15 +72,19 @@ onMounted(() => {
 // const user = useAuthUser()
 const homeTweets = [
   {
-    mediaFiles: ['https://picsum.photos/300/300', 'https://picsum.photos/300/300', 'https://picsum.photos/300/300'],
+    mediaFiles: [
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
+    ],
     text: 'test',
     postedAtHuman: 'postedAtHuman',
     author: {
       name: 'name',
       handle: 'handle',
-      profileImage: 'https://picsum.photos/300/300'
-    }
-  }
+      profileImage: 'https://picsum.photos/300/300',
+    },
+  },
 ]
 const user = {
   id: 1,
@@ -98,7 +97,7 @@ const user = {
     username: 'ddy',
     profileImage: 'https://picsum.photos/300/300',
   },
-  repliesCount: 21
+  repliesCount: 21,
 }
 // const postTweetModal = usePostTweetModal()
 // const emitter = useEmitter()
@@ -120,7 +119,7 @@ function handleFormSuccess(tweet) {
   // closePostTweetModal()
 
   navigateTo({
-    path: `/status/${tweet.id}`
+    path: `/status/${tweet.id}`,
   })
 }
 
@@ -135,5 +134,4 @@ function handleOpenTweetModal() {
 function handleUserLogout() {
   // logout()
 }
-
 </script>

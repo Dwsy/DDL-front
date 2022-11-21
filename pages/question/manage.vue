@@ -5,7 +5,7 @@
         <v-card>
           <!--          {{ userStore.userInfo }}-->
           <div class="ml-4 mt-4">
-            <v-avatar size=80>
+            <v-avatar size="80">
               <v-img :src="userStore?.userInfo?.avatar"></v-img>
             </v-avatar>
             <span class="text-h6 pl-4">{{ userStore.user?.nickname }}</span>
@@ -13,33 +13,39 @@
           <v-divider class="mt-1"></v-divider>
 
           <div class="text-center">
-            <v-btn class="w-75 mt-2 mb-2 text-white text-subtitle-2"
-                   color="#1d9bf0" target="_blank" href="/question/howtoask">
+            <v-btn
+                class="w-75 mt-2 mb-2 text-white text-subtitle-2"
+                color="#1d9bf0"
+                target="_blank"
+                href="/question/howtoask"
+            >
               提问题
             </v-btn>
           </div>
           <v-divider></v-divider>
 
           <v-list v-model:opened="open">
-            <v-list-item prepend-icon="mdi-home" exact
-                         title="首页" to="/question/manage/home/">
-
+            <v-list-item
+                prepend-icon="mdi-home"
+                exact
+                title="首页"
+                to="/question/manage/home/"
+            >
             </v-list-item>
 
             <v-list-item
-                title="问题管理" to="/question/manage/content?state=all"
+                title="问题管理"
+                to="/question/manage/content?state=all"
             ></v-list-item>
           </v-list>
         </v-card>
       </v-col>
 
-      <v-col cols="8" style="margin-left: 20%;">
+      <v-col cols="8" style="margin-left: 20%">
         <nuxt-page :key="$route.fullPath"></nuxt-page>
       </v-col>
 
-      <v-col>
-        3
-      </v-col>
+      <v-col> 3</v-col>
     </v-row>
   </div>
 </template>
@@ -54,7 +60,6 @@ useLayout().showFooter = false
 const userStore = useUserStore()
 const test = ref(true)
 </script>
-
 
 <style scoped>
 .d-creator-aside {

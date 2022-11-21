@@ -2,7 +2,6 @@
   <div>
     12312
     <v-row>
-
       <v-col cols="1"></v-col>
       <v-col cols="2">
         <v-list>
@@ -26,7 +25,6 @@
         <nuxt-page></nuxt-page>
       </v-col>
       <v-col cols="1"></v-col>
-
     </v-row>
   </div>
 </template>
@@ -38,7 +36,7 @@ import {onMounted, ref} from 'vue'
 
 definePageMeta({
   keepalive: true,
-  key: route => route.fullPath
+  key: (route) => route.fullPath,
 })
 
 interface setting {
@@ -60,18 +58,28 @@ onMounted(async () => {
   }, 200)
   console.log(userInfo.value)
 })
-const settingList: setting[] = [{
-  title: '个人信息', icon: 'mdi-card-account-details-outline', link: '/user/settings/info'
-}, {
-  title: '帐号设置', icon: 'mdi-account-cog-outline', link: '/user/settings/account'
-}, {
-  title: '个人资料', icon: 'mdi-account-outline', link: ''
-}, {
-  title: '个人资料', icon: 'mdi-account-outline', link: ''
-}
+const settingList: setting[] = [
+  {
+    title: '个人信息',
+    icon: 'mdi-card-account-details-outline',
+    link: '/user/settings/info',
+  },
+  {
+    title: '帐号设置',
+    icon: 'mdi-account-cog-outline',
+    link: '/user/settings/account',
+  },
+  {
+    title: '个人资料',
+    icon: 'mdi-account-outline',
+    link: '',
+  },
+  {
+    title: '个人资料',
+    icon: 'mdi-account-outline',
+    link: '',
+  },
 ]
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

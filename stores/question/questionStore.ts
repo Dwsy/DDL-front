@@ -7,47 +7,46 @@ import {UserActionI} from '~/composables/Api/article'
 import {useAxiosGetUserToQuestionAction} from '~/composables/Api/question'
 
 interface QuestionStore extends UserActionI {
-    filed: QuestionField
-    content: string
-    cookieThemeState: string
-    markdownThemeDark: string
-    markdownThemeLight: string
-    codeHighlightStyleDark: string
-    codeHighlightStyleLight: string
+    filed: QuestionField;
+    content: string;
+    cookieThemeState: string;
+    markdownThemeDark: string;
+    markdownThemeLight: string;
+    codeHighlightStyleDark: string;
+    codeHighlightStyleLight: string;
 
-    HighlightStyleStr: string
-    MarkdownThemeStr: string,
-    watch: boolean
+    HighlightStyleStr: string;
+    MarkdownThemeStr: string;
+    watch: boolean;
 }
 
 export const useQuestionStore = defineStore('QuestionStore', {
-    state: (): QuestionStore => (
-        {
-            filed: null,
-            content: null,
-            cookieThemeState: '',
-            markdownThemeLight: null,
-            markdownThemeDark: null,
-            codeHighlightStyleDark: null,
-            codeHighlightStyleLight: null,
-            collect: false,
-            follow: false,
-            support: 0,
-            watch: false,
-            HighlightStyleStr: '',
-            MarkdownThemeStr: ''
-        }
-    ),
+    state: (): QuestionStore => ({
+        filed: null,
+        content: null,
+        cookieThemeState: '',
+        markdownThemeLight: null,
+        markdownThemeDark: null,
+        codeHighlightStyleDark: null,
+        codeHighlightStyleLight: null,
+        collect: false,
+        follow: false,
+        support: 0,
+        watch: false,
+        HighlightStyleStr: '',
+        MarkdownThemeStr: '',
+    }),
     actions: {
         async init(questionId: string) {
-
             this.markdownThemeDark = this.filed.markDownThemeDark
             this.markdownThemeLight = this.filed.markDownTheme
             this.codeHighlightStyleDark = this.filed.codeHighlightStyleDark
             this.codeHighlightStyleLight = this.filed.codeHighlightStyle
         },
         async getUserToQuestionAction(questionId: string) {
-            const {data: axiosResponse} = await useAxiosGetUserToQuestionAction(questionId)
+            const {data: axiosResponse} = await useAxiosGetUserToQuestionAction(
+                questionId
+            )
             if (axiosResponse.code == 0) {
                 this.collect = axiosResponse.data.collect
                 this.follow = axiosResponse.data.follow

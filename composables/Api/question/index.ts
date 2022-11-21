@@ -12,16 +12,17 @@ export const useFetchGetNewQuestionPageList = (page: number) => {
     // return useGet<ResponseData<any>>('/qa/question/field/list', {page})
 }
 
-export const useFetchGetQuestionField = (questionId: string, getQuestionComment?: boolean) => {
+export const useFetchGetQuestionField = (
+    questionId: string,
+    getQuestionComment?: boolean
+) => {
     return http.GET('/qa/question/field/' + questionId, {getQuestionComment})
 }
 
 export const useFetchGetQuestionContent = (questionId: string) => {
-    return http.GET('/qa/question/content/' + questionId,
-        {
-            type: 0
-        }
-    )
+    return http.GET('/qa/question/content/' + questionId, {
+        type: 0,
+    })
 }
 
 export const useFetchGetQuestionGroupList = () => {
@@ -29,5 +30,8 @@ export const useFetchGetQuestionGroupList = () => {
 }
 
 export const useAxiosGetUserToQuestionAction = (questionId: string) => {
-    return useGet<ResponseData<UserActionI>>('qa/question/action/' + questionId, null)
+    return useGet<ResponseData<UserActionI>>(
+        'qa/question/action/' + questionId,
+        null
+    )
 }

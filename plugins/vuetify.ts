@@ -18,7 +18,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             info: '#2196F3',
             success: '#4CAF50',
             warning: '#FB8C00',
-        }
+        },
     }
 
     const vuetify = createVuetify({
@@ -27,8 +27,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         ssr: true,
         theme: {
             defaultTheme: 'dark',
-            themes: {dark}
-        }
+            themes: {dark},
+        },
     })
 
     nuxtApp.vueApp.use(vuetify)

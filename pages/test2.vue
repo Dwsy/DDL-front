@@ -1,9 +1,6 @@
 <template>
   <div class="d-flex flex-column justify-space-between align-center">
-    <v-select
-        v-model="aspectRatio"
-        :items="aspectRatios"
-    ></v-select>
+    <v-select v-model="aspectRatio" :items="aspectRatios"></v-select>
     <v-slider
         v-model="width"
         class="align-self-stretch"
@@ -27,7 +24,6 @@ import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 const cutDown = (res) => {
   console.log(res)
 }
-
 </script>
 <script lang="ts">
 export default {
@@ -49,7 +45,7 @@ export default {
       },
     ],
   }),
-}
+};
 </script>
 <!--<style lang="scss">-->
 <!--@import "~~/constant/MarkDownThemes/typora-purple-theme/purple-blue.scss";-->

@@ -6,11 +6,11 @@ import {successMsg} from '~/composables/utils/toastification'
 import hljs from 'highlight.js'
 
 export default defineNuxtPlugin((nuxtApp) => {
-
     nuxtApp.vueApp.directive('hljs', {
         mounted(el, binding) {
             let addCopy = binding.value.addCopy
-            const CodeNodeList: NodeListOf<HTMLElement> = el.querySelectorAll('pre code')
+            const CodeNodeList: NodeListOf<HTMLElement> =
+                el.querySelectorAll('pre code')
             // console.log('CodeNodeList', CodeNodeList)
             const CodeLength = CodeNodeList.length
             // CodeNodeList.forEach((line, i) => {
@@ -31,13 +31,17 @@ export default defineNuxtPlugin((nuxtApp) => {
                     renderCode(CodeNodeList[i], addCopy)
                 }
             }
-        }
+        },
     })
 })
 const renderCode = (el: HTMLElement, addCopy: boolean) => {
     // hljs.highlightElement(el)
     hljs.highlightBlock(el)
-    el.innerHTML = ('<ul><li>' + el.innerHTML.replace(/\n/g, '</li><li>') + '</li></ul>').replace(/<li><\/li>/g, '')
+    el.innerHTML = (
+        '<ul><li>' +
+        el.innerHTML.replace(/\n/g, '</li><li>') +
+        '</li></ul>'
+    ).replace(/<li><\/li>/g, '')
     // console.log(el.innerHTML)
     if (addCopy) {
         let copy = document.createElement('button')

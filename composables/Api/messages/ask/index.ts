@@ -19,7 +19,6 @@ export interface CreateQuestionBody {
     title: string;
 }
 
-
 export const useAxiosPostAskQuestion = (body: CreateQuestionBody) => {
     return usePost<ResponseData<any>>('qa/question', body)
 }
@@ -28,12 +27,19 @@ export const useAxiosPutUpdateAskQuestion = (body: CreateQuestionBody) => {
     return usePut<ResponseData<any>>('qa/question', body)
 }
 
-
-export const useAxiosGetQuestionContent = (id: string, type: ContentType, version: number) => {
-    return useGet<ResponseData<string>>('qa/question/manage/content/' + id, {type, version})
+export const useAxiosGetQuestionContent = (
+    id: string,
+    type: ContentType,
+    version: number
+) => {
+    return useGet<ResponseData<string>>('qa/question/manage/content/' + id, {
+        type,
+        version,
+    })
 }
 
 export const useAxiosGetQuestionField = (id: string, version: number) => {
-    return useGet<ResponseData<any>>('qa/question/manage/field/' + id, {version})
+    return useGet<ResponseData<any>>('qa/question/manage/field/' + id, {
+        version,
+    })
 }
-

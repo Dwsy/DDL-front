@@ -3,7 +3,11 @@ import {useUserStore} from '~~/stores/user'
 
 import {CreateAxios} from '~/utils/axios'
 
-export const useGet = async <T>(url: string, params?: object, needToken?: boolean) => {
+export const useGet = async <T>(
+    url: string,
+    params?: object,
+    needToken?: boolean
+) => {
     const token = useUserStore().token
     if (needToken) {
         if (token == null) {
@@ -35,7 +39,11 @@ export const useGetT = async <T>(url: string, params?: object) => {
     return r
 }
 
-export const usePost = async <T>(url: string, data?: object, config?: AxiosRequestConfig) => {
+export const usePost = async <T>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig
+) => {
     let r: AxiosResponse<T>
     try {
         // r = await Axios.post(url, data, config)
@@ -71,4 +79,3 @@ export const useDel = async <T>(url: string, data?: object) => {
 }
 
 // export { get, post };
-

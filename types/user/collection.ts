@@ -5,7 +5,7 @@ export interface collectionGroup {
     collectionNum: number;
     groupOrder: number;
     introduction: string;
-    createTime: number
+    createTime: number;
 }
 
 export interface UserCollection {
@@ -15,15 +15,15 @@ export interface UserCollection {
     sourceId: string;
     sourceTitle: string;
     createTime: number;
-    link: string
+    link: string;
 }
 
 export interface getCollectionListByGroupIdParams {
-    page?: number,
-    size?: number,
-    order?: string,
-    properties?: string,
-    CollectionType?: CollectionType
+    page?: number;
+    size?: number;
+    order?: string;
+    properties?: string;
+    CollectionType?: CollectionType;
 }
 
 export enum CollectionType {

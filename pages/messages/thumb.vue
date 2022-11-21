@@ -23,17 +23,21 @@
             <!--            :href="thumbStore.getGoToLink(item)"-->
             <!--            target="_blank"-->
             <template v-slot:prepend>
-
-              <v-badge color="red" :dot="true" class="mr-3"
-                       :model-value="item.notifyState===NotifyState.UNREAD">
+              <v-badge
+                  color="red"
+                  :dot="true"
+                  class="mr-3"
+                  :model-value="item.notifyState === NotifyState.UNREAD"
+              >
                 <v-avatar size="x-large">
                   <v-img :src="item.formUserAvatar"></v-img>
                 </v-avatar>
               </v-badge>
-
             </template>
 
-            <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
+            <v-list-item-title
+                v-text="item.formUserNickname"
+            ></v-list-item-title>
             <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
             <div>
               <span class="text-subtitle-1">
@@ -41,7 +45,9 @@
               </span>
               {{ item.toContent }}
             </div>
-            <span class="text-grey">{{ dateFilter(item.lastModifiedTime) }}</span>
+            <span class="text-grey">{{
+              dateFilter(item.lastModifiedTime)
+            }}</span>
             <v-divider></v-divider>
           </v-list-item>
         </v-list>
@@ -74,18 +80,25 @@ onUnmounted(() => {
 })
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
-  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+  let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+  )
   //滚动条滚动距离
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+  let scrollTop =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop
   //窗口可视范围高度
-  let clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight)
+  let clientHeight =
+      window.innerHeight ||
+      Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {
     await loadingMore()
   }
-}
+};
 
 const loadingMore = async () => {
-
   if (thumbStore.page >= thumbStore.totalPages) {
     if (thumbStore.ThumbNotifyList.length > 15) {
       // alert.value = true
@@ -98,6 +111,4 @@ const loadingMore = async () => {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

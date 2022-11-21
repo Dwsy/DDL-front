@@ -1,20 +1,14 @@
 <template>
-
-  <v-menu
-      v-model="emojiPickerMenu"
-      :close-on-content-click="false"
-  >
-    <template v-slot:activator="{ props }">
-      <v-icon v-bind="props">
-        mdi-sticker-emoji
-      </v-icon>
-
-    </template>
-    <client-only>
-      <EmojiPicker :native="true" @select="onSelectEmoji"/>
-    </client-only>
-  </v-menu>
-
+  <div class="bg-white dark:dark:bg-dim-700">
+    <v-menu v-model="emojiPickerMenu" :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <v-icon v-bind="props"> mdi-sticker-emoji</v-icon>
+      </template>
+      <client-only>
+        <EmojiPicker :native="true" @select="onSelectEmoji"/>
+      </client-only>
+    </v-menu>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -30,6 +24,4 @@ function onSelectEmoji(emoji) {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

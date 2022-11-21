@@ -1,36 +1,55 @@
 <template>
   <div>
     <v-tabs v-model="tab" v-if="counts">
-      <v-tab value="all">全部 {{ counts['ALL'] }}</v-tab>
-      <v-tab value="ask">发起 {{ counts['ASK'] }}</v-tab>
-      <v-tab value="resolved">以解决 {{ counts['RESOLVED'] }}</v-tab>
-      <v-tab value="have_answer">以有答案 {{ counts['HAVE_ANSWER'] }}</v-tab>
-      <v-tab value="hide">已隐藏 {{ counts['HIDE'] }}</v-tab>
-      <v-tab value="unresolved">未解决 {{ counts['UNRESOLVED'] }}</v-tab>
-      <v-tab value="auditing">审核中 {{ counts['AUDITING'] }}</v-tab>
-      <v-tab value="rejected">未通过 {{ counts['REJECTED'] }}</v-tab>
+      <v-tab value="all">全部 {{ counts["ALL"] }}</v-tab>
+      <v-tab value="ask">发起 {{ counts["ASK"] }}</v-tab>
+      <v-tab value="resolved">以解决 {{ counts["RESOLVED"] }}</v-tab>
+      <v-tab value="have_answer">以有答案 {{ counts["HAVE_ANSWER"] }}</v-tab>
+      <v-tab value="hide">已隐藏 {{ counts["HIDE"] }}</v-tab>
+      <v-tab value="unresolved">未解决 {{ counts["UNRESOLVED"] }}</v-tab>
+      <v-tab value="auditing">审核中 {{ counts["AUDITING"] }}</v-tab>
+      <v-tab value="rejected">未通过 {{ counts["REJECTED"] }}</v-tab>
     </v-tabs>
     <QuestionManageCard/>
 
-    <v-pagination v-model="params.page"
-                  :length="totalPages">
-    </v-pagination>
-
-
+    <v-pagination v-model="params.page" :length="totalPages"></v-pagination>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, inject, onMounted, provide, ref, watch, watchEffect} from 'vue'
+import {
+  computed,
+  inject,
+  onMounted,
+  provide,
+  ref,
+  watch,
+  watchEffect,
+} from 'vue'
 import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import {articleListData} from '~/types/article'
 import {useAxiosGetArticleList} from '~/composables/Api/article'
-import {ArticleState, GetUserArticleListParams} from '~/types/article/manageArticle'
-import {useAxiosGetArticleCountByState, useAxiosGetUserArticleList} from '~/composables/Api/article/manageArticle'
-import {QuestionField, QuestionState, QuestionStateColor, QuestionStateZh} from '~/types/question'
+import {
+  ArticleState,
+  GetUserArticleListParams,
+} from '~/types/article/manageArticle'
+import {
+  useAxiosGetArticleCountByState,
+  useAxiosGetUserArticleList,
+} from '~/composables/Api/article/manageArticle'
+import {
+  QuestionField,
+  QuestionState,
+  QuestionStateColor,
+  QuestionStateZh,
+} from '~/types/question'
 import {GetUserQuestionListParams} from '~/types/message/manage'
 import {useAxiosGetUserQuestionList} from '~/composables/Api/question/manageQuestion'
-import {dateFilter, getRandomColor, timeAgoFilter} from '~/composables/useTools'
+import {
+  dateFilter,
+  getRandomColor,
+  timeAgoFilter,
+} from '~/composables/useTools'
 import {useLayout} from '~/stores/layout'
 
 useLayout().drawer = false
@@ -46,7 +65,7 @@ const params = ref<GetUserQuestionListParams>({
   properties: null,
   size: 8,
   state: QuestionState.ALL,
-  tagId: null
+  tagId: null,
 })
 // const counts = ref({})
 
@@ -77,10 +96,13 @@ onMounted(async () => {
     params.value.page = 1
     let href = window.location.href
     let replaceId = 'state=' + val
-    window.history.replaceState({}, 'title', href.replace(/state=\w+/i, replaceId))
+    window.history.replaceState(
+        {},
+        'title',
+        href.replace(/state=\w+/i, replaceId)
+    )
   })
-
-})
+});
 
 onBeforeRouteUpdate(async (to, from, next) => {
   if (to.query.state) {
@@ -89,9 +111,6 @@ onBeforeRouteUpdate(async (to, from, next) => {
   }
   next()
 })
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

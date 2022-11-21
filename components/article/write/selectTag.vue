@@ -1,17 +1,36 @@
 <template>
   <!--  -->
   <div>
-    <v-autocomplete v-model="articleTagList" v-model:search="text" :items="sug" :loading="isLoading"
-                    @keyup.enter="query" variant="underlined"
-                    hint="搜索标签" hide-no-data flat clearable hide-details rounded
-                    :readonly="readonly"
-                    chips closable-chips multiple dense item-title="name" item-value="name"
-                    label="搜索添加标签" prepend-inner-icon="mdi-magnify"
-                    return-object>
+    <v-autocomplete
+        v-model="articleTagList"
+        v-model:search="text"
+        :items="sug"
+        :loading="isLoading"
+        @keyup.enter="query"
+        variant="underlined"
+        hint="搜索标签"
+        hide-no-data
+        flat
+        clearable
+        hide-details
+        rounded
+        :readonly="readonly"
+        chips
+        closable-chips
+        multiple
+        dense
+        item-title="name"
+        item-value="name"
+        label="搜索添加标签"
+        prepend-inner-icon="mdi-magnify"
+        return-object
+    >
     </v-autocomplete>
     <!--    fixme https://github.com/vuetifyjs/vuetify/pull/15871-->
     <div class="pt-2">
-      <span v-show="!readonly" class="text-grey-darken-1">你还可以添加{{ 3 - articleTagList.length }}个标签</span>
+      <span v-show="!readonly" class="text-grey-darken-1"
+      >你还可以添加{{ 3 - articleTagList.length }}个标签</span
+      >
       <!--      <span v-show="readonly" class="text-red-accent-2">最多可以添加三个标签</span>-->
       <span class="float-right TagNum">{{ `${articleTagList.length}/3` }}</span>
     </div>
@@ -20,7 +39,6 @@
     <!--    sug{{ sug }}-->
     <!--    text{{ text }}-->
   </div>
-
 </template>
 <script setup lang="ts">
 import {useRouter} from '#app'
@@ -52,17 +70,20 @@ onMounted(() => {
       // console.log('f')
     }
   })
-  watch(text, async () => {
-    if (text.value === '') {
-      sug.value = (await useFetchGetArticleTagList()).data
-      isLoading.value = false
-      //todo 推荐最近使用的标签
-      return
-    }
-    await debounceAjax(suggestion)
-  }, {immediate: true, deep: true})
+  watch(
+      text,
+      async () => {
+        if (text.value === '') {
+          sug.value = (await useFetchGetArticleTagList()).data
+          isLoading.value = false
+          //todo 推荐最近使用的标签
+          return
+        }
+        await debounceAjax(suggestion)
+      },
+      {immediate: true, deep: true}
+  )
 })
-
 
 const suggestion = async () => {
   if (text.value === '') {
@@ -91,11 +112,9 @@ const debounce = (fun, delay) => {
   }
 }
 let debounceAjax = debounce(suggestion, 800)
-
 </script>
 <style scoped>
 .TagNum {
   color: v-bind(TagNumColor);
 }
 </style>
-

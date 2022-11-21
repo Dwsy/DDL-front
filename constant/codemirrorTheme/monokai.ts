@@ -148,4 +148,4 @@ export default `/* Based on Sublime Text's Monokai theme */
 .cm-s-default .CodeMirror-matchingbracket {
   text-decoration: underline;
   color: white !important;
-}`
+}`;

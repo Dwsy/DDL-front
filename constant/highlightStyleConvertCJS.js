@@ -4,14 +4,15 @@ const fs = require('fs')
 const path = require('path')
 // 被读取的文件夹地址
 // const filePath = path.resolve('/home/dwsy/code/ddl-front/node_modules/highlight.js/styles')
-const filePath = path.resolve('/home/dwsy/code/ddl-front/node_modules/highlight.js/styles/base16')
+const filePath = path.resolve(
+    '/home/dwsy/code/ddl-front/node_modules/highlight.js/styles/base16'
+)
 // 收集所有的文件路径
-const fileDisplay = filePath => {
+const fileDisplay = (filePath) => {
     fs.exists('./highlightCJs', function (exists) {
         if (!exists) {
             fs.mkdir('./highlightCJs', function (err) {
-                if (err)
-                    console.error(err)
+                if (err) console.error(err)
                 console.log('创建目录成功')
             })
         }
@@ -29,7 +30,6 @@ const fileDisplay = filePath => {
                 o = o + a[i].slice(0, 1).toUpperCase() + a[i].slice(1)
             }
             arr.push(o)
-
         }
         console.log(arr)
         files.forEach((filename) => {
@@ -46,7 +46,6 @@ const fileDisplay = filePath => {
                     // console.log(filedir)
                     fs.readFile(fileDir, 'utf8', function (err, dataStr) {
                         const cjs = `export default \`${dataStr}\``
-
 
                         let a = filename.split('-')
                         let o = a[0]
@@ -69,9 +68,7 @@ const fileDisplay = filePath => {
                         // console.log(dataStr)
                     })
                 }
-
             })
-
         })
     })
 }
@@ -152,7 +149,7 @@ let nameList = [
     'vs',
     'vs2015',
     'xcode',
-    'xt256'
+    'xt256',
 ]
 
 let base16 = [
@@ -331,7 +328,7 @@ let base16 = [
     'windowsNt',
     'woodland',
     'xcodeDusk',
-    'zenburn'
+    'zenburn',
 ]
 
 for (let i = 0; i < base16.length; i++) {
