@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!--    <nuxt-link to="/article/index1">-->
-    <!--      Test keep-alive1-->
-    <!--    </nuxt-link>-->
-    <!--    <nuxt-link to="/article/9">-->
-    <!--      |||Test keep-alive id-->
-    <!--    </nuxt-link>-->
-    <!--    <div v-if="showText">-->
-    <!--      /* is always false after route changes */-->
-    <!--      <p>hello world, should be alive?!</p>-->
-    <!--    </div>-->
     <v-row>
 
       <v-col xl="1" lg="1" md="0" sm="0" xs="0"></v-col>

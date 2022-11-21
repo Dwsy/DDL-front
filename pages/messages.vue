@@ -79,44 +79,44 @@ let items = ref<items[]>([
     text: '回复我的',
     icon: 'mdi-reply',
     to: '/messages/reply',
-    unreadCount: undefined
+    unreadCount: null
   },
-  {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at', unreadCount: undefined},
+  {text: ' @ 我的', icon: 'mdi-at', to: '/messages/at', unreadCount: null},
   {
     text: '受到的赞',
     icon: 'mdi-thumb-up-outline',
     to: '/messages/thumb',
-    unreadCount: undefined
+    unreadCount: null
   },
   {
     text: '问题回答',
     icon: 'mdi-chat-question-outline',
     to: '/messages/qa/answer',
-    unreadCount: undefined
+    unreadCount: null
   },
   {
     text: '问答回复',
     icon: 'mdi-lightbulb-question-outline',
     to: '/messages/qa/comment',
-    unreadCount: undefined
+    unreadCount: null
   },
   {
     text: '问答支持',
     icon: 'mdi-triangle-outline',
     to: '/messages/qa/support',
-    unreadCount: undefined
+    unreadCount: null
   },
   {
     text: '系统通知', icon: 'mdi-message-cog-outline', to: '/messages/notifications',
-    unreadCount: undefined
+    unreadCount: null
   },
   {
     text: '私信列表', icon: 'mdi-message-badge-outline', to: '/messages/chats',
-    unreadCount: undefined
+    unreadCount: null
   },
-  {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation', unreadCount: undefined},
-  {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted', unreadCount: undefined},
-  {text: '跟踪问题', icon: 'mdi-eye', to: '/messages/qa/watch', unreadCount: undefined},
+  {text: '邀请回答', icon: 'mdi-human-greeting-variant', to: '/messages/qa/invitation', unreadCount: null},
+  {text: '被采纳', icon: 'mdi-human-greeting-variant', to: '/messages/qa/accepted', unreadCount: null},
+  {text: '跟踪问题', icon: 'mdi-eye', to: '/messages/qa/watch', unreadCount: null},
 ])
 //todo read --
 onMounted(async () => {

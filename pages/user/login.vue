@@ -17,6 +17,7 @@
               </v-col>
             </v-row>
             <v-btn color="secondary" @click="login">login</v-btn>
+            <v-btn v-if="User.token" color="red" @click="logout">logout</v-btn>
           </v-container>
         </v-form>
         <v-col cols="3"></v-col>
@@ -42,7 +43,7 @@ import {useUserStore} from '~~/stores/user'
 import CryptoJS from 'crypto-js'
 import {rsaEncrypt} from '~/composables/useTools'
 import {onMounted, ref} from 'vue'
-import {definePageMeta, useGet, usePost, useRouter} from '#imports'
+import {successMsg, useGet, usePost, useRouter} from '#imports'
 import {ResponseData} from '~/types/utils/axios'
 
 // definePageMeta({ keepalive: {}, })
@@ -53,8 +54,6 @@ const payload = ref(null)
 const publicKey = ref()
 const t = ref<string>()
 const User = useUserStore()
-let Router = useRouter()
-let RsdEncrypt:Function=undefined
 onMounted(() => {
 
 })
@@ -63,8 +62,6 @@ const check = async () => {
   console.log(data)
 }
 const login = async () => {
-
-
   publicKey.value = (await useGet<ResponseData<any>>('au/authority/rsa-pks')).data['data']
   // console.log('publicKey', publicKey.value)
   // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
@@ -77,26 +74,32 @@ const login = async () => {
   let token = t.value
   payload.value =
       CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8)
-
   // console.log(token.split('.')[1])
   // console.log(payload)
-
   User.setToken(token)
   localStorage.setItem('token', token)
   localStorage.setItem('user', JSON.parse(payload.value)['ddl-user'])
   User.setUser(JSON.parse(JSON.parse(payload.value)['ddl-user']))
-
   console.log('login', User.user)
   // console.log("payload.value['ddl-user']\n",JSON.parse(payload.value))
-
   User.setIsLogin(true)
   await User.getUserInfo()
   // Router.push('/')
 }
-const reset = () => {
-  User.$reset()
-  localStorage.clear()
-  console.log('logout')
+
+const logout = () => {
+  usePost<ResponseData<boolean>>('au/authority/logout').then((r) => {
+    const data = r.data
+    if (data.code === 0) {
+      if (data.data) {
+        User.$reset()
+        localStorage.clear()
+        successMsg('退出成功')
+      } else {
+        successMsg(data.msg)
+      }
+    }
+  })
 }
 
 </script>

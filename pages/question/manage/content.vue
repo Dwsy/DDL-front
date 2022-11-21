@@ -16,14 +16,10 @@
       </v-window-item>
 
       <v-window-item value="draft">
-        <div v-for="question in draftListContent">
-          <QuestionListCard v-bind="question"></QuestionListCard>
-        </div>
-        <v-container class="max-width ml-n16">
-          <v-pagination v-model="params.page" class="my-4"
-                        :length="totalPages">
-          </v-pagination>
-        </v-container>
+        <QuestionManageCard/>
+        <v-pagination v-model="params.page" class="my-4"
+                      :length="totalPages">
+        </v-pagination>
       </v-window-item>
 
     </v-window>
@@ -41,10 +37,12 @@ import QuestionAsked from '~/components/question/manage/questionAsked.vue'
 import {QuestionField, QuestionState} from '~/types/question'
 import {useAxiosGetQuestionCountByState, useAxiosGetUserQuestionList} from '~/composables/Api/question/manageQuestion'
 import {GetUserQuestionListParams} from '~/types/message/manage'
+import {dateFilter, getRandomColor, timeAgoFilter} from '~/composables/useTools'
 
 const tab = ref('null')
 const counts = ref({})
 const draftListContent = ref<Array<QuestionField>>(null)
+provide('QuestionFieldManageList', draftListContent)
 const totalPages = ref(null)
 
 

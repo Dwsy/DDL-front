@@ -43,9 +43,10 @@
 
 <script setup lang="ts">
 
-import {onMounted, ref, watch, watchEffect} from 'vue'
+import {onMounted, onUnmounted, ref, watch, watchEffect} from 'vue'
 import {useQuestionIndexStore} from '~/stores/question/questionIndexStore'
 import {useRouter} from '#app'
+import QuestionListCard from '~~/components/question/questionListCard.vue'
 
 const questionIndexStore = useQuestionIndexStore()
 
@@ -61,6 +62,10 @@ onMounted(async () => {
     questionIndexStore.page = 1
     console.log(tabValue)
   })
+})
+onUnmounted(async () => {
+  await useRouter().push({query: {}})
+  questionIndexStore.$reset()
 })
 
 </script>
