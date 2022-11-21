@@ -78,10 +78,11 @@
 
 <script setup lang="ts">
 import {dateFilter, getRandomColor, timeAgoFilter} from '#imports'
-import {inject} from 'vue'
+import {inject, Ref} from 'vue'
 import {articleListData} from '~/types/article'
 
-const articleFiledData = inject<articleListData>('manage-articleFiled')
+const articleFiledData = inject<Ref<articleListData[]>>('manage-articleFiled')
+// const articleFiledData = []
 </script>
 
 <style scoped>

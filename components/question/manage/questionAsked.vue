@@ -10,105 +10,18 @@
       <v-tab value="auditing">审核中 {{ counts['AUDITING'] }}</v-tab>
       <v-tab value="rejected">未通过 {{ counts['REJECTED'] }}</v-tab>
     </v-tabs>
-    <div v-for="question in ListContent">
-      <v-card class="my-2" elevation="0">
-        <v-row style="font-size: 110%">
-          <v-col cols="2">
-            <v-row>
-              <v-col>
-                <div style="font-size: 10px;color: #3271ae">回答:{{ question.answerNum }}</div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <div style="font-size: 10px;color: #007b43">关注:9999</div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <div style="font-size: 10px;color: #ec6800">浏览{{ question.viewNum }}</div>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col class="ml-n16">
-            <a target="_blank" :href='/question/+question.id' class="text-subtitle-1"> {{ question.title }}</a>
-            <v-divider></v-divider>
-            <div class="float-left">
-              <div class="text-subtitle-2">
-                {{ question.summary }}
-              </div>
-              <v-chip-group>
-                <v-chip v-for="tag in question.questionTags" :key="tag.id" :color="getRandomColor()" size="small">
-                  <v-icon>
-                    mdi-language-{{ tag.name.toLocaleLowerCase() }}
-                  </v-icon>
-                  {{ tag.name }}
-                </v-chip>
-              </v-chip-group>
-            </div>
-            <div class="text-end">
-              <span class="mr-2 text-grey" style="font-size: 16px"
-                    :title="dateFilter(question.createTime, 'YYYY/MM/DD hh:mm')"
-                    v-if="dateFilter(question.createTime,'YYYY-MM-DD hh:mm')!==dateFilter(question.lastModifiedTime,'YYYY-MM-DD hh:mm')">
-                      修改于：{{ timeAgoFilter(question.lastModifiedTime) }}
-                    </span>
+    <QuestionManageCard/>
 
-              <span style="font-size: 16px"> {{ timeAgoFilter(question.createTime) }}发起提问</span>
-              <div>
-                <span :style="{color: QuestionStateColor[question.questionState]}">
-                        {{ QuestionStateZh[question.questionState] }}
-                </span>
-                <v-btn variant="tonal" class="mx-2" color="#028760" :href="`/question/ask?id=${question.id}`"
-                       target="_blank">
-                  编辑
-                </v-btn>
-                <v-btn variant="tonal" color="red">
-                  删除
-                </v-btn>
-              </div>
-            </div>
-
-            <!--            <v-row>-->
-            <!--              <v-col cols="8">-->
-            <!--                <v-chip-group class="mt-7">-->
-            <!--                  <v-chip v-for="tag in question.questionTags" :key="tag.id" :color="getRandomColor()" size="small">-->
-            <!--                    <v-icon>-->
-            <!--                      mdi-language-{{ tag.name.toLocaleLowerCase() }}-->
-            <!--                    </v-icon>-->
-            <!--                    {{ tag.name }}-->
-            <!--                  </v-chip>-->
-            <!--                </v-chip-group>-->
-            <!--              </v-col>-->
-            <!--              <v-col offset="1" class="mt-2">-->
-
-            <!--                          <span class="mr-2 text-grey" style="font-size: 16px"-->
-            <!--                                :title="dateFilter(question.createTime, 'YYYY/MM/DD hh:mm')"-->
-            <!--                                v-if="dateFilter(question.createTime,'YYYY-MM-DD hh:mm')!==dateFilter(question.lastModifiedTime,'YYYY-MM-DD hh:mm')">-->
-            <!--          修改于：{{ timeAgoFilter(question.lastModifiedTime) }}-->
-            <!--        </span>-->
-            <!--                <v-col>-->
-            <!--                  <span> {{ timeAgoFilter(question.createTime) }}发起提问</span>-->
-            <!--                </v-col>-->
-
-            <!--              </v-col>-->
-            <!--            </v-row>-->
-          </v-col>
-        </v-row>
-      </v-card>
-      <v-divider></v-divider>
-    </div>
-    <v-container class="max-width ml-n16">
-      <v-pagination v-model="params.page" class="ml-n16"
-                    :length="totalPages">
-      </v-pagination>
-    </v-container>
+    <v-pagination v-model="params.page"
+                  :length="totalPages">
+    </v-pagination>
 
 
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, inject, onMounted, ref, watch, watchEffect} from 'vue'
+import {computed, inject, onMounted, provide, ref, watch, watchEffect} from 'vue'
 import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import {articleListData} from '~/types/article'
 import {useAxiosGetArticleList} from '~/composables/Api/article'
@@ -118,16 +31,14 @@ import {QuestionField, QuestionState, QuestionStateColor, QuestionStateZh} from 
 import {GetUserQuestionListParams} from '~/types/message/manage'
 import {useAxiosGetUserQuestionList} from '~/composables/Api/question/manageQuestion'
 import {dateFilter, getRandomColor, timeAgoFilter} from '~/composables/useTools'
+import {useLayout} from '~/stores/layout'
 
+useLayout().drawer = false
 const route = useRoute()
 const router = useRouter()
 const tab = ref()
-const ListContent = ref<Array<QuestionField>>(null)
-// const allListContent = ref<Array<articleListData>>(null)
-// const publishedListContent = ref<Array<articleListData>>(null)
-// const hideListContent = ref<Array<articleListData>>(null)
-// const auditingListContent = ref<Array<articleListData>>(null)
-// const rejectedListContent = ref<Array<articleListData>>(null)
+const ListContent = ref<Array<QuestionField>>([])
+provide('QuestionFieldManageList', ListContent)
 const totalPages = ref(null)
 const params = ref<GetUserQuestionListParams>({
   order: null,

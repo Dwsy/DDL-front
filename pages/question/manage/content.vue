@@ -16,63 +16,10 @@
       </v-window-item>
 
       <v-window-item value="draft">
-        <div v-for="question in draftListContent">
-          <v-card class="my-2" elevation="0">
-            <v-row style="font-size: 110%">
-              <v-col cols="2">
-                <v-row>
-                  <v-col>
-                    <div style="font-size: 10px;color: #3271ae">回答:{{ question.answerNum }}</div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <div style="font-size: 10px;color: #007b43">关注:9999</div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <div style="font-size: 10px;color: #ec6800">浏览{{ question.viewNum }}</div>
-                  </v-col>
-                </v-row>
-              </v-col>
-              <v-col class="ml-n16">
-                <a target="_blank" :href='/question/+question.id' class="text-subtitle-1"> {{ question.title }}</a>
-                <v-divider></v-divider>
-                <v-row>
-                  <v-col cols="8">
-                    <v-chip-group class="mt-7">
-                      <v-chip v-for="tag in question.questionTags" :key="tag.id" :color="getRandomColor()" size="small">
-                        <v-icon>
-                          mdi-language-{{ tag.name.toLocaleLowerCase() }}
-                        </v-icon>
-                        {{ tag.name }}
-                      </v-chip>
-                    </v-chip-group>
-                  </v-col>
-                  <v-col offset="1" class="mt-2">
-                    <v-row>
-                      <v-col>
-                        <!--                          <v-avatar size="small">-->
-                        <!--                            <v-img :src="question.user.userInfo.avatar"></v-img>-->
-                        <!--                          </v-avatar>-->
-                        <!--                          <span class="text-blue-accent-1" style="font-size: 10px">{{ question.user.nickname }}</span>-->
-                        <!--                  <div> {{ dateFilter(createTime, 'MM月DD') }}～发起提问</div>-->
-                        <span> {{ timeAgoFilter(question.createTime) }}发起提问</span>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card>
-          <v-divider></v-divider>
-        </div>
-        <v-container class="max-width ml-n16">
-          <v-pagination v-model="params.page" class="my-4"
-                        :length="totalPages">
-          </v-pagination>
-        </v-container>
+        <QuestionManageCard/>
+        <v-pagination v-model="params.page" class="my-4"
+                      :length="totalPages">
+        </v-pagination>
       </v-window-item>
 
     </v-window>
@@ -91,9 +38,11 @@ import {QuestionField, QuestionState} from '~/types/question'
 import {useAxiosGetQuestionCountByState, useAxiosGetUserQuestionList} from '~/composables/Api/question/manageQuestion'
 import {GetUserQuestionListParams} from '~/types/message/manage'
 import {dateFilter, getRandomColor, timeAgoFilter} from '~/composables/useTools'
+
 const tab = ref('null')
 const counts = ref({})
 const draftListContent = ref<Array<QuestionField>>(null)
+provide('QuestionFieldManageList', draftListContent)
 const totalPages = ref(null)
 
 

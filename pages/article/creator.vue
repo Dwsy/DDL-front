@@ -67,8 +67,7 @@ import {useUserStore} from '~/stores/user'
 import {ref} from 'vue'
 import {useLayout} from '~/stores/layout'
 import {definePageMeta} from '#imports'
-
-useLayout().showFooter = false
+useLayout().drawer = false
 const userStore = useUserStore()
 const test = ref(true)
 const open = ref(['内容管理'])

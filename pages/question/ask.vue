@@ -2,8 +2,9 @@
   <div class="mt-4">
 
     <v-row>
-      <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入问题标题..." label="问题" variant="underlined"
-        clearable>
+      <v-text-field class="ml-5 d-editor-title" v-model="title" placeholder="输入问题标题..." label="问题"
+                    variant="underlined"
+                    clearable>
       </v-text-field>
       <div class="mt-2 mr-4 ml-2">
         <v-btn elevation="0" variant="tonal" color="#39c7af">手动保存</v-btn>
@@ -12,7 +13,7 @@
           <v-menu v-model="versionHistoryMenu" location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn elevation="0" variant="tonal" color="#00a381" class="ml-1" v-bind="props"
-                @click="getVersionHistoryList()">
+                     @click="getVersionHistoryList()">
                 历史版本
               </v-btn>
             </template>
@@ -50,7 +51,7 @@
                   <span class="pt-3 px-4 text-body-1">分类:</span>
                   <v-chip-group mandatory v-if="questionGroupList" v-bind:model-value="questionGroupId">
                     <v-chip v-for="g in questionGroupList" :key="g.id" :value="g.id" @click="questionGroupId = g.id"
-                      :filter="true">
+                            :filter="true">
                       {{ g.name }}
                     </v-chip>
                   </v-chip-group>
@@ -64,7 +65,7 @@
               <v-divider class="mt-1 mb-2"></v-divider>
 
               <v-textarea class="mx-2 mt-1" v-model="summary" placeholder="输入文章摘要..." label="文章摘要"
-                :rules="[rules.length(150)]" counter="150" variant="outlined" clearable no-resize="no-resize">
+                          :rules="[rules.length(150)]" counter="150" variant="outlined" clearable no-resize="no-resize">
               </v-textarea>
 
               <v-card-actions>
@@ -89,7 +90,7 @@
           <v-menu v-model="settingsDialog" :close-on-content-click="false" :open-on-click="false">
             <template v-slot:activator="{ props }">
               <v-btn color="#9d5b8b" icon="true" size="small" class="ml-2 mr-n4" v-bind="props"
-                @click="settingsDialog = !settingsDialog">
+                     @click="settingsDialog = !settingsDialog">
                 <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
                 <v-icon size="x-large" color="#FFF">mdi-cookie-cog-outline</v-icon>
                 <v-tooltip activator="parent" location="bottom">文章外观设置
@@ -115,8 +116,9 @@
                       <v-row class="pa-4 mb-n6">
 
                         <v-select prepend-icon="mdi-progress-pencil" label="掘金MarkdownTheme" class="mx-2 mt-n5"
-                          :items="themeNameList" item-title="text" item-value="value" return-object variant="underlined"
-                          v-model="themeName"></v-select>
+                                  :items="themeNameList" item-title="text" item-value="value" return-object
+                                  variant="underlined"
+                                  v-model="themeName"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b" @click="randomTheme(themeNameList)">
                           随便来一个
                         </v-btn>
@@ -124,8 +126,8 @@
                       <v-row class="pa-4 mb-n6">
 
                         <v-select prepend-icon="mdi-progress-pencil" label="LightMarkdownTheme" class="mx-2 mt-n5"
-                          :items="mwebLightNameList" item-title="text" item-value="value" return-object
-                          variant="underlined" v-model="themeName"></v-select>
+                                  :items="mwebLightNameList" item-title="text" item-value="value" return-object
+                                  variant="underlined" v-model="themeName"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b" @click="randomTheme(mwebLightNameList)">
                           随便来一个
                         </v-btn>
@@ -133,8 +135,8 @@
                       <v-row class="pa-4 mb-n6">
 
                         <v-select prepend-icon="mdi-progress-pencil" label="PurpleMarkdownTheme" class="mx-2 mt-n5"
-                          :items="purpleLightList" item-title="text" item-value="value" return-object
-                          variant="underlined" v-model="themeName"></v-select>
+                                  :items="purpleLightList" item-title="text" item-value="value" return-object
+                                  variant="underlined" v-model="themeName"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b" @click="randomTheme(purpleLightList)">
                           随便来一个
                         </v-btn>
@@ -146,10 +148,10 @@
                       <v-row class="pa-4 ">
 
                         <v-select prepend-icon="mdi-code-tags" label="代码高亮风格" class="mx-2 mt-n5"
-                          :items="HighlightStyleNameList" item-title="text" item-value="value" return-object
-                          variant="underlined" v-model="highlightStyle"></v-select>
+                                  :items="HighlightStyleNameList" item-title="text" item-value="value" return-object
+                                  variant="underlined" v-model="highlightStyle"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                          @click="randomHighlightStyle(HighlightStyleNameList)">
+                               @click="randomHighlightStyle(HighlightStyleNameList)">
                           随便来一个
                         </v-btn>
                       </v-row>
@@ -158,10 +160,10 @@
                       <v-row class="pa-4 ">
 
                         <v-select prepend-icon="mdi-code-tags" label="代码高亮风格Base16" class="mx-2 mt-n5"
-                          :items="HighlightStyleBase16NameList" return-object variant="underlined"
-                          v-model="highlightStyle"></v-select>
+                                  :items="HighlightStyleBase16NameList" return-object variant="underlined"
+                                  v-model="highlightStyle"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                          @click="randomHighlightStyle(HighlightStyleBase16NameList)">
+                               @click="randomHighlightStyle(HighlightStyleBase16NameList)">
                           随便来一个
                         </v-btn>
                       </v-row>
@@ -175,8 +177,9 @@
                       <v-row class="pa-4 mb-n6">
 
                         <v-select prepend-icon="mdi-progress-pencil" label="DarkMarkdownTheme" class="mx-2 mt-n5"
-                          :items="mwebDarkList" item-title="text" item-value="value" return-object variant="underlined"
-                          v-model="darkThemeName"></v-select>
+                                  :items="mwebDarkList" item-title="text" item-value="value" return-object
+                                  variant="underlined"
+                                  v-model="darkThemeName"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b" @click="randomThemeDark(mwebDarkList)">
                           随便来一个
                         </v-btn>
@@ -187,10 +190,10 @@
                       <v-row class="pa-4 ">
 
                         <v-select prepend-icon="mdi-code-tags" label="代码高亮风格" class="mx-2 mt-n5"
-                          :items="HighlightStyleNameList" item-title="text" item-value="value" return-object
-                          variant="underlined" v-model="darkHighlightStyle"></v-select>
+                                  :items="HighlightStyleNameList" item-title="text" item-value="value" return-object
+                                  variant="underlined" v-model="darkHighlightStyle"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                          @click="randomHighlightStyleDark(HighlightStyleNameList)">
+                               @click="randomHighlightStyleDark(HighlightStyleNameList)">
                           随便来一个
                         </v-btn>
                       </v-row>
@@ -199,10 +202,10 @@
                       <v-row class="pa-4 ">
 
                         <v-select prepend-icon="mdi-code-tags" label="代码高亮风格Base16" class="mx-2 mt-n5"
-                          :items="HighlightStyleBase16NameList" return-object variant="underlined"
-                          v-model="darkHighlightStyle"></v-select>
+                                  :items="HighlightStyleBase16NameList" return-object variant="underlined"
+                                  v-model="darkHighlightStyle"></v-select>
                         <v-btn class="mr-4 mt-n2 text-white" color="#38b48b"
-                          @click="randomHighlightStyleDark(HighlightStyleBase16NameList)">
+                               @click="randomHighlightStyleDark(HighlightStyleBase16NameList)">
                           随便来一个
                         </v-btn>
                       </v-row>
@@ -218,11 +221,12 @@
 
 
           <v-btn @click="layout.switchTheme(themeInstance)" icon="true" size="small" class="ml-5" elevation="0"
-            transition="fade-transition">
+                 transition="fade-transition">
             <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
             <v-icon v-if="!themeInstance.global.current.value.dark">mdi-weather-night</v-icon>
-            <v-tooltip activator="parent" location="bottom">{{ themeInstance.global.current.value.dark ? '日间模式' : '夜间模式'
-            }}
+            <v-tooltip activator="parent" location="bottom">{{
+                themeInstance.global.current.value.dark ? '日间模式' : '夜间模式'
+              }}
             </v-tooltip>
           </v-btn>
         </client-only>
@@ -238,8 +242,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from '#app'
-import { onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
+import {useRoute, useRouter} from '#app'
+import {onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
   ContentType,
@@ -247,9 +251,9 @@ import {
   useAxiosPostCreateArticle,
   useAxiosPutUpdateArticle
 } from '~/composables/Api/article/manageArticle'
-import { ArticleField } from '~/stores/article/articleStore'
-import { ArticleSource, ArticleSourceZh, ArticleState, } from '~/types/article/manageArticle'
-import { ArticleGroup, ArticleTag } from '~/types/article'
+import {ArticleField} from '~/stores/article/articleStore'
+import {ArticleSource, ArticleSourceZh, ArticleState,} from '~/types/article/manageArticle'
+import {ArticleGroup, ArticleTag} from '~/types/article'
 import {
   ComponentToastMsg,
   createError,
@@ -271,15 +275,15 @@ import {
   HighlightStyleNameList,
   HighlightStyleBase16NameList
 } from '~~/constant/highlightStyleList'
-import { useUserStore } from '~/stores/user'
+import {useUserStore} from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
-import { useTheme } from 'vuetify'
-import { TYPE } from 'vue-toastification/src/ts/constants'
+import {useTheme} from 'vuetify'
+import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
-import { useLayout } from '~/stores/layout'
-import { CreateQuestionBody, useAxiosGetQuestionContent } from '~/composables/Api/messages/ask'
-import { QaGroup, QuestionField, QuestionTag } from '~/types/question'
-import { ResponseData } from '~/types/utils/axios'
+import {useLayout} from '~/stores/layout'
+import {CreateQuestionBody, useAxiosGetQuestionContent} from '~/composables/Api/messages/ask'
+import {QaGroup, QuestionField, QuestionTag} from '~/types/question'
+import {ResponseData} from '~/types/utils/axios'
 
 definePageMeta({
   layout: false
@@ -301,9 +305,9 @@ const questionTagIds = ref<Set<string>>()
 const summary = ref('')
 const questionGroupList = ref<QaGroup[]>()
 const questionTagList = ref<QuestionTag[]>()
-provide('tagList', { questionTagList })
+provide('tagList', {questionTagList})
 
-const { data: groupData } = await useFetchGetQuestionGroupList()
+const {data: groupData} = await useFetchGetQuestionGroupList()
 questionGroupList.value = groupData
 const settingsDialog = ref(false)
 const themeName = ref<string>('cyanosis')
@@ -363,7 +367,7 @@ const load = async (id: string, version: number) => {
 
     if (route.query.id) {
       questionId.value = String(route.query.id)
-      const { data: questionFieldResponse } = await useAxiosGetQuestionField(questionId.value, version)
+      const {data: questionFieldResponse} = await useAxiosGetQuestionField(questionId.value, version)
       //todo 优化
       if (questionFieldResponse.data === null) {
         await router.push({
@@ -382,7 +386,7 @@ const load = async (id: string, version: number) => {
             message: 'Unauthorized'
           })
         }
-        const { data: ContentResponse } = await useAxiosGetQuestionContent(questionId.value, ContentType.markdown, version)
+        const {data: ContentResponse} = await useAxiosGetQuestionContent(questionId.value, ContentType.markdown, version)
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
           title.value = questionFieldData.value.title
@@ -402,7 +406,7 @@ const rules = {
   email: v => !!(v || '').match(/@/) || '请输入有效的电子邮件',
   length: len => v => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
   password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-    '密码必须包含大写字母、数字字符和特殊字符',
+      '密码必须包含大写字母、数字字符和特殊字符',
   required: v => !!v || '此字段是必需的。',
 }
 
@@ -411,11 +415,11 @@ const changeText = async (text) => {
 }
 
 const send = () => {
-  if (title.value.length <= 0) {
+  if (title.value.trim() === '') {
     infoMsg('问题标题不能为空')
     return
   }
-  if (content.value.length <= 0) {
+  if (content.value.trim() === '') {
     infoMsg('提问内容不能为空')
     return
   }
@@ -443,7 +447,7 @@ const publishQuestion = async () => {
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
   }
-  const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
+  const {data: axiosResponse} = await useAxiosPostAskQuestion(body)
   if (axiosResponse.code === 0) {
     const url = '/question/' + axiosResponse.data
     const timeout = setTimeout(() => {
@@ -474,7 +478,7 @@ const updateQuestion = async () => {
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
   }
-  const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body)
+  const {data: axiosResponse} = await useAxiosPutUpdateAskQuestion(body)
   if (axiosResponse.code === 0) {
     const url = '/question/' + axiosResponse.data
     const timeout = setTimeout(() => {
@@ -532,8 +536,8 @@ interface versionDataI {
 }
 
 const getVersionHistoryList = async () => {
-  const { data: response } = await useGet<ResponseData<versionDataI[]>>
-    ('article/article/manage/historyVersion/' + questionId.value)
+  const {data: response} = await useGet<ResponseData<versionDataI[]>>
+  ('article/article/manage/historyVersion/' + questionId.value)
   versionHistoryList.value = response.data
 }
 

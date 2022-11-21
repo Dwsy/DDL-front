@@ -32,7 +32,7 @@
               v-model="menu"
               :close-on-content-click="false"
               location="end"
-              :persistent="true"
+              :persistent="false"
               :open-on-click="false"
           >
             <template v-slot:activator="{ props }">
@@ -73,8 +73,8 @@
               <v-card class="mb-5" elevation="0">
                 <span class="pt-2 px-4 text-body-1">文章头图：预览</span>
                 <v-img :src="localBannerImg?localBannerImg:banner"
-                       aspect-ratio="8/3" max-height="300px" max-width="100%"
-                       class="mx-4"></v-img>
+                       aspect-ratio="8/3" max-height="150px" max-width="100%"
+                       class="mx-4 d-draft-banner"></v-img>
               </v-card>
 
 
@@ -100,7 +100,7 @@
               <!--                </v-btn>-->
 
 
-              <v-textarea class="mx-2 mt-1" v-model="summary" placeholder="输入文章摘要..."
+              <v-textarea class="mx-2 mt-1" v-model="summary" placeholder="输入文章摘要...为空截取正文前150字"
                           label="文章摘要" :rules="[rules.length(150)]" counter="150"
                           variant="outlined" clearable no-resize="no-resize"></v-textarea>
               <v-select prepend-icon="mdi-progress-pencil"
@@ -343,7 +343,7 @@
 
 <script setup lang="ts">
 import {useRoute, useRouter} from '#app'
-import {onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
+import {nextTick, onMounted, provide, ref, toRaw, watch, watchEffect} from 'vue'
 import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
@@ -389,6 +389,7 @@ import {TYPE} from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
 import {useLayout} from '~/stores/layout'
 import {ResponseData} from '~/types/utils/axios'
+import mediumZoom from 'medium-zoom'
 
 
 definePageMeta({
@@ -479,6 +480,7 @@ onMounted(async () => {
     disableUploadBtn.value = bannerFile.value == null
   })
 
+
 })
 
 async function load(id: string, version: number) {
@@ -551,17 +553,27 @@ const changeText = async (text) => {
   content.value = text
 }
 
-const send = () => {
-  if (title.value.length <= 0) {
+const send = async () => {
+  if (title.value.trim() === '') {
     infoMsg('标题不能为空')
     return
   }
-  if (content.value.length <= 0) {
+  if (content.value.trim() === '') {
     infoMsg('内容不能为空')
     return
   }
   saveState()
   menu.value = true
+  await nextTick()
+  setTimeout(() => {
+    const element: HTMLImageElement = document.querySelector('.d-draft-banner img')
+    console.log(element)
+    mediumZoom(element, {
+      background: 'rgba(0, 0, 0, 0.8)',
+      scrollOffset: 0,
+      margin: 0,
+    })
+  }, 1000)
 }
 
 const publishArticle = async () => {
