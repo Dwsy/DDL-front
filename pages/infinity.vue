@@ -1,16 +1,14 @@
 <template>
-  <div :class="{ dark: darkMode }">
+  <div>
     <div class="dark:bg-dim-900 bg-white">
       <LoadingPage v-if="isAuthLoading" />
 
       <!--      App-->
       <div v-else-if="user" class="min-h-full">
-        <div
-          class="mx-auto grid grid-cols-12 sm:px-6 lg:max-w-7xl lg:gap-5 lg:px-8"
-        >
+        <div class="mx-auto grid grid-cols-12 sm:px-6 lg:max-w-1xl lg:gap-5 lg:px-8">
           <!-- Left sidebar -->
           <div class="xs-col-span-1 hidden md:block xl:col-span-2">
-            <div class="sticky top-0">
+            <div class="sticky top-10">
               <SidebarLeft
                 :user="user"
                 @on-tweet="handleOpenTweetModal"
@@ -22,7 +20,7 @@
           <!-- Main content -->
           <main class="col-span-12 md:col-span-8 xl:col-span-6">
             <!--            <router-view/>-->
-            <nuxt-page> </nuxt-page>
+            <nuxt-page></nuxt-page>
           </main>
 
           <!-- Right Sidebar -->
@@ -36,20 +34,27 @@
 
       <AuthPage v-else />
 
-      <!--      <UIModal :isOpen="postTweetModal" @on-close="handleModalClose">-->
-      <!--        <TweetForm :replyTo="replyTweet" showReply :user="user" @onSuccess="handleFormSuccess"/>-->
+      <!--      <UIModal :isOpen="true" @on-close="handleModalClose">-->
+      <!--        <TweetForm-->
+      <!--          :replyTo="replyTweet"-->
+      <!--          showReply-->
+      <!--          :user="user"-->
+      <!--          @onSuccess="handleFormSuccess"-->
+      <!--        />-->
       <!--      </UIModal>-->
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import LoadingPage from "~/components/Tcomponents/LoadingPage.vue";
 import SidebarLeft from "~/components/Tcomponents/Sidebar/Left/index.vue";
 import SidebarRight from "~/components/Tcomponents/Sidebar/Right/Index.vue";
 import AuthPage from "~/components/Tcomponents/Auth/Page.vue";
 import UIModal from "~/components/Tcomponents/UI/Modal.vue";
 import TweetForm from "~/components/Tcomponents/Tweet/Form/index.vue";
+import { navigateTo } from "#app";
+import { GetInfinityPageListParams, useAxiosGetInfinityPageList } from "~/composables/Api/infinity";
 
 const postTweetModal = ref();
 const replyTweet = ref({
@@ -60,10 +65,11 @@ const replyTweet = ref({
     profileImage: "https://picsum.photos/300/300",
   },
 });
-const darkMode = ref(false);
+
 // const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
 const isAuthLoading = ref(true);
-onMounted(() => {
+const getPageListParams = ref<GetInfinityPageListParams>();
+onMounted(async () => {
   setTimeout(() => {
     isAuthLoading.value = false;
   }, 1000);
