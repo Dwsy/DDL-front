@@ -1,10 +1,6 @@
 <template>
   <div class="flex w-full items-center justify-around">
-    <TweetItemActionsIcon
-      :size="size"
-      color="blue"
-      @on-click="emits('onCommentClick')"
-    >
+    <TweetItemActionsIcon :size="size" color="blue" @on-click="emits('onCommentClick')">
       <template v-slot:icon="{ classes }">
         <ChatBubbleBottomCenterIcon :class="classes" />
       </template>
@@ -46,17 +42,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import TweetItemActionsIcon from "~/components/Tcomponents/Tweet/Item/Actions/Icon.vue";
+import TweetItemActionsIcon from '~/components/Tcomponents/Tweet/Item/Actions/Icon.vue'
 
 import {
   ChatBubbleBottomCenterIcon,
   ReceiptRefundIcon,
   HeartIcon,
   CloudArrowUpIcon,
-} from "@heroicons/vue/24/outline/esm/index.js";
-import { computed } from "vue";
+} from '@heroicons/vue/24/outline/esm/index.js'
+import { computed } from 'vue'
 
-const emits = defineEmits(["onCommentClick"]);
+const emits = defineEmits(['onCommentClick'])
 
 const props = defineProps({
   tweet: {
@@ -67,12 +63,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-});
+})
 
-const showStats = computed(() => props.compact);
-const size = computed(() => (props.compact ? 5 : 8));
+const showStats = computed(() => props.compact)
+const size = computed(() => (props.compact ? 5 : 8))
 
 function generateRandomNumber() {
-  return Math.floor(Math.random() * 100);
+  return Math.floor(Math.random() * 100)
 }
 </script>

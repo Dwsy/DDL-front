@@ -253,4 +253,4 @@ export default `@charset "UTF-8";
     --code-color: #0072be;
     --border-quote: var(--border-quote-grey);
     --header-weight: bold;
-}`;
+}`

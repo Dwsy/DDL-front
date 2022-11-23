@@ -14,33 +14,33 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~~/stores/user";
-import { definePageMeta } from "#imports";
-import { onMounted } from "vue";
+import { useUserStore } from '~~/stores/user'
+import { definePageMeta } from '#imports'
+import { onMounted } from 'vue'
 
 definePageMeta({
   layout: false,
-});
-const User = useUserStore();
+})
+const User = useUserStore()
 const login = () => {
-  User.setIsLogin(true);
+  User.setIsLogin(true)
   User.setToken(
-    "eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
-  );
+    'eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE'
+  )
   localStorage.setItem(
-    "token",
-    "eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
-  );
-  localStorage.setItem("user", "Dwsy");
-  User.setUser("Dwsy");
-  console.log("login");
-};
+    'token',
+    'eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE'
+  )
+  localStorage.setItem('user', 'Dwsy')
+  User.setUser('Dwsy')
+  console.log('login')
+}
 const reset = () => {
-  User.$reset();
-  localStorage.clear();
-  console.log("logout");
-};
+  User.$reset()
+  localStorage.clear()
+  console.log('logout')
+}
 onMounted(() => {
-  console.log("onMounted11111111111111111111111111111");
-});
+  console.log('onMounted11111111111111111111111111111')
+})
 </script>

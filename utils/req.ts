@@ -1,24 +1,24 @@
-import { AxiosResponse } from "axios";
-import Axios from "./axios";
+import { AxiosResponse } from 'axios'
+import Axios from './axios'
 
 const get = async (url: string, params?: object) => {
-  let r: AxiosResponse = undefined;
+  let r: AxiosResponse = undefined
   try {
-    r = await Axios.get(url, { params: params });
+    r = await Axios.get(url, { params: params })
   } catch (error) {
-    r = error;
+    r = error
   }
-  return r;
-};
+  return r
+}
 
 const post = async (url: string, data?: object) => {
-  let r: AxiosResponse = undefined;
+  let r: AxiosResponse = undefined
   try {
-    r = await Axios.post(url, data);
+    r = await Axios.post(url, data)
   } catch (error) {
-    r = error;
+    r = error
   }
-  return r;
-};
+  return r
+}
 
-export { get, post };
+export { get, post }

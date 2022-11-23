@@ -40,9 +40,9 @@
           </v-row>
           <!--        //渲染放大后的图-->
           <div class="max" :style="{ display: display }">
-            <v-toolbar class="">
+            <v-btn-toggle class="">
               <v-btn variant="tonal" color="#448623" @click.stop="viewImg()"> 查看原图</v-btn>
-            </v-toolbar>
+            </v-btn-toggle>
             <div
               @click.stop="ZoomOut"
               v-for="(img, index) in tweet.imgUrlList"
@@ -77,56 +77,56 @@
   </client-only>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "~/composables/useTailwindConfig";
-import { computed, ref } from "vue";
-import TweetItemHeader from "~/components/Tcomponents/Tweet/Item/Header.vue";
-import TweetItemActions from "~/components/Tcomponents/Tweet/Item/Actions/index.vue";
-import { InfinityI } from "~/types/infinity";
+import useTailwindConfig from "~/composables/useTailwindConfig"
+import { computed, ref } from "vue"
+import TweetItemHeader from "~/components/Tcomponents/Tweet/Item/Header.vue"
+import TweetItemActions from "~/components/Tcomponents/Tweet/Item/Actions/index.vue"
+import { InfinityI } from "~/types/infinity"
 
-const { twitterBorderColor } = useTailwindConfig();
+const { twitterBorderColor } = useTailwindConfig()
 
 // const emitter = useEmitter()
 const props = defineProps<{
-  tweet: InfinityI;
-  compact?: boolean;
-  hideActions?: boolean;
-}>();
+  tweet: InfinityI
+  compact?: boolean
+  hideActions?: boolean
+}>()
 
-const tweetBodyWrapper = computed(() => (props.compact ? "ml-16" : "ml-2 mt-4"));
+const tweetBodyWrapper = computed(() => (props.compact ? "ml-16" : "ml-2 mt-4"))
 
-const textSize = computed(() => (props.compact ? "text-base" : "text-2xl"));
-const ShowIndex = ref();
-const display = ref("none");
-const MinDisplay = ref("flex");
+const textSize = computed(() => (props.compact ? "text-base" : "text-2xl"))
+const ShowIndex = ref()
+const display = ref("none")
+const MinDisplay = ref("flex")
 
 function handleCommentClick() {
   // emitter.$emit('replyTweet', props.tweet)
 }
 
 function ZoomIn(i) {
-  display.value = "block";
-  MinDisplay.value = "none";
-  ShowIndex.value = i;
+  display.value = "block"
+  MinDisplay.value = "none"
+  ShowIndex.value = i
 }
 
 function ZoomOut() {
-  display.value = "none";
-  MinDisplay.value = "flex";
+  display.value = "none"
+  MinDisplay.value = "flex"
 }
 
 function select(i) {
-  ShowIndex.value = i;
+  ShowIndex.value = i
 }
 
-const visibleRef = ref(false);
-const indexRef = ref(0);
+const visibleRef = ref(false)
+const indexRef = ref(0)
 const viewImg = () => {
-  indexRef.value = ShowIndex.value;
-  visibleRef.value = true;
-  console.log(props.tweet.imgUrlList[ShowIndex.value]);
-  console.log(visibleRef.value = true;
-};
-const onHide = () => (visibleRef.value = false);
+  indexRef.value = ShowIndex.value
+  visibleRef.value = true
+  console.log(props.tweet.imgUrlList[ShowIndex.value])
+  console.log((visibleRef.value = true))
+}
+const onHide = () => (visibleRef.value = false)
 </script>
 
 <style scoped>

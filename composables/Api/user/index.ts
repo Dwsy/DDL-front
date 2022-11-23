@@ -1,47 +1,44 @@
-import http from "~~/utils/fetch";
-import { useGet, usePost } from "~/composables/useAxios";
-import { ResponseData } from "~/types/utils/axios";
+import http from '~~/utils/fetch'
+import { useGet, usePost } from '~/composables/useAxios'
+import { ResponseData } from '~/types/utils/axios'
 
 export const useAxiosGetUserInfo = () => {
-  return useGet<ResponseData<any>>("user/info");
-};
+  return useGet<ResponseData<any>>('user/info')
+}
 export const useAxiosGetUserInfoByUid = (uid: string) => {
-  return useGet<ResponseData<any>>("user/info/" + uid);
-};
+  return useGet<ResponseData<any>>('user/info/' + uid)
+}
 
 export const useAxiosPostCheck = () => {
-  return usePost<ResponseData<any>>("user/active/check");
-};
+  return usePost<ResponseData<any>>('user/active/check')
+}
 
 export const useAxiosGetArticleListByUserId = (
   userId,
   params?: {
-    size?: number;
-    page?: number;
-    tagId?: string;
-    order?: string;
-    properties?: string;
+    size?: number
+    page?: number
+    tagId?: string
+    order?: string
+    properties?: string
   }
 ) => {
-  return useGet<ResponseData<any>>(
-    "article/article/field/list/" + userId,
-    params
-  );
-};
+  return useGet<ResponseData<any>>('article/article/field/list/' + userId, params)
+}
 
 export const userAxiosGetUserThumbActiveListByUserId = (
   userId,
   params?: {
-    size?: number;
-    page?: number;
-    tagId?: string;
-    order?: string;
-    properties?: string;
-    type: UserActiveType;
+    size?: number
+    page?: number
+    tagId?: string
+    order?: string
+    properties?: string
+    type: UserActiveType
   }
 ) => {
-  return useGet<ResponseData<any>>("user/active/thumb/" + userId, params);
-};
+  return useGet<ResponseData<any>>('user/active/thumb/' + userId, params)
+}
 
 export enum UserActiveType {
   Check_In, //签到

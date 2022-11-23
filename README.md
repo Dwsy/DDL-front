@@ -4,12 +4,14 @@
 
 #### 项目介绍
 
-----
+---
+
 技术栈：Vue3 + Nuxt3 + Vuetify + Axios + Typescript + Pinia + Tailwindcss
 
 后端地址：[https://github.com/Dwsy/DDL]()
 
 ---
+
 #### 开发截图
 
 ![](./doc/img/index.png)

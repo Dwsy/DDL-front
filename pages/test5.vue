@@ -10,15 +10,15 @@
 </template>
 
 <script setup lang="ts">
-import EmojiPicker from "vue3-emoji-picker";
-import "vue3-emoji-picker/css";
-import { ref } from "vue";
+import EmojiPicker from 'vue3-emoji-picker'
+import 'vue3-emoji-picker/css'
+import { ref } from 'vue'
 
-const emojiPickerMenu = ref(false);
-const emit = defineEmits(["addEmoji"]);
+const emojiPickerMenu = ref(false)
+const emit = defineEmits(['addEmoji'])
 
 function onSelectEmoji(emoji) {
-  emit("addEmoji", emoji.t);
+  emit('addEmoji', emoji.t)
 }
 </script>
 

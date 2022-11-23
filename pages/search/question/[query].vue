@@ -35,12 +35,9 @@
                       >
                       {{ content.userNickName }} |
                       <span class="text-subtitle-2">{{
-                        dateFilter(content.createTime, "YYYY-MM-DD")
+                        dateFilter(content.createTime, 'YYYY-MM-DD')
                       }}</span>
-                      <nuxt-link
-                        v-for="tag in content.tagList"
-                        :to="`/question/tag/${tag.id}`"
-                      >
+                      <nuxt-link v-for="tag in content.tagList" :to="`/question/tag/${tag.id}`">
                         <span class="text-subtitle-2 link">
                           /
                           {{ tag.name }}
@@ -56,10 +53,7 @@
                       <v-row>
                         <v-col>
                           <v-card-title v-html="content.title"></v-card-title>
-                          <v-card-text
-                            class="ml-3 mb-3"
-                            v-html="content.content"
-                          ></v-card-text>
+                          <v-card-text class="ml-3 mb-3" v-html="content.content"></v-card-text>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -96,66 +90,55 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { dateFilter, useAxiosGetSearchArticle, useRoute } from "#imports";
-import { useAxiosGetSearchQuestion } from "~/composables/Api/search";
-import { QuestionSearchData } from "~/types/search";
+import { onMounted, ref } from 'vue'
+import { dateFilter, useAxiosGetSearchArticle, useRoute } from '#imports'
+import { useAxiosGetSearchQuestion } from '~/composables/Api/search'
+import { QuestionSearchData } from '~/types/search'
 
-let searchListContent = ref<Array<QuestionSearchData>>();
-let Route = useRoute();
-const params = ref({ size: 10, page: 1, order: null, properties: null });
-const totalPages = ref(null);
-const alert = ref(false);
-const totalElements = ref(0);
-const loading = ref(true);
+let searchListContent = ref<Array<QuestionSearchData>>()
+let Route = useRoute()
+const params = ref({ size: 10, page: 1, order: null, properties: null })
+const totalPages = ref(null)
+const alert = ref(false)
+const totalElements = ref(0)
+const loading = ref(true)
 onMounted(async () => {
-  document.title = "搜索:" + Route.params.query;
-  let { data: searchRet } = await useAxiosGetSearchQuestion(
-    Route.params.query,
-    params.value
-  );
-  totalElements.value = searchRet.data.totalElements;
-  searchListContent.value = searchRet.data.content;
-  totalPages.value = searchRet.data.totalPages;
-  document.body.onscroll = loadingWin;
-  loading.value = false;
-});
+  document.title = '搜索:' + Route.params.query
+  let { data: searchRet } = await useAxiosGetSearchQuestion(Route.params.query, params.value)
+  totalElements.value = searchRet.data.totalElements
+  searchListContent.value = searchRet.data.content
+  totalPages.value = searchRet.data.totalPages
+  document.body.onscroll = loadingWin
+  loading.value = false
+})
 
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
-  let scrollHeight = Math.max(
-    document.documentElement.scrollHeight,
-    document.body.scrollHeight
-  );
+  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
   //滚动条滚动距离
   let scrollTop =
-    window.pageYOffset ||
-    document.documentElement.scrollTop ||
-    document.body.scrollTop;
+    window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
   //窗口可视范围高度
   let clientHeight =
     window.innerHeight ||
-    Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+    Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {
-    console.log("loading more");
-    await loadingMore();
+    console.log('loading more')
+    await loadingMore()
   }
-};
+}
 
 const loadingMore = async () => {
   if (params.value.page >= Number(totalPages.value)) {
     if (searchListContent.value.length > 10) {
-      alert.value = true;
+      alert.value = true
     }
-    return;
+    return
   }
-  params.value.page += 1;
-  let { data: searchRetNew } = await useAxiosGetSearchArticle(
-    Route.params.query,
-    params.value
-  );
-  searchListContent.value.push(...searchRetNew.data.content);
-};
+  params.value.page += 1
+  let { data: searchRetNew } = await useAxiosGetSearchArticle(Route.params.query, params.value)
+  searchListContent.value.push(...searchRetNew.data.content)
+}
 </script>
 
 <style scoped>

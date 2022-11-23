@@ -12,35 +12,35 @@
 </template>
 
 <script setup lang="ts">
-import { useLayout } from "~/stores/layout";
+import { useLayout } from '~/stores/layout'
 
-const layout = useLayout();
+const layout = useLayout()
 let links = [
   {
-    name: "Home",
-    url: "https://nestblog.dwsy.link",
+    name: 'Home',
+    url: 'https://nestblog.dwsy.link',
   },
   {
-    name: "About Us",
-    url: "1",
+    name: 'About Us',
+    url: '1',
   },
   {
-    name: "Admin",
-    url: "https://nestadmin.dwsy.link/",
+    name: 'Admin',
+    url: 'https://nestadmin.dwsy.link/',
   },
   {
-    name: "Github",
-    url: "https://github.com/Dwsy",
+    name: 'Github',
+    url: 'https://github.com/Dwsy',
   },
   {
-    name: "Blog",
-    url: "https://www.dwsy.link",
+    name: 'Blog',
+    url: 'https://www.dwsy.link',
   },
   {
-    name: "Contact Us",
-    url: "1",
+    name: 'Contact Us',
+    url: '1',
   },
-];
+]
 </script>
 
 <style scoped></style>

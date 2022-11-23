@@ -7,37 +7,26 @@
     </div>
 
     <div class="space-y-6 pt-5">
-      <UIInput
-        v-model="data.username"
-        label="Username"
-        placeholder="@username"
-      />
+      <UIInput v-model="data.username" label="Username" placeholder="@username" />
 
-      <UIInput
-        v-model="data.password"
-        label="Password"
-        placeholder="********"
-        type="password"
-      />
+      <UIInput v-model="data.password" label="Password" placeholder="********" type="password" />
 
-      <UIButton @click="handleLogin" liquid :disabled="isButtonDisabled">
-        Login
-      </UIButton>
+      <UIButton @click="handleLogin" liquid :disabled="isButtonDisabled"> Login </UIButton>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import LogoTwitter from "~/components/Tcomponents/Logo/Twitter.vue";
-import UIInput from "~/components/Tcomponents/UI/Input.vue";
-import UIButton from "~/components/Tcomponents/UI/Button.vue";
-import { reactive } from "@vue/runtime-core";
-import { computed } from "vue";
+import LogoTwitter from '~/components/Tcomponents/Logo/Twitter.vue'
+import UIInput from '~/components/Tcomponents/UI/Input.vue'
+import UIButton from '~/components/Tcomponents/UI/Button.vue'
+import { reactive } from '@vue/runtime-core'
+import { computed } from 'vue'
 
 const data = reactive({
-  username: "",
-  password: "",
+  username: '',
+  password: '',
   loading: false,
-});
+})
 
 async function handleLogin() {
   // const { login } = useAuth()
@@ -56,6 +45,6 @@ async function handleLogin() {
 }
 
 const isButtonDisabled = computed(() => {
-  return !data.username || !data.password || data.loading;
-});
+  return !data.username || !data.password || data.loading
+})
 </script>

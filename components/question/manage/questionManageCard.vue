@@ -5,9 +5,7 @@
         <v-col cols="2">
           <v-row>
             <v-col>
-              <div style="font-size: 10px; color: #3271ae">
-                回答:{{ question.answerNum }}
-              </div>
+              <div style="font-size: 10px; color: #3271ae">回答:{{ question.answerNum }}</div>
             </v-col>
           </v-row>
           <v-row>
@@ -17,18 +15,12 @@
           </v-row>
           <v-row>
             <v-col>
-              <div style="font-size: 10px; color: #ec6800">
-                浏览{{ question.viewNum }}
-              </div>
+              <div style="font-size: 10px; color: #ec6800">浏览{{ question.viewNum }}</div>
             </v-col>
           </v-row>
         </v-col>
         <v-col class="ml-n16">
-          <a
-            target="_blank"
-            :href="/question/ + question.id"
-            class="text-subtitle-1"
-          >
+          <a target="_blank" :href="/question/ + question.id" class="text-subtitle-1">
             {{ question.title }}</a
           >
           <v-divider></v-divider>
@@ -43,9 +35,7 @@
                 :color="getRandomColor()"
                 size="small"
               >
-                <v-icon>
-                  mdi-language-{{ tag.name.toLocaleLowerCase() }}
-                </v-icon>
+                <v-icon> mdi-language-{{ tag.name.toLocaleLowerCase() }} </v-icon>
                 {{ tag.name }}
               </v-chip>
             </v-chip-group>
@@ -63,13 +53,9 @@
               修改于：{{ timeAgoFilter(question.lastModifiedTime) }}
             </span>
 
-            <span style="font-size: 16px">
-              {{ timeAgoFilter(question.createTime) }}发起提问</span
-            >
+            <span style="font-size: 16px"> {{ timeAgoFilter(question.createTime) }}发起提问</span>
             <div>
-              <span
-                :style="{ color: QuestionStateColor[question.questionState] }"
-              >
+              <span :style="{ color: QuestionStateColor[question.questionState] }">
                 {{ QuestionStateZh[question.questionState] }}
               </span>
               <v-btn
@@ -93,21 +79,11 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, Ref } from "vue";
-import {
-  QuestionField,
-  QuestionStateColor,
-  QuestionStateZh,
-} from "~/types/question";
-import {
-  dateFilter,
-  getRandomColor,
-  timeAgoFilter,
-} from "~/composables/useTools";
+import { inject, onMounted, Ref } from 'vue'
+import { QuestionField, QuestionStateColor, QuestionStateZh } from '~/types/question'
+import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
 
-const ListContent = inject<Ref<Array<QuestionField>>>(
-  "QuestionFieldManageList"
-);
+const ListContent = inject<Ref<Array<QuestionField>>>('QuestionFieldManageList')
 </script>
 
 <style scoped></style>

@@ -16,14 +16,14 @@ import {
   changeHighlightStyle,
   HighlightStyleNameList,
   HighlightStyleBase16NameList,
-} from "~~/constant/highlightStyleList";
-import { ref } from "vue";
+} from '~~/constant/highlightStyleList'
+import { ref } from 'vue'
 
 const x = (item) => {
-  console.log(item);
-  return "123";
-};
-const highlightStyle = ref();
+  console.log(item)
+  return '123'
+}
+const highlightStyle = ref()
 </script>
 
 <style scoped></style>

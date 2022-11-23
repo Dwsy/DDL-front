@@ -2,11 +2,7 @@
   <div>
     <div class="flex flex-shrink-0 items-center p-4 pb-0">
       <div class="items-top flex w-12">
-        <img
-          :src="props.user?.profileImage"
-          alt=""
-          class="inline-block h-10 w-10 rounded-full"
-        />
+        <img :src="props.user?.profileImage" alt="" class="inline-block h-10 w-10 rounded-full" />
       </div>
 
       <div class="w-full p-2">
@@ -130,20 +126,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "~/composables/useTailwindConfig";
+import useTailwindConfig from '~/composables/useTailwindConfig'
 
-const { twitterBorderColor } = useTailwindConfig();
-import UIButton from "~/components/Tcomponents/UI/Button.vue";
-import { computed, ref } from "vue";
+const { twitterBorderColor } = useTailwindConfig()
+import UIButton from '~/components/Tcomponents/UI/Button.vue'
+import { computed, ref } from 'vue'
 
-const imageInput = ref();
-const selectedFile = ref(null);
-const inputImageUrl = ref(null);
-const text = ref("");
+const imageInput = ref()
+const selectedFile = ref(null)
+const inputImageUrl = ref(null)
+const text = ref('')
 
-const emits = defineEmits(["onSubmit"]);
+const emits = defineEmits(['onSubmit'])
 
-const isDisabled = computed(() => text.value === "");
+const isDisabled = computed(() => text.value === '')
 
 const props = defineProps({
   user: {
@@ -154,30 +150,30 @@ const props = defineProps({
     type: String,
     required: true,
   },
-});
+})
 
 function handleFormSubmit() {
-  emits("onSubmit", {
+  emits('onSubmit', {
     text: text.value,
     mediaFiles: [selectedFile.value],
-  });
+  })
 }
 
 function handleImageClick() {
-  imageInput.value.click();
+  imageInput.value.click()
 }
 
 function handleImageChange(event) {
-  const file = event.target.files[0];
+  const file = event.target.files[0]
 
-  selectedFile.value = file;
+  selectedFile.value = file
 
-  const reader = new FileReader();
+  const reader = new FileReader()
 
   reader.onload = (event) => {
-    inputImageUrl.value = event.target.result;
-  };
+    inputImageUrl.value = event.target.result
+  }
 
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(file)
 }
 </script>

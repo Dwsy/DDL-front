@@ -25,22 +25,10 @@
               </v-col>
             </v-row>
           </div>
-          <div
-            v-for="(i, index) in chatsStore.chatRecord"
-            v-else
-            :key="i.createTime"
-          >
-            <div
-              v-if="index + (1 % 10) === 1"
-              v-intersect.once="loadMore"
-              class="tips"
-            >
+          <div v-for="(i, index) in chatsStore.chatRecord" v-else :key="i.createTime">
+            <div v-if="index + (1 % 10) === 1" v-intersect.once="loadMore" class="tips">
               <!--            <span> {{ index + 1 % 10 === 1 ? dateFilter(i.createTime, 'YYYY-MM-DD hh:mm') : ''  }}</span>-->
-              <span>
-                {{
-                  index + (1 % 10) === 1 ? dateFilter(i.createTime) : ""
-                }}</span
-              >
+              <span> {{ index + (1 % 10) === 1 ? dateFilter(i.createTime) : '' }}</span>
             </div>
             <!--          toUserId:{{typeof i.toUserId  }}uid:{{typeof uid }}-->
             <div v-if="i.toUserId === uid">
@@ -53,8 +41,8 @@
                 v-else
                 v-intersect.once="
                   (e) => {
-                    readMsg(e, i);
-                    i.status = ChatRecordStatus.READ;
+                    readMsg(e, i)
+                    i.status = ChatRecordStatus.READ
                   }
                 "
                 class="cleft cmsg"
@@ -80,14 +68,8 @@
                       v-html="i.content"
                     >
                     </span>
-                    <span
-                      v-if="i.status === ChatRecordStatus.READ"
-                      class="d-read ml-1"
-                      >已读</span
-                    >
-                    <span class="d-time mt-n5 mb-3">{{
-                      timeAgoFilter(i.createTime)
-                    }}</span>
+                    <span v-if="i.status === ChatRecordStatus.READ" class="d-read ml-1">已读</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </v-col>
                 </v-row>
               </div>
@@ -96,16 +78,10 @@
             <div v-else class="cright cmsg">
               <v-row class="my-n12">
                 <v-col>
-                  <span
-                    v-if="i.status === ChatRecordStatus.UNREAD"
-                    class="d-unRade mr-1"
+                  <span v-if="i.status === ChatRecordStatus.UNREAD" class="d-unRade mr-1"
                     >送达</span
                   >
-                  <span
-                    v-if="i.status === ChatRecordStatus.READ"
-                    class="d-read mr-1"
-                    >已送达</span
-                  >
+                  <span v-if="i.status === ChatRecordStatus.READ" class="d-read mr-1">已送达</span>
                   <div
                     v-if="i.chatType === ChatType.markdown"
                     :id="i.id"
@@ -129,17 +105,13 @@
                     <v-avatar size="large">
                       <v-img :src="useUserStore().userInfo.avatar"></v-img>
                     </v-avatar>
-                    <span class="d-time mt-n5 mb-3">{{
-                      timeAgoFilter(i.createTime)
-                    }}</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
                   <template v-else>
                     <v-avatar size="large">
                       <v-img :src="useUserStore().userInfo.avatar"></v-img>
                     </v-avatar>
-                    <span class="d-time mt-n5 mb-3">{{
-                      timeAgoFilter(i.createTime)
-                    }}</span>
+                    <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
                 </v-col>
               </v-row>
@@ -154,175 +126,167 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, isNumber } from "#imports";
-import {
-  defaultMsg,
-  errorMsg,
-  warningMsg,
-} from "~/composables/utils/toastification";
-import {
-  useChatsStore,
-  ChatRecordStatus,
-  ChatType,
-} from "~/stores/messages/chatsStore";
-import { nextTick, onMounted, onUnmounted, onUpdated, ref, watch } from "vue";
-import { useRoute } from "#app";
-import { useHead } from "#head";
-import { useUserStore } from "~/stores/user";
-import { dateFilter } from "#imports";
-import { useTheme } from "vuetify";
-import ChatInputBox from "~/components/messages/chatInputBox.vue";
-import { timeAgoFilter } from "~~/composables/useTools";
-import mediumZoom from "medium-zoom";
+import { definePageMeta, isNumber } from '#imports'
+import { defaultMsg, errorMsg, warningMsg } from '~/composables/utils/toastification'
+import { useChatsStore, ChatRecordStatus, ChatType } from '~/stores/messages/chatsStore'
+import { nextTick, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
+import { useRoute } from '#app'
+import { useHead } from '#head'
+import { useUserStore } from '~/stores/user'
+import { dateFilter } from '#imports'
+import { useTheme } from 'vuetify'
+import ChatInputBox from '~/components/messages/chatInputBox.vue'
+import { timeAgoFilter } from '~~/composables/useTools'
+import mediumZoom from 'medium-zoom'
 
-const theme = useTheme();
+const theme = useTheme()
 definePageMeta({
   keepalive: false,
   // pageTransition: AbstractRange
-});
+})
 // definePageMeta({
 //   pageTransition: {
 //     mode: 'out-in'
 //   },
 // })
 useHead({
-  title: "私信列表:",
+  title: '私信列表:',
   // link: [
   //   {rel: 'stylesheet', href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css'}
   // ]
-});
-const route = useRoute();
+})
+const route = useRoute()
 
-const chatsStore = useChatsStore();
+const chatsStore = useChatsStore()
 
-const uid = ref("");
+const uid = ref('')
 
-const loading = ref(true);
+const loading = ref(true)
 
 const toBubbleColor = ref({
-  back: "#f0f0f0",
-  font: "#000000",
-});
+  back: '#f0f0f0',
+  font: '#000000',
+})
 
 const formBubbleColor = ref({
-  back: "#f1a6c0",
-  font: "#ffffff",
-});
+  back: '#f1a6c0',
+  font: '#ffffff',
+})
 
 definePageMeta({
   keepalive: false,
-});
+})
 onMounted(async () => {
   //todo css统一管理
-  if (theme.global.name.value == "dark") {
+  if (theme.global.name.value == 'dark') {
     toBubbleColor.value = {
-      back: "#303030",
-      font: "#ffffff",
-    };
+      back: '#303030',
+      font: '#ffffff',
+    }
     formBubbleColor.value = {
-      back: "#430053",
-      font: "#ffffff",
-    };
+      back: '#430053',
+      font: '#ffffff',
+    }
   }
   watch(theme.global.name, (val) => {
-    if (val === "dark") {
+    if (val === 'dark') {
       toBubbleColor.value = {
-        back: "#303030",
-        font: "#ffffff",
-      };
+        back: '#303030',
+        font: '#ffffff',
+      }
       formBubbleColor.value = {
-        back: "#430053",
-        font: "#ffffff",
-      };
+        back: '#430053',
+        font: '#ffffff',
+      }
     } else {
       toBubbleColor.value = {
-        back: "#f0f0f0",
-        font: "#000000",
-      };
+        back: '#f0f0f0',
+        font: '#000000',
+      }
       formBubbleColor.value = {
-        back: "#f1a6c0",
-        font: "#ffffff",
-      };
+        back: '#f1a6c0',
+        font: '#ffffff',
+      }
     }
-  });
+  })
 
-  let user = useUserStore();
+  let user = useUserStore()
   //todo 拦截器
-  if (user.token === "") {
-    warningMsg("请先登录");
-    return;
+  if (user.token === '') {
+    warningMsg('请先登录')
+    return
   }
-  uid.value = user.user.id;
-  let userId = String(route.params.userId);
-  chatsStore.chatRecord = [];
+  uid.value = user.user.id
+  let userId = String(route.params.userId)
+  chatsStore.chatRecord = []
   if (isNumber(userId)) {
-    await chatsStore.pullLastMessage(true, userId);
-    loading.value = false;
-    document.title = "私信:" + chatsStore.chatRecord[0].chatUserNickname;
-    chatsStore.load = false;
-    await chatsStore.scrollBottom();
+    await chatsStore.pullLastMessage(true, userId)
+    loading.value = false
+    document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
+    chatsStore.load = false
+    await chatsStore.scrollBottom()
     setTimeout(() => {
-      let chatbox = document.querySelector(".lite-chatbox");
-      chatbox.scrollTop = chatbox.scrollHeight; //当前div的滚轮始终保持最下面
-      mediumZoomFn();
-    }, 500);
+      let chatbox = document.querySelector('.lite-chatbox')
+      chatbox.scrollTop = chatbox.scrollHeight //当前div的滚轮始终保持最下面
+      mediumZoomFn()
+    }, 500)
   } else {
-    errorMsg("路径错误");
+    errorMsg('路径错误')
   }
   watch(chatsStore.chatRecord, (val) => {
     setTimeout(() => {
-      mediumZoomFn();
-    }, 500);
-  });
+      mediumZoomFn()
+    }, 500)
+  })
   // chatsStore.connectWsChannel()
-});
+})
 onMounted(() => {
-  console.log("window onMounted");
-  chatsStore.totalPages = 1;
-  chatsStore.chatRecord = [];
-  chatsStore.load = true;
-});
+  console.log('window onMounted')
+  chatsStore.totalPages = 1
+  chatsStore.chatRecord = []
+  chatsStore.load = true
+})
 
-let loadMoreThrottle;
+let loadMoreThrottle
 const loadMore = async (entries) => {
   if (!chatsStore.load) {
-    await chatsStore.pullLastMessage(false);
+    await chatsStore.pullLastMessage(false)
   }
-  mediumZoomFn();
-};
+  mediumZoomFn()
+}
 
 const readMsg = async (e, msg) => {
   if (e) {
     if (msg.status === ChatRecordStatus.UNREAD) {
-      await chatsStore.readMsg(msg.id);
+      await chatsStore.readMsg(msg.id)
     }
   }
-};
-onMounted(() => {});
-const alreadyMediumZoomChatIdList = ref<string[]>([]);
+}
+onMounted(() => {})
+const alreadyMediumZoomChatIdList = ref<string[]>([])
 const mediumZoomFn = () => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
-    .querySelector(".lite-chatbox")
-    .querySelectorAll(".d-chat-img");
+    .querySelector('.lite-chatbox')
+    .querySelectorAll('.d-chat-img')
   imgNodes.forEach((imgNode) => {
     if (!alreadyMediumZoomChatIdList.value.includes(imgNode.parentElement.id)) {
-      alreadyMediumZoomChatIdList.value.push(imgNode.parentElement.id);
+      alreadyMediumZoomChatIdList.value.push(imgNode.parentElement.id)
       mediumZoom(imgNode, {
-        background: "rgba(0,0,0,0.8)",
-      });
-      console.log("mediumZoom:", imgNode.parentElement.id);
+        background: 'rgba(0,0,0,0.8)',
+      })
+      console.log('mediumZoom:', imgNode.parentElement.id)
     }
-  });
+  })
   // mediumZoom(imgNodes, {
   //   margin: 24,
   //   background: 'rgba(0,0,0,0.4)',
   //   scrollOffset: 0,
   // })
-};
+}
 </script>
 
 <style scoped>
-@import "assets/css/pkg.css";
+@import 'assets/css/pkg.css';
 
 .d-chats-box-head {
   line-height: 2;
@@ -346,23 +310,23 @@ const mediumZoomFn = () => {
   text-align: start;
   /*margin: 0 !important;*/
   /*background: v-bind('toBubbleColor.back') !important;*/
-  color: v-bind("toBubbleColor.font") !important;
+  color: v-bind('toBubbleColor.font') !important;
 }
 
 .lite-chatbox .cleft .content {
   max-width: 45%;
   width: auto;
   margin: 0 !important;
-  background: v-bind("toBubbleColor.back") !important;
-  color: v-bind("toBubbleColor.font") !important;
+  background: v-bind('toBubbleColor.back') !important;
+  color: v-bind('toBubbleColor.font') !important;
 }
 
 .lite-chatbox .cright .content {
   max-width: 45%;
   width: auto;
   margin: 0 !important;
-  background: v-bind("formBubbleColor.back") !important;
-  color: v-bind("formBubbleColor.font") !important;
+  background: v-bind('formBubbleColor.back') !important;
+  color: v-bind('formBubbleColor.font') !important;
 }
 
 .d-time {
@@ -418,9 +382,7 @@ const mediumZoomFn = () => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
 }
 
 :deep(.d-chat-img) {

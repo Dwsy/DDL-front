@@ -1,20 +1,20 @@
 <template>
   <div v-show="!show" :class="{ dark: dark }" class="loading">
     <svg
-        class="spinner"
-        height="65px"
-        viewBox="0 0 66 66"
-        width="65px"
-        xmlns="http://www.w3.org/2000/svg"
+      class="spinner"
+      height="65px"
+      viewBox="0 0 66 66"
+      width="65px"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <circle
-          class="path"
-          cx="33"
-          cy="33"
-          fill="none"
-          r="30"
-          stroke-linecap="round"
-          stroke-width="6"
+        class="path"
+        cx="33"
+        cy="33"
+        fill="none"
+        r="30"
+        stroke-linecap="round"
+        stroke-width="6"
       ></circle>
     </svg>
   </div>
@@ -29,25 +29,18 @@
       <slot name="drawer"></slot>
     </v-navigation-drawer>
 
-    <v-main :style="{'--v-layout-left':drawerWidth}">
+    <v-main :style="{ '--v-layout-left': drawerWidth }">
       <v-container fluid id="main-container" class="box">
-        <slot/>
+        <slot />
         <slot name="footer"></slot>
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script setup lang="ts">
-import {useLayout} from '~~/stores/layout'
-import {
-  nextTick, onBeforeMount,
-  onBeforeUpdate,
-  onMounted,
-  ref,
-  watch,
-  watchEffect,
-} from 'vue'
-import {useTheme} from 'vuetify'
+import { useLayout } from '~~/stores/layout'
+import { nextTick, onBeforeMount, onBeforeUpdate, onMounted, ref, watch, watchEffect } from 'vue'
+import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const layout = useLayout()
@@ -101,8 +94,7 @@ $duration: 1.4s;
   stroke-dasharray: $offset;
   stroke-dashoffset: 0;
   transform-origin: center;
-  animation: dash $duration ease-in-out infinite,
-  colors ($duration * 4) ease-in-out infinite;
+  animation: dash $duration ease-in-out infinite, colors ($duration * 4) ease-in-out infinite;
 }
 
 @keyframes colors {

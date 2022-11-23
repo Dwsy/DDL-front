@@ -1,15 +1,10 @@
 <template>
   <div class="container">
-    <div
-      v-if="error.statusCode === 404"
-      class="grid h-screen place-content-center bg-white"
-    >
+    <div v-if="error.statusCode === 404" class="grid h-screen place-content-center bg-white">
       <div class="text-center">
         <strong class="text-9xl font-black text-gray-200">404</strong>
 
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Uh-oh!
-        </h1>
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">Uh-oh!</h1>
 
         <p class="mt-4 text-gray-500">We can't find that page.</p>
 
@@ -28,7 +23,7 @@
 
 <script>
 export default {
-  props: ["error"],
-  layout: "blog", // you can set a custom layout for the error page
-};
+  props: ['error'],
+  layout: 'blog', // you can set a custom layout for the error page
+}
 </script>

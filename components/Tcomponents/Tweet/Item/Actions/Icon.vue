@@ -15,10 +15,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "~/composables/useTailwindConfig";
+import useTailwindConfig from '~/composables/useTailwindConfig'
 
-const { defaultTransition } = useTailwindConfig();
-const emits = defineEmits(["onClick"]);
+const { defaultTransition } = useTailwindConfig()
+const emits = defineEmits(['onClick'])
 
 const props = defineProps({
   color: {
@@ -29,5 +29,5 @@ const props = defineProps({
     type: Number,
     default: 5,
   },
-});
+})
 </script>

@@ -1,4 +1,4 @@
-$monospace-font: Menlo, Monaco, Consolas, "Courier New", monospace;
+$monospace-font: Menlo, Monaco, Consolas, 'Courier New', monospace;
 $line-space: 22px;
 
 .markdown-body-juejin {
@@ -134,7 +134,7 @@ $line-space: 22px;
     background-color: #f8f8f8;
     &::after {
       display: block;
-      content: "";
+      content: '';
     }
     & > p {
       margin: 10px 0;

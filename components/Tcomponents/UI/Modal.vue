@@ -14,9 +14,7 @@
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -39,23 +37,18 @@
 </template>
 
 <script setup lang="ts">
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-} from "@headlessui/vue";
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel } from '@headlessui/vue'
 
-const emits = defineEmits(["onClose"]);
+const emits = defineEmits(['onClose'])
 
 const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true,
   },
-});
+})
 
 function closeModal() {
-  emits("onClose");
+  emits('onClose')
 }
 </script>

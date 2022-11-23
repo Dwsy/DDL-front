@@ -44,9 +44,9 @@
   -webkit-text-size-adjust: 100%;
 
   padding: 1.6rem 3.2rem;
-  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial,
-    Segoe UI, PingFang SC, Microsoft Yahei, Hiragino Sans GB, sans-serif,
-    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, Segoe UI, PingFang SC,
+    Microsoft Yahei, Hiragino Sans GB, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol, Noto Color Emoji;
   font-size: 16px;
   color: #1f2329;
   /* spacing */
@@ -229,9 +229,7 @@
 }
 .markdown-body pre.md-fences,
 .markdown-body pre.md-meta-block,
-.markdown-body
-  .md-rawblock-control:not(.md-rawblock-tooltip)
-  .md-rawblock-input {
+.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input {
   border-radius: 3px;
   border: 1px solid #dee0e3;
   padding: 10px;
@@ -319,12 +317,12 @@
   padding-left: 22px;
   list-style: none;
 }
-.markdown-body ul > li:not([class*="task-list-item"]) {
+.markdown-body ul > li:not([class*='task-list-item']) {
   word-wrap: break-all;
   padding-left: 0px;
 }
-.markdown-body ul > li:not([class*="task-list-item"]):before {
-  content: "•";
+.markdown-body ul > li:not([class*='task-list-item']):before {
+  content: '•';
   color: #3370ff;
   display: inline-block;
   margin-left: -20px;
@@ -334,20 +332,17 @@
   transform: scale(1.25);
   font-family: PingFangSC-Regular, PingFang SC;
 }
-.markdown-body
-  ul
-  > li:not([class*="task-list-item"])
-  li:not([class*="task-list-item"])::before {
-  content: "◦";
+.markdown-body ul > li:not([class*='task-list-item']) li:not([class*='task-list-item'])::before {
+  content: '◦';
   transform: scale(1);
   font-weight: 700;
 }
 .markdown-body
   ul
-  > li:not([class*="task-list-item"])
-  li:not([class*="task-list-item"])
-  li:not([class*="task-list-item"])::before {
-  content: "▪";
+  > li:not([class*='task-list-item'])
+  li:not([class*='task-list-item'])
+  li:not([class*='task-list-item'])::before {
+  content: '▪';
   transform: scale(1.25);
   font-weight: normal;
 }
@@ -357,13 +352,13 @@
   padding-left: 22px;
   list-style: none;
 }
-.markdown-body ol > li:not([class*="task-list-item"]) {
+.markdown-body ol > li:not([class*='task-list-item']) {
   word-wrap: break-all;
   padding-left: 0px;
   position: relative;
 }
-.markdown-body ol > li:not([class*="task-list-item"]):before {
-  content: counter(ol_counter) ".";
+.markdown-body ol > li:not([class*='task-list-item']):before {
+  content: counter(ol_counter) '.';
   counter-increment: ol_counter;
   color: #3370ff;
   position: absolute;
@@ -423,7 +418,7 @@
   border-color: #3370ff;
 }
 .markdown-body .task-list-item > input[checked]::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 20%;
   left: 50%;
@@ -433,7 +428,7 @@
   background: #3370ff;
 }
 .markdown-body .task-list-item > input[checked]::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 46%;
   left: 25%;

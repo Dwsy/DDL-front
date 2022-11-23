@@ -31,9 +31,7 @@
               <v-row v-for="(item, index) in versionHistoryList">
                 <v-col @click="gotoVersion(index)">
                   <span class="text-subtitle-1">标题：{{ item.title }}</span>
-                  <span class="text-grey float-right">{{
-                    timeAgoFilter(item.date)
-                  }}</span>
+                  <span class="text-grey float-right">{{ timeAgoFilter(item.date) }}</span>
                   <v-divider></v-divider>
                 </v-col>
               </v-row>
@@ -72,7 +70,7 @@
             </template>
             <v-card min-width="600px">
               <div class="px-4 pt-2">
-                <div class="text-h6">{{ isNew ? "发布" : "更新" }}文章</div>
+                <div class="text-h6">{{ isNew ? '发布' : '更新' }}文章</div>
                 <v-divider class="mb-3"></v-divider>
 
                 <v-row>
@@ -123,12 +121,8 @@
               <!--                <template #open>-->
 
               <div class="text-end">
-                <v-btn
-                  class="ml-2 mb-6 mr-10"
-                  color="blue"
-                  @click="clickCutterBtn()"
-                >
-                  {{ !banner ? "上传" : "重新上传" }}
+                <v-btn class="ml-2 mb-6 mr-10" color="blue" @click="clickCutterBtn()">
+                  {{ !banner ? '上传' : '重新上传' }}
                 </v-btn>
               </div>
               <!--                </template>-->
@@ -177,11 +171,11 @@
                   @click="
                     () => {
                       if (isNew) {
-                        publishArticle();
-                        this.menu = false;
+                        publishArticle()
+                        this.menu = false
                       } else {
-                        updateArticle();
-                        this.menu = false;
+                        updateArticle()
+                        this.menu = false
                       }
                     }
                   "
@@ -192,11 +186,7 @@
             </v-card>
           </v-menu>
 
-          <v-menu
-            v-model="settingsDialog"
-            :close-on-content-click="false"
-            :open-on-click="false"
-          >
+          <v-menu v-model="settingsDialog" :close-on-content-click="false" :open-on-click="false">
             <template v-slot:activator="{ props }">
               <v-btn
                 class="mr-n4 ml-2"
@@ -207,12 +197,8 @@
                 @click="settingsDialog = !settingsDialog"
               >
                 <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
-                <v-icon color="#FFF" size="x-large"
-                  >mdi-cookie-cog-outline</v-icon
-                >
-                <v-tooltip activator="parent" location="bottom"
-                  >文章外观设置
-                </v-tooltip>
+                <v-icon color="#FFF" size="x-large">mdi-cookie-cog-outline</v-icon>
+                <v-tooltip activator="parent" location="bottom">文章外观设置 </v-tooltip>
               </v-btn>
             </template>
             <v-card>
@@ -331,9 +317,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyle(HighlightStyleBase16NameList)
-                          "
+                          @click="randomHighlightStyle(HighlightStyleBase16NameList)"
                         >
                           随便来一个
                         </v-btn>
@@ -387,9 +371,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyleDark(HighlightStyleNameList)
-                          "
+                          @click="randomHighlightStyleDark(HighlightStyleNameList)"
                         >
                           随便来一个
                         </v-btn>
@@ -410,11 +392,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyleDark(
-                              HighlightStyleBase16NameList
-                            )
-                          "
+                          @click="randomHighlightStyleDark(HighlightStyleBase16NameList)"
                         >
                           随便来一个123{{ darkHighlightStyle }}
                         </v-btn>
@@ -434,18 +412,10 @@
             transition="fade-transition"
             @click="layout.switchTheme(themeInstance)"
           >
-            <v-icon v-if="themeInstance.global.current.value.dark"
-              >mdi-white-balance-sunny</v-icon
-            >
-            <v-icon v-if="!themeInstance.global.current.value.dark"
-              >mdi-weather-night</v-icon
-            >
+            <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
+            <v-icon v-if="!themeInstance.global.current.value.dark">mdi-weather-night</v-icon>
             <v-tooltip activator="parent" location="bottom"
-              >{{
-                themeInstance.global.current.value.dark
-                  ? "日间模式"
-                  : "夜间模式"
-              }}
+              >{{ themeInstance.global.current.value.dark ? '日间模式' : '夜间模式' }}
             </v-tooltip>
           </v-btn>
         </client-only>
@@ -467,25 +437,15 @@
         <v-btn class="CutterBtn" style="display: none"> CutterBtn </v-btn>
       </template>
     </ImgCutter>
-    <BytemdEditor :content="content" @change-text="changeText"
-      >test</BytemdEditor
-    >
+    <BytemdEditor :content="content" @change-text="changeText">test</BytemdEditor>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from "#app";
-import {
-  nextTick,
-  onMounted,
-  provide,
-  ref,
-  toRaw,
-  watch,
-  watchEffect,
-} from "vue";
-import ImgCutter from "vue-img-cutter/src/components/ImgCutter";
-import BytemdEditor from "~/components/article/write/bytemdEditor.vue";
+import { useRoute, useRouter } from '#app'
+import { nextTick, onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
+import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
+import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
 import {
   ContentType,
   useAxiosGetArticleContent,
@@ -493,15 +453,15 @@ import {
   useAxiosPostCreateArticle,
   useAxiosPostUploadImg,
   useAxiosPutUpdateArticle,
-} from "~/composables/Api/article/manageArticle";
-import { ArticleField } from "~/stores/article/articleStore";
+} from '~/composables/Api/article/manageArticle'
+import { ArticleField } from '~/stores/article/articleStore'
 import {
   ArticleSource,
   ArticleSourceZh,
   ArticleState,
   CreateArticleBody,
-} from "~/types/article/manageArticle";
-import { ArticleGroup, ArticleTag } from "~/types/article";
+} from '~/types/article/manageArticle'
+import { ArticleGroup, ArticleTag } from '~/types/article'
 import {
   ComponentToastMsg,
   createError,
@@ -515,7 +475,7 @@ import {
   useFetchGetArticleGroupList,
   useGet,
   warningMsg,
-} from "#imports";
+} from '#imports'
 import {
   changeThemes,
   mwebDarkList,
@@ -523,169 +483,161 @@ import {
   purpleLightList,
   themeNameList,
   themes,
-} from "~~/constant/markdownThemeList";
+} from '~~/constant/markdownThemeList'
 import {
   changeHighlightStyle,
   HighlightStyleNameList,
   HighlightStyleBase16NameList,
-} from "~~/constant/highlightStyleList";
-import { useUserStore } from "~/stores/user";
-import SelectTag from "~/components/article/write/selectTag.vue";
-import { getUploadPictureBase64AndAudit } from "~/composables/utils/picture";
-import { useTheme } from "vuetify";
-import { TYPE } from "vue-toastification/src/ts/constants";
-import JumpPrompt from "~/components/common/Toast/jumpPrompt.vue";
-import { useLayout } from "~/stores/layout";
-import { ResponseData } from "~/types/utils/axios";
-import mediumZoom from "medium-zoom";
+} from '~~/constant/highlightStyleList'
+import { useUserStore } from '~/stores/user'
+import SelectTag from '~/components/article/write/selectTag.vue'
+import { getUploadPictureBase64AndAudit } from '~/composables/utils/picture'
+import { useTheme } from 'vuetify'
+import { TYPE } from 'vue-toastification/src/ts/constants'
+import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
+import { useLayout } from '~/stores/layout'
+import { ResponseData } from '~/types/utils/axios'
+import mediumZoom from 'medium-zoom'
 
 definePageMeta({
   layout: false,
-});
-const themeInstance = useTheme();
-const layout = useLayout();
-const userStore = useUserStore();
-const route = useRoute();
-const router = useRouter();
-const isNew = ref(false);
-const menu = ref(false);
-const content = ref("");
-const afId = ref("");
-const articleFieldData = ref<ArticleField>();
-const title = ref("");
-const selectionGroup = ref(1);
-const articleGroupId = ref("");
-const articleTagIds = ref<Set<string>>();
-const banner = ref("");
-const summary = ref("");
-const articleGroupList = ref<ArticleGroup[]>([]);
-const articleTagList = ref<ArticleTag[]>([]);
-provide("tagList", { articleTagList });
-const bannerFile = ref<File>();
-const disableUploadBtn = ref(true);
+})
+const themeInstance = useTheme()
+const layout = useLayout()
+const userStore = useUserStore()
+const route = useRoute()
+const router = useRouter()
+const isNew = ref(false)
+const menu = ref(false)
+const content = ref('')
+const afId = ref('')
+const articleFieldData = ref<ArticleField>()
+const title = ref('')
+const selectionGroup = ref(1)
+const articleGroupId = ref('')
+const articleTagIds = ref<Set<string>>()
+const banner = ref('')
+const summary = ref('')
+const articleGroupList = ref<ArticleGroup[]>([])
+const articleTagList = ref<ArticleTag[]>([])
+provide('tagList', { articleTagList })
+const bannerFile = ref<File>()
+const disableUploadBtn = ref(true)
 const bannerRules = [
   (value) => {
-    return (
-      !value || !value.length || value[0].size < 5000000 || "头图大小超过 5 MB!"
-    );
+    return !value || !value.length || value[0].size < 5000000 || '头图大小超过 5 MB!'
   },
-];
+]
 
 const test = () => {
-  changeThemes(themes["ayuMirage"]);
-};
+  changeThemes(themes['ayuMirage'])
+}
 //todo 图片裁切功能
-const articleSource = ref<ArticleSource>();
-const articleSourceUrl = ref(null);
-const articleSourceItem = ref<{ text: string; value: ArticleSource }>();
+const articleSource = ref<ArticleSource>()
+const articleSourceUrl = ref(null)
+const articleSourceItem = ref<{ text: string; value: ArticleSource }>()
 const ArticleSourceItems = Object.keys(ArticleSource).map((key) => {
-  return { text: ArticleSourceZh[key], value: key };
-});
-const { data: groupData } = await useFetchGetArticleGroupList();
-articleGroupList.value = groupData;
-const settingsDialog = ref(false);
-const themeName = ref<string>("cyanosis");
-const darkThemeName = ref<string>("geekBlackDark");
-const highlightStyle = ref<string>("xcode");
-const darkHighlightStyle = ref<string>("xcode");
-const selectThemeTabName = ref("");
+  return { text: ArticleSourceZh[key], value: key }
+})
+const { data: groupData } = await useFetchGetArticleGroupList()
+articleGroupList.value = groupData
+const settingsDialog = ref(false)
+const themeName = ref<string>('cyanosis')
+const darkThemeName = ref<string>('geekBlackDark')
+const highlightStyle = ref<string>('xcode')
+const darkHighlightStyle = ref<string>('xcode')
+const selectThemeTabName = ref('')
 
 onMounted(async () => {
-  const id = String(route.query.id);
-  let version = Number(route.query.version || -1);
-  await load(id, version);
+  const id = String(route.query.id)
+  let version = Number(route.query.version || -1)
+  await load(id, version)
 
   watchEffect(async () => {
-    if (themeInstance.global.name.value === "dark") {
-      await changeThemes(themes[darkThemeName.value]);
-      await changeHighlightStyle(darkHighlightStyle.value);
-      if (selectThemeTabName.value !== "dark") {
-        selectThemeTabName.value = "dark";
+    if (themeInstance.global.name.value === 'dark') {
+      await changeThemes(themes[darkThemeName.value])
+      await changeHighlightStyle(darkHighlightStyle.value)
+      if (selectThemeTabName.value !== 'dark') {
+        selectThemeTabName.value = 'dark'
       }
     } else {
-      await changeThemes(themes[themeName.value]);
-      await changeHighlightStyle(highlightStyle.value);
-      if (selectThemeTabName.value !== "light") {
-        selectThemeTabName.value = "light";
+      await changeThemes(themes[themeName.value])
+      await changeHighlightStyle(highlightStyle.value)
+      if (selectThemeTabName.value !== 'light') {
+        selectThemeTabName.value = 'light'
       }
     }
-  });
+  })
   watch(selectThemeTabName, (val) => {
-    if (val === "dark") {
-      layout.switchDarkTheme(themeInstance);
+    if (val === 'dark') {
+      layout.switchDarkTheme(themeInstance)
     } else {
-      layout.switchLightTheme(themeInstance);
+      layout.switchLightTheme(themeInstance)
     }
-  });
+  })
 
   watchEffect(async () => {
     if (articleSourceItem.value) {
-      articleSource.value = articleSourceItem.value.value;
+      articleSource.value = articleSourceItem.value.value
     }
-  });
+  })
 
   watch(bannerFile, () => {
-    disableUploadBtn.value = bannerFile.value == null;
-  });
-});
+    disableUploadBtn.value = bannerFile.value == null
+  })
+})
 
 async function load(id: string, version: number) {
   if (Boolean(id) === false) {
-    isNew.value = true;
+    isNew.value = true
     await router.push({
       query: {
-        new: "true",
+        new: 'true',
       },
-    });
+    })
   } else {
     if (route.query.id) {
-      afId.value = String(route.query.id);
-      const { data: ArticleFieldResponse } = await useAxiosGetArticleField(
-        afId.value,
-        version
-      );
+      afId.value = String(route.query.id)
+      const { data: ArticleFieldResponse } = await useAxiosGetArticleField(afId.value, version)
       //todo 优化
       if (ArticleFieldResponse.data === null) {
         await router.push({
           query: {
-            new: "true",
+            new: 'true',
           },
-        });
+        })
       } else if (ArticleFieldResponse.code === 0) {
-        articleFieldData.value = ArticleFieldResponse.data;
+        articleFieldData.value = ArticleFieldResponse.data
         if (articleFieldData?.value.user.id !== userStore.user?.id) {
           // await clearError({redirect: '/'})
           throw createError({
             statusCode: 401,
-            statusMessage: "Unauthorized",
-            data: "data",
+            statusMessage: 'Unauthorized',
+            data: 'data',
             fatal: true,
-            message: "Unauthorized",
-          });
+            message: 'Unauthorized',
+          })
         }
-        const { data: ContentResponse } = await useAxiosGetArticleContent(
-          afId.value,
-          {
-            type: ContentType.markdown,
-            version: version,
-          }
-        );
+        const { data: ContentResponse } = await useAxiosGetArticleContent(afId.value, {
+          type: ContentType.markdown,
+          version: version,
+        })
         if (ContentResponse.code === 0) {
-          content.value = ContentResponse.data;
-          title.value = articleFieldData.value.title;
-          articleGroupId.value = articleFieldData.value.articleGroup.id;
-          articleTagList.value = articleFieldData.value.articleTags;
-          banner.value = articleFieldData.value.banner;
-          summary.value = articleFieldData.value.summary;
+          content.value = ContentResponse.data
+          title.value = articleFieldData.value.title
+          articleGroupId.value = articleFieldData.value.articleGroup.id
+          articleTagList.value = articleFieldData.value.articleTags
+          banner.value = articleFieldData.value.banner
+          summary.value = articleFieldData.value.summary
           // articleSource.value = articleFieldData.value.articleSource
           articleSourceItem.value = {
             text: ArticleSourceZh[articleFieldData.value.articleSource],
             value: articleFieldData.value.articleSource,
-          };
-          articleSourceUrl.value = articleFieldData.value.articleSourceUrl;
-          themeName.value = articleFieldData.value.markDownTheme;
-          darkThemeName.value = articleFieldData.value.markDownThemeDark;
-          highlightStyle.value = articleFieldData.value.codeHighlightStyle;
+          }
+          articleSourceUrl.value = articleFieldData.value.articleSourceUrl
+          themeName.value = articleFieldData.value.markDownTheme
+          darkThemeName.value = articleFieldData.value.markDownThemeDark
+          highlightStyle.value = articleFieldData.value.codeHighlightStyle
         }
       }
     }
@@ -693,49 +645,46 @@ async function load(id: string, version: number) {
 }
 
 const rules = {
-  email: (v) => !!(v || "").match(/@/) || "请输入有效的电子邮件",
-  length: (len) => (v) =>
-    (v || "").length <= len || `文章摘要需小于或等于${len}个字符`,
+  email: (v) => !!(v || '').match(/@/) || '请输入有效的电子邮件',
+  length: (len) => (v) => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
   password: (v) =>
-    !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-    "密码必须包含大写字母、数字字符和特殊字符",
-  required: (v) => !!v || "此字段是必需的。",
-};
+    !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+    '密码必须包含大写字母、数字字符和特殊字符',
+  required: (v) => !!v || '此字段是必需的。',
+}
 
 const changeText = async (text) => {
-  content.value = text;
-};
+  content.value = text
+}
 
 const send = async () => {
-  if (title.value.trim() === "") {
-    infoMsg("标题不能为空");
-    return;
+  if (title.value.trim() === '') {
+    infoMsg('标题不能为空')
+    return
   }
-  if (content.value.trim() === "") {
-    infoMsg("内容不能为空");
-    return;
+  if (content.value.trim() === '') {
+    infoMsg('内容不能为空')
+    return
   }
-  saveState();
-  menu.value = true;
-  await nextTick();
+  saveState()
+  menu.value = true
+  await nextTick()
   setTimeout(() => {
-    const element: HTMLImageElement = document.querySelector(
-      ".d-draft-banner img"
-    );
-    console.log(element);
+    const element: HTMLImageElement = document.querySelector('.d-draft-banner img')
+    console.log(element)
     mediumZoom(element, {
-      background: "rgba(0, 0, 0, 0.8)",
+      background: 'rgba(0, 0, 0, 0.8)',
       scrollOffset: 0,
       margin: 0,
-    });
-  }, 1000);
-};
+    })
+  }, 1000)
+}
 
 const publishArticle = async () => {
-  articleTagIds.value = new Set<string>();
+  articleTagIds.value = new Set<string>()
   articleTagList.value.forEach((tag) => {
-    articleTagIds.value.add(tag.id);
-  });
+    articleTagIds.value.add(tag.id)
+  })
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
@@ -751,34 +700,27 @@ const publishArticle = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPostCreateArticle(body);
+  }
+  const { data: axiosResponse } = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('发布成功')
-    const url = "/article/" + axiosResponse.data;
+    const url = '/article/' + axiosResponse.data
     const timeout = setTimeout(() => {
-      window.location.href = url;
+      window.location.href = url
       // useRouter().push('/article/' + axiosResponse.data.id)
-    }, 5000);
-    ComponentToastMsg(
-      `发布成功{{}}秒后自动跳转到文章`,
-      TYPE.SUCCESS,
-      JumpPrompt,
-      5,
-      timeout,
-      url
-    );
+    }, 5000)
+    ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
   } else {
-    errorMsg(axiosResponse.msg);
+    errorMsg(axiosResponse.msg)
   }
-};
+}
 const updateArticle = async () => {
-  articleTagIds.value = new Set();
+  articleTagIds.value = new Set()
   articleTagList.value.forEach((tag) => {
-    articleTagIds.value.add(tag.id);
+    articleTagIds.value.add(tag.id)
     // articleTagIds.value.push(tag.id)
-  });
-  console.log(articleTagIds.value);
+  })
+  console.log(articleTagIds.value)
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
@@ -795,27 +737,20 @@ const updateArticle = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPutUpdateArticle(body);
+  }
+  const { data: axiosResponse } = await useAxiosPutUpdateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('更新成功')
-    const url = "/article/" + afId.value;
+    const url = '/article/' + afId.value
     const timeout = setTimeout(async () => {
-      window.location.href = url;
+      window.location.href = url
       // await useRouter().push('/article/' + afId.value)
-    }, 5000);
-    ComponentToastMsg(
-      `更新成功{{}}秒后自动跳转到文章`,
-      TYPE.SUCCESS,
-      JumpPrompt,
-      5,
-      timeout,
-      url
-    );
+    }, 5000)
+    ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
   } else {
-    errorMsg(axiosResponse.msg);
+    errorMsg(axiosResponse.msg)
   }
-};
+}
 const saveState = () => {
   // console.log('saveState')
   beforeChangeState = {
@@ -825,130 +760,125 @@ const saveState = () => {
     summary: toRaw(summary.value),
     articleSource: toRaw(articleSource.value),
     articleSourceUrl: toRaw(articleSourceUrl.value),
-  };
-};
+  }
+}
 let beforeChangeState = {
-  articleGroupId: "",
+  articleGroupId: '',
   articleTagList: [],
-  banner: "",
-  summary: "",
+  banner: '',
+  summary: '',
   articleSource: null,
-  articleSourceUrl: "",
-};
-const bannerFileUploading = ref(false);
-const localBannerImg = ref();
-let lastUploadFileName = "";
+  articleSourceUrl: '',
+}
+const bannerFileUploading = ref(false)
+const localBannerImg = ref()
+let lastUploadFileName = ''
 const clickCutterBtn = () => {
-  const element: HTMLElement = document.querySelector(".CutterBtn");
-  element.click();
-  menu.value = false;
-};
+  const element: HTMLElement = document.querySelector('.CutterBtn')
+  element.click()
+  menu.value = false
+}
 const cutDown = async (res) => {
-  bannerFile.value = res.file;
-  menu.value = true;
-  await uploadBannerFile(res);
-};
+  bannerFile.value = res.file
+  menu.value = true
+  await uploadBannerFile(res)
+}
 
 const uploadBannerFile = async (res) => {
   if (bannerFile.value === null) {
-    defaultMsg("请选择文件");
+    defaultMsg('请选择文件')
   }
 
   //todo 文件上传接口细分
-  bannerFileUploading.value = true;
-  const file = bannerFile.value;
-  console.log(file);
+  bannerFileUploading.value = true
+  const file = bannerFile.value
+  console.log(file)
   if (res.dataURL === localBannerImg.value) {
-    defaultMsg("请勿重复上传");
-    bannerFileUploading.value = false;
-    return;
+    defaultMsg('请勿重复上传')
+    bannerFileUploading.value = false
+    return
   }
-  localBannerImg.value = res.dataURL;
-  const { data: response } = await useAxiosPostUploadImg(file);
-  bannerFileUploading.value = false;
+  localBannerImg.value = res.dataURL
+  const { data: response } = await useAxiosPostUploadImg(file)
+  bannerFileUploading.value = false
   if (response.code === 0) {
-    const imgUrl = "https://" + response.data + "?imageslim";
-    const imgBase64 = await getUploadPictureBase64AndAudit(
-      imgUrl,
-      "图片违规上传失败"
-    );
+    const imgUrl = 'https://' + response.data + '?imageslim'
+    const imgBase64 = await getUploadPictureBase64AndAudit(imgUrl, '图片违规上传失败')
     if (imgBase64) {
-      banner.value = imgUrl;
-      localBannerImg.value = imgBase64;
-      lastUploadFileName = file.name;
-      defaultMsg("上传成功");
+      banner.value = imgUrl
+      localBannerImg.value = imgBase64
+      lastUploadFileName = file.name
+      defaultMsg('上传成功')
     } else {
     }
   } else {
-    warningMsg("上传失败");
+    warningMsg('上传失败')
   }
-};
+}
 const cancelChange = () => {
-  menu.value = false;
-  articleGroupId.value = beforeChangeState.articleGroupId;
-  articleTagList.value = beforeChangeState.articleTagList;
-  banner.value = beforeChangeState.banner;
-  summary.value = beforeChangeState.summary;
-  articleSource.value = beforeChangeState.articleSource;
-  articleSourceUrl.value = beforeChangeState.articleSourceUrl;
-};
+  menu.value = false
+  articleGroupId.value = beforeChangeState.articleGroupId
+  articleTagList.value = beforeChangeState.articleTagList
+  banner.value = beforeChangeState.banner
+  summary.value = beforeChangeState.summary
+  articleSource.value = beforeChangeState.articleSource
+  articleSourceUrl.value = beforeChangeState.articleSourceUrl
+}
 
 const randomTheme = (list: Array<string>) => {
-  themeName.value = list[Math.ceil(Math.random() * list.length) - 1];
-};
+  themeName.value = list[Math.ceil(Math.random() * list.length) - 1]
+}
 
 const randomThemeDark = (list: Array<string>) => {
-  darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1];
-};
+  darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1]
+}
 const randomHighlightStyle = (list: Array<string>) => {
-  highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1];
-  changeHighlightStyle(highlightStyle.value);
-};
+  highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(highlightStyle.value)
+}
 
 const randomHighlightStyleDark = (list: Array<string>) => {
-  darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1];
-  changeHighlightStyle(darkHighlightStyle.value);
-};
+  darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(darkHighlightStyle.value)
+}
 
-const versionHistoryMenu = ref();
-const versionHistoryList = ref<versionDataI[]>();
+const versionHistoryMenu = ref()
+const versionHistoryList = ref<versionDataI[]>()
 
 interface versionDataI {
-  title: string;
-  date: string;
+  title: string
+  date: string
 }
 
 const getVersionHistoryList = async () => {
   const { data: response } = await useGet<ResponseData<versionDataI[]>>(
-    "article/article/manage/historyVersion/" + afId.value
-  );
-  versionHistoryList.value = response.data;
-};
+    'article/article/manage/historyVersion/' + afId.value
+  )
+  versionHistoryList.value = response.data
+}
 
 const gotoVersion = async (version: number) => {
-  await load(afId.value, version);
+  await load(afId.value, version)
   // successMsg('切换版本成功')
-};
-const editorTitleInputLabelFontSize = ref("130%");
+}
+const editorTitleInputLabelFontSize = ref('130%')
 // v-field--active
 onMounted(() => {
-  const editorTitleInput = document.querySelector(
-    ".d-editor-title > div.v-input__control > div"
-  );
+  const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
   watchEffect(() => {
     // content.value.split('\n')
-  });
+  })
   const observer = new MutationObserver((e) => {
-    if (editorTitleInput.classList.contains("v-field--active")) {
-      editorTitleInputLabelFontSize.value = "80%";
+    if (editorTitleInput.classList.contains('v-field--active')) {
+      editorTitleInputLabelFontSize.value = '80%'
     } else {
-      editorTitleInputLabelFontSize.value = "130%";
+      editorTitleInputLabelFontSize.value = '130%'
     }
-  });
+  })
   observer.observe(editorTitleInput, {
     attributes: true,
-  });
-});
+  })
+})
 </script>
 <script lang="ts"></script>
 
@@ -958,17 +888,13 @@ onMounted(() => {
 }
 
 :deep(.d-editor-title label) {
-  font-size: v-bind("editorTitleInputLabelFontSize");
-  color: v-bind(
-    'themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"'
-  );
+  font-size: v-bind('editorTitleInputLabelFontSize');
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');
 }
 
 :deep(.d-editor-title input) {
   /*font-size: v-bind('editorTitleInputLabelFontSize');*/
-  color: v-bind(
-    'themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"'
-  );
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');
 }
 
 :deep(.vue-img-cutter) {

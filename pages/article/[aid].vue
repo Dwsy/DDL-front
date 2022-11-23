@@ -3,26 +3,11 @@
     <Head>
       <Title>{{ title }}</Title>
       <Meta :content="title" name="description" />
-      <Style
-        id="highlightStyle"
-        :children="articleStore.HighlightStyleStr"
-        type="text/css"
-      />
-      <Style
-        id="markdownTheme"
-        :children="articleStore.MarkdownThemeStr"
-        type="text/css"
-      />
+      <Style id="highlightStyle" :children="articleStore.HighlightStyleStr" type="text/css" />
+      <Style id="markdownTheme" :children="articleStore.MarkdownThemeStr" type="text/css" />
     </Head>
     <v-row class="article-content">
-      <v-col
-        class="ml-md-2 ml-lg-6 ml-0"
-        lg="10"
-        md="10"
-        sm="10"
-        xl="10"
-        xs="12"
-      >
+      <v-col class="ml-md-2 ml-lg-6 ml-0" lg="10" md="10" sm="10" xl="10" xs="12">
         <div class="mt-n8">
           <div>
             <v-row class="mb-1">
@@ -36,56 +21,33 @@
             <v-row>
               <v-col cols="1" class="mr-lg-1 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
                 <v-avatar size="60">
-                  <v-img
-                    :src="articleStore.articleField.user.userInfo.avatar"
-                  ></v-img>
+                  <v-img :src="articleStore.articleField.user.userInfo.avatar"></v-img>
                 </v-avatar>
               </v-col>
               <v-col cols="5" class="ml-n1 mt-1">
                 <v-row>
                   <v-col class="ml-n8">
                     <span>{{ articleStore.articleField.user.nickname }}</span>
-                    <span class="pl-3"
-                      >Level:{{ articleStore.articleField.user.level }}</span
-                    >
+                    <span class="pl-3">Level:{{ articleStore.articleField.user.level }}</span>
                   </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-col
-                    class="ml-n8 mt-n3 d-none d-sm-flex"
-                    style="color: #8a919f"
-                  >
+                  <v-col class="ml-n8 mt-n3 d-none d-sm-flex" style="color: #8a919f">
                     <!--                    <span>  {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }} · </span>-->
                     <span>
-                      {{
-                        timeAgoFilter(articleStore.articleField.createTime)
-                      }}
+                      {{ timeAgoFilter(articleStore.articleField.createTime) }}
                       ·
                     </span>
                     <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col
-                v-if="user.user?.id !== articleStore.articleField.user.id"
-                class="mt-2"
-              >
-                <v-btn
-                  v-if="articleStore.follow"
-                  class="float-end mx-4"
-                  color="pink lighten-3"
-                >
-                  <span style="color: white" @click="unsubscribe()"
-                    >已关注</span
-                  >
+              <v-col v-if="user.user?.id !== articleStore.articleField.user.id" class="mt-2">
+                <v-btn v-if="articleStore.follow" class="float-end mx-4" color="pink lighten-3">
+                  <span style="color: white" @click="unsubscribe()">已关注</span>
                 </v-btn>
-                <v-btn
-                  v-else
-                  class="float-end mx-4"
-                  color="blue lighten-3"
-                  @click="subscribe()"
-                >
+                <v-btn v-else class="float-end mx-4" color="blue lighten-3" @click="subscribe()">
                   <span style="color: white">关注</span>
                 </v-btn>
               </v-col>
@@ -105,12 +67,7 @@
               <v-col>
                 <v-col class="ml-n8 mt-n3" style="color: #8a919f">
                   <span>
-                    {{
-                      dateFilter(
-                        articleStore.articleField.createTime,
-                        "YYYY-MM-DD hh:mm"
-                      )
-                    }}
+                    {{ dateFilter(articleStore.articleField.createTime, 'YYYY-MM-DD hh:mm') }}
                     ·
                   </span>
                   <span>阅读量：{{ articleStore.articleField.viewNum }}</span>
@@ -157,11 +114,7 @@
               <v-icon left>mdi-tag</v-icon>
               <span>标签</span>
             </v-chip>
-            <v-chip
-              v-for="tag in articleStore.articleField.articleTags"
-              :key="tag.id"
-              class="mr-1"
-            >
+            <v-chip v-for="tag in articleStore.articleField.articleTags" :key="tag.id" class="mr-1">
               <nuxt-link :to="`/article/tag/${tag.id}`">
                 {{ tag.name }}
               </nuxt-link>
@@ -191,10 +144,7 @@
               >
                 <!--                auto-grow-->
               </v-textarea>
-              <v-btn
-                class="float-end mx-6 mb-4"
-                color="primary"
-                @click="ReplyComment()"
+              <v-btn class="float-end mx-6 mb-4" color="primary" @click="ReplyComment()"
                 >发送</v-btn
               >
             </v-col>
@@ -217,25 +167,19 @@
                         v-bind="props"
                       >
                         <span>{{
-                          articleCommentStore.CommentMenuList[
-                            articleCommentStore.selectCommentMenu
-                          ]
+                          articleCommentStore.CommentMenuList[articleCommentStore.selectCommentMenu]
                         }}</span>
                       </v-btn>
                     </template>
 
                     <v-list>
                       <v-list-item
-                        v-for="(
-                          item, index
-                        ) in articleCommentStore.CommentMenuList"
+                        v-for="(item, index) in articleCommentStore.CommentMenuList"
                         :key="index"
                       >
                         <v-btn
                           elevation="0"
-                          @click="
-                            articleCommentStore.clickSelectCommentMenu(index)
-                          "
+                          @click="articleCommentStore.clickSelectCommentMenu(index)"
                         >
                           {{ item }}
                         </v-btn>
@@ -247,10 +191,7 @@
             </v-row>
           </client-only>
 
-          <div
-            v-if="articleCommentStore.loadingComment"
-            class="text-h3 my-16 text-center"
-          >
+          <div v-if="articleCommentStore.loadingComment" class="text-h3 my-16 text-center">
             <span> 加载中... </span>
           </div>
           <div v-if="articleCommentStore.commentList.length === 0">
@@ -259,19 +200,9 @@
             </div>
           </div>
 
-          <div
-            v-for="(comment, index) in articleCommentStore.commentList"
-            v-else
-            key="comment.id"
-          >
+          <div v-for="(comment, index) in articleCommentStore.commentList" v-else key="comment.id">
             <v-row class="mt-lg-3 mt-2">
-              <v-col
-                class="mr-xl-n5 mr-lg-n2 d-comment mr-8"
-                cols="1"
-                lg="1"
-                sm="1"
-                xl="0"
-              >
+              <v-col class="mr-xl-n5 mr-lg-n2 d-comment mr-8" cols="1" lg="1" sm="1" xl="0">
                 <v-avatar size="x-large">
                   <v-img :src="comment.user.userInfo.avatar"></v-img>
                 </v-avatar>
@@ -282,12 +213,9 @@
                 <span>{{ comment.user.nickname }}</span>
                 <span class="mr-4 pl-3">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none" />
-                <span class="mr-4">
-                  {{ dateFilter(comment.createTime, "YYYY-MM-DD hh:mm") }}</span
-                >
+                <span class="mr-4"> {{ dateFilter(comment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
                 <div class="float-right" v-if="showDelBtn(comment.user.id)">
-                  <v-icon
-                    @click="articleCommentStore.deleteComment(aid, comment.id)"
+                  <v-icon @click="articleCommentStore.deleteComment(aid, comment.id)"
                     >mdi-delete-outline</v-icon
                   >
                 </div>
@@ -306,27 +234,11 @@
                       plain
                       rounded
                       size="small"
-                      @click="
-                        articleCommentStore.ActionComment(
-                          CommentType.up,
-                          comment.id,
-                          index
-                        )
-                      "
+                      @click="articleCommentStore.ActionComment(CommentType.up, comment.id, index)"
                     >
                       <v-icon
-                        :color="
-                          articleCommentStore.getCommentActionColor(
-                            CommentType.up,
-                            index
-                          )
-                        "
-                        :icon="
-                          articleCommentStore.getCommentActionIcon(
-                            CommentType.up,
-                            index
-                          )
-                        "
+                        :color="articleCommentStore.getCommentActionColor(CommentType.up, index)"
+                        :icon="articleCommentStore.getCommentActionIcon(CommentType.up, index)"
                       ></v-icon>
                       <span v-if="comment.upNum > 0">
                         {{ comment.upNum }}
@@ -340,26 +252,12 @@
                       rounded
                       size="small"
                       @click="
-                        articleCommentStore.ActionComment(
-                          CommentType.down,
-                          comment.id,
-                          index
-                        )
+                        articleCommentStore.ActionComment(CommentType.down, comment.id, index)
                       "
                     >
                       <v-icon
-                        :color="
-                          articleCommentStore.getCommentActionColor(
-                            CommentType.down,
-                            index
-                          )
-                        "
-                        :icon="
-                          articleCommentStore.getCommentActionIcon(
-                            CommentType.down,
-                            index
-                          )
-                        "
+                        :color="articleCommentStore.getCommentActionColor(CommentType.down, index)"
+                        :icon="articleCommentStore.getCommentActionIcon(CommentType.down, index)"
                       ></v-icon>
                       <span v-if="comment.downNum > 0">
                         {{ comment.downNum }}
@@ -399,9 +297,7 @@
                         <v-btn
                           class="float-end mx-6 mb-4"
                           color="primary"
-                          @click="
-                            ReplyComment(comment.user.id, comment.id, index)
-                          "
+                          @click="ReplyComment(comment.user.id, comment.id, index)"
                           >发送
                         </v-btn>
                       </div>
@@ -415,9 +311,7 @@
                     <v-row>
                       <v-col cols="12">
                         <div
-                          v-for="(childComment, Cindex) in childCommentLimit(
-                            comment
-                          )"
+                          v-for="(childComment, Cindex) in childCommentLimit(comment)"
                           key="comment.id"
                         >
                           <v-row class="mt-1">
@@ -430,9 +324,7 @@
                               xl="1"
                             >
                               <v-avatar>
-                                <v-img
-                                  :src="childComment.user.userInfo.avatar"
-                                ></v-img>
+                                <v-img :src="childComment.user.userInfo.avatar"></v-img>
                               </v-avatar>
                             </v-col>
 
@@ -444,30 +336,15 @@
                               #{{ childComment.commentSerialNumber }}
                               <!--                              #{{ Cindex + (comment.childCommentPage - 1) * 8 + 1 }}-->
                               <span>{{ childComment.user.nickname }}</span>
-                              <span class="mr-4 pl-3"
-                                >Level:{{ childComment.user.level }}</span
-                              >
+                              <span class="mr-4 pl-3">Level:{{ childComment.user.level }}</span>
                               <br class="d-sm-none" />
                               <span class="mr-4">{{
-                                dateFilter(
-                                  childComment.createTime,
-                                  "YYYY-MM-DD hh:mm"
-                                )
+                                dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm')
                               }}</span>
                               <div class="float-right">
                                 <v-icon
-                                  v-if="
-                                    showDelBtn(
-                                      childComment.user.id,
-                                      comment.user.id
-                                    )
-                                  "
-                                  @click="
-                                    articleCommentStore.deleteComment(
-                                      aid,
-                                      childComment.id
-                                    )
-                                  "
+                                  v-if="showDelBtn(childComment.user.id, comment.user.id)"
+                                  @click="articleCommentStore.deleteComment(aid, childComment.id)"
                                 >
                                   mdi-delete-outline
                                 </v-icon>
@@ -476,21 +353,14 @@
                               <div>
                                 <v-row class="mt-n3">
                                   <v-col>
-                                    <div
-                                      v-if="
-                                        childComment.replyUserCommentId === '0'
-                                      "
-                                    >
+                                    <div v-if="childComment.replyUserCommentId === '0'">
                                       {{ childComment.text }}
                                     </div>
 
                                     <div
                                       v-else
                                       v-html="
-                                        atSrtGotoHome(
-                                          childComment.text,
-                                          childComment.parentUserId
-                                        )
+                                        atSrtGotoHome(childComment.text, childComment.parentUserId)
                                       "
                                     ></div>
                                   </v-col>
@@ -576,16 +446,9 @@
                                       plain
                                       rounded
                                       size="x-small"
-                                      @click="
-                                        articleCommentStore.showCommentBox(
-                                          index,
-                                          Cindex
-                                        )
-                                      "
+                                      @click="articleCommentStore.showCommentBox(index, Cindex)"
                                     >
-                                      <v-icon size="large"
-                                        >mdi-reply-outline</v-icon
-                                      >
+                                      <v-icon size="large">mdi-reply-outline</v-icon>
                                     </v-btn>
                                     <v-col
                                       v-if="childComment.showCommentBox"
@@ -593,9 +456,7 @@
                                     >
                                       <div v-if="user.token">
                                         <v-textarea
-                                          v-model="
-                                            childComment.replyCommentText
-                                          "
+                                          v-model="childComment.replyCommentText"
                                           :auto-grow="true"
                                           clear-icon="mdi-close-circle"
                                           clearable
@@ -640,16 +501,14 @@
                           <v-row>
                             <div
                               v-if="
-                                Cindex === 2 &&
-                                !comment.loadMore &&
-                                comment.childCommentNum > 3
+                                Cindex === 2 && !comment.loadMore && comment.childCommentNum > 3
                               "
                               class="pa-4 ml-4"
                             >
                               <v-btn
                                 @click="
                                   () => {
-                                    comment.loadMore = true;
+                                    comment.loadMore = true
                                   }
                                 "
                               >
@@ -658,11 +517,7 @@
                             </div>
                           </v-row>
                         </div>
-                        <div
-                          v-if="comment.loadMore"
-                          class="text-start"
-                          style="width: 30%"
-                        >
+                        <div v-if="comment.loadMore" class="text-start" style="width: 30%">
                           <!--                                            @input="(page)=> {-->
                           <!--                                             await articleCommentStore.loadChildComment(comment.id,page)-->
                           <!--                                            }"-->
@@ -674,10 +529,7 @@
                             rounded="circle"
                             @update:modelValue="
                               (page) => {
-                                articleCommentStore.loadChildComment(
-                                  comment,
-                                  page
-                                );
+                                articleCommentStore.loadChildComment(comment, page)
                               }
                             "
                           ></v-pagination>
@@ -720,14 +572,7 @@
     <client-only>
       <div class="side-toolbar1">
         <a href="#comments" v-if="!gotoTitle">
-          <v-btn
-            class="mr-3"
-            elevation="0"
-            outlined
-            rounded
-            size="small"
-            @click="gotoTitle = true"
-          >
+          <v-btn class="mr-3" elevation="0" outlined rounded size="small" @click="gotoTitle = true">
             <v-icon>mdi-message-reply-text-outline</v-icon>
             <v-tooltip activator="parent" location="top">评论区 </v-tooltip>
           </v-btn>
@@ -754,9 +599,7 @@
           size="small"
           @click="articleStore.ActionArticle(CommentType.up)"
         >
-          <v-icon
-            :icon="articleStore.getArticleActionIcon(CommentType.up)"
-          ></v-icon>
+          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.up)"></v-icon>
           <span v-if="articleStore.articleField.upNum > 0">
             {{ articleStore.articleField.upNum }}
           </span>
@@ -770,19 +613,13 @@
           size="small"
           @click="articleStore.ActionArticle(CommentType.down)"
         >
-          <v-icon
-            :icon="articleStore.getArticleActionIcon(CommentType.down)"
-          ></v-icon>
+          <v-icon :icon="articleStore.getArticleActionIcon(CommentType.down)"></v-icon>
           <span v-if="articleStore.articleField.downNum > 0">
             {{ articleStore.articleField.downNum }}
           </span>
         </v-btn>
 
-        <v-dialog
-          v-model="collectionDialog"
-          persistent
-          transition="dialog-bottom-transition"
-        >
+        <v-dialog v-model="collectionDialog" persistent transition="dialog-bottom-transition">
           <template v-slot:activator="{ props }">
             <v-btn
               class="mr-3"
@@ -794,11 +631,7 @@
               v-bind="props"
               @click="collectionArticles()"
             >
-              <v-icon
-                v-if="!articleStore.collect"
-                icon="mdi-cards-heart-outline"
-              >
-              </v-icon>
+              <v-icon v-if="!articleStore.collect" icon="mdi-cards-heart-outline"> </v-icon>
               <v-icon v-else icon="mdi-cards-heart"> </v-icon>
               <span v-if="articleStore.articleField.collectNum > 0">
                 {{ articleStore.articleField.collectNum }}
@@ -811,11 +644,7 @@
               <v-card-title>
                 <span class="text-h6 ml-8">添加到收藏夹</span>
               </v-card-title>
-              <div
-                v-for="group in collectionGroupList"
-                :key="group.id"
-                class="d-flex my-n6 px-4"
-              >
+              <div v-for="group in collectionGroupList" :key="group.id" class="d-flex my-n6 px-4">
                 {{ group.select }}
                 <v-checkbox
                   v-model="group.select"
@@ -842,13 +671,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                  color="red-darken-1"
-                  text
-                  @click="collectionDialog = false"
-                >
-                  关闭
-                </v-btn>
+                <v-btn color="red-darken-1" text @click="collectionDialog = false"> 关闭 </v-btn>
                 <!--                <v-btn-->
                 <!--                    color="blue-darken-1"-->
                 <!--                    text-->
@@ -875,197 +698,175 @@ import {
   useAxiosPostCreateCollectionGroup,
   useFetchGetArticleContent,
   useFetchGetArticleField,
-} from "~/composables/Api/article";
-import { onMounted, onUnmounted, ref, toRef, watch } from "vue";
-import { definePageMeta, useCookie, useRoute } from "#imports";
-import {
-  warningMsg,
-  errorMsg,
-  successMsg,
-} from "~/composables/utils/toastification";
-import { onBeforeRouteUpdate } from "vue-router";
-import { useArticleStore } from "~/stores/article/articleStore";
-import {
-  CommentContent,
-  useArticleCommentStore,
-} from "~/stores/article/articleCommentStore";
-import { useUserStore } from "~/stores/user";
-import { useTheme } from "vuetify";
-import { useHead } from "#head";
-import {
-  atSrtGotoHome,
-  dateFilter,
-  handleCopy,
-  timeAgoFilter,
-} from "~/composables/useTools";
-import { followUser, unFollowUser } from "~/composables/Api/user/following";
-import {
-  collectionData,
-  collectionGroupData,
-  collectionType,
-} from "~/types/article";
-import { useLayout } from "~/stores/layout";
-import { useRouter } from "#app";
-import mediumZoom from "medium-zoom";
-import { changeHighlightStyle } from "~/constant/highlightStyleList";
-import { changeThemes, themes } from "~/constant/markdownThemeList";
+} from '~/composables/Api/article'
+import { onMounted, onUnmounted, ref, toRef, watch } from 'vue'
+import { definePageMeta, useCookie, useRoute } from '#imports'
+import { warningMsg, errorMsg, successMsg } from '~/composables/utils/toastification'
+import { onBeforeRouteUpdate } from 'vue-router'
+import { useArticleStore } from '~/stores/article/articleStore'
+import { CommentContent, useArticleCommentStore } from '~/stores/article/articleCommentStore'
+import { useUserStore } from '~/stores/user'
+import { useTheme } from 'vuetify'
+import { useHead } from '#head'
+import { atSrtGotoHome, dateFilter, handleCopy, timeAgoFilter } from '~/composables/useTools'
+import { followUser, unFollowUser } from '~/composables/Api/user/following'
+import { collectionData, collectionGroupData, collectionType } from '~/types/article'
+import { useLayout } from '~/stores/layout'
+import { useRouter } from '#app'
+import mediumZoom from 'medium-zoom'
+import { changeHighlightStyle } from '~/constant/highlightStyleList'
+import { changeThemes, themes } from '~/constant/markdownThemeList'
 
 definePageMeta({
   keepalive: false,
-});
+})
 
-useLayout().showFooter = true;
+useLayout().showFooter = true
 
 //todo 移动端适配
-let route = useRoute();
-let aid = String(route.params.aid);
-const cookieThemeState = useCookie("theme");
-let theme = useTheme();
-let user = useUserStore();
-const router = useRouter();
-let articleStore = useArticleStore();
-let articleCommentStore = useArticleCommentStore();
-let ArticleField = await useFetchGetArticleField(aid);
+let route = useRoute()
+let aid = String(route.params.aid)
+const cookieThemeState = useCookie('theme')
+let theme = useTheme()
+let user = useUserStore()
+const router = useRouter()
+let articleStore = useArticleStore()
+let articleCommentStore = useArticleCommentStore()
+let ArticleField = await useFetchGetArticleField(aid)
 
-articleStore.articleField = ArticleField.data;
+articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
-  router.push("/article");
+  router.push('/article')
 }
 // console.log('title', ArticleField.data.title)
-const title = ref<string>(ArticleField.data.title);
-let ArticleContent = await useFetchGetArticleContent(aid);
-articleStore.contentHtml = ArticleContent.data;
+const title = ref<string>(ArticleField.data.title)
+let ArticleContent = await useFetchGetArticleContent(aid)
+articleStore.contentHtml = ArticleContent.data
 
-const ReplyComment = articleCommentStore.ReplyComment;
+const ReplyComment = articleCommentStore.ReplyComment
 
-const gotoTitle = ref(false);
+const gotoTitle = ref(false)
 
-const message = ref("");
+const message = ref('')
 // const showMessage = ref(false)
 const getMarkdownThemeName = () => {
-  if (cookieThemeState.value === "dark") {
-    return ArticleField.data?.markDownThemeDark;
+  if (cookieThemeState.value === 'dark') {
+    return ArticleField.data?.markDownThemeDark
   } else {
-    return ArticleField.data?.markDownTheme;
+    return ArticleField.data?.markDownTheme
   }
-};
+}
 const getHighlightStyleName = () => {
-  if (cookieThemeState.value === "dark") {
-    return ArticleField.data?.codeHighlightStyleDark;
+  if (cookieThemeState.value === 'dark') {
+    return ArticleField.data?.codeHighlightStyleDark
   } else {
-    return ArticleField.data?.codeHighlightStyle;
+    return ArticleField.data?.codeHighlightStyle
   }
-};
+}
 
-if (typeof window == "undefined") {
-  articleStore.HighlightStyleStr = await changeHighlightStyle(
-    getHighlightStyleName(),
-    true
-  );
-  articleStore.MarkdownThemeStr = await changeThemes(
-    themes[getMarkdownThemeName()],
-    true
-  );
+if (typeof window == 'undefined') {
+  articleStore.HighlightStyleStr = await changeHighlightStyle(getHighlightStyleName(), true)
+  articleStore.MarkdownThemeStr = await changeThemes(themes[getMarkdownThemeName()], true)
 }
 
 onMounted(async () => {
   //
-  if (user.token === "") {
-    articleCommentStore.replyCommentText = "请先登陆";
+  if (user.token === '') {
+    articleCommentStore.replyCommentText = '请先登陆'
   }
-  await articleStore.init();
+  await articleStore.init()
   // https://highlightjs.readthedocs.io/en/latest/line-numbers.html?highlight=line
   setTimeout(() => {
-    createToc();
+    createToc()
     if (route.hash) {
-      const el: HTMLElement = document.querySelector(route.hash);
+      const el: HTMLElement = document.querySelector(route.hash)
       if (el) {
         el.scrollIntoView({
-          behavior: "smooth",
-        });
+          behavior: 'smooth',
+        })
       }
     } else {
-      document.documentElement.scrollTop = 0;
+      document.documentElement.scrollTop = 0
     }
-  }, 200);
-  await articleCommentStore.init(articleStore.articleField);
-  if (route.hash.startsWith("#comment-")) {
-    console.log("goto comment:", route.hash);
-    const el = document.querySelector(route.hash);
+  }, 200)
+  await articleCommentStore.init(articleStore.articleField)
+  if (route.hash.startsWith('#comment-')) {
+    console.log('goto comment:', route.hash)
+    const el = document.querySelector(route.hash)
     if (el) {
       el.scrollIntoView({
         // behavior:"smooth"
-      });
+      })
     }
   }
-  await loadArticleCollectionState();
+  await loadArticleCollectionState()
 
   watch(theme.global.name, async (val) => {
-    if (val === "dark") {
-      await articleStore.changeThemeDark();
-      await articleStore.changeHighlightStyleDark();
+    if (val === 'dark') {
+      await articleStore.changeThemeDark()
+      await articleStore.changeHighlightStyleDark()
     } else {
-      await articleStore.changeThemeLight();
-      await articleStore.changeHighlightStyleLight();
+      await articleStore.changeThemeLight()
+      await articleStore.changeHighlightStyleLight()
     }
-  });
+  })
 
-  watch(toRef(articleCommentStore, "page"), async (page) => {
-    await articleCommentStore.loadComment(page);
-    const el = document.querySelector(".d-article-comment-oder-btn");
-    el.scrollIntoView();
-  });
-});
+  watch(toRef(articleCommentStore, 'page'), async (page) => {
+    await articleCommentStore.loadComment(page)
+    const el = document.querySelector('.d-article-comment-oder-btn')
+    el.scrollIntoView()
+  })
+})
 
 onUnmounted(() => {
-  console.log("onUnmounted");
-  articleStore.$reset();
-  articleCommentStore.$reset();
-});
+  console.log('onUnmounted')
+  articleStore.$reset()
+  articleCommentStore.$reset()
+})
 // todo 返回滚动位置
 onBeforeRouteUpdate(async (to, from, next) => {
   if (to.hash) {
     if (to.path !== from.path) {
-      next();
+      next()
     }
   } else {
-    next();
+    next()
   }
-});
+})
 
 const childCommentLimit = (comments): CommentContent[] => {
   if (comments.loadMore === undefined) {
-    return comments.childComments.slice(0, 3);
+    return comments.childComments.slice(0, 3)
   } else {
-    return comments.childComments;
+    return comments.childComments
   }
-};
+}
 
-const onIntersect = (entries) => (gotoTitle.value = !!entries);
+const onIntersect = (entries) => (gotoTitle.value = !!entries)
 const createToc = () => {
   // @ts-ignore
   tocbot.init({
-    tocSelector: ".js-toc",
-    contentSelector: ".js-toc-content",
-    headingSelector: "h1, h2,h3,h4",
+    tocSelector: '.js-toc',
+    contentSelector: '.js-toc-content',
+    headingSelector: 'h1, h2,h3,h4',
     scrollSmooth: true,
     scrollSmoothDuration: 500,
     scrollSmoothOffset: -70,
     headingsOffset: -20,
-  });
-};
+  })
+}
 
-const collectionGroupList = ref<Array<collectionGroupData>>(); // 收藏分组列表
-const collectionDialog = ref(false);
-const selectCollectionGroup = ref<Array<number>>([]);
-const articleCollectionState = ref();
+const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
+const collectionDialog = ref(false)
+const selectCollectionGroup = ref<Array<number>>([])
+const articleCollectionState = ref()
 const collectionArticles = async () => {
-  const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
+  const { data: axiosResponse } = await useAxiosGetCollectionGroupList()
   if (axiosResponse.code === 0) {
-    collectionGroupList.value = axiosResponse.data;
-    await loadArticleCollectionState();
+    collectionGroupList.value = axiosResponse.data
+    await loadArticleCollectionState()
     if (articleCollectionState.value.code === 0) {
-      const state = articleCollectionState.value.data;
+      const state = articleCollectionState.value.data
       // selectCollectionGroup.value = state
       // console.log(state)
       for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
@@ -1073,144 +874,136 @@ const collectionArticles = async () => {
           // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
           // console.log("state[iKey].value[i].id",state[iKey])
           if (state[iKey] === collectionGroupList.value[i].id) {
-            collectionGroupList.value[i].select = true;
+            collectionGroupList.value[i].select = true
           }
         }
       }
     }
   }
-};
-const newCollectionGroupName = ref("");
+}
+const newCollectionGroupName = ref('')
 const newCollectionGroup = async () => {
   let body: any = {
     groupName: newCollectionGroupName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body);
+  }
+  const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body)
   if (axiosResponse.code === 0) {
-    successMsg("创建成功");
-    const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
+    successMsg('创建成功')
+    const { data: axiosResponse } = await useAxiosGetCollectionGroupList()
     if (axiosResponse.code === 0) {
-      collectionGroupList.value = axiosResponse.data;
-      newCollectionGroupName.value = "";
+      collectionGroupList.value = axiosResponse.data
+      newCollectionGroupName.value = ''
     }
   } else {
-    errorMsg(axiosResponse.msg);
+    errorMsg(axiosResponse.msg)
   }
-};
+}
 const loadArticleCollectionState = async () => {
-  console.log("loadArticleCollectionState");
-  const { data: articleCollectionStateData } =
-    await useAxiosGetArticleCollectionState(aid);
-  articleCollectionState.value = articleCollectionStateData;
-};
+  console.log('loadArticleCollectionState')
+  const { data: articleCollectionStateData } = await useAxiosGetArticleCollectionState(aid)
+  articleCollectionState.value = articleCollectionStateData
+}
 const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.Article,
     sourceId: articleStore.articleField.id,
     groupId,
-  };
+  }
   if (select) {
-    const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(
-      body
-    );
+    const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(body)
     if (axiosResponse.code === 0) {
       // await loadArticleCollectionState()
-      successMsg("收藏成功");
-      collectionGroupList.value.find((value) => value.id === groupId)
-        .collectionNum++;
+      successMsg('收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
     } else {
-      warningMsg(axiosResponse.msg);
+      warningMsg(axiosResponse.msg)
     }
   } else {
-    const { data: axiosResponse } = await useAxiosCancelCollectionToGroup(body);
+    const { data: axiosResponse } = await useAxiosCancelCollectionToGroup(body)
     if (axiosResponse.code === 0) {
-      successMsg("取消收藏成功");
-      collectionGroupList.value.find((value) => value.id === groupId)
-        .collectionNum--;
+      successMsg('取消收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
     } else {
-      errorMsg(axiosResponse.msg);
+      errorMsg(axiosResponse.msg)
     }
   }
-};
+}
 
 const subscribe = () => {
-  followUser(articleStore.articleField.user.id);
-  articleStore.follow = true;
-};
+  followUser(articleStore.articleField.user.id)
+  articleStore.follow = true
+}
 
 const unsubscribe = () => {
-  unFollowUser(articleStore.articleField.user.id);
-  articleStore.follow = false;
-};
+  unFollowUser(articleStore.articleField.user.id)
+  articleStore.follow = false
+}
 
 const showDelBtn = (commentUserId: string, parentCommentUserId?: string) => {
   // if (articleStore.articleField.user.id === userStore.user.id) {
   //   return true
   // }
-  const uid = user.user.id;
+  const uid = user.user.id
   if (articleStore.articleField.user.id == uid) {
-    return true;
+    return true
   }
   if (commentUserId == uid) {
-    return true;
+    return true
   }
   if (parentCommentUserId != undefined) {
-    return parentCommentUserId == uid;
+    return parentCommentUserId == uid
   }
-};
+}
 
-const tocOverflow = ref("hidden");
+const tocOverflow = ref('hidden')
 
 onMounted(() => {
   const imgNodes: NodeListOf<HTMLImageElement> = document
-    .querySelector(".markdown-body")
-    .querySelectorAll("img");
+    .querySelector('.markdown-body')
+    .querySelectorAll('img')
   const interval = setInterval(() => {
-    const bannerElement: HTMLImageElement = document.querySelector(
-      ".d-article-banner > img"
-    );
+    const bannerElement: HTMLImageElement = document.querySelector('.d-article-banner > img')
     if (bannerElement) {
       mediumZoom(bannerElement, {
         margin: 24,
-        background: "rgba(0,0,0,0.4)",
+        background: 'rgba(0,0,0,0.4)',
         scrollOffset: 0,
-      });
-      clearInterval(interval);
+      })
+      clearInterval(interval)
     }
-  }, 1000);
+  }, 1000)
 
   mediumZoom(imgNodes, {
     margin: 24,
-    background: "rgba(0,0,0,0.4)",
+    background: 'rgba(0,0,0,0.4)',
     scrollOffset: 0,
-  });
-  let t;
+  })
+  let t
   const autoOverflow = () => {
-    clearTimeout(t);
+    clearTimeout(t)
     t = setTimeout(() => {
-      let active = document.querySelector(".is-active-li");
-      let listOf = document.querySelectorAll(".toc > div > ol > li");
-      let viewCount = active.parentElement.childNodes.length + listOf.length;
+      let active = document.querySelector('.is-active-li')
+      let listOf = document.querySelectorAll('.toc > div > ol > li')
+      let viewCount = active.parentElement.childNodes.length + listOf.length
       if (viewCount > 15 && active.parentElement !== listOf[0].parentElement) {
-        tocOverflow.value = "auto";
+        tocOverflow.value = 'auto'
       } else {
         listOf[0].scrollIntoView({
-          behavior: "smooth",
-        });
-        tocOverflow.value = "hidden";
-        document.onscroll = null;
+          behavior: 'smooth',
+        })
+        tocOverflow.value = 'hidden'
+        document.onscroll = null
         setTimeout(() => {
           document.onscroll = () => {
-            autoOverflow();
-          };
-        }, 1000);
+            autoOverflow()
+          }
+        }, 1000)
       }
-    }, 900);
-  };
+    }, 900)
+  }
   // window.addEventListener('scroll', )
-  if (document.documentElement.clientWidth > 1280)
-    document.onscroll = autoOverflow;
-});
+  if (document.documentElement.clientWidth > 1280) document.onscroll = autoOverflow
+})
 </script>
 
 <style></style>
@@ -1244,9 +1037,7 @@ onMounted(() => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
 }
 
 :deep(.markdown-body p) {
@@ -1373,9 +1164,7 @@ onMounted(() => {
 
 <style>
 .toc-link::before {
-  background-color: v-bind(
-    'theme.global.name.value === "dark" ? "#2e2e2e" : "#eee"'
-  );
+  background-color: v-bind('theme.global.name.value === "dark" ? "#2e2e2e" : "#eee"');
   /*content:' ';*/
   /*display:inline-block;*/
   /*height:inherit;*/
@@ -1387,45 +1176,35 @@ onMounted(() => {
 
 .d-tip-error {
   /*background: #fcf1f1 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
 .d-tip-success {
   /*background: #f0f8e5 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
 .d-tip-warning {
   /*background: #fcf2e9 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
 .d-tip-info {
   /*background: #eef6fd !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#162430" : "#eef6fd"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
   border-left-color: #40c4ff !important;
   /*color: black!important;*/
 }
 
 .d-tip-share {
   /*background: #dddddd !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
   border-left-color: #8b968d !important;
   /*color: black!important;*/
 }
@@ -1439,7 +1218,7 @@ onMounted(() => {
 /*  margin-left: -10px;*/
 /*}*/
 .d-tip-error > p:first-child:before {
-  content: "\F0156";
+  content: '\F0156';
   font-size: 135%;
   color: red;
   font-weight: bold;
@@ -1452,18 +1231,16 @@ onMounted(() => {
 }
 
 .d-tip-success p:first-child:before {
-  content: "\F012C";
+  content: '\F012C';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
 }
 
 .d-tip-warning p:first-child:before {
-  content: "\F0205";
+  content: '\F0205';
   font-size: 135%;
   position: center;
   height: 100%;
@@ -1474,7 +1251,7 @@ onMounted(() => {
 }
 
 .d-tip-info p:first-child:before {
-  content: "\F064E";
+  content: '\F064E';
   font-size: 135%;
   color: #40c4ff;
   font-weight: bold;
@@ -1483,11 +1260,9 @@ onMounted(() => {
 }
 
 .d-tip-share p:first-child:before {
-  content: "\F0065";
+  content: '\F0065';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "" : "#858585"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;

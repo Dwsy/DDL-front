@@ -1,11 +1,11 @@
-import {defineEventHandler} from 'h3'
+import { defineEventHandler } from 'h3'
 
 export default defineEventHandler((event) => {
   return unread
 })
 const unread = {
   code: 0,
-  msg: "",
+  msg: '',
   data: {
     unreadNotifyCount: 0,
     unreadNotifyReplyCommentCount: 0,
@@ -22,4 +22,4 @@ const unread = {
     unreadWatchAnswer: 0,
     unreadWatchAcceptedQuestionAnswer: 0,
   },
-};
+}

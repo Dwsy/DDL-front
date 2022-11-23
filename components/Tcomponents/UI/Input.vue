@@ -1,11 +1,8 @@
 <template>
   <div>
-    <label
-      v-if="props.label"
-      class="ml-px block pl-3 text-sm font-medium text-gray-700"
-      for=""
-      >{{ props.label }}</label
-    >
+    <label v-if="props.label" class="ml-px block pl-3 text-sm font-medium text-gray-700" for="">{{
+      props.label
+    }}</label>
     <div class="mt-1">
       <input
         :placeholder="props.placeholder"
@@ -18,9 +15,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import input from "/components/Tcomponents/Logo/Twitter";
+import input from '/components/Tcomponents/Logo/Twitter'
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue'])
 
 const props = defineProps({
   modelValue: {
@@ -29,15 +26,15 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "",
+    default: '',
   },
   type: {
     type: String,
-    default: "text",
+    default: 'text',
   },
   label: {
     type: String,
     default: null,
   },
-});
+})
 </script>

@@ -23,17 +23,10 @@
           :to="item.link"
           class="flex items-center rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900"
         >
-          <v-icon
-            v-if="item.link !== '/messages'"
-            class="mr-2 dark:text-slate-200"
-          >
+          <v-icon v-if="item.link !== '/messages'" class="mr-2 dark:text-slate-200">
             {{ item.icon }}
           </v-icon>
-          <BellIcon
-            v-else
-            class="mr-2 dark:text-slate-200"
-            style="width: 27px"
-          />
+          <BellIcon v-else class="mr-2 dark:text-slate-200" style="width: 27px" />
           <span class="ml-3 text-lg font-medium dark:text-slate-200">
             {{ item.text }}
           </span>
@@ -44,54 +37,54 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, reactive, watchEffect } from "vue";
-import { useTheme } from "vuetify";
-import { BellIcon } from "@heroicons/vue/24/outline/esm/index.js";
-import { useRoute } from "#app";
+import { onBeforeMount, reactive, watchEffect } from 'vue'
+import { useTheme } from 'vuetify'
+import { BellIcon } from '@heroicons/vue/24/outline/esm/index.js'
+import { useRoute } from '#app'
 
-const route = useRoute();
-const theme = useTheme();
+const route = useRoute()
+const theme = useTheme()
 let items = reactive([
   {
-    icon: "mdi-home-outline",
-    text: "文章",
-    link: "/article",
+    icon: 'mdi-home-outline',
+    text: '文章',
+    link: '/article',
     active: false,
   },
   {
-    icon: "mdi-comment-question-outline",
-    text: "问答",
-    link: "/question",
+    icon: 'mdi-comment-question-outline',
+    text: '问答',
+    link: '/question',
     active: false,
   },
   {
-    icon: "mdi-infinity",
-    text: "圈子",
-    link: "/infinity",
+    icon: 'mdi-infinity',
+    text: '圈子',
+    link: '/infinity',
     active: false,
   },
   {
-    icon: "mdi-music-accidental-sharp",
-    text: "探索",
-    link: "/explore",
+    icon: 'mdi-music-accidental-sharp',
+    text: '探索',
+    link: '/explore',
     active: false,
   },
   {
-    icon: "mdi-chart-line-variant",
-    text: "排行",
-    link: "/explore",
+    icon: 'mdi-chart-line-variant',
+    text: '排行',
+    link: '/explore',
     active: false,
   },
   {
-    icon: "",
-    text: "通知",
-    link: "/messages",
+    icon: '',
+    text: '通知',
+    link: '/messages',
     active: false,
   },
   {
-    text: "私信",
-    icon: "mdi-message-badge-outline",
-    link: "/messages/chats",
+    text: '私信',
+    icon: 'mdi-message-badge-outline',
+    link: '/messages/chats',
     active: false,
   },
   // {
@@ -123,14 +116,14 @@ let items = reactive([
   //   text: '关于',
   //   link: '',
   // },
-]);
+])
 
 watchEffect(() => {
   items.forEach((item) => {
-    item.active = item.link === route.path;
-  });
-});
-onBeforeMount(() => {});
+    item.active = item.link === route.path
+  })
+})
+onBeforeMount(() => {})
 </script>
 
 <style lang="css" scoped>

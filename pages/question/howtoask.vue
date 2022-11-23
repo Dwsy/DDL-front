@@ -42,16 +42,9 @@
           <p class="card-text mdi">
             遵循
             <span>
-              《<nuxt-link
-                class="d-markdown-tip"
-                href="/article/1"
-                target="_blank"
-              >
+              《<nuxt-link class="d-markdown-tip" href="/article/1" target="_blank">
                 Markdown 语法排版 </nuxt-link
-              >》
-              <v-icon class="mb-1" size="x-large"
-                >mdi-language-markdown-outline</v-icon
-              ></span
+              >》 <v-icon class="mb-1" size="x-large">mdi-language-markdown-outline</v-icon></span
             >
             ，代码语义正确，易于阅读，准确使用标签关联问题
           </p>
@@ -82,28 +75,28 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
-import { useLayout } from "~/stores/layout";
-import { useTheme } from "vuetify";
-import { definePageMeta } from "#imports";
+import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useLayout } from '~/stores/layout'
+import { useTheme } from 'vuetify'
+import { definePageMeta } from '#imports'
 
 definePageMeta({
   layout: false,
-});
-const theme = useTheme();
-const layout = useLayout();
+})
+const theme = useTheme()
+const layout = useLayout()
 
-const SearchText = ref("");
+const SearchText = ref('')
 
-const router = useRouter();
+const router = useRouter()
 
 onMounted(() => {
-  layout.drawer = false;
-});
+  layout.drawer = false
+})
 const searchQuestion = async () => {
-  await router.push(`/search/question/${SearchText.value}`);
-};
+  await router.push(`/search/question/${SearchText.value}`)
+}
 </script>
 
 <style scoped>
@@ -129,17 +122,15 @@ const searchQuestion = async () => {
 }
 
 .d-answer-tip-recommend p:before {
-  content: "\F012C";
+  content: '\F012C';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
   font-weight: bold;
   margin-right: 3px;
 }
 
 .d-answer-tip-inappropriate p:before {
-  content: "\F0156";
+  content: '\F0156';
   font-size: 135%;
   color: red;
   font-weight: bold;
@@ -147,7 +138,7 @@ const searchQuestion = async () => {
 }
 
 .d-answer-tip-comment p:before {
-  content: "\F064E";
+  content: '\F064E';
   font-size: 135%;
   color: #40c4ff;
   font-weight: bold;

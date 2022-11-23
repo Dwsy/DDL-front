@@ -247,4 +247,4 @@ export default `
 }
 .markdown-body img[alt|=shadow] {
     box-shadow: var(--shadow);
-}`;
+}`

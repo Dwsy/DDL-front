@@ -18,12 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, useCookie } from "#imports";
-import "~~/assets/css/main.css";
-import { useUserStore } from "~~/stores/user";
-import { onMounted, ref, watch, watchEffect } from "vue";
-import { useLayout } from "~/stores/layout";
-import { useTheme } from "vuetify";
+import { definePageMeta, useCookie } from '#imports'
+import '~~/assets/css/main.css'
+import { useUserStore } from '~~/stores/user'
+import { onMounted, ref, watch, watchEffect } from 'vue'
+import { useLayout } from '~/stores/layout'
+import { useTheme } from 'vuetify'
 
 // import { initDomToCode } from 'dom-to-code'
 //
@@ -35,21 +35,21 @@ import { useTheme } from "vuetify";
 definePageMeta({
   key: (route) => route.fullPath,
   pageTransition: {
-    name: "slide-x-reverse-transition",
-    mode: "out-in",
+    name: 'slide-x-reverse-transition',
+    mode: 'out-in',
   },
-});
-let user = useUserStore();
-let theme = useTheme();
-const cookieThemeState = useCookie("theme");
-const layout = useLayout();
-let tocLinkColor = ref();
-let show = ref(false);
-if (cookieThemeState.value !== "") {
-  if (cookieThemeState.value === "dark") {
-    layout.switchDarkTheme(theme);
+})
+let user = useUserStore()
+let theme = useTheme()
+const cookieThemeState = useCookie('theme')
+const layout = useLayout()
+let tocLinkColor = ref()
+let show = ref(false)
+if (cookieThemeState.value !== '') {
+  if (cookieThemeState.value === 'dark') {
+    layout.switchDarkTheme(theme)
   } else {
-    layout.switchLightTheme(theme);
+    layout.switchLightTheme(theme)
   }
 }
 // onMounted(()=>{
@@ -57,24 +57,24 @@ if (cookieThemeState.value !== "") {
 // })
 onMounted(async () => {
   // process.env.NODE_ENV !== 'production' && initDomToCode()
-  if (cookieThemeState.value === "") {
-    document.cookie = `theme=${theme.global.name.value};path=/`;
+  if (cookieThemeState.value === '') {
+    document.cookie = `theme=${theme.global.name.value};path=/`
   }
   // show.value = true
-  let localToken = window.localStorage.getItem("token");
-  if (localToken !== "") {
-    user.setToken(localToken);
-    user.setUser(JSON.parse(window.localStorage.getItem("user")));
+  let localToken = window.localStorage.getItem('token')
+  if (localToken !== '') {
+    user.setToken(localToken)
+    user.setUser(JSON.parse(window.localStorage.getItem('user')))
     // console.log('user::', user.user)
-    await user.getUserInfo();
+    await user.getUserInfo()
     // console.log('info::', user.userInfo)
-    user.setIsLogin(true);
+    user.setIsLogin(true)
 
     // 后端接口判断
   }
-});
-if (typeof window === "undefined") {
-  console.log("NODE");
+})
+if (typeof window === 'undefined') {
+  console.log('NODE')
 } else {
 }
 </script>

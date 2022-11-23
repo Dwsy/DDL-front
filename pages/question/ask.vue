@@ -31,9 +31,7 @@
               <v-row v-for="(item, index) in versionHistoryList">
                 <v-col @click="gotoVersion(index)">
                   <span class="text-subtitle-1">标题：{{ item.title }}</span>
-                  <span class="text-grey float-right">{{
-                    timeAgoFilter(item.date)
-                  }}</span>
+                  <span class="text-grey float-right">{{ timeAgoFilter(item.date) }}</span>
                   <v-divider></v-divider>
                 </v-col>
               </v-row>
@@ -48,13 +46,7 @@
             :persistent="true"
           >
             <template v-slot:activator="{ props }">
-              <v-btn
-                v-if="isNew"
-                color="blue"
-                elevation="0"
-                v-bind="props"
-                @click="send()"
-              >
+              <v-btn v-if="isNew" color="blue" elevation="0" v-bind="props" @click="send()">
                 <!--                      @click="send()">-->
 
                 发布
@@ -72,7 +64,7 @@
             </template>
             <v-card min-width="600px">
               <div class="px-4 pt-2">
-                <div class="text-h6">{{ isNew ? "发布" : "更新" }}问题</div>
+                <div class="text-h6">{{ isNew ? '发布' : '更新' }}问题</div>
                 <v-divider class="mb-3"></v-divider>
 
                 <v-row>
@@ -122,11 +114,11 @@
                   @click="
                     () => {
                       if (isNew) {
-                        publishQuestion();
-                        this.menu = false;
+                        publishQuestion()
+                        this.menu = false
                       } else {
-                        updateQuestion();
-                        this.menu = false;
+                        updateQuestion()
+                        this.menu = false
                       }
                     }
                   "
@@ -137,11 +129,7 @@
             </v-card>
           </v-menu>
 
-          <v-menu
-            v-model="settingsDialog"
-            :close-on-content-click="false"
-            :open-on-click="false"
-          >
+          <v-menu v-model="settingsDialog" :close-on-content-click="false" :open-on-click="false">
             <template v-slot:activator="{ props }">
               <v-btn
                 class="mr-n4 ml-2"
@@ -152,12 +140,8 @@
                 @click="settingsDialog = !settingsDialog"
               >
                 <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
-                <v-icon color="#FFF" size="x-large"
-                  >mdi-cookie-cog-outline</v-icon
-                >
-                <v-tooltip activator="parent" location="bottom"
-                  >文章外观设置
-                </v-tooltip>
+                <v-icon color="#FFF" size="x-large">mdi-cookie-cog-outline</v-icon>
+                <v-tooltip activator="parent" location="bottom">文章外观设置 </v-tooltip>
               </v-btn>
             </template>
             <v-card>
@@ -276,9 +260,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyle(HighlightStyleBase16NameList)
-                          "
+                          @click="randomHighlightStyle(HighlightStyleBase16NameList)"
                         >
                           随便来一个
                         </v-btn>
@@ -332,9 +314,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyleDark(HighlightStyleNameList)
-                          "
+                          @click="randomHighlightStyleDark(HighlightStyleNameList)"
                         >
                           随便来一个
                         </v-btn>
@@ -354,11 +334,7 @@
                         <v-btn
                           class="mt-n2 mr-4 text-white"
                           color="#38b48b"
-                          @click="
-                            randomHighlightStyleDark(
-                              HighlightStyleBase16NameList
-                            )
-                          "
+                          @click="randomHighlightStyleDark(HighlightStyleBase16NameList)"
                         >
                           随便来一个
                         </v-btn>
@@ -378,18 +354,10 @@
             transition="fade-transition"
             @click="layout.switchTheme(themeInstance)"
           >
-            <v-icon v-if="themeInstance.global.current.value.dark"
-              >mdi-white-balance-sunny</v-icon
-            >
-            <v-icon v-if="!themeInstance.global.current.value.dark"
-              >mdi-weather-night</v-icon
-            >
+            <v-icon v-if="themeInstance.global.current.value.dark">mdi-white-balance-sunny</v-icon>
+            <v-icon v-if="!themeInstance.global.current.value.dark">mdi-weather-night</v-icon>
             <v-tooltip activator="parent" location="bottom"
-              >{{
-                themeInstance.global.current.value.dark
-                  ? "日间模式"
-                  : "夜间模式"
-              }}
+              >{{ themeInstance.global.current.value.dark ? '日间模式' : '夜间模式' }}
             </v-tooltip>
           </v-btn>
         </client-only>
@@ -400,17 +368,15 @@
 
       <!--      box-width="720"-->
     </v-row>
-    <BytemdEditor :content="content" @change-text="changeText"
-      >test</BytemdEditor
-    >
+    <BytemdEditor :content="content" @change-text="changeText">test</BytemdEditor>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from "#app";
-import { onMounted, provide, ref, toRaw, watch, watchEffect } from "vue";
-import BytemdEditor from "~/components/article/write/bytemdEditor.vue";
-import { ContentType } from "~/composables/Api/article/manageArticle";
+import { useRoute, useRouter } from '#app'
+import { onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
+import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
+import { ContentType } from '~/composables/Api/article/manageArticle'
 import {
   ComponentToastMsg,
   createError,
@@ -422,7 +388,7 @@ import {
   useAxiosPostAskQuestion,
   useAxiosPutUpdateAskQuestion,
   useFetchGetQuestionGroupList,
-} from "#imports";
+} from '#imports'
 import {
   changeThemes,
   mwebDarkList,
@@ -430,179 +396,174 @@ import {
   purpleLightList,
   themeNameList,
   themes,
-} from "~~/constant/markdownThemeList";
+} from '~~/constant/markdownThemeList'
 import {
   changeHighlightStyle,
   HighlightStyleNameList,
   HighlightStyleBase16NameList,
-} from "~~/constant/highlightStyleList";
-import { useUserStore } from "~/stores/user";
-import { useTheme } from "vuetify";
-import { TYPE } from "vue-toastification/src/ts/constants";
-import JumpPrompt from "~/components/common/Toast/jumpPrompt.vue";
-import { useLayout } from "~/stores/layout";
-import {
-  CreateQuestionBody,
-  useAxiosGetQuestionContent,
-} from "~/composables/Api/messages/ask";
-import { QaGroup, QuestionField, QuestionTag } from "~/types/question";
-import { ResponseData } from "~/types/utils/axios";
+} from '~~/constant/highlightStyleList'
+import { useUserStore } from '~/stores/user'
+import { useTheme } from 'vuetify'
+import { TYPE } from 'vue-toastification/src/ts/constants'
+import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
+import { useLayout } from '~/stores/layout'
+import { CreateQuestionBody, useAxiosGetQuestionContent } from '~/composables/Api/messages/ask'
+import { QaGroup, QuestionField, QuestionTag } from '~/types/question'
+import { ResponseData } from '~/types/utils/axios'
 
 definePageMeta({
   layout: false,
-});
-const themeInstance = useTheme();
+})
+const themeInstance = useTheme()
 
-const layout = useLayout();
-const userStore = useUserStore();
-const route = useRoute();
-const router = useRouter();
-const isNew = ref(false);
-const menu = ref(false);
-const content = ref("");
-const questionId = ref("");
-const questionFieldData = ref<QuestionField>();
-const title = ref("");
-const questionGroupId = ref("");
-const questionTagIds = ref<Set<string>>();
-const summary = ref("");
-const questionGroupList = ref<QaGroup[]>();
-const questionTagList = ref<QuestionTag[]>();
-provide("tagList", { questionTagList });
+const layout = useLayout()
+const userStore = useUserStore()
+const route = useRoute()
+const router = useRouter()
+const isNew = ref(false)
+const menu = ref(false)
+const content = ref('')
+const questionId = ref('')
+const questionFieldData = ref<QuestionField>()
+const title = ref('')
+const questionGroupId = ref('')
+const questionTagIds = ref<Set<string>>()
+const summary = ref('')
+const questionGroupList = ref<QaGroup[]>()
+const questionTagList = ref<QuestionTag[]>()
+provide('tagList', { questionTagList })
 
-const { data: groupData } = await useFetchGetQuestionGroupList();
-questionGroupList.value = groupData;
-const settingsDialog = ref(false);
-const themeName = ref<string>("cyanosis");
-const darkThemeName = ref<string>("geekBlackDark");
-const highlightStyle = ref<string>("xcode");
-const darkHighlightStyle = ref<string>("xcode");
-const selectThemeTabName = ref("");
+const { data: groupData } = await useFetchGetQuestionGroupList()
+questionGroupList.value = groupData
+const settingsDialog = ref(false)
+const themeName = ref<string>('cyanosis')
+const darkThemeName = ref<string>('geekBlackDark')
+const highlightStyle = ref<string>('xcode')
+const darkHighlightStyle = ref<string>('xcode')
+const selectThemeTabName = ref('')
 onMounted(async () => {
-  document.title = "提问题";
-  const id = String(route.query.id);
-  let version = Number(route.query.version || -1);
-  console.log("version", version);
-  await load(id, version);
+  document.title = '提问题'
+  const id = String(route.query.id)
+  let version = Number(route.query.version || -1)
+  console.log('version', version)
+  await load(id, version)
   // if (themeInstance.global.name.value === 'dark') {
   //   await changeThemes(themes[darkThemeName.value])
   // } else {
   //   await changeThemes(themes[themeName.value])
   // }
   watchEffect(async () => {
-    if (themeInstance.global.name.value === "dark") {
-      console.log("stance.global.name.value === 'dark') {");
-      await changeThemes(themes[darkThemeName.value]);
-      await changeHighlightStyle(darkHighlightStyle.value);
-      if (selectThemeTabName.value !== "dark") {
-        selectThemeTabName.value = "dark";
+    if (themeInstance.global.name.value === 'dark') {
+      console.log("stance.global.name.value === 'dark') {")
+      await changeThemes(themes[darkThemeName.value])
+      await changeHighlightStyle(darkHighlightStyle.value)
+      if (selectThemeTabName.value !== 'dark') {
+        selectThemeTabName.value = 'dark'
       }
     } else {
-      console.log("eeee");
-      await changeThemes(themes[themeName.value]);
-      await changeHighlightStyle(highlightStyle.value);
-      if (selectThemeTabName.value !== "light") {
-        selectThemeTabName.value = "light";
+      console.log('eeee')
+      await changeThemes(themes[themeName.value])
+      await changeHighlightStyle(highlightStyle.value)
+      if (selectThemeTabName.value !== 'light') {
+        selectThemeTabName.value = 'light'
       }
     }
-  });
+  })
   // watch()
   watch(selectThemeTabName, (val) => {
-    if (val === "dark") {
-      layout.switchDarkTheme(themeInstance);
+    if (val === 'dark') {
+      layout.switchDarkTheme(themeInstance)
     } else {
-      layout.switchLightTheme(themeInstance);
+      layout.switchLightTheme(themeInstance)
     }
-  });
-});
+  })
+})
 
 const load = async (id: string, version: number) => {
   if (Boolean(id) === false) {
-    isNew.value = true;
+    isNew.value = true
     await router.push({
       query: {
-        new: "true",
+        new: 'true',
       },
-    });
+    })
   } else {
     if (route.query.id) {
-      questionId.value = String(route.query.id);
+      questionId.value = String(route.query.id)
       const { data: questionFieldResponse } = await useAxiosGetQuestionField(
         questionId.value,
         version
-      );
+      )
       //todo 优化
       if (questionFieldResponse.data === null) {
         await router.push({
           query: {
-            new: "true",
+            new: 'true',
           },
-        });
+        })
       } else if (questionFieldResponse.code === 0) {
-        questionFieldData.value = questionFieldResponse.data;
+        questionFieldData.value = questionFieldResponse.data
         if (questionFieldData?.value.user.id !== userStore.user.id) {
           throw createError({
             statusCode: 401,
-            statusMessage: "Unauthorized",
-            data: "data",
+            statusMessage: 'Unauthorized',
+            data: 'data',
             fatal: true,
-            message: "Unauthorized",
-          });
+            message: 'Unauthorized',
+          })
         }
         const { data: ContentResponse } = await useAxiosGetQuestionContent(
           questionId.value,
           ContentType.markdown,
           version
-        );
+        )
         if (ContentResponse.code === 0) {
-          title.value = questionFieldData.value.title;
-          content.value = ContentResponse.data;
-          summary.value = questionFieldData.value.summary;
-          themeName.value = questionFieldData.value.markDownTheme;
-          darkThemeName.value = questionFieldData.value.markDownThemeDark;
-          highlightStyle.value = questionFieldData.value.codeHighlightStyle;
-          questionGroupId.value = questionFieldData.value.group.id;
-          darkHighlightStyle.value =
-            questionFieldData.value.codeHighlightStyleDark;
+          title.value = questionFieldData.value.title
+          content.value = ContentResponse.data
+          summary.value = questionFieldData.value.summary
+          themeName.value = questionFieldData.value.markDownTheme
+          darkThemeName.value = questionFieldData.value.markDownThemeDark
+          highlightStyle.value = questionFieldData.value.codeHighlightStyle
+          questionGroupId.value = questionFieldData.value.group.id
+          darkHighlightStyle.value = questionFieldData.value.codeHighlightStyleDark
         }
       }
     }
   }
-};
+}
 
 const rules = {
-  email: (v) => !!(v || "").match(/@/) || "请输入有效的电子邮件",
-  length: (len) => (v) =>
-    (v || "").length <= len || `文章摘要需小于或等于${len}个字符`,
+  email: (v) => !!(v || '').match(/@/) || '请输入有效的电子邮件',
+  length: (len) => (v) => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
   password: (v) =>
-    !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|\W)).+$/) ||
-    "密码必须包含大写字母、数字字符和特殊字符",
-  required: (v) => !!v || "此字段是必需的。",
-};
+    !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|\W)).+$/) ||
+    '密码必须包含大写字母、数字字符和特殊字符',
+  required: (v) => !!v || '此字段是必需的。',
+}
 
 const changeText = async (text) => {
-  content.value = text;
-};
+  content.value = text
+}
 
 const send = () => {
-  if (title.value.trim() === "") {
-    infoMsg("问题标题不能为空");
-    return;
+  if (title.value.trim() === '') {
+    infoMsg('问题标题不能为空')
+    return
   }
-  if (content.value.trim() === "") {
-    infoMsg("提问内容不能为空");
-    return;
+  if (content.value.trim() === '') {
+    infoMsg('提问内容不能为空')
+    return
   }
-  saveState();
-  menu.value = true;
-};
+  saveState()
+  menu.value = true
+}
 
 const publishQuestion = async () => {
-  questionTagIds.value = new Set<string>();
+  questionTagIds.value = new Set<string>()
   // questionTagList.value.forEach((tag) => {
   //   questionTagIds.value.add(tag.id)
   // })
-  questionTagIds.value.add("1");
+  questionTagIds.value.add('1')
   let body: CreateQuestionBody = {
     // allow_answer: true,
     questionGroupId: questionGroupId.value,
@@ -616,31 +577,24 @@ const publishQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPostAskQuestion(body);
-  if (axiosResponse.code === 0) {
-    const url = "/question/" + axiosResponse.data;
-    const timeout = setTimeout(() => {
-      window.location.href = url;
-    }, 5000);
-    ComponentToastMsg(
-      `发布成功{{}}秒后自动跳转到问题`,
-      TYPE.SUCCESS,
-      JumpPrompt,
-      5,
-      timeout,
-      url
-    );
-  } else {
-    errorMsg(axiosResponse.msg);
   }
-};
+  const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
+  if (axiosResponse.code === 0) {
+    const url = '/question/' + axiosResponse.data
+    const timeout = setTimeout(() => {
+      window.location.href = url
+    }, 5000)
+    ComponentToastMsg(`发布成功{{}}秒后自动跳转到问题`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+  } else {
+    errorMsg(axiosResponse.msg)
+  }
+}
 const updateQuestion = async () => {
-  questionTagIds.value = new Set();
+  questionTagIds.value = new Set()
   // questionTagList.value.forEach((tag) => {
-  questionTagIds.value.add("1");
+  questionTagIds.value.add('1')
   // })
-  console.log(questionTagIds.value);
+  console.log(questionTagIds.value)
   let body: CreateQuestionBody = {
     // allow_answer: true,
     questionGroupId: questionGroupId.value,
@@ -654,100 +608,91 @@ const updateQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body);
-  if (axiosResponse.code === 0) {
-    const url = "/question/" + axiosResponse.data;
-    const timeout = setTimeout(() => {
-      window.location.href = url;
-    }, 5000);
-    ComponentToastMsg(
-      `发布成功{{}}秒后自动跳转到问题`,
-      TYPE.SUCCESS,
-      JumpPrompt,
-      5,
-      timeout,
-      url
-    );
-  } else {
-    errorMsg(axiosResponse.msg);
   }
-};
+  const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body)
+  if (axiosResponse.code === 0) {
+    const url = '/question/' + axiosResponse.data
+    const timeout = setTimeout(() => {
+      window.location.href = url
+    }, 5000)
+    ComponentToastMsg(`发布成功{{}}秒后自动跳转到问题`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+  } else {
+    errorMsg(axiosResponse.msg)
+  }
+}
 const saveState = () => {
   beforeChangeState = {
     questionGroupId: toRaw(questionGroupId.value),
     questionTagList: toRaw(questionTagList.value),
     summary: toRaw(summary.value),
-  };
-};
+  }
+}
 let beforeChangeState = {
-  questionGroupId: "",
+  questionGroupId: '',
   questionTagList: [],
-  summary: "",
-};
+  summary: '',
+}
 
 const cancelChange = () => {
-  menu.value = false;
-  questionGroupId.value = beforeChangeState.questionGroupId;
-  questionTagList.value = beforeChangeState.questionTagList;
-  summary.value = beforeChangeState.summary;
-};
+  menu.value = false
+  questionGroupId.value = beforeChangeState.questionGroupId
+  questionTagList.value = beforeChangeState.questionTagList
+  summary.value = beforeChangeState.summary
+}
 
 const randomTheme = (list: Array<string>) => {
-  themeName.value = list[Math.ceil(Math.random() * list.length) - 1];
-};
+  themeName.value = list[Math.ceil(Math.random() * list.length) - 1]
+}
 
 const randomThemeDark = (list: Array<string>) => {
-  darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1];
-};
+  darkThemeName.value = list[Math.ceil(Math.random() * list.length) - 1]
+}
 
 const randomHighlightStyle = (list: Array<string>) => {
-  highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1];
-  changeHighlightStyle(highlightStyle.value);
-};
+  highlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(highlightStyle.value)
+}
 
 const randomHighlightStyleDark = (list: Array<string>) => {
-  darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1];
-  changeHighlightStyle(darkHighlightStyle.value);
-};
+  darkHighlightStyle.value = list[Math.ceil(Math.random() * list.length) - 1]
+  changeHighlightStyle(darkHighlightStyle.value)
+}
 
-const versionHistoryMenu = ref();
-const versionHistoryList = ref<versionDataI[]>();
+const versionHistoryMenu = ref()
+const versionHistoryList = ref<versionDataI[]>()
 
 interface versionDataI {
-  title: string;
-  date: string;
+  title: string
+  date: string
 }
 
 const getVersionHistoryList = async () => {
   const { data: response } = await useGet<ResponseData<versionDataI[]>>(
-    "article/article/manage/historyVersion/" + questionId.value
-  );
-  versionHistoryList.value = response.data;
-};
+    'article/article/manage/historyVersion/' + questionId.value
+  )
+  versionHistoryList.value = response.data
+}
 
 const gotoVersion = async (version: number) => {
-  await load(questionId.value, version);
+  await load(questionId.value, version)
   // successMsg('切换版本成功')
-};
+}
 
-const editorTitleInputLabelFontSize = ref("125%");
+const editorTitleInputLabelFontSize = ref('125%')
 onMounted(() => {
-  const editorTitleInput = document.querySelector(
-    ".d-editor-title > div.v-input__control > div"
-  );
-  watchEffect(() => {});
+  const editorTitleInput = document.querySelector('.d-editor-title > div.v-input__control > div')
+  watchEffect(() => {})
   const observer = new MutationObserver(() => {
-    if (editorTitleInput.classList.contains("v-field--active")) {
-      editorTitleInputLabelFontSize.value = "80%";
+    if (editorTitleInput.classList.contains('v-field--active')) {
+      editorTitleInputLabelFontSize.value = '80%'
     } else {
-      editorTitleInputLabelFontSize.value = "125%";
+      editorTitleInputLabelFontSize.value = '125%'
     }
-  });
+  })
   observer.observe(editorTitleInput, {
     attributes: true,
-  });
-});
+  })
+})
 </script>
 <script lang="ts"></script>
 
@@ -757,10 +702,8 @@ onMounted(() => {
 }
 
 :deep(.d-editor-title label) {
-  font-size: v-bind("editorTitleInputLabelFontSize");
-  color: v-bind(
-    'themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"'
-  );
+  font-size: v-bind('editorTitleInputLabelFontSize');
+  color: v-bind('themeInstance.global.name.value === "dark" ? "#fff" : "#24292e"');
 }
 
 :deep(.d-editor-title input) {

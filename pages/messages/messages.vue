@@ -32,36 +32,36 @@
 </template>
 
 <script setup lang="ts">
-import { useChatsStore } from "~/stores/messages/chatsStore";
-import { onMounted, onUnmounted } from "vue";
-import { definePageMeta } from "#imports";
-import { useLayout } from "~/stores/layout";
+import { useChatsStore } from '~/stores/messages/chatsStore'
+import { onMounted, onUnmounted } from 'vue'
+import { definePageMeta } from '#imports'
+import { useLayout } from '~/stores/layout'
 
-const chatsStore = useChatsStore();
-const layout = useLayout();
+const chatsStore = useChatsStore()
+const layout = useLayout()
 let items = [
-  { text: "回复我的", icon: "mdi-reply", to: "/messages/reply" },
-  { text: " @ 我的", icon: "mdi-at", to: "/messages/at" },
-  { text: "受到的赞", icon: "mdi-thumb-up-outline", to: "/messages/thumb" },
+  { text: '回复我的', icon: 'mdi-reply', to: '/messages/reply' },
+  { text: ' @ 我的', icon: 'mdi-at', to: '/messages/at' },
+  { text: '受到的赞', icon: 'mdi-thumb-up-outline', to: '/messages/thumb' },
   {
-    text: "系统通知",
-    icon: "mdi-message-cog-outline",
-    to: "/messages/notifications",
+    text: '系统通知',
+    icon: 'mdi-message-cog-outline',
+    to: '/messages/notifications',
   },
   {
-    text: "私信列表",
-    icon: "mdi-message-badge-outline",
-    to: "/messages/chats",
+    text: '私信列表',
+    icon: 'mdi-message-badge-outline',
+    to: '/messages/chats',
   },
-];
+]
 
 onMounted(() => {
-  layout.showFooter = false;
+  layout.showFooter = false
   // console.log('11Messsage mounted')
-});
+})
 onUnmounted(() => {
-  layout.showFooter = true;
-});
+  layout.showFooter = true
+})
 </script>
 
 <style>

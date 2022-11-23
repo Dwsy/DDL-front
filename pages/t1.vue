@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~/stores/user";
+import { useUserStore } from '~/stores/user'
 
-const userStore = useUserStore();
-console.log(userStore.user);
+const userStore = useUserStore()
+console.log(userStore.user)
 </script>
 
 <style></style>

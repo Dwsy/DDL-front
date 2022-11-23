@@ -25,18 +25,10 @@
           <v-divider></v-divider>
 
           <v-list v-model:opened="open">
-            <v-list-item
-              prepend-icon="mdi-home"
-              exact
-              title="首页"
-              to="/question/manage/home/"
-            >
+            <v-list-item prepend-icon="mdi-home" exact title="首页" to="/question/manage/home/">
             </v-list-item>
 
-            <v-list-item
-              title="问题管理"
-              to="/question/manage/content?state=all"
-            ></v-list-item>
+            <v-list-item title="问题管理" to="/question/manage/content?state=all"></v-list-item>
           </v-list>
         </v-card>
       </v-col>
@@ -51,14 +43,14 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~/stores/user";
-import { ref } from "vue";
-import { useLayout } from "~/stores/layout";
-import { definePageMeta } from "#imports";
+import { useUserStore } from '~/stores/user'
+import { ref } from 'vue'
+import { useLayout } from '~/stores/layout'
+import { definePageMeta } from '#imports'
 
-useLayout().showFooter = false;
-const userStore = useUserStore();
-const test = ref(true);
+useLayout().showFooter = false
+const userStore = useUserStore()
+const test = ref(true)
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
-import {defineEventHandler} from 'h3'
+import { defineEventHandler } from 'h3'
 
 export default defineEventHandler((event) => {
-    return {
-        api: 'mock'
-    }
+  return {
+    api: 'mock',
+  }
 })

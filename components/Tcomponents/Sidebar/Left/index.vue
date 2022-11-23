@@ -89,11 +89,7 @@
       @click="emits('onLogout')"
     >
       <div class="flex flex-row">
-        <img
-          :src="props.user.profileImage"
-          alt=""
-          class="h-10 w-10 rounded-full"
-        />
+        <img :src="props.user.profileImage" alt="" class="h-10 w-10 rounded-full" />
         <div class="ml-2 hidden flex-col xl:block">
           <h1 class="text-sm font-bold text-gray-800 dark:text-white">
             {{ user.name }}
@@ -124,21 +120,21 @@ import {
   ChatBubbleOvalLeftIcon,
   PencilIcon,
   ChevronDownIcon,
-} from "@heroicons/vue/24/solid/index";
-import { HomeIcon } from "@heroicons/vue/24/solid/index";
+} from '@heroicons/vue/24/solid/index'
+import { HomeIcon } from '@heroicons/vue/24/solid/index'
 
-const { defaultTransition } = useTailwindConfig();
-import LogoTwitter from "~~/components/Tcomponents/Logo/Twitter.vue";
-import UIButton from "~~/components/Tcomponents/UI/Button.vue";
-import SidebarLeftTab from "~~/components/Tcomponents/Sidebar/Left/Tab.vue";
-import useTailwindConfig from "~/composables/useTailwindConfig";
+const { defaultTransition } = useTailwindConfig()
+import LogoTwitter from '~~/components/Tcomponents/Logo/Twitter.vue'
+import UIButton from '~~/components/Tcomponents/UI/Button.vue'
+import SidebarLeftTab from '~~/components/Tcomponents/Sidebar/Left/Tab.vue'
+import useTailwindConfig from '~/composables/useTailwindConfig'
 
-const emits = defineEmits(["onTweet", "onLogout"]);
+const emits = defineEmits(['onTweet', 'onLogout'])
 
 const props = defineProps({
   user: {
     type: Object,
     required: true,
   },
-});
+})
 </script>

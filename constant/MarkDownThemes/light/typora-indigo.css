@@ -2,14 +2,10 @@
 .markdown-body {
   color: #595959;
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji;
   line-height: 1.8em;
-  background-image: linear-gradient(
-      90deg,
-      rgba(60, 10, 30, 0.05) 3%,
-      transparent 0
-    ),
+  background-image: linear-gradient(90deg, rgba(60, 10, 30, 0.05) 3%, transparent 0),
     linear-gradient(1turn, rgba(60, 10, 30, 0.05) 3%, transparent 0);
   background-size: 20px 20px;
   background-position: 50%;
@@ -110,10 +106,10 @@
   font-weight: bold;
 }
 .markdown-body strong::before {
-  content: "「";
+  content: '「';
 }
 .markdown-body strong::after {
-  content: "」";
+  content: '」';
 }
 .markdown-body code,
 .markdown-body a {
@@ -131,8 +127,8 @@
   border-width: 0px;
 }
 .markdown-body code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 }
 .markdown-body pre > code {
   font-weight: 400;
@@ -208,7 +204,7 @@
   border-color: #5a67d8;
 }
 .markdown-body .task-list-item > input[checked]::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 20%;
   left: 50%;
@@ -218,7 +214,7 @@
   background: #5a67d8;
 }
 .markdown-body .task-list-item > input[checked]::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 46%;
   left: 25%;
@@ -229,9 +225,7 @@
 }
 .markdown-body pre.md-fences,
 .markdown-body pre.md-meta-block,
-.markdown-body
-  .md-rawblock-control:not(.md-rawblock-tooltip)
-  .md-rawblock-input {
+.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input {
   padding: 12px;
   padding-top: 6px;
   margin: 0.5em 0;
@@ -240,7 +234,7 @@
   color: #f8f8f2;
   background: #272822;
   text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   font-size: 1em;
   text-align: left;
   white-space: pre;
@@ -258,12 +252,10 @@
 }
 .markdown-body pre.md-fences::before,
 .markdown-body pre.md-meta-block::before,
-.markdown-body
-  .md-rawblock-control:not(.md-rawblock-tooltip)
-  .md-rawblock-input::before {
-  content: "";
+.markdown-body .md-rawblock-control:not(.md-rawblock-tooltip) .md-rawblock-input::before {
+  content: '';
   display: block;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K");
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K');
   height: 30px;
   width: 100%;
   margin-bottom: -7px;

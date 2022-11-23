@@ -7,12 +7,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
-import useTailwindConfig from "~/composables/useTailwindConfig";
+import { computed } from 'vue'
+import useTailwindConfig from '~/composables/useTailwindConfig'
 
-const { defaultTransition, twitterBorderColor } = useTailwindConfig();
+const { defaultTransition, twitterBorderColor } = useTailwindConfig()
 
-const wrapperClasses = computed(
-  () => `${defaultTransition} ${twitterBorderColor}`
-);
+const wrapperClasses = computed(() => `${defaultTransition} ${twitterBorderColor}`)
 </script>

@@ -13,11 +13,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
-import { navigateTo } from "#app";
-import TweetItem from "~/components/Tcomponents/Tweet/Item/index.vue";
-import TweetForm from "~/components/Tcomponents/Tweet/Form/index.vue";
-import TweetListFeed from "~/components/Tcomponents/Tweet/ListFeed.vue";
+import { computed } from 'vue'
+import { navigateTo } from '#app'
+import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
+import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
+import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
 
 const props = defineProps({
   tweet: {
@@ -28,13 +28,13 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-});
+})
 
-const replies = computed(() => props.tweet?.replies || []);
+const replies = computed(() => props.tweet?.replies || [])
 
 function handleFormSuccess(tweet) {
   navigateTo({
     path: `/status/${tweet.id}`,
-  });
+  })
 }
 </script>

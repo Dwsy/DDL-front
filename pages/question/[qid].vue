@@ -3,16 +3,8 @@
     <Head>
       <Title>{{ title }}</Title>
       <Meta :content="title" name="description" />
-      <Style
-        id="highlightStyle"
-        :children="questionStore.HighlightStyleStr"
-        type="text/css"
-      />
-      <Style
-        id="markdownTheme"
-        :children="questionStore.MarkdownThemeStr"
-        type="text/css"
-      />
+      <Style id="highlightStyle" :children="questionStore.HighlightStyleStr" type="text/css" />
+      <Style id="markdownTheme" :children="questionStore.MarkdownThemeStr" type="text/css" />
     </Head>
     <v-row>
       <v-col cols="10">
@@ -36,11 +28,7 @@
                       "
                     >
                       <v-icon
-                        :color="
-                          questionStore.support === AnswerType.up
-                            ? 'blue-lighten-2'
-                            : 'grey'
-                        "
+                        :color="questionStore.support === AnswerType.up ? 'blue-lighten-2' : 'grey'"
                         >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
@@ -49,9 +37,7 @@
                     </v-btn>
 
                     <p>
-                      {{
-                        questionStore.filed.upNum - questionStore.filed.downNum
-                      }}
+                      {{ questionStore.filed.upNum - questionStore.filed.downNum }}
                     </p>
                     <v-btn
                       elevation="0"
@@ -67,9 +53,7 @@
                     >
                       <v-icon
                         :color="
-                          questionStore.support === AnswerType.down
-                            ? 'blue-lighten-2'
-                            : 'grey'
+                          questionStore.support === AnswerType.down ? 'blue-lighten-2' : 'grey'
                         "
                         class="mdi-rotate-180"
                         >mdi-triangle
@@ -90,17 +74,12 @@
                           @click="openCollectionDialog(1, questionId)"
                         >
                           <!--                               @click="openCollectionDialog(collectionType.Question,questionId)">-->
-                          <v-icon class="text-grey"
-                            >mdi-book-heart-outline</v-icon
-                          >
+                          <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
                           <v-tooltip activator="parent" location="right">
                             收藏并跟踪这个问题
                           </v-tooltip>
                         </v-btn>
-                        <div
-                          v-if="questionStore.filed.collectNum > 0"
-                          class="text-grey"
-                        >
+                        <div v-if="questionStore.filed.collectNum > 0" class="text-grey">
                           {{ questionStore.filed.collectNum }}
                         </div>
                       </template>
@@ -120,13 +99,9 @@
                               :label="group.groupName"
                               :model-value="group.select"
                               class="pr-2"
-                              @change="
-                                addCollectionToGroup(group.id, group.select)
-                              "
+                              @change="addCollectionToGroup(group.id, group.select)"
                             ></v-checkbox>
-                            <span class="pt-4">
-                              {{ group.collectionNum }} / 999
-                            </span>
+                            <span class="pt-4"> {{ group.collectionNum }} / 999 </span>
                           </div>
                           <v-divider class="my-3"></v-divider>
                           <v-row class="pa-4 ml-2">
@@ -144,11 +119,7 @@
 
                           <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn
-                              color="red-darken-1"
-                              text
-                              @click="collectionDialog = false"
-                            >
+                            <v-btn color="red-darken-1" text @click="collectionDialog = false">
                               关闭
                             </v-btn>
                             <!--                <v-btn-->
@@ -169,43 +140,25 @@
                 <div class="text-h5">{{ questionStore.filed?.title }}</div>
 
                 <div class="mt-1">
-                  <nuxt-link
-                    :href="`/user/${questionStore.filed.user.id}`"
-                    target="_blank"
-                  >
+                  <nuxt-link :href="`/user/${questionStore.filed.user.id}`" target="_blank">
                     <v-avatar>
-                      <v-img
-                        :src="questionStore.filed.user.userInfo.avatar"
-                      ></v-img>
+                      <v-img :src="questionStore.filed.user.userInfo.avatar"></v-img>
                     </v-avatar>
 
-                    <span class="text-blue ml-1 mr-4">{{
-                      questionStore.filed.user.nickname
-                    }}</span>
+                    <span class="text-blue ml-1 mr-4">{{ questionStore.filed.user.nickname }}</span>
                   </nuxt-link>
                   <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
-                  <span
-                    >发起于：{{
-                      timeAgoFilter(questionStore.filed.createTime)
-                    }}</span
-                  >
+                  <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
                   <span class="ml-4"
                     >修改：{{
-                      dateFilter(
-                        questionStore.filed.lastModifiedTime,
-                        "YYYY年MM月DD日"
-                      )
+                      dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span
                   >
                   <div class="float-right">
                     <client-only>
                       <v-dialog v-model="invitationAnswer">
                         <template v-slot:activator="{ props }">
-                          <v-btn
-                            color="primary"
-                            v-bind="props"
-                            variant="outlined"
-                          >
+                          <v-btn color="primary" v-bind="props" variant="outlined">
                             邀请回答
                           </v-btn>
                         </template>
@@ -221,9 +174,7 @@
                                 class="mx-4"
                                 label="搜索用户"
                                 single-line
-                                @click:append-inner="
-                                  searchInvitationUser(invitationSearchText)
-                                "
+                                @click:append-inner="searchInvitationUser(invitationSearchText)"
                               >
                               </v-text-field>
                             </v-col>
@@ -240,25 +191,13 @@
                                 <v-card-text>
                                   <v-window v-model="invitationTab">
                                     <v-window-item value="following">
-                                      <v-list
-                                        v-for="(
-                                          u, index
-                                        ) in invitationFollowingUserList"
-                                      >
+                                      <v-list v-for="(u, index) in invitationFollowingUserList">
                                         <v-list-item>
-                                          <nuxt-link
-                                            :href="`/user/${u.id}`"
-                                            target="_blank"
-                                          >
+                                          <nuxt-link :href="`/user/${u.id}`" target="_blank">
                                             <v-avatar>
-                                              <v-img
-                                                :src="u.userInfo.avatar"
-                                              ></v-img>
+                                              <v-img :src="u.userInfo.avatar"></v-img>
                                             </v-avatar>
-                                            <span
-                                              class="mx-3"
-                                              v-text="u.nickname"
-                                            ></span>
+                                            <span class="mx-3" v-text="u.nickname"></span>
                                           </nuxt-link>
                                           <v-chip
                                             v-for="tag in u.userTags"
@@ -266,9 +205,7 @@
                                             size="small"
                                           >
                                             <v-icon>
-                                              mdi-language-{{
-                                                tag.name.toLocaleLowerCase()
-                                              }}
+                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
                                             </v-icon>
                                             {{ tag.name }}
                                           </v-chip>
@@ -315,28 +252,16 @@
                                     </v-window-item>
 
                                     <v-window-item value="recommended">
-                                      <v-list
-                                        v-for="(
-                                          u, index
-                                        ) in invitationRecommendedUserList"
-                                      >
+                                      <v-list v-for="(u, index) in invitationRecommendedUserList">
                                         <v-list-item>
                                           <v-row>
                                             <v-col cols="12">
-                                              <nuxt-link
-                                                :href="`/user/${u.id}`"
-                                                target="_blank"
-                                              >
+                                              <nuxt-link :href="`/user/${u.id}`" target="_blank">
                                                 <v-avatar>
-                                                  <v-img
-                                                    :src="u.userInfo.avatar"
-                                                  ></v-img>
+                                                  <v-img :src="u.userInfo.avatar"></v-img>
                                                 </v-avatar>
 
-                                                <span
-                                                  class="mx-3"
-                                                  v-text="u.nickname"
-                                                ></span>
+                                                <span class="mx-3" v-text="u.nickname"></span>
                                               </nuxt-link>
                                               <v-chip
                                                 v-for="tag in u.userTags"
@@ -344,9 +269,7 @@
                                                 size="small"
                                               >
                                                 <v-icon>
-                                                  mdi-language-{{
-                                                    tag.name.toLocaleLowerCase()
-                                                  }}
+                                                  mdi-language-{{ tag.name.toLocaleLowerCase() }}
                                                 </v-icon>
                                                 {{ tag.name }}
                                               </v-chip>
@@ -395,24 +318,14 @@
                                     </v-window-item>
 
                                     <v-window-item value="search">
-                                      <v-list
-                                        v-for="(
-                                          u, index
-                                        ) in invitationSearchUserList"
-                                      >
+                                      <v-list v-for="(u, index) in invitationSearchUserList">
                                         <v-list-item>
-                                          <nuxt-link
-                                            :href="`/user/${u.id}`"
-                                            target="_blank"
-                                          >
+                                          <nuxt-link :href="`/user/${u.id}`" target="_blank">
                                             <v-avatar>
                                               <v-img :src="u.avatar"></v-img>
                                             </v-avatar>
 
-                                            <span
-                                              class="mx-3"
-                                              v-text="u.userNickName"
-                                            ></span>
+                                            <span class="mx-3" v-text="u.userNickName"></span>
                                           </nuxt-link>
                                           <v-chip
                                             v-for="tag in u.userTags"
@@ -420,9 +333,7 @@
                                             size="small"
                                           >
                                             <v-icon>
-                                              mdi-language-{{
-                                                tag.name.toLocaleLowerCase()
-                                              }}
+                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
                                             </v-icon>
                                             {{ tag.name }}
                                           </v-chip>
@@ -473,39 +384,18 @@
                             </v-col>
                           </v-row>
                           <v-card-actions class="justify-end">
-                            <v-btn
-                              color="primary"
-                              @click="invitationAnswer = false"
-                              >邀请</v-btn
-                            >
-                            <v-btn
-                              color="primary"
-                              @click="invitationAnswer = false"
-                              >关闭</v-btn
-                            >
+                            <v-btn color="primary" @click="invitationAnswer = false">邀请</v-btn>
+                            <v-btn color="primary" @click="invitationAnswer = false">关闭</v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
                     </client-only>
 
-                    <template
-                      v-if="questionStore.filed.user.id !== userStore.user?.id"
-                    >
-                      <v-btn
-                        v-if="questionStore.follow"
-                        class="mx-4"
-                        color="pink lighten-3"
-                      >
-                        <span style="color: white" @click="unsubscribe()"
-                          >已关注</span
-                        >
+                    <template v-if="questionStore.filed.user.id !== userStore.user?.id">
+                      <v-btn v-if="questionStore.follow" class="mx-4" color="pink lighten-3">
+                        <span style="color: white" @click="unsubscribe()">已关注</span>
                       </v-btn>
-                      <v-btn
-                        v-else
-                        class="mx-4"
-                        color="blue lighten-3"
-                        @click="subscribe()"
-                      >
+                      <v-btn v-else class="mx-4" color="blue lighten-3" @click="subscribe()">
                         <span style="color: white">关注</span>
                       </v-btn>
                     </template>
@@ -535,9 +425,7 @@
                     :key="tag.id"
                     size="small"
                   >
-                    <v-icon>
-                      mdi-language-{{ tag.name.toLocaleLowerCase() }}
-                    </v-icon>
+                    <v-icon> mdi-language-{{ tag.name.toLocaleLowerCase() }} </v-icon>
                     {{ tag.name }}
                   </v-chip>
                 </v-chip-group>
@@ -617,7 +505,7 @@
                                       answerType: AnswerType.comment,
                                     },
                                     () => {
-                                      isActive.value = false;
+                                      isActive.value = false
                                     }
                                   )
                                 "
@@ -634,7 +522,7 @@
                         variant="tonal"
                         @click="watchQuestion(questionStore.watch)"
                       >
-                        {{ questionStore.watch ? "取消追踪" : "追踪" }}
+                        {{ questionStore.watch ? '取消追踪' : '追踪' }}
                         <v-tooltip activator="parent" location="top">
                           关注跟踪这个问题，当有新的回答时会收到通知
                         </v-tooltip>
@@ -649,16 +537,9 @@
                     >
                       <!--                            :theme="useCookie('theme')">-->
 
-                      <template
-                        v-for="comment in questionStore.filed
-                          .questionCommentList"
-                      >
+                      <template v-for="comment in questionStore.filed.questionCommentList">
                         <div class="float-left">
-                          <a
-                            :href="`/user/${comment.user.id}`"
-                            class="text-blue"
-                            target="_blank"
-                          >
+                          <a :href="`/user/${comment.user.id}`" class="text-blue" target="_blank">
                             {{ comment.user.nickname }}：
                           </a>
                         </div>
@@ -667,21 +548,11 @@
                         </div>
                         <div
                           v-else
-                          v-html="
-                            atSrtGotoHome(
-                              comment.textHtml,
-                              comment.parentUserId
-                            )
-                          "
+                          v-html="atSrtGotoHome(comment.textHtml, comment.parentUserId)"
                         ></div>
                         <div>
                           <span class="text-subtitle-2 text-grey">
-                            {{
-                              dateFilter(
-                                comment.createTime,
-                                "YYYY年MM月DD hh:mm"
-                              )
-                            }}
+                            {{ dateFilter(comment.createTime, 'YYYY年MM月DD hh:mm') }}
                           </span>
                           <v-btn
                             color="blue"
@@ -689,12 +560,7 @@
                             size="small"
                             variant="text"
                             @click="
-                              showCommentDialog(
-                                comment.user,
-                                comment.id,
-                                '0',
-                                AnswerType.comment
-                              )
+                              showCommentDialog(comment.user, comment.id, '0', AnswerType.comment)
                             "
                           >
                             <v-icon>mdi-reply</v-icon>
@@ -735,15 +601,10 @@
                           )
                         "
                       >
-                        <v-icon
-                          :color="
-                            answerStore.getActionColor(AnswerType.up, index)
-                          "
+                        <v-icon :color="answerStore.getActionColor(AnswerType.up, index)"
                           >mdi-triangle
                         </v-icon>
-                        <v-tooltip activator="parent" location="right">
-                          这个回答有用
-                        </v-tooltip>
+                        <v-tooltip activator="parent" location="right"> 这个回答有用 </v-tooltip>
                       </v-btn>
                       <!--                      {{ answer.userAction }}-->
                       <p>{{ answer.upNum - answer.downNum }}</p>
@@ -763,29 +624,21 @@
                         "
                       >
                         <v-icon
-                          :color="
-                            answerStore.getActionColor(AnswerType.down, index)
-                          "
+                          :color="answerStore.getActionColor(AnswerType.down, index)"
                           class="mdi-rotate-180"
                           >mdi-triangle
                         </v-icon>
-                        <v-tooltip activator="parent" location="right">
-                          这个回答没有用
-                        </v-tooltip>
+                        <v-tooltip activator="parent" location="right"> 这个回答没有用 </v-tooltip>
                       </v-btn>
                       <br />
                       <template v-if="answer.accepted">
                         <v-btn
-                          v-if="
-                            questionStore.filed.user.id !== userStore.user?.id
-                          "
+                          v-if="questionStore.filed.user.id !== userStore.user?.id"
                           class="my-2"
                           elevation="0"
                           icon="true"
                         >
-                          <v-icon class="" color="#00c13c" size="large">
-                            mdi-check-bold</v-icon
-                          >
+                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
                           <v-tooltip activator="parent" location="right">
                             这个答案被提问者采纳在
                             {{ timeAgoFilter(answer.acceptedTime) }}
@@ -798,28 +651,20 @@
                           icon="true"
                           @click="acceptedAnswer(answer.id, false, index)"
                         >
-                          <v-icon class="" color="#00c13c" size="large">
-                            mdi-check-bold</v-icon
-                          >
-                          <v-tooltip activator="parent" location="right">
-                            取消采纳
-                          </v-tooltip>
+                          <v-icon class="" color="#00c13c" size="large"> mdi-check-bold</v-icon>
+                          <v-tooltip activator="parent" location="right"> 取消采纳 </v-tooltip>
                         </v-btn>
                       </template>
                       <template v-else>
                         <v-btn
-                          v-if="
-                            questionStore.filed.user.id === userStore.user?.id
-                          "
+                          v-if="questionStore.filed.user.id === userStore.user?.id"
                           class="my-2"
                           elevation="0"
                           icon="true"
                           @click="acceptedAnswer(answer.id, true, index)"
                         >
                           <v-icon class="" size="large"> mdi-check-bold</v-icon>
-                          <v-tooltip activator="parent" location="right">
-                            采纳这个回答
-                          </v-tooltip>
+                          <v-tooltip activator="parent" location="right"> 采纳这个回答 </v-tooltip>
                         </v-btn>
                       </template>
 
@@ -832,12 +677,8 @@
                         @click="openCollectionDialog(3, answer.id)"
                       >
                         <!--                             @click="openCollectionDialog(collectionType.Answer,answer.id)">-->
-                        <v-icon class="text-grey"
-                          >mdi-book-heart-outline</v-icon
-                        >
-                        <v-tooltip activator="parent" location="right">
-                          收藏这个回答
-                        </v-tooltip>
+                        <v-icon class="text-grey">mdi-book-heart-outline</v-icon>
+                        <v-tooltip activator="parent" location="right"> 收藏这个回答 </v-tooltip>
                       </v-btn>
                     </div>
                   </client-only>
@@ -915,7 +756,7 @@
                                           answerType: AnswerType.answer_comment,
                                         },
                                         () => {
-                                          isActive.value = false;
+                                          isActive.value = false
                                         }
                                       )
                                     "
@@ -939,27 +780,19 @@
                           <!--                        </v-btn>-->
                         </div>
                         <div class="text-end">
-                          <nuxt-link
-                            :href="`/user/${answer.user.id}`"
-                            target="_blank"
-                          >
+                          <nuxt-link :href="`/user/${answer.user.id}`" target="_blank">
                             <v-avatar>
                               <v-img :src="answer.user.userInfo.avatar"></v-img>
                             </v-avatar>
                             <span>{{ answer.user.nickname }}/</span>
                           </nuxt-link>
 
-                          <span class="text-grey">{{
-                            dateFilter(answer.createTime)
-                          }}</span>
+                          <span class="text-grey">{{ dateFilter(answer.createTime) }}</span>
                         </div>
                       </div>
                       <!--                      </v-col>-->
                       <!--                    </v-row>-->
-                      <v-card
-                        v-if="answer.childQaAnswers.length > 0"
-                        class="pa-5"
-                      >
+                      <v-card v-if="answer.childQaAnswers.length > 0" class="pa-5">
                         <template v-for="childAnswer in answer.childQaAnswers">
                           <div class="float-left">
                             <nuxt-link
@@ -975,12 +808,7 @@
                           </div>
                           <div
                             v-else
-                            v-html="
-                              atSrtGotoHome(
-                                childAnswer.textHtml,
-                                childAnswer.parentUserId
-                              )
-                            "
+                            v-html="atSrtGotoHome(childAnswer.textHtml, childAnswer.parentUserId)"
                           ></div>
                           <!--                        <div>-->
                           <!--                          <v-btn size="x-small" icon="mdi-thumb-up-outline" :icon="true" elevation="0"></v-btn>-->
@@ -989,12 +817,7 @@
                           <!--                        </div>-->
                           <div>
                             <span class="text-subtitle-2 text-grey">
-                              {{
-                                dateFilter(
-                                  childAnswer.createTime,
-                                  "YYYY年MM月DD hh:mm"
-                                )
-                              }}
+                              {{ dateFilter(childAnswer.createTime, 'YYYY年MM月DD hh:mm') }}
                             </span>
                             <v-btn
                               color="blue"
@@ -1093,9 +916,7 @@
                   <span class="text-h6 text-green">适合作为回答的</span>
                   <div class="d-answer-tip-recommend">
                     <p class="card-text mdi">经过验证的有效解决办法</p>
-                    <p class="card-text mdi">
-                      自己的经验指引，对解决问题有帮助
-                    </p>
+                    <p class="card-text mdi">自己的经验指引，对解决问题有帮助</p>
                     <p class="card-text mdi">
                       遵循
                       <span class="d-markdown-tip">
@@ -1113,23 +934,16 @@
                   <div class="d-answer-tip-inappropriate">
                     <p class="card-text mdi">询问内容细节或回复楼层</p>
                     <p class="card-text mdi">与题目无关的内容</p>
-                    <p class="card-text mdi">
-                      “赞”“顶”“同问”“看手册”“解决了没”等毫无意义的内容
-                    </p>
+                    <p class="card-text mdi">“赞”“顶”“同问”“看手册”“解决了没”等毫无意义的内容</p>
                   </div>
                   <div class="my-3">
-                    <v-btn
-                      color="#1aad19"
-                      size="large"
-                      variant="tonal"
-                      @click="showAnswerWin()"
+                    <v-btn color="#1aad19" size="large" variant="tonal" @click="showAnswerWin()"
                       >撰写解决方法</v-btn
                     >
                   </div>
                   <div class="d-answer-tip-comment">
                     <p class="card-text mdi">
-                      询问细节、提出修改意见时，请使用每条内容下方的<span
-                        style="color: #12a9b5"
+                      询问细节、提出修改意见时，请使用每条内容下方的<span style="color: #12a9b5"
                         >“回复”</span
                       >功能
                     </p>
@@ -1191,7 +1005,7 @@
                       replyUserId: commentUser.id,
                     },
                     () => {
-                      this.commentDialog = false;
+                      this.commentDialog = false
                     }
                   )
                 "
@@ -1206,166 +1020,148 @@
 </template>
 
 <script setup lang="ts">
-import { useQuestionStore } from "~/stores/question/questionStore";
-import { useCookie, useRoute, useRouter } from "#app";
-import {
-  atSrtGotoHome,
-  dateFilter,
-  timeAgoFilter,
-} from "~/composables/useTools";
-import { nextTick, onMounted, ref, toRaw, watch } from "vue";
-import { changeHighlightStyle } from "~/constant/highlightStyleList";
-import { changeThemes, themes } from "~/constant/markdownThemeList";
-import {
-  useFetchGetQuestionContent,
-  useFetchGetQuestionField,
-} from "~/composables/Api/question";
-import { useTheme } from "vuetify";
-import { useAnswerStore } from "~/stores/question/answerStore";
-import { AnswerType, User0 } from "~/types/question/answer";
-import { User, userData } from "~/types/user";
-import AnswerBytemdEditor from "~/components/question/answerBytemdEditor.vue";
+import { useQuestionStore } from '~/stores/question/questionStore'
+import { useCookie, useRoute, useRouter } from '#app'
+import { atSrtGotoHome, dateFilter, timeAgoFilter } from '~/composables/useTools'
+import { nextTick, onMounted, ref, toRaw, watch } from 'vue'
+import { changeHighlightStyle } from '~/constant/highlightStyleList'
+import { changeThemes, themes } from '~/constant/markdownThemeList'
+import { useFetchGetQuestionContent, useFetchGetQuestionField } from '~/composables/Api/question'
+import { useTheme } from 'vuetify'
+import { useAnswerStore } from '~/stores/question/answerStore'
+import { AnswerType, User0 } from '~/types/question/answer'
+import { User, userData } from '~/types/user'
+import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
   useAxiosGetCollectionGroupList,
   useAxiosPostAddCollectionToGroup,
   useAxiosPostCreateCollectionGroup,
-} from "~/composables/Api/article";
-import {
-  collectionData,
-  collectionGroupData,
-  collectionType,
-} from "~/types/article";
-import {
-  errorMsg,
-  successMsg,
-  warningMsg,
-} from "~/composables/utils/toastification";
+} from '~/composables/Api/article'
+import { collectionData, collectionGroupData, collectionType } from '~/types/article'
+import { errorMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import {
   followUser,
   unFollowUser,
   useAxiosGetFollowingList,
-} from "~/composables/Api/user/following";
-import { useLayout } from "~/stores/layout";
-import { useUserStore } from "~/stores/user";
-import { useGet, usePost } from "~/composables/useAxios";
-import { ResponseData } from "~/types/utils/axios";
+} from '~/composables/Api/user/following'
+import { useLayout } from '~/stores/layout'
+import { useUserStore } from '~/stores/user'
+import { useGet, usePost } from '~/composables/useAxios'
+import { ResponseData } from '~/types/utils/axios'
 import {
   InvitationUserAnswerQuestionRB,
   userAxiosGetAcceptAnswer,
   userAxiosPostInvitationUserAnswerQuestion,
-} from "~/composables/Api/question/answer";
-import http from "~~/utils/fetch";
-import { useFetch } from "#imports";
-const theme = useTheme();
-const route = useRoute();
-const router = useRouter();
-let userStore = useUserStore();
-const questionId = String(route.params.qid);
-const questionStore = useQuestionStore();
-const answerStore = useAnswerStore();
-const responseData = await useFetchGetQuestionField(questionId, true);
-const content = ref("");
-const replyCommentText = ref("");
-const commentDialog = ref(false);
+} from '~/composables/Api/question/answer'
+import http from '~~/utils/fetch'
+import { useFetch } from '#imports'
+const theme = useTheme()
+const route = useRoute()
+const router = useRouter()
+let userStore = useUserStore()
+const questionId = String(route.params.qid)
+const questionStore = useQuestionStore()
+const answerStore = useAnswerStore()
+const responseData = await useFetchGetQuestionField(questionId, true)
+const content = ref('')
+const replyCommentText = ref('')
+const commentDialog = ref(false)
 
 const changeText = async (text) => {
-  content.value = text;
-};
-const commentUser = ref<userData>();
-const commentParentAnswerId = ref("");
-const commentCommentId = ref(0);
-const commentAnswerType = ref<AnswerType>();
-const collectionDialog = ref(false);
-const invitationSearchText = ref();
-
-const invitationSearchUserList = ref<User0[]>();
-const invitationRecommendedUserList = ref<User0[]>();
-const invitationFollowingUserList = ref<User0[]>();
-const invitationAnswer = ref();
-const invitationTab = ref();
-const invitedBtn: Element = ref();
-let layout = useLayout();
-layout.showFooter = true;
-if (responseData.code === 0) {
-  questionStore.filed = responseData.data;
-  const contentResponseData = await useFetchGetQuestionContent(questionId);
-  if (contentResponseData.code === 0) {
-    questionStore.content = contentResponseData.data;
-  }
-  questionStore.cookieThemeState = useCookie("theme");
-} else {
-  console.log(responseData.msg);
+  content.value = text
 }
-questionStore.init(questionId);
-const title = ref(questionStore.filed.title);
-const showAnswerWindow = ref(false);
-if (typeof window == "undefined") {
+const commentUser = ref<userData>()
+const commentParentAnswerId = ref('')
+const commentCommentId = ref(0)
+const commentAnswerType = ref<AnswerType>()
+const collectionDialog = ref(false)
+const invitationSearchText = ref()
+
+const invitationSearchUserList = ref<User0[]>()
+const invitationRecommendedUserList = ref<User0[]>()
+const invitationFollowingUserList = ref<User0[]>()
+const invitationAnswer = ref()
+const invitationTab = ref()
+const invitedBtn: Element = ref()
+let layout = useLayout()
+layout.showFooter = true
+if (responseData.code === 0) {
+  questionStore.filed = responseData.data
+  const contentResponseData = await useFetchGetQuestionContent(questionId)
+  if (contentResponseData.code === 0) {
+    questionStore.content = contentResponseData.data
+  }
+  questionStore.cookieThemeState = useCookie('theme')
+} else {
+  console.log(responseData.msg)
+}
+questionStore.init(questionId)
+const title = ref(questionStore.filed.title)
+const showAnswerWindow = ref(false)
+if (typeof window == 'undefined') {
   questionStore.HighlightStyleStr = await changeHighlightStyle(
     questionStore.getHighlightStyleName(),
     true
-  );
+  )
   questionStore.MarkdownThemeStr = await changeThemes(
     themes[questionStore.getMarkdownThemeName()],
     true
-  );
+  )
 }
 
 onMounted(async () => {
-  await questionStore.getUserToQuestionAction(questionId);
-  await answerStore.loadAnswer(questionId);
+  await questionStore.getUserToQuestionAction(questionId)
+  await answerStore.loadAnswer(questionId)
   watch(theme.global.name, async (val) => {
-    if (val === "dark") {
-      await questionStore.changeThemeDark();
-      await questionStore.changeHighlightStyleDark();
+    if (val === 'dark') {
+      await questionStore.changeThemeDark()
+      await questionStore.changeHighlightStyleDark()
     } else {
-      await questionStore.changeThemeLight();
-      await questionStore.changeHighlightStyleLight();
+      await questionStore.changeThemeLight()
+      await questionStore.changeHighlightStyleLight()
     }
-  });
+  })
   // #answerId-1588022587668037632-#test
-  let h = route.hash;
+  let h = route.hash
   if (h) {
-    if (h.indexOf("+") > 0) {
-      let hash = h.split("+");
-      document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView();
+    if (h.indexOf('+') > 0) {
+      let hash = h.split('+')
+      document.querySelector(`${hash[0]} ${hash[1]}`).scrollIntoView()
     }
   }
   watch(invitationAnswer, async (val) => {
     if (val) {
-      const { data: response } = await useAxiosGetFollowingList();
+      const { data: response } = await useAxiosGetFollowingList()
       if (response.code === 0) {
-        invitationFollowingUserList.value = response.data.content;
+        invitationFollowingUserList.value = response.data.content
       } else {
-        warningMsg(response.msg);
+        warningMsg(response.msg)
       }
     }
-  });
+  })
 
   watch(invitationTab, async (val) => {
-    if (val == "recommended") {
-      const { data: response } = await usePost<ResponseData<User[]>>(
-        "user/tag/user",
-        {
-          tagIds: questionStore.filed.questionTags.map((t) => t.id),
-        }
-      );
-      invitationRecommendedUserList.value = response.data;
+    if (val == 'recommended') {
+      const { data: response } = await usePost<ResponseData<User[]>>('user/tag/user', {
+        tagIds: questionStore.filed.questionTags.map((t) => t.id),
+      })
+      invitationRecommendedUserList.value = response.data
     }
-  });
-});
+  })
+})
 
-const collectionGroupList = ref<Array<collectionGroupData>>(); // 收藏分组列表
-const collectionType = ref<collectionType>();
-const collectionSourceId = ref("");
+const collectionGroupList = ref<Array<collectionGroupData>>() // 收藏分组列表
+const collectionType = ref<collectionType>()
+const collectionSourceId = ref('')
 
 const openCollectionDialog = async (type: collectionType, sourceId: string) => {
-  collectionDialog.value = true;
-  collectionType.value = type;
-  collectionSourceId.value = sourceId;
-  const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
+  collectionDialog.value = true
+  collectionType.value = type
+  collectionSourceId.value = sourceId
+  const { data: axiosResponse } = await useAxiosGetCollectionGroupList()
   if (axiosResponse.code === 0) {
-    collectionGroupList.value = axiosResponse.data;
+    collectionGroupList.value = axiosResponse.data
     // await loadArticleCollectionState()
     // if (articleCollectionState.value.code === 0) {
     //   const state = articleCollectionState.value.data
@@ -1382,63 +1178,59 @@ const openCollectionDialog = async (type: collectionType, sourceId: string) => {
     //   }
     // }
   }
-};
+}
 const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.value,
     sourceId: collectionSourceId.value,
     groupId,
-  };
+  }
   if (select) {
-    const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(
-      body
-    );
+    const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(body)
     if (axiosResponse.code === 0) {
-      successMsg("收藏成功");
-      collectionGroupList.value.find((value) => value.id === groupId)
-        .collectionNum++;
+      successMsg('收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum++
     } else {
-      warningMsg(axiosResponse.msg);
+      warningMsg(axiosResponse.msg)
     }
   } else {
-    const { data: axiosResponse } = await useAxiosCancelCollectionToGroup(body);
+    const { data: axiosResponse } = await useAxiosCancelCollectionToGroup(body)
     if (axiosResponse.code === 0) {
-      successMsg("取消收藏成功");
-      collectionGroupList.value.find((value) => value.id === groupId)
-        .collectionNum--;
+      successMsg('取消收藏成功')
+      collectionGroupList.value.find((value) => value.id === groupId).collectionNum--
     } else {
-      errorMsg(axiosResponse.msg);
+      errorMsg(axiosResponse.msg)
     }
   }
-};
+}
 
-const newCollectionGroupName = ref("");
+const newCollectionGroupName = ref('')
 const newCollectionGroup = async () => {
   let body: any = {
     groupName: newCollectionGroupName.value,
-  };
-  const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body);
+  }
+  const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body)
   if (axiosResponse.code === 0) {
-    successMsg("创建成功");
-    const { data: axiosResponse } = await useAxiosGetCollectionGroupList();
+    successMsg('创建成功')
+    const { data: axiosResponse } = await useAxiosGetCollectionGroupList()
     if (axiosResponse.code === 0) {
-      collectionGroupList.value = axiosResponse.data;
-      newCollectionGroupName.value = "";
+      collectionGroupList.value = axiosResponse.data
+      newCollectionGroupName.value = ''
     }
   } else {
-    errorMsg(axiosResponse.msg);
+    errorMsg(axiosResponse.msg)
   }
-};
+}
 
 const subscribe = () => {
-  followUser(questionStore.filed.user.id);
-  questionStore.follow = true;
-};
+  followUser(questionStore.filed.user.id)
+  questionStore.follow = true
+}
 
 const unsubscribe = () => {
-  unFollowUser(questionStore.filed.user.id);
-  questionStore.follow = false;
-};
+  unFollowUser(questionStore.filed.user.id)
+  questionStore.follow = false
+}
 
 const showCommentDialog = (
   user: User,
@@ -1446,21 +1238,21 @@ const showCommentDialog = (
   ParentAnswerId: string,
   answerType: AnswerType
 ) => {
-  commentDialog.value = true;
-  commentUser.value = user;
-  commentParentAnswerId.value = ParentAnswerId;
-  commentCommentId.value = CommentId;
-  commentAnswerType.value = answerType;
-};
+  commentDialog.value = true
+  commentUser.value = user
+  commentParentAnswerId.value = ParentAnswerId
+  commentCommentId.value = CommentId
+  commentAnswerType.value = answerType
+}
 
 const showAnswerWin = async () => {
-  showAnswerWindow.value = true;
-  await nextTick();
-  let element = document.querySelector("#answer");
+  showAnswerWindow.value = true
+  await nextTick()
+  let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: "smooth",
-  });
-};
+    behavior: 'smooth',
+  })
+}
 
 const searchInvitationUser = async (query: string) => {
   const { data: axiosResponse } = await useGet<ResponseData<User0[]>>(
@@ -1469,83 +1261,75 @@ const searchInvitationUser = async (query: string) => {
       page: 1,
       questionId,
     }
-  );
+  )
   if (axiosResponse.code === 0) {
-    invitationSearchUserList.value = axiosResponse.data.content;
-    invitationTab.value = "search";
+    invitationSearchUserList.value = axiosResponse.data.content
+    invitationTab.value = 'search'
   } else {
-    warningMsg(axiosResponse.msg);
+    warningMsg(axiosResponse.msg)
   }
-};
+}
 
-const InvitationUserAnswerQuestion = async (
-  body: InvitationUserAnswerQuestionRB,
-  index
-) => {
-  const { data: axiosResponse } =
-    await userAxiosPostInvitationUserAnswerQuestion(body);
+const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB, index) => {
+  const { data: axiosResponse } = await userAxiosPostInvitationUserAnswerQuestion(body)
   if (axiosResponse.code == 0) {
     if (body.cancel) {
-      invitationSearchUserList.value[index].invited = false;
-      successMsg("取消邀请成功");
+      invitationSearchUserList.value[index].invited = false
+      successMsg('取消邀请成功')
     } else {
-      invitationSearchUserList.value[index].invited = true;
-      successMsg("邀请成功");
+      invitationSearchUserList.value[index].invited = true
+      successMsg('邀请成功')
     }
   } else {
-    warningMsg(axiosResponse.msg);
+    warningMsg(axiosResponse.msg)
   }
-};
+}
 
 const scrollIntoAnswer = () => {
-  let element = document.querySelector("#answer");
+  let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: "smooth",
-  });
-};
+    behavior: 'smooth',
+  })
+}
 
-const acceptedAnswer = async (
-  answerId: string,
-  accept: boolean,
-  index?: number
-) => {
-  const { data: response } = await userAxiosGetAcceptAnswer(answerId, accept);
+const acceptedAnswer = async (answerId: string, accept: boolean, index?: number) => {
+  const { data: response } = await userAxiosGetAcceptAnswer(answerId, accept)
 
   if (response.code === 0 && response.data) {
     if (accept) {
-      successMsg("采纳答案成功");
+      successMsg('采纳答案成功')
     } else {
-      successMsg("取消采纳答案成功");
+      successMsg('取消采纳答案成功')
     }
-    answerStore.dataList[index].accepted = accept;
+    answerStore.dataList[index].accepted = accept
   } else {
-    warningMsg("操作失败");
+    warningMsg('操作失败')
   }
-};
+}
 
 const watchQuestion = async (cancel = false) => {
   if (cancel) {
     const { data: axiosResponse } = await usePost<ResponseData<boolean>>(
-      "qa/question/unwatch/" + questionId
-    );
+      'qa/question/unwatch/' + questionId
+    )
     if (axiosResponse.code == 0 && axiosResponse.data) {
-      questionStore.watch = false;
-      successMsg("取消追踪成功");
+      questionStore.watch = false
+      successMsg('取消追踪成功')
     } else {
-      warningMsg(axiosResponse.msg);
+      warningMsg(axiosResponse.msg)
     }
   } else {
     const { data: response } = await usePost<ResponseData<boolean>>(
-      "qa/question/watch/" + questionId
-    );
+      'qa/question/watch/' + questionId
+    )
     if (response.code == 0 && response.data) {
-      questionStore.watch = true;
-      successMsg("追踪问题成功");
+      questionStore.watch = true
+      successMsg('追踪问题成功')
     } else {
-      warningMsg(response.msg);
+      warningMsg(response.msg)
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -1554,9 +1338,7 @@ const watchQuestion = async (cancel = false) => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
 }
 
 :deep(.markdown-body pre code ul) {
@@ -1572,9 +1354,7 @@ const watchQuestion = async (cancel = false) => {
   content: counter(linenumber);
   margin-left: -20px;
   margin-right: 14px;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#9b9b9b" : "#626262"') !important;
 }
 
 :deep(.markdown-body p) {
@@ -1604,17 +1384,15 @@ const watchQuestion = async (cancel = false) => {
 }
 
 .d-answer-tip-recommend p:before {
-  content: "\F012C";
+  content: '\F012C';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
   font-weight: bold;
   margin-right: 3px;
 }
 
 .d-answer-tip-inappropriate p:before {
-  content: "\F0156";
+  content: '\F0156';
   font-size: 135%;
   color: red;
   font-weight: bold;
@@ -1622,7 +1400,7 @@ const watchQuestion = async (cancel = false) => {
 }
 
 .d-answer-tip-comment p:before {
-  content: "\F064E";
+  content: '\F064E';
   font-size: 135%;
   color: #40c4ff;
   font-weight: bold;
@@ -1631,45 +1409,35 @@ const watchQuestion = async (cancel = false) => {
 
 :deep(.d-tip-error) {
   /*background: #fcf1f1 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#351212" : "#fcf1f1"') !important;
   border-left-color: red !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-success) {
   /*background: #f0f8e5 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
   border-left-color: #1aad19 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-warning) {
   /*background: #fcf2e9 !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#2c240a" : "#fcf2e9"') !important;
   border-left-color: #ec6800 !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-info) {
   /*background: #eef6fd !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#162430" : "#eef6fd"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#162430" : "#eef6fd"') !important;
   border-left-color: #40c4ff !important;
   /*color: black!important;*/
 }
 
 :deep(.d-tip-share) {
   /*background: #dddddd !important;*/
-  background: v-bind(
-    'theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"'
-  ) !important;
+  background: v-bind('theme.global.name.value === "dark" ? "#2a2a2abc" : "#eeeeee"') !important;
   border-left-color: #8b968d !important;
   /*color: black!important;*/
 }
@@ -1683,7 +1451,7 @@ const watchQuestion = async (cancel = false) => {
 /*  margin-left: -10px;*/
 /*}*/
 .d-tip-error > p:first-child:before {
-  content: "\F0156";
+  content: '\F0156';
   font-size: 135%;
   color: red;
   font-weight: bold;
@@ -1696,18 +1464,16 @@ const watchQuestion = async (cancel = false) => {
 }
 
 .d-tip-success p:first-child:before {
-  content: "\F012C";
+  content: '\F012C';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "#41b883" : "#00c13c"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "#41b883" : "#00c13c"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;
 }
 
 .d-tip-warning p:first-child:before {
-  content: "\F0205";
+  content: '\F0205';
   font-size: 135%;
   position: center;
   height: 100%;
@@ -1718,7 +1484,7 @@ const watchQuestion = async (cancel = false) => {
 }
 
 .d-tip-info p:first-child:before {
-  content: "\F064E";
+  content: '\F064E';
   font-size: 135%;
   color: #40c4ff;
   font-weight: bold;
@@ -1727,11 +1493,9 @@ const watchQuestion = async (cancel = false) => {
 }
 
 .d-tip-share p:first-child:before {
-  content: "\F0065";
+  content: '\F0065';
   font-size: 135%;
-  color: v-bind(
-    'theme.global.name.value === "dark" ? "" : "#858585"'
-  ) !important;
+  color: v-bind('theme.global.name.value === "dark" ? "" : "#858585"') !important;
   font-weight: bold;
   margin-right: 5px;
   margin-left: -10px;

@@ -17,5 +17,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import AuthForm from "~/components/Tcomponents/Auth/Form.vue";
+import AuthForm from '~/components/Tcomponents/Auth/Form.vue'
 </script>

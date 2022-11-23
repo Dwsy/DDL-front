@@ -10,13 +10,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from "vue";
-import { useRoute } from "#app";
-import MainSection from "~/components/Tcomponents/MainSection.vue";
-import TweetDetails from "~/components/Tcomponents/Tweet/Details.vue";
+import { onBeforeMount, ref, watch } from 'vue'
+import { useRoute } from '#app'
+import MainSection from '~/components/Tcomponents/MainSection.vue'
+import TweetDetails from '~/components/Tcomponents/Tweet/Details.vue'
 
-const loading = ref(false);
-const tweet = ref(null);
+const loading = ref(false)
+const tweet = ref(null)
 
 // const { getTweetById } = useTweets()
 // const { useAuthUser } = useAuth()
@@ -25,11 +25,11 @@ const tweet = ref(null);
 // watch(() => useRoute().fullPath, () => getTweet())
 
 function getTweetIdFromRoute() {
-  return useRoute().params.id;
+  return useRoute().params.id
 }
 
 async function getTweet() {
-  loading.value = true;
+  loading.value = true
   //     loading.value = false
   // try {
   //     const response = await getTweetById(getTweetIdFromRoute())
@@ -44,5 +44,5 @@ async function getTweet() {
 
 onBeforeMount(() => {
   // getTweet()
-});
+})
 </script>

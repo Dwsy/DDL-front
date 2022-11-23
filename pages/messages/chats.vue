@@ -14,9 +14,7 @@
             <template v-slot:prepend>
               <v-badge
                 :content="chatsStore.chatMsgUnreadNum.get(item.chatUserId)"
-                :model-value="
-                  chatsStore.chatMsgUnreadNum.get(item.chatUserId) > 0
-                "
+                :model-value="chatsStore.chatMsgUnreadNum.get(item.chatUserId) > 0"
                 color="red"
               >
                 <v-avatar size="x-large">
@@ -28,19 +26,11 @@
               class="ml-1"
               v-text="item.chatUserNickname"
             ></v-list-item-subtitle>
-            <v-list-item-title
-              class="ml-1"
-              v-text="item.content"
-            ></v-list-item-title>
+            <v-list-item-title class="ml-1" v-text="item.content"></v-list-item-title>
           </v-list-item>
         </v-list>
         <div class="text-end">
-          <v-btn
-            elevation="0"
-            icon
-            size="small"
-            @click="chatsStore.loadChatsList()"
-          >
+          <v-btn elevation="0" icon size="small" @click="chatsStore.loadChatsList()">
             <v-icon> mdi-refresh </v-icon>
           </v-btn>
         </div>
@@ -58,35 +48,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
-import { useChatsStore } from "~/stores/messages/chatsStore";
-import { definePageMeta } from "#imports";
-import { useHead } from "#head";
+import { onMounted, onUnmounted } from 'vue'
+import { useChatsStore } from '~/stores/messages/chatsStore'
+import { definePageMeta } from '#imports'
+import { useHead } from '#head'
 
 definePageMeta({
-  key: "chats",
+  key: 'chats',
   keepalive: false,
   pageTransition: false,
-});
+})
 useHead({
-  title: "私信列表",
+  title: '私信列表',
   link: [
     {
-      rel: "stylesheet",
-      href: "https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css",
+      rel: 'stylesheet',
+      href: 'https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css',
     },
   ],
-});
+})
 
-const chatsStore = useChatsStore();
+const chatsStore = useChatsStore()
 onMounted(async () => {
-  console.log("chatsStore onMounted");
-  await chatsStore.loadChatsList();
-});
+  console.log('chatsStore onMounted')
+  await chatsStore.loadChatsList()
+})
 
 onUnmounted(() => {
-  console.log("onUnmounted");
-});
+  console.log('onUnmounted')
+})
 </script>
 
 <style>

@@ -1,5 +1,5 @@
-console.log(process.env.NUXT_PUBLIC_API_BASE_URL);
-import { defineNuxtConfig } from "nuxt/config";
+console.log(process.env.NUXT_PUBLIC_API_BASE_URL)
+import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   app: {
@@ -7,17 +7,17 @@ export default defineNuxtConfig({
       meta: [],
       noscript: [],
       style: [],
-      charset: "utf-8",
+      charset: 'utf-8',
       // title: 'DDL',
-      viewport: "width=device-width, initial-scale=1",
+      viewport: 'width=device-width, initial-scale=1',
       script: [
-        { src: "https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js" },
-        { src: "https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js" },
+        { src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js' },
+        { src: 'https://cdn.bootcdn.net/ajax/libs/mermaid/9.1.7/mermaid.js' },
       ],
       link: [
         {
-          rel: "stylesheet",
-          href: "https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css",
+          rel: 'stylesheet',
+          href: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css',
         },
       ],
     },
@@ -25,12 +25,12 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    logLevel: "info",
+    logLevel: 'info',
     optimizeDeps: {
-      include: ["vue", "pinia"],
+      include: ['vue', 'pinia'],
     },
     define: {
-      "process.env.DEBUG": "false",
+      'process.env.DEBUG': 'false',
     },
     server: {
       hmr: {
@@ -38,20 +38,10 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: ["vuetify/lib/styles/main.sass"],
-  modules: [
-    [
-      "@pinia/nuxt",
-    ],
-    "@vueuse/nuxt",
-    "@nuxtjs/tailwindcss",
-  ],
+  css: ['vuetify/lib/styles/main.sass'],
+  modules: [['@pinia/nuxt'], '@vueuse/nuxt', '@nuxtjs/tailwindcss'],
   imports: {
-    dirs: [
-      "composables",
-      "composables/*/index.{ts,js,mjs,mts}",
-      "composables/**",
-    ],
+    dirs: ['composables', 'composables/*/index.{ts,js,mjs,mts}', 'composables/**'],
   },
   // publicRuntimeConfig: {
   //     axios: {
@@ -64,7 +54,7 @@ export default defineNuxtConfig({
   // },
   runtimeConfig: {
     // Private keys are only available on the server
-    apiSecret: "123",
+    apiSecret: '123',
     // Public keys that are exposed to the client
     public: {
       baseURL: process.env.NUXT_PUBLIC_API_BASE_URL,
@@ -74,7 +64,6 @@ export default defineNuxtConfig({
     strict: false,
   },
   build: {
-
-    transpile: ["vuetify", "vue-toastification", "@heroicons/vue"],
+    transpile: ['vuetify', 'vue-toastification', '@heroicons/vue'],
   },
-});
+})

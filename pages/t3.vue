@@ -95,5 +95,5 @@ import {
   infoMsg,
   errorMsg,
   warningMsg,
-} from "~/composables/utils/toastification";
+} from '~/composables/utils/toastification'
 </script>

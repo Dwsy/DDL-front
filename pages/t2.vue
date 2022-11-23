@@ -5,7 +5,7 @@
     <v-btn
       @click="
         () => {
-          this.location = 'provide';
+          this.location = 'provide'
         }
       "
       >provide</v-btn
@@ -14,18 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import { provide, ref } from "vue";
+import { provide, ref } from 'vue'
 
-const location = ref("North Pole");
+const location = ref('North Pole')
 
 function updateLocation() {
-  location.value = "South Pole";
+  location.value = 'South Pole'
 }
 
-provide("location", {
+provide('location', {
   location,
   updateLocation,
-});
+})
 </script>
 
 <style></style>

@@ -36,7 +36,7 @@ $margin-padding-xs: 8px;
 $margin-padding-inline: 6px;
 
 // 代码 font-family
-$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
 
 // color
 $color-black: rgb(0, 0, 0);
@@ -169,7 +169,7 @@ $line-space: 22px;
   }
 
   hr:after {
-    content: "\002665";
+    content: '\002665';
     display: inline-block;
     position: relative;
     top: -15px;
@@ -199,7 +199,7 @@ $line-space: 22px;
     margin: $margin-padding-lg $margin-padding-sm;
 
     &:before {
-      content: "";
+      content: '';
       display: block;
       height: 30px;
       width: 100%;
@@ -257,10 +257,10 @@ $line-space: 22px;
     }
 
     &::before {
-      content: "⇲ ";
+      content: '⇲ ';
       vertical-align: top;
       margin-left: 2px;
-      font-family: "dart" !important;
+      font-family: 'dart' !important;
       font-size: 12px;
       color: inherit;
       opacity: 0.7;
@@ -364,7 +364,7 @@ $line-space: 22px;
 
     &::after {
       display: block;
-      content: "";
+      content: '';
     }
 
     & > p {

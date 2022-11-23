@@ -1,10 +1,10 @@
-@import "./purple.scss";
+@import './purple.scss';
 
 :root {
-  --base-font: Consolas, "Ubuntu Mono", "Open Sans", "Clear Sans",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --base-font: Consolas, 'Ubuntu Mono', 'Open Sans', 'Clear Sans', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
   --title-font: var(--base-font);
-  --monospace: "Ubuntu Mono", Courier, Monospace !important;
+  --monospace: 'Ubuntu Mono', Courier, Monospace !important;
 }
 
 /* Cesno style start */

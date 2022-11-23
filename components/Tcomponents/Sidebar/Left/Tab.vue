@@ -14,19 +14,17 @@
   </nuxt-link>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "~/composables/useTailwindConfig";
-import { computed } from "vue";
+import useTailwindConfig from '~/composables/useTailwindConfig'
+import { computed } from 'vue'
 
-const { defaultTransition } = useTailwindConfig();
+const { defaultTransition } = useTailwindConfig()
 
 const props = defineProps({
   active: {
     type: Boolean,
     default: false,
   },
-});
+})
 
-const textClasses = computed(() =>
-  props.active ? "font-semibold" : "font-normal"
-);
+const textClasses = computed(() => (props.active ? 'font-semibold' : 'font-normal'))
 </script>

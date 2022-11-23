@@ -10,33 +10,33 @@
   </div>
 </template>
 <script setup lang="ts">
-const { getTweets: getTweetsComposable } = useTweets();
+const { getTweets: getTweetsComposable } = useTweets()
 
-const loading = ref(false);
-const searchTweets = ref([]);
-const searchQuery = useRoute().query.q;
+const loading = ref(false)
+const searchTweets = ref([])
+const searchQuery = useRoute().query.q
 
 watch(
   () => useRoute().fullPath,
   () => getTweets()
-);
+)
 
 onBeforeMount(() => {
-  getTweets();
-});
+  getTweets()
+})
 
 async function getTweets() {
-  loading.value = true;
+  loading.value = true
   try {
     const { tweets } = await getTweetsComposable({
       query: searchQuery,
-    });
+    })
 
-    searchTweets.value = tweets;
+    searchTweets.value = tweets
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
 }
 </script>

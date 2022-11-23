@@ -10,17 +10,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { definePageMeta } from "#imports";
+import { onMounted, ref } from 'vue'
+import { definePageMeta } from '#imports'
 
 definePageMeta({
   keepalive: true,
-});
-const showText = ref(false);
+})
+const showText = ref(false)
 onMounted(() => {
-  if (showText.value) return;
+  if (showText.value) return
   setTimeout(() => {
-    showText.value = true;
-  }, 1000);
-});
+    showText.value = true
+  }, 1000)
+})
 </script>

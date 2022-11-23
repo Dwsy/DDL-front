@@ -392,4 +392,4 @@ export default `@charset "UTF-8";
   width: 2px;
   transform: rotate(-40deg);
   background: #3370ff;
-}`;
+}`

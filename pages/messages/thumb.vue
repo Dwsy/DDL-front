@@ -35,9 +35,7 @@
               </v-badge>
             </template>
 
-            <v-list-item-title
-              v-text="item.formUserNickname"
-            ></v-list-item-title>
+            <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
             <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
             <div>
               <span class="text-subtitle-1">
@@ -45,9 +43,7 @@
               </span>
               {{ item.toContent }}
             </div>
-            <span class="text-grey">{{
-              dateFilter(item.lastModifiedTime)
-            }}</span>
+            <span class="text-grey">{{ dateFilter(item.lastModifiedTime) }}</span>
             <v-divider></v-divider>
           </v-list-item>
         </v-list>
@@ -57,58 +53,53 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, dateFilter } from "#imports";
-import { onMounted, onUnmounted } from "vue";
-import { useThumbStore } from "~/stores/messages/article/thumbStore";
-import { NotifyState, NotifyType } from "~/types/message";
+import { definePageMeta, dateFilter } from '#imports'
+import { onMounted, onUnmounted } from 'vue'
+import { useThumbStore } from '~/stores/messages/article/thumbStore'
+import { NotifyState, NotifyType } from '~/types/message'
 
 definePageMeta({
   keepalive: false,
-});
+})
 
-let thumbStore = useThumbStore();
+let thumbStore = useThumbStore()
 
 onMounted(async () => {
-  console.log("thumbonMounted");
-  document.documentElement.scrollTop = 0;
-  await thumbStore.loadThumbNotifyList();
-  document.body.onscroll = loadingWin;
-});
+  console.log('thumbonMounted')
+  document.documentElement.scrollTop = 0
+  await thumbStore.loadThumbNotifyList()
+  document.body.onscroll = loadingWin
+})
 onUnmounted(() => {
-  thumbStore.page = 1;
-  thumbStore.totalPages = null;
-});
+  thumbStore.page = 1
+  thumbStore.totalPages = null
+})
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
-  let scrollHeight = Math.max(
-    document.documentElement.scrollHeight,
-    document.body.scrollHeight
-  );
+  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
   //滚动条滚动距离
   let scrollTop =
-    window.pageYOffset ||
-    document.documentElement.scrollTop ||
-    document.body.scrollTop;
+    window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
   //窗口可视范围高度
   let clientHeight =
     window.innerHeight ||
-    Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+    Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {
-    await loadingMore();
+    await loadingMore()
   }
-};
+}
 
 const loadingMore = async () => {
   if (thumbStore.page >= thumbStore.totalPages) {
     if (thumbStore.ThumbNotifyList.length > 15) {
       // alert.value = true
-      document.body.onscroll = null;
+      document.body.onscroll = null
     }
-    return;
+    return
   }
-  thumbStore.page++;
-  await thumbStore.loadThumbNotifyList(true);
-};
+  thumbStore.page++
+  await thumbStore.loadThumbNotifyList(true)
+}
 </script>
 
 <style></style>

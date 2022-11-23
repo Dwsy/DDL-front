@@ -15,22 +15,22 @@
 <script setup lang="ts">
 // import { getById } from "~~/api/useApiTest"
 // import { useFetchResponse } from "~~/composables/useFetchResponse"
-import { useRoute } from "#app";
+import { useRoute } from '#app'
 
-let route = useRoute();
+let route = useRoute()
 // console.log(route.params.id)
 
 // let { $axios } = useNuxtApp()
 // const axios = $axios()
 // const getlist = async () => axios.get("https://nestapi.dwsy.link/api/classification/article/6039284a2684e22ec8291c64")
 let body = {
-  url: "https://nestapi.dwsy.link/api/contents/all/" + route.params.id,
-  methods: "get",
+  url: 'https://nestapi.dwsy.link/api/contents/all/' + route.params.id,
+  methods: 'get',
   body: null,
   params: null,
-};
-const { data } = await useAsyncData(body.url, () => $fetch(body.url));
-let r = data.value["content"]["text"];
+}
+const { data } = await useAsyncData(body.url, () => $fetch(body.url))
+let r = data.value['content']['text']
 // const {data} = await useAsyncData('byid', () =>  useFetchResponse(body))
 // console.log(data.value);
 

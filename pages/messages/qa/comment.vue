@@ -32,9 +32,7 @@
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title
-                  v-text="item.formUserNickname"
-                ></v-list-item-title>
+                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
                 <div>
                   <span class="text-grey">
                     {{ NotifyType[item.notifyType] }}
@@ -72,9 +70,7 @@
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title
-                  v-text="item.formUserNickname"
-                ></v-list-item-title>
+                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
                 <div>
                   <span class="text-grey">
                     {{ NotifyType[item.notifyType] }}
@@ -112,9 +108,7 @@
                     </v-avatar>
                   </v-badge>
                 </template>
-                <v-list-item-title
-                  v-text="item.formUserNickname"
-                ></v-list-item-title>
+                <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
                 <div>
                   <span class="text-grey">
                     {{ NotifyType[item.notifyType] }}
@@ -135,77 +129,68 @@
 </template>
 
 <script setup lang="ts">
-import { dateFilter, definePageMeta, QaCommentType } from "#imports";
-import {
-  onActivated,
-  onDeactivated,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from "vue";
+import { dateFilter, definePageMeta, QaCommentType } from '#imports'
+import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 // import {NotifyType} from '~/stores/messages/replyStrore'
-import { useLoadingWin } from "~/composables/useTools";
-import { NotifyState, NotifyType } from "~/types/message";
-import { useQaCommentStore } from "~/stores/messages/questionAnswer/qaCommentStore";
-import { useTheme } from "vuetify";
+import { useLoadingWin } from '~/composables/useTools'
+import { NotifyState, NotifyType } from '~/types/message'
+import { useQaCommentStore } from '~/stores/messages/questionAnswer/qaCommentStore'
+import { useTheme } from 'vuetify'
 
 definePageMeta({
   keepalive: false,
-});
+})
 
-let theme = useTheme();
-const tab = ref();
-const type = ref(QaCommentType.all);
+let theme = useTheme()
+const tab = ref()
+const type = ref(QaCommentType.all)
 // let replyStore = useReplyStore()
-let qaCommentStore = useQaCommentStore();
+let qaCommentStore = useQaCommentStore()
 onMounted(async () => {
-  console.log("reply mounted");
-  document.documentElement.scrollTop = 0;
-  await qaCommentStore.loadQaCommentNotifyList(type.value, false);
+  console.log('reply mounted')
+  document.documentElement.scrollTop = 0
+  await qaCommentStore.loadQaCommentNotifyList(type.value, false)
   // document.body.onscroll =  useLoadingWin(loadingMore)
-  document.body.onscroll = useLoadingWin(loadingMore);
+  document.body.onscroll = useLoadingWin(loadingMore)
   watch(tab, async (val) => {
-    val === "all"
+    val === 'all'
       ? (type.value = QaCommentType.all)
-      : val === "question"
+      : val === 'question'
       ? (type.value = QaCommentType.question)
-      : (type.value = QaCommentType.answer);
-    qaCommentStore.page = 1;
-    qaCommentStore.totalPages = null;
-    await qaCommentStore.loadQaCommentNotifyList(type.value, false);
-  });
-});
+      : (type.value = QaCommentType.answer)
+    qaCommentStore.page = 1
+    qaCommentStore.totalPages = null
+    await qaCommentStore.loadQaCommentNotifyList(type.value, false)
+  })
+})
 onUnmounted(() => {
-  qaCommentStore.page = 1;
-  qaCommentStore.totalPages = null;
-  console.log("replyNotifyList unmounted");
-});
+  qaCommentStore.page = 1
+  qaCommentStore.totalPages = null
+  console.log('replyNotifyList unmounted')
+})
 onActivated(() => {
-  console.log("replyNotifyList activated");
-});
+  console.log('replyNotifyList activated')
+})
 onDeactivated(() => {
-  console.log("replyNotifyList deactivated");
-});
+  console.log('replyNotifyList deactivated')
+})
 
 const loadingMore = async () => {
   if (qaCommentStore.page >= qaCommentStore.totalPages) {
     if (qaCommentStore.qaCommentNotifyList.length > 15) {
       // alert.value = true
-      document.body.onscroll = null;
+      document.body.onscroll = null
     }
-    return;
+    return
   }
-  qaCommentStore.page++;
-  await qaCommentStore.loadQaCommentNotifyList(type.value, true);
-};
+  qaCommentStore.page++
+  await qaCommentStore.loadQaCommentNotifyList(type.value, true)
+}
 </script>
 
 <style scoped>
 .d-qa-answer-comment {
   padding-left: 4px;
-  background-color: v-bind(
-    'theme.global.name.value === "dark" ? "#332d3b " : "#ffd6e7"'
-  );
+  background-color: v-bind('theme.global.name.value === "dark" ? "#332d3b " : "#ffd6e7"');
 }
 </style>

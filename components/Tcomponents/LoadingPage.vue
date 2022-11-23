@@ -6,5 +6,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import LogoTwitter from "~~/components/Tcomponents/Logo/Twitter.vue";
+import LogoTwitter from '~~/components/Tcomponents/Logo/Twitter.vue'
 </script>

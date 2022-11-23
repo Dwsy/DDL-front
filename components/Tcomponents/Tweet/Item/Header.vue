@@ -5,34 +5,32 @@
     </div>
 
     <div class="ml-3">
-      <span class="font-medium text-gray-800 dark:text-white">{{
-        author.nickname
-      }}</span>
+      <span class="font-medium text-gray-800 dark:text-white">{{ author.nickname }}</span>
 
-<!--      <span class="ml-3 text-sm font-medium text-gray-400">-->
-<!--        <nuxt-link to="#">-->
-<!--          {{ author.handle }}-->
-<!--        </nuxt-link>-->
-<!--        . {{ props.tweet.postedAtHuman }}-->
-<!--      </span>-->
+      <!--      <span class="ml-3 text-sm font-medium text-gray-400">-->
+      <!--        <nuxt-link to="#">-->
+      <!--          {{ author.handle }}-->
+      <!--        </nuxt-link>-->
+      <!--        . {{ props.tweet.postedAtHuman }}-->
+      <!--      </span>-->
 
-<!--      <p v-if="props.tweet.replyTo" class="text-sm">-->
-<!--        <span class="text-gray-500"> Replying to </span>-->
+      <!--      <p v-if="props.tweet.replyTo" class="text-sm">-->
+      <!--        <span class="text-gray-500"> Replying to </span>-->
 
-<!--        <nuxt-link :to="replyToTweetUrl" class="text-blue-400">-->
-<!--          {{ props.tweet.replyTo.author.handle }}-->
-<!--        </nuxt-link>-->
-<!--      </p>-->
+      <!--        <nuxt-link :to="replyToTweetUrl" class="text-blue-400">-->
+      <!--          {{ props.tweet.replyTo.author.handle }}-->
+      <!--        </nuxt-link>-->
+      <!--      </p>-->
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
-import { InfinityI } from "~/types/infinity";
+import { computed } from 'vue'
+import { InfinityI } from '~/types/infinity'
 
-const props = defineProps<{tweet:InfinityI}>();
+const props = defineProps<{ tweet: InfinityI }>()
 
-const author = props.tweet.user;
+const author = props.tweet.user
 // const replyToTweetUrl = computed(() => `/status/${props.tweet?.replyTo?.id}`);
 const replyToTweetUrl = 'computed(() => `/status/${props.tweet?.replyTo?.id}`);'
 </script>

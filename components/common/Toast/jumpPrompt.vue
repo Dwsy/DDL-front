@@ -2,46 +2,42 @@
   <div style="font-size: 18px">
     {{ message }}
   </div>
-  <button v-if="url" @click="go()" class="d-cancel-btn mx-4 mt-1 px-3 py-1">
-    立即跳转
-  </button>
+  <button v-if="url" @click="go()" class="d-cancel-btn mx-4 mt-1 px-3 py-1">立即跳转</button>
 
-  <button @click="emits('cancel')" class="d-cancel-btn mt-1 px-3 py-1">
-    取消跳转
-  </button>
+  <button @click="emits('cancel')" class="d-cancel-btn mt-1 px-3 py-1">取消跳转</button>
 </template>
 
 <script setup lang="ts">
 // import {TYPE} from 'vue-toastification/src/ts/constants'
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps<{
   // type: TYPE
-  msg: string;
-  time: number;
-  url: string;
-}>();
+  msg: string
+  time: number
+  url: string
+}>()
 const emits = defineEmits<{
-  (e: "cancel"): void;
-  (e: "close-toast"): void;
-}>();
-const message = ref();
-let second = ref(props.time);
+  (e: 'cancel'): void
+  (e: 'close-toast'): void
+}>()
+const message = ref()
+let second = ref(props.time)
 onMounted(() => {
-  message.value = props.msg.replace("{{}}", second.value.toString());
+  message.value = props.msg.replace('{{}}', second.value.toString())
   const interval = setInterval(() => {
-    second.value--;
+    second.value--
     // console.log(second.value)
-    message.value = props.msg.replace("{{}}", String(second.value));
-  }, 1000);
+    message.value = props.msg.replace('{{}}', String(second.value))
+  }, 1000)
   setTimeout(() => {
-    clearInterval(interval);
-    emits("close-toast");
-  }, props.time * 1000);
-});
+    clearInterval(interval)
+    emits('close-toast')
+  }, props.time * 1000)
+})
 const go = () => {
-  window.location.href = props.url;
-};
+  window.location.href = props.url
+}
 </script>
 <style scoped>
 .d-cancel-btn {

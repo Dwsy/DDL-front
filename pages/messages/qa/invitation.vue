@@ -11,9 +11,7 @@
         <!--        </div>-->
         <v-list>
           <v-list-item
-            v-for="(
-              item, i
-            ) in qaInvitationAnswerStore.qaInvitationAnswerNotifyList"
+            v-for="(item, i) in qaInvitationAnswerStore.qaInvitationAnswerNotifyList"
             :key="item.id"
             :href="qaInvitationAnswerStore.getGoToLink(item)"
             :value="item"
@@ -36,9 +34,7 @@
               </v-badge>
             </template>
 
-            <v-list-item-title
-              v-text="item.formUserNickname"
-            ></v-list-item-title>
+            <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
             <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
             <div>
               <span class="text-grey">
@@ -59,29 +55,29 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, dateFilter, timeAgoFilter } from "#imports";
-import { onActivated, onDeactivated, onMounted, onUnmounted } from "vue";
-import { useLoadingWin } from "~/composables/useTools";
-import { NotifyState, NotifyType } from "~/types/message";
-import { useQaInvitationAnswerStore } from "~/stores/messages/questionAnswer/qaInvitationAnswerStore";
+import { definePageMeta, dateFilter, timeAgoFilter } from '#imports'
+import { onActivated, onDeactivated, onMounted, onUnmounted } from 'vue'
+import { useLoadingWin } from '~/composables/useTools'
+import { NotifyState, NotifyType } from '~/types/message'
+import { useQaInvitationAnswerStore } from '~/stores/messages/questionAnswer/qaInvitationAnswerStore'
 
 definePageMeta({
   keepalive: false,
-});
+})
 
-let qaInvitationAnswerStore = useQaInvitationAnswerStore();
+let qaInvitationAnswerStore = useQaInvitationAnswerStore()
 onMounted(async () => {
-  console.log("reply mounted");
-  document.documentElement.scrollTop = 0;
-  await qaInvitationAnswerStore.loadQaInvitationAnswerNotifyList();
+  console.log('reply mounted')
+  document.documentElement.scrollTop = 0
+  await qaInvitationAnswerStore.loadQaInvitationAnswerNotifyList()
   // document.body.onscroll =  useLoadingWin(loadingMore)
-  document.body.onscroll = useLoadingWin(loadingMore);
-});
+  document.body.onscroll = useLoadingWin(loadingMore)
+})
 onUnmounted(() => {
-  qaInvitationAnswerStore.page = 1;
-  qaInvitationAnswerStore.totalPages = null;
+  qaInvitationAnswerStore.page = 1
+  qaInvitationAnswerStore.totalPages = null
   // console.log('qaAnswerNotifyList unmounted')
-});
+})
 // onActivated(() => {
 //   console.log('qaAnswerNotifyList activated')
 // })
@@ -90,17 +86,17 @@ onUnmounted(() => {
 // })
 
 const loadingMore = async () => {
-  console.log(123);
+  console.log(123)
   if (qaInvitationAnswerStore.page >= qaInvitationAnswerStore.totalPages) {
     if (qaInvitationAnswerStore.qaInvitationAnswerNotifyList.length > 15) {
       // alert.value = true
-      document.body.onscroll = null;
+      document.body.onscroll = null
     }
-    return;
+    return
   }
-  qaInvitationAnswerStore.page++;
-  await qaInvitationAnswerStore.loadQaInvitationAnswerNotifyList(true);
-};
+  qaInvitationAnswerStore.page++
+  await qaInvitationAnswerStore.loadQaInvitationAnswerNotifyList(true)
+}
 </script>
 
 <style></style>

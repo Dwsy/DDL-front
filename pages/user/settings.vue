@@ -30,56 +30,56 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~/stores/user";
-import { definePageMeta, useRoute } from "#imports";
-import { onMounted, ref } from "vue";
+import { useUserStore } from '~/stores/user'
+import { definePageMeta, useRoute } from '#imports'
+import { onMounted, ref } from 'vue'
 
 definePageMeta({
   keepalive: true,
   key: (route) => route.fullPath,
-});
+})
 
 interface setting {
-  title: string;
-  icon: string;
-  link: string;
+  title: string
+  icon: string
+  link: string
 }
 
-const userStore = useUserStore();
-let userInfo = ref(userStore.userInfo);
-let user = ref();
-const route = useRoute();
-const uid = route.params.id;
+const userStore = useUserStore()
+let userInfo = ref(userStore.userInfo)
+let user = ref()
+const route = useRoute()
+const uid = route.params.id
 onMounted(async () => {
   setTimeout(async () => {
-    await userStore.getUserInfo();
-    user.value = userStore.user;
-    userInfo.value = userStore.userInfo;
-  }, 200);
-  console.log(userInfo.value);
-});
+    await userStore.getUserInfo()
+    user.value = userStore.user
+    userInfo.value = userStore.userInfo
+  }, 200)
+  console.log(userInfo.value)
+})
 const settingList: setting[] = [
   {
-    title: "个人信息",
-    icon: "mdi-card-account-details-outline",
-    link: "/user/settings/info",
+    title: '个人信息',
+    icon: 'mdi-card-account-details-outline',
+    link: '/user/settings/info',
   },
   {
-    title: "帐号设置",
-    icon: "mdi-account-cog-outline",
-    link: "/user/settings/account",
+    title: '帐号设置',
+    icon: 'mdi-account-cog-outline',
+    link: '/user/settings/account',
   },
   {
-    title: "个人资料",
-    icon: "mdi-account-outline",
-    link: "",
+    title: '个人资料',
+    icon: 'mdi-account-outline',
+    link: '',
   },
   {
-    title: "个人资料",
-    icon: "mdi-account-outline",
-    link: "",
+    title: '个人资料',
+    icon: 'mdi-account-outline',
+    link: '',
   },
-];
+]
 </script>
 
 <style scoped></style>

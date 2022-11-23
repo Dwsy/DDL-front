@@ -4,11 +4,7 @@
     <v-col>
       <v-card>
         <v-tabs v-model="tab" align-tabs="start" background-color="primary">
-          <div
-            class="v-btn v-btn--density-default rounded-0 v-btn--variant-text v-tab"
-          >
-            问答
-          </div>
+          <div class="v-btn v-btn--density-default rounded-0 v-btn--variant-text v-tab">问答</div>
           <v-divider :vertical="true" class="mr-4"></v-divider>
           <v-tab value="new">最新</v-tab>
           <v-tab value="recommend">推荐</v-tab>
@@ -36,30 +32,30 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
-import { useQuestionIndexStore } from "~/stores/question/questionIndexStore";
-import { useRouter } from "#app";
-import QuestionListCard from "~~/components/question/questionListCard.vue";
+import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { useQuestionIndexStore } from '~/stores/question/questionIndexStore'
+import { useRouter } from '#app'
+import QuestionListCard from '~~/components/question/questionListCard.vue'
 
-const questionIndexStore = useQuestionIndexStore();
+const questionIndexStore = useQuestionIndexStore()
 
-const tab = ref();
+const tab = ref()
 
-await questionIndexStore.loadNewQuestion();
+await questionIndexStore.loadNewQuestion()
 
 onMounted(async () => {
   watchEffect(() => {
-    useRouter().push({ query: { tab: tab.value } });
-  });
+    useRouter().push({ query: { tab: tab.value } })
+  })
   watch(tab, (tabValue) => {
-    questionIndexStore.page = 1;
-    console.log(tabValue);
-  });
-});
+    questionIndexStore.page = 1
+    console.log(tabValue)
+  })
+})
 onUnmounted(async () => {
-  await useRouter().push({ query: {} });
-  questionIndexStore.$reset();
-});
+  await useRouter().push({ query: {} })
+  questionIndexStore.$reset()
+})
 </script>
 
 <style scoped></style>

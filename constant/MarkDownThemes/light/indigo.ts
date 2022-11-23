@@ -295,4 +295,4 @@ export default `@charset "UTF-8";
 }
 .markdown-body .cm-s-inner .cm-type {
   color: #cbcb9f;
-}`;
+}`

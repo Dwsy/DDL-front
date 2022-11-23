@@ -35,26 +35,26 @@ import {
   infoMsg,
   successMsg,
   warningMsg,
-} from "~/composables/utils/toastification";
-import { shallowRef } from "vue";
-import { TYPE } from "vue-toastification/src/ts/constants";
-import CompA from "./t4/a.vue";
-import CompB from "./t4/b.vue";
-import { useToast } from "vue-toastification";
-import { useRouter } from "#app";
-import { VBtn } from "vuetify/components/VBtn";
-import { ComponentToastMsg } from "~/composables/utils/toastification";
-import JumpPrompt from "~~/components/common/Toast/jumpPrompt.vue";
+} from '~/composables/utils/toastification'
+import { shallowRef } from 'vue'
+import { TYPE } from 'vue-toastification/src/ts/constants'
+import CompA from './t4/a.vue'
+import CompB from './t4/b.vue'
+import { useToast } from 'vue-toastification'
+import { useRouter } from '#app'
+import { VBtn } from 'vuetify/components/VBtn'
+import { ComponentToastMsg } from '~/composables/utils/toastification'
+import JumpPrompt from '~~/components/common/Toast/jumpPrompt.vue'
 
-let toast = useToast();
+let toast = useToast()
 
-const current = shallowRef(CompA);
+const current = shallowRef(CompA)
 const test = () => {
   const timeout = setTimeout(() => {
-    useRouter().push("/article/9");
-  }, 5000);
+    useRouter().push('/article/9')
+  }, 5000)
 
-  ComponentToastMsg("test", TYPE.SUCCESS, JumpPrompt, 5, timeout);
+  ComponentToastMsg('test', TYPE.SUCCESS, JumpPrompt, 5, timeout)
   // const vNode: JSX.Element = (
   //     <div>
   //       更新成功5秒后跳转到文章
@@ -63,9 +63,9 @@ const test = () => {
   // )
   //
   // tsxToastMsg('test', TYPE.SUCCESS, vNode)
-};
+}
 </script>
 
 <style lang="scss">
-@import "assets/sass/mdTheme/geek-black";
+@import 'assets/sass/mdTheme/geek-black';
 </style>

@@ -1,5 +1,5 @@
 export const useComposables = () => {
   useHead({
-    title: "body",
-  });
-};
+    title: 'body',
+  })
+}

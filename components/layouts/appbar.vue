@@ -9,9 +9,7 @@
     <!--        class="d-progress-linear"-->
     <!--    ></v-progress-linear>-->
     <v-app-bar density="compact" elevation="1">
-      <v-app-bar-nav-icon
-        @click.stop="layout.switchDrawer()"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="layout.switchDrawer()"></v-app-bar-nav-icon>
 
       <v-row>
         <v-col sm="1" md="5" cols="5" offset="3">
@@ -20,12 +18,7 @@
 
         <client-only>
           <v-col class="pt-4" offset="2">
-            <v-btn
-              v-if="isArticlePage"
-              href="/article/creator"
-              icon
-              target="_blank"
-            >
+            <v-btn v-if="isArticlePage" href="/article/creator" icon target="_blank">
               <v-icon>mdi-fountain-pen-tip</v-icon>
             </v-btn>
 
@@ -47,23 +40,12 @@
               </v-badge>
             </nuxt-link>
 
-            <v-btn
-              text
-              transition="fade-transition"
-              @click="layout.switchTheme(theme)"
-            >
-              <v-icon v-if="theme.global.current.value.dark"
-                >mdi-white-balance-sunny</v-icon
-              >
-              <v-icon v-if="!theme.global.current.value.dark"
-                >mdi-weather-night</v-icon
-              >
+            <v-btn text transition="fade-transition" @click="layout.switchTheme(theme)">
+              <v-icon v-if="theme.global.current.value.dark">mdi-white-balance-sunny</v-icon>
+              <v-icon v-if="!theme.global.current.value.dark">mdi-weather-night</v-icon>
             </v-btn>
 
-            <router-link
-              v-if="userStore.userInfo"
-              :to="`/user/${userStore.user?.id}`"
-            >
+            <router-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
               <v-avatar size="small">
                 <v-img :src="userStore.userInfo?.avatar"></v-img>
               </v-avatar>
@@ -84,36 +66,33 @@
 </template>
 
 <script setup lang="ts">
-import { useLayout } from "~~/stores/layout";
-import { useTheme } from "vuetify";
-import Search from "./search.vue";
-import { useUserStore } from "~/stores/user";
-import { onMounted, provide, ref, watchEffect } from "vue";
-import {
-  CountType,
-  useAxiosGetUnreadMessageCount,
-} from "~/composables/Api/messages";
-import { warningMsg } from "~/composables/utils/toastification";
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
-import { useRoute } from "#app";
+import { useLayout } from '~~/stores/layout'
+import { useTheme } from 'vuetify'
+import Search from './search.vue'
+import { useUserStore } from '~/stores/user'
+import { onMounted, provide, ref, watchEffect } from 'vue'
+import { CountType, useAxiosGetUnreadMessageCount } from '~/composables/Api/messages'
+import { warningMsg } from '~/composables/utils/toastification'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute } from '#app'
 
-let theme = useTheme();
-let layout = useLayout();
-let userStore = useUserStore();
-const route = useRoute();
-const isArticlePage = ref(true);
+let theme = useTheme()
+let layout = useLayout()
+let userStore = useUserStore()
+const route = useRoute()
+const isArticlePage = ref(true)
 // if (route.path === '/question/howtoask') {
 //   layout.drawer = false
 // }
 
 onMounted(async () => {
-  console.log("onMounted");
+  console.log('onMounted')
   watchEffect(() => {
     // console.log('route.path', route.path)
-    isArticlePage.value = route.path.startsWith("/article");
-  });
-  await layout.getUnreadCount();
-});
+    isArticlePage.value = route.path.startsWith('/article')
+  })
+  await layout.getUnreadCount()
+})
 </script>
 
 <style scoped>
@@ -125,9 +104,7 @@ onMounted(async () => {
 
 <style>
 .v-app-bar.v-toolbar {
-  background-color: v-bind(
-    'theme.global.name.value === "dark" ? "#000000ab" : "#ffffffaa"'
-  );
+  background-color: v-bind('theme.global.name.value === "dark" ? "#000000ab" : "#ffffffaa"');
   /*color: #000;*/
 }
 </style>

@@ -25,12 +25,7 @@
           <v-divider></v-divider>
 
           <v-list v-model:opened="open">
-            <v-list-item
-              exact
-              prepend-icon="mdi-home"
-              title="首页"
-              to="/article/creator/home/"
-            >
+            <v-list-item exact prepend-icon="mdi-home" title="首页" to="/article/creator/home/">
             </v-list-item>
 
             <v-list-group value="内容管理">
@@ -65,14 +60,14 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "~/stores/user";
-import { ref } from "vue";
-import { useLayout } from "~/stores/layout";
-import { definePageMeta } from "#imports";
-useLayout().drawer = false;
-const userStore = useUserStore();
-const test = ref(true);
-const open = ref(["内容管理"]);
+import { useUserStore } from '~/stores/user'
+import { ref } from 'vue'
+import { useLayout } from '~/stores/layout'
+import { definePageMeta } from '#imports'
+useLayout().drawer = false
+const userStore = useUserStore()
+const test = ref(true)
+const open = ref(['内容管理'])
 </script>
 
 <style scoped>

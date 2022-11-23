@@ -1,8 +1,6 @@
 <template>
   <div class="border-x" :class="twitterBorderColor">
-    <div
-      class="dark:bg-dim-900/80 sticky top-0 bg-white/80 px-4 py-3 backdrop-blur-md"
-    >
+    <div class="dark:bg-dim-900/80 sticky top-0 bg-white/80 px-4 py-3 backdrop-blur-md">
       <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
         {{ props.title }}
       </h2>
@@ -21,10 +19,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "../../composables/useTailwindConfig";
-import UISpinner from "/components/Tcomponents/UI/Spinner.vue";
+import useTailwindConfig from '../../composables/useTailwindConfig'
+import UISpinner from '/components/Tcomponents/UI/Spinner.vue'
 
-const { twitterBorderColor } = useTailwindConfig();
+const { twitterBorderColor } = useTailwindConfig()
 
 const props = defineProps({
   title: {
@@ -35,5 +33,5 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-});
+})
 </script>

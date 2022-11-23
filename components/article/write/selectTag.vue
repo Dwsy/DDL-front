@@ -41,77 +41,77 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from "#app";
-import { useFetchGetSearchSuggestion } from "~/composables/Api/search";
-import { onMounted, watch, ref, inject, watchEffect } from "vue";
-import { useAxiosGetTagSuggestion } from "~/composables/Api/article/manageArticle";
-import { useFetchGetArticleTagList } from "~/composables/Api/article";
+import { useRouter } from '#app'
+import { useFetchGetSearchSuggestion } from '~/composables/Api/search'
+import { onMounted, watch, ref, inject, watchEffect } from 'vue'
+import { useAxiosGetTagSuggestion } from '~/composables/Api/article/manageArticle'
+import { useFetchGetArticleTagList } from '~/composables/Api/article'
 // import {ArticleTag} from '~/types/article'
 // import {TagSuggestion} from '~/types/article/manageArticle'
 
-const Router = useRouter();
+const Router = useRouter()
 // let model = ref(null)
-const text = ref("");
-const sug = ref([]);
-const isLoading = ref(false);
-const { articleTagList } = inject("tagList");
-const readonly = ref(false);
-const TagNumColor = ref("");
+const text = ref('')
+const sug = ref([])
+const isLoading = ref(false)
+const { articleTagList } = inject('tagList')
+const readonly = ref(false)
+const TagNumColor = ref('')
 onMounted(() => {
   // articleTagList.value =
   // console.log()
   watchEffect(() => {
     if (articleTagList.value.length >= 3) {
-      readonly.value = true;
-      TagNumColor.value = "red";
+      readonly.value = true
+      TagNumColor.value = 'red'
     } else {
-      readonly.value = false;
-      TagNumColor.value = "#000";
+      readonly.value = false
+      TagNumColor.value = '#000'
       // console.log('f')
     }
-  });
+  })
   watch(
     text,
     async () => {
-      if (text.value === "") {
-        sug.value = (await useFetchGetArticleTagList()).data;
-        isLoading.value = false;
+      if (text.value === '') {
+        sug.value = (await useFetchGetArticleTagList()).data
+        isLoading.value = false
         //todo 推荐最近使用的标签
-        return;
+        return
       }
-      await debounceAjax(suggestion);
+      await debounceAjax(suggestion)
     },
     { immediate: true, deep: true }
-  );
-});
+  )
+})
 
 const suggestion = async () => {
-  if (text.value === "") {
-    return;
+  if (text.value === '') {
+    return
   }
-  isLoading.value = true;
-  const response = await useAxiosGetTagSuggestion(text.value);
+  isLoading.value = true
+  const response = await useAxiosGetTagSuggestion(text.value)
   // sug.value = []
   // response.data.data.forEach((item) => {
   //   sug.value.push(item.name)
   // })
-  sug.value = response.data.data;
-  isLoading.value = false;
-};
+  sug.value = response.data.data
+  isLoading.value = false
+}
 const query = () => {
-  Router.push("/search/article/" + text.value);
-};
+  Router.push('/search/article/' + text.value)
+}
 const debounce = (fun, delay) => {
   return function (args) {
-    let that = this;
-    let _args = args;
-    clearTimeout(fun.id);
+    let that = this
+    let _args = args
+    clearTimeout(fun.id)
     fun.id = setTimeout(function () {
-      fun.call(that, _args);
-    }, delay);
-  };
-};
-let debounceAjax = debounce(suggestion, 800);
+      fun.call(that, _args)
+    }, delay)
+  }
+}
+let debounceAjax = debounce(suggestion, 800)
 </script>
 <style scoped>
 .TagNum {

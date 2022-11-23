@@ -21,14 +21,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import useTailwindConfig from "~/composables/useTailwindConfig";
+import useTailwindConfig from '~/composables/useTailwindConfig'
 
-const { twitterBorderColor, defaultTransition } = useTailwindConfig();
+const { twitterBorderColor, defaultTransition } = useTailwindConfig()
 
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
-});
+})
 </script>

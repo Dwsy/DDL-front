@@ -31,43 +31,39 @@
 </template>
 
 <script setup lang="ts">
-import List from "~~/components/article/index/list.vue";
-import Group from "~~/components/article/index/group.vue";
-import { onActivated, onMounted, onUnmounted, ref } from "vue";
-import {
-  definePageMeta,
-  useFetchGetArticleList,
-  useLoadingWin,
-} from "#imports";
-import { articleListData } from "~/types/article";
-import { onBeforeRouteLeave } from "vue-router";
-import { useHead } from "#head";
-import { useLayout } from "~/stores/layout";
-import { useTheme } from "vuetify";
+import List from '~~/components/article/index/list.vue'
+import Group from '~~/components/article/index/group.vue'
+import { onActivated, onMounted, onUnmounted, ref } from 'vue'
+import { definePageMeta, useFetchGetArticleList, useLoadingWin } from '#imports'
+import { articleListData } from '~/types/article'
+import { onBeforeRouteLeave } from 'vue-router'
+import { useHead } from '#head'
+import { useLayout } from '~/stores/layout'
+import { useTheme } from 'vuetify'
 //todo 因为做了瀑布流需要加一个 seo 隐藏分页
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
 // const page = ref(1)
 definePageMeta({
   keepalive: true,
-});
-const theme = useTheme();
-useLayout().showFooter = true;
-const showText = ref(false);
+})
+const theme = useTheme()
+useLayout().showFooter = true
+const showText = ref(false)
 onMounted(() => {
-  if (showText.value) return;
+  if (showText.value) return
   setTimeout(() => {
-    showText.value = true;
-  }, 1000);
-});
-let a = ref(0);
+    showText.value = true
+  }, 1000)
+})
+let a = ref(0)
 const params = ref({
   size: 8,
   page: 1,
   tagId: null,
   order: null,
   properties: null,
-});
+})
 
 const { data: listData } = await useFetchGetArticleList({
   size: 8,
@@ -75,23 +71,23 @@ const { data: listData } = await useFetchGetArticleList({
   tagId: null,
   order: null,
   properties: null,
-});
-const listContent = ref<Array<articleListData>>(null);
-listContent.value = listData.content;
+})
+const listContent = ref<Array<articleListData>>(null)
+listContent.value = listData.content
 
-const totalPages = ref(null);
-totalPages.value = listData.totalPages;
-const alert = ref(false);
+const totalPages = ref(null)
+totalPages.value = listData.totalPages
+const alert = ref(false)
 
 useHead({
-  title: "文章",
-});
+  title: '文章',
+})
 onMounted(() => {
   // console.log('index mounted')
   // console.log(indexTop.value)
-  document.documentElement.scrollTop = 0;
-  document.body.onscroll = useLoadingWin(loadingMore);
-});
+  document.documentElement.scrollTop = 0
+  document.body.onscroll = useLoadingWin(loadingMore)
+})
 // onUnmounted(() => {
 // console.log('index unmounted')
 // document.body.onscroll = document.documentElement.scrollTop=0
@@ -108,36 +104,34 @@ onMounted(() => {
 
 const selectTag = async (tagID) => {
   if (tagID == 0) {
-    params.value.tagId = null;
+    params.value.tagId = null
   } else {
-    params.value.tagId = tagID;
+    params.value.tagId = tagID
   }
-  params.value.page = 1;
+  params.value.page = 1
   // page.value = 1
-  alert.value = false;
-  const data = (await useFetchGetArticleList(params.value)).data;
-  listContent.value = data.content;
-  totalPages.value = data.totalPages;
-};
+  alert.value = false
+  const data = (await useFetchGetArticleList(params.value)).data
+  listContent.value = data.content
+  totalPages.value = data.totalPages
+}
 
 const loadingMore = async () => {
   if (params.value.page >= Number(totalPages.value)) {
     if (listContent.value.length > 8) {
-      alert.value = true;
-      document.body.onscroll = null;
+      alert.value = true
+      document.body.onscroll = null
     }
-    return;
+    return
   }
-  params.value.page += 1;
-  const { data: listDataNew } = await useFetchGetArticleList(params.value);
-  listContent.value.push(...listDataNew.content);
-};
+  params.value.page += 1
+  const { data: listDataNew } = await useFetchGetArticleList(params.value)
+  listContent.value.push(...listDataNew.content)
+}
 </script>
 
 <style lang="css" scoped>
 :deep(.v-card--variant-elevated, .v-card--variant-flat) {
-  background-color: v-bind(
-    'theme.global.name.value === "dark" ? "#0f0f0f" : "#FFF"'
-  ) !important;
+  background-color: v-bind('theme.global.name.value === "dark" ? "#0f0f0f" : "#FFF"') !important;
 }
 </style>

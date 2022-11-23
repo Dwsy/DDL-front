@@ -46,65 +46,65 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from "vue";
-import LoadingPage from "~/components/Tcomponents/LoadingPage.vue";
-import SidebarLeft from "~/components/Tcomponents/Sidebar/Left/index.vue";
-import SidebarRight from "~/components/Tcomponents/Sidebar/Right/Index.vue";
-import AuthPage from "~/components/Tcomponents/Auth/Page.vue";
-import UIModal from "~/components/Tcomponents/UI/Modal.vue";
-import TweetForm from "~/components/Tcomponents/Tweet/Form/index.vue";
-import { navigateTo } from "#app";
-import { GetInfinityPageListParams, useAxiosGetInfinityPageList } from "~/composables/Api/infinity";
+import { onBeforeMount, onMounted, ref } from 'vue'
+import LoadingPage from '~/components/Tcomponents/LoadingPage.vue'
+import SidebarLeft from '~/components/Tcomponents/Sidebar/Left/index.vue'
+import SidebarRight from '~/components/Tcomponents/Sidebar/Right/Index.vue'
+import AuthPage from '~/components/Tcomponents/Auth/Page.vue'
+import UIModal from '~/components/Tcomponents/UI/Modal.vue'
+import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
+import { navigateTo } from '#app'
+import { GetInfinityPageListParams, useAxiosGetInfinityPageList } from '~/composables/Api/infinity'
 
-const postTweetModal = ref();
+const postTweetModal = ref()
 const replyTweet = ref({
   replyTo: {
     id: 2,
-    name: "dwsy",
-    username: "ddy",
-    profileImage: "https://picsum.photos/300/300",
+    name: 'dwsy',
+    username: 'ddy',
+    profileImage: 'https://picsum.photos/300/300',
   },
-});
+})
 
 // const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
-const isAuthLoading = ref(true);
-const getPageListParams = ref<GetInfinityPageListParams>();
+const isAuthLoading = ref(true)
+const getPageListParams = ref<GetInfinityPageListParams>()
 onMounted(async () => {
   setTimeout(() => {
-    isAuthLoading.value = false;
-  }, 1000);
-});
+    isAuthLoading.value = false
+  }, 1000)
+})
 // const { closePostTweetModal, usePostTweetModal, openPostTweetModal, useReplyTweet } = useTweets()
 // const user = useAuthUser()
 const homeTweets = [
   {
     mediaFiles: [
-      "https://picsum.photos/300/300",
-      "https://picsum.photos/300/300",
-      "https://picsum.photos/300/300",
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/300',
     ],
-    text: "test",
-    postedAtHuman: "postedAtHuman",
+    text: 'test',
+    postedAtHuman: 'postedAtHuman',
     author: {
-      name: "name",
-      handle: "handle",
-      profileImage: "https://picsum.photos/300/300",
+      name: 'name',
+      handle: 'handle',
+      profileImage: 'https://picsum.photos/300/300',
     },
   },
-];
+]
 const user = {
   id: 1,
-  name: "John Doe",
-  username: "johndoe",
-  profileImage: "https://picsum.photos/300/300",
+  name: 'John Doe',
+  username: 'johndoe',
+  profileImage: 'https://picsum.photos/300/300',
   replyTo: {
     id: 2,
-    name: "dwsy",
-    username: "ddy",
-    profileImage: "https://picsum.photos/300/300",
+    name: 'dwsy',
+    username: 'ddy',
+    profileImage: 'https://picsum.photos/300/300',
   },
   repliesCount: 21,
-};
+}
 // const postTweetModal = usePostTweetModal()
 // const emitter = useEmitter()
 // const replyTweet = useReplyTweet()
@@ -119,14 +119,14 @@ const user = {
 
 onBeforeMount(() => {
   // initAuth()
-});
+})
 
 function handleFormSuccess(tweet) {
   // closePostTweetModal()
 
   navigateTo({
     path: `/status/${tweet.id}`,
-  });
+  })
 }
 
 function handleModalClose() {

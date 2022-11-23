@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject } from 'vue'
 
-const { location, updateLocation } = inject("location");
+const { location, updateLocation } = inject('location')
 </script>
 
 <template>

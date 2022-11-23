@@ -12,7 +12,7 @@
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  font: 18px Helvetica, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font: 18px Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 .lite-chatbox .cmsg {

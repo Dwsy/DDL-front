@@ -396,4 +396,4 @@ export default `@charset "UTF-8";
 
 .markdown-body strong {
   color: #245bdb;
-}`;
+}`

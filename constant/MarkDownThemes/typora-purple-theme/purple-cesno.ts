@@ -275,4 +275,4 @@ export default `@charset "UTF-8";
   font-weight: bold;
 }
 /* .cm-s-inner .cm-atom          {color: #c5c56a; font-weight: bold;} */
-/* Cesno style end */`;
+/* Cesno style end */`
