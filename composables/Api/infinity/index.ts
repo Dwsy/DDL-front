@@ -14,3 +14,7 @@ export interface GetInfinityPageListParams {
 export const useAxiosGetInfinityPageList = (params: GetInfinityPageListParams) => {
   return useGet<ResponseData<InfinityI>>('infinity/infinity/list', params)
 }
+
+export const useAxiosPostActionUpInfinity = (tweetId: string, up: boolean) => {
+  return usePost<ResponseData<string>>(`infinity/infinity/action/up/${tweetId}?up=${up}`)
+}

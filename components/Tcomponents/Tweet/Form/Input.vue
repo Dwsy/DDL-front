@@ -1,22 +1,38 @@
 <template>
   <div>
-    <div class="flex flex-shrink-0 items-center p-4 pb-0">
-      <div class="items-top flex w-12">
-        <img :src="props.user?.profileImage" alt="" class="inline-block h-10 w-10 rounded-full" />
-      </div>
-
-      <div class="w-full p-2">
-        <textarea
+    <v-row>
+      <v-col cols="1">
+        <v-avatar class="ma-4">
+          <v-img :src="userStore.userInfo.avatar" />
+        </v-avatar>
+      </v-col>
+      <v-col class="mr-6">
+        <v-textarea
           v-model="text"
+          variant="underlined"
           :placeholder="props.placeholder"
-          class="dark:tex.white h-10 w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"
-        ></textarea>
-      </div>
-    </div>
+          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"
+        ></v-textarea>
+      </v-col>
+    </v-row>
+
+<!--    <div class="flex flex-shrink-0 items-center p-4 pb-0">-->
+<!--      <div class="items-top flex w-12">-->
+<!--        <v-avatar>-->
+<!--          <v-img :src="userStore.userInfo.avatar" />-->
+<!--        </v-avatar>-->
+<!--      </div>-->
+<!--      <div class="w-full p-2">-->
+<!--        <v-textarea-->
+<!--          v-model="text"-->
+<!--          :placeholder="props.placeholder"-->
+<!--          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
+<!--        ></v-textarea>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- File Selector -->
-
-    <div class="p-4 pl-16">
+    <div class="pl-16">
       <img
         v-if="inputImageUrl"
         :class="twitterBorderColor"
@@ -131,7 +147,9 @@ import useTailwindConfig from '~/composables/useTailwindConfig'
 const { twitterBorderColor } = useTailwindConfig()
 import UIButton from '~/components/Tcomponents/UI/Button.vue'
 import { computed, ref } from 'vue'
+import { useUserStore } from '~/stores/user'
 
+const userStore = useUserStore()
 const imageInput = ref()
 const selectedFile = ref(null)
 const inputImageUrl = ref(null)

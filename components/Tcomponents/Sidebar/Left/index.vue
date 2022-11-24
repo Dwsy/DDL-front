@@ -2,7 +2,7 @@
   <div class="flex h-screen flex-col">
     <div
       :class="defaultTransition"
-      class="my-2 w-min rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"
+      class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"
     >
       <nuxt-link to="/">
         <div class="h-8 w-8">
@@ -83,30 +83,30 @@
       </div>
     </div>
 
-    <div
-      :class="defaultTransition"
-      class="dark:hover:bg-dim-800 mx-auto mt-auto mb-5 flex w-14 cursor-pointer flex-row items-center justify-center rounded-full px-2 py-2 hover:bg-gray-100 xl:w-full"
-      @click="emits('onLogout')"
-    >
-      <div class="flex flex-row">
-        <img :src="props.user.profileImage" alt="" class="h-10 w-10 rounded-full" />
-        <div class="ml-2 hidden flex-col xl:block">
-          <h1 class="text-sm font-bold text-gray-800 dark:text-white">
-            {{ user.name }}
-          </h1>
-          <p class="text-sm text-gray-400">
-            {{ user.handle }}
-          </p>
-        </div>
-      </div>
+<!--    <div-->
+<!--      :class="defaultTransition"-->
+<!--      class="dark:hover:bg-dim-800 mx-auto mt-auto mb-5 flex w-14 cursor-pointer flex-row items-center justify-center rounded-full px-2 py-2 hover:bg-gray-100 xl:w-full"-->
+<!--      @click="emits('onLogout')"-->
+<!--    >-->
+<!--      <div class="flex flex-row">-->
+<!--        <img :src="props.user.profileImage" alt="" class="h-10 w-10 rounded-full" />-->
+<!--        <div class="ml-2 hidden flex-col xl:block">-->
+<!--          <h1 class="text-sm font-bold text-gray-800 dark:text-white">-->
+<!--            {{ user.name }}-->
+<!--          </h1>-->
+<!--          <p class="text-sm text-gray-400">-->
+<!--            {{ user.handle }}-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <!-- ICON -->
-      <div class="ml-auto hidden xl:block">
-        <div class="h-6 w-6">
-          <ChevronDownIcon />
-        </div>
-      </div>
-    </div>
+<!--      &lt;!&ndash; ICON &ndash;&gt;-->
+<!--      <div class="ml-auto hidden xl:block">-->
+<!--        <div class="h-6 w-6">-->
+<!--          <ChevronDownIcon />-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 <script setup lang="ts">

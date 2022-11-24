@@ -30,7 +30,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "What's happening ?",
+    default: "发表的你的想法。",
   },
   replyTo: {
     type: Object,

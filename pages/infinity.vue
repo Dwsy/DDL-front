@@ -8,7 +8,7 @@
         <div class="mx-auto grid grid-cols-12 sm:px-6 lg:max-w-1xl lg:gap-5 lg:px-8">
           <!-- Left sidebar -->
           <div class="xs-col-span-1 hidden md:block xl:col-span-2">
-            <div class="sticky top-10">
+            <div class="position-sticky top-20">
               <SidebarLeft
                 :user="user"
                 @on-tweet="handleOpenTweetModal"
@@ -55,7 +55,9 @@ import UIModal from '~/components/Tcomponents/UI/Modal.vue'
 import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
 import { navigateTo } from '#app'
 import { GetInfinityPageListParams, useAxiosGetInfinityPageList } from '~/composables/Api/infinity'
+import { useLayout } from '~/stores/layout'
 
+useLayout().showFooter = false
 const postTweetModal = ref()
 const replyTweet = ref({
   replyTo: {

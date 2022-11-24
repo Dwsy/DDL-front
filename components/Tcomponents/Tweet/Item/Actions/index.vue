@@ -6,7 +6,7 @@
       </template>
 
       <template v-if="showStats" v-slot:default>
-        {{ props.tweet.repliesCount }}
+        {{ props.tweet.childCommentNum }}
       </template>
     </TweetItemActionsIcon>
 
@@ -20,17 +20,27 @@
       </template>
     </TweetItemActionsIcon>
 
-    <TweetItemActionsIcon color="red" :size="size">
+    <TweetItemActionsIcon :size="size" color="sky">
       <template v-slot:icon="{ classes }">
-        <HeartIcon :class="classes" />
+        <HeartIcon
+          v-if="!tweet.up"
+          :class="classes"
+          @click="infinityStore.upActionTweet(tweet.id, true)"
+        />
+        <HeartIconSolid
+          v-else
+          :class="classes"
+          class="text-blue-400"
+          @click="infinityStore.upActionTweet(tweet.id, false)"
+        />
       </template>
 
       <template v-if="showStats" v-slot:default>
-        {{ generateRandomNumber() }}
+        {{ tweet.upNum }}
       </template>
     </TweetItemActionsIcon>
 
-    <TweetItemActionsIcon color="blue" :size="size">
+    <TweetItemActionsIcon color="sky" :size="size">
       <template v-slot:icon="{ classes }">
         <CloudArrowUpIcon :class="classes" />
       </template>
@@ -50,20 +60,23 @@ import {
   HeartIcon,
   CloudArrowUpIcon,
 } from '@heroicons/vue/24/outline/esm/index.js'
+import {
+  HeartIcon as HeartIconSolid,
+  ReceiptRefundIcon as ReceiptRefundIconSolid,
+  ChatBubbleBottomCenterIcon as ChatBubbleBottomCenterIconIconSolid,
+} from '@heroicons/vue/24/solid/esm/index.js'
 import { computed } from 'vue'
+import { InfinityI } from '~/types/infinity'
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
+const infinityStore = useInfinityStore()
 const emits = defineEmits(['onCommentClick'])
 
-const props = defineProps({
-  tweet: {
-    type: Object,
-    required: true,
-  },
-  compact: {
-    type: Boolean,
-    default: false,
-  },
-})
+const x = () => {}
+const props = defineProps<{
+  tweet: InfinityI
+  compact: boolean
+}>()
 
 const showStats = computed(() => props.compact)
 const size = computed(() => (props.compact ? 5 : 8))
