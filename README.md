@@ -8,7 +8,7 @@
 
 技术栈：Vue3 + Nuxt3 + Vuetify + Axios + Typescript + Pinia + Tailwindcss
 
-后端地址：[https://github.com/Dwsy/DDL]()
+后端地址：[https://github.com/Dwsy/DDL](https://github.com/Dwsy/DDL)
 
 ---
 
