@@ -13,7 +13,7 @@
         </div>
       </v-col>
       <v-col>
-<!--        <div :class="tweetBodyWrapper">-->
+        <!--        <div :class="tweetBodyWrapper">-->
         <div class="mt-4" style="margin-left: 5%">
           <span class="font-medium text-gray-800 dark:text-white">{{ tweet.user.nickname }}</span>
           <span class="text-gray-400 text-sm">&nbsp&nbsp</span>
@@ -64,12 +64,19 @@
                 </v-btn>
               </div>
               <div
-                @click.stop="ZoomOut"
                 v-for="(img, index) in tweet.imgUrlList"
                 :key="img"
+                style="height: 100%; width: 100%"
+                class="d-img-max-content"
                 :class="[index === ShowIndex ? 'active' : 'None']"
               >
-                <v-img :src="img" width="100%" />
+                <v-img :src="img" @click.stop="ZoomOut" width="100%" />
+                <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
+                <div
+                  v-if="index !== tweet.imgUrlList.length - 1"
+                  class="d-img-next"
+                  @click.stop="ShowIndex++"
+                ></div>
               </div>
               <!--          //放大后图片下方的导航图-->
               <div class="small">
@@ -171,6 +178,36 @@ const onHide = () => (visibleRef.value = false)
 </script>
 
 <style scoped>
+.d-img-next {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAhNJREFUaAXtmb9OwlAUxttLiYkV0plB4sgLODC5QRTiYqIbcXDyHXwMEyMMbg7GBfmzEBISIDHdGYU3KLQQEwp4LvHE5oJJIfTS4XQ5vdDe+/V3Ttp+PaoCW7PZ1BzHuY1Go2fz+bwfiUSKmUzmi/8na1Or1eoBY8w0DOMkkUjo4/HY7ff737PZrJDL5d5lCVFAyINpms7Csw2Hw0W9Xh+Xy+UrWUIYpOEimUzq3gXj8biSTqcPIVUvssQwVVWt6XTq1bHcj8ViUsUwEPHY6/UcqIm9i1FqtdpTq9VyXNf1VMrf7mg0klMzsKQKxVkiMWJREBmRCI6JDJIQI5ERieA4dGTgDlwMzU2PxGCdeCOvGSLjJYL7RAZJiJHIiERwTGSQhBg3JHPOz1fFSXY15mLghfxZ1/UbMGs6GLmVqS3LUrrdrgWG7pit/LujH8C4LbLZ7B146dd2uz1c55vAbyvcyNm2fRqYEH49XIzf69L8HrjNcfx5BKm5htQc/ZcaoKFAaj63md/XOb8PRduHe1wWq69JNz1oAxHBffYgEZg2IkEkkABGqgkigQQwUk0QCSSAkWqCSCABjGGpCd4m8fOiG9w7ZqVSuWw0GvsVAWlhmqbdp1Kptb6De45OpzOBLlchn8+/YRqDiLynZ0ATcWVumSL44gwM0MdgMJh4lcgWwdcOTQN6+VlCaMl/gU8tyW7J/wCJLeOSU2dAQgAAAABJRU5ErkJggg==),
+    pointer;
+  right: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 33%;
+  z-index: 10;
+}
+
+.d-img-prev {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAsVJREFUaAXtmUur2kAUx5NYUXtFiwtx0UU30iLcRWlx4aa4E8W29wv0G/QLlO5vP0BpN1210G0X9YlQC4ILKYLQhctaaF0IPrjx/Uj/I02ITXI1cSZCyUBwPJnM+eU/J5k5GZ6zsRSLxbs8z7/dbDYPXS5Xb7VaXWYymXc2InBcLpdLAkTsdDrr+XwuDQYDqVqtXhUKhRcEhLeDhkBAgc/xePwsFAopLmezGQeYWTgcDgiKlVHFCIK483q9nNvtXnS73TtMQa6DICCLxYIcHqj18wYxsCj7ICRJ4prN5hjB+zqdTs+ZKHIIRKPRmIxGo68+n+8lEYJ6sB4KMRwOqx6P52kymVxRB7EKQRXkGAhqIMdCUAGhAXE0CC2Io0BoQlgGoQ1hCYQFhGkQVhCmQFhCHAzCGoKA7J30TEB8Uc8dpHMz5dpJzyTEhTyBmQGQ2xqC2AlBYHRB7IbQBTkFhAbkVBA7IKeEUEAOhBj/Xd4d9XQQp3qFL5fL95ACfvs3+ZEbk9U2FrpMIYgvAY7exGIxnzoDsxtiCwI1HkQiEd03LPKOYb/f/443JpPhkG94CyIIQm8ymahtSj0ajd5CAnSO8xnFyKgirNfrV61WS4QyGheBQIBLJBI3AfsRAf1Y04C2AZ8LPtRqNRFQCBltQUYmoc2YOQxc8w6M3vA6yuipQmyOMo4yRgoY2Z2Y+e+UyefzT4xuiordTMw4MFBrp8hLCEeZHVnwx1Fm37LTiRmjmMGe3iMqLzejTuB474K81+uR7OA36UP3Q41R52btBKZUKr33+/0XyI/OkB9puqhUKiSNOdee0TS1bkCWKKVSqWeiKH6q1+tjvSQOe78ubDBeWfdi4kr1MGEzUQmXdru9hGI10hXToVGzEhh8ArnE7/NgMLiYTqfCcrn8gSOdzWZ/2QYiQ+EpuY36fQB1sbvZxPBtk+4/aTj+WpXZtpcAAAAASUVORK5CYII=),
+    pointer;
+  left: 0;
+  box-sizing: border-box;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 33%;
+  z-index: 10;
+}
+
+.d-img-max-content {
+  background: #f4f5f7;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
 .SongList {
   width: 70%;
 }
