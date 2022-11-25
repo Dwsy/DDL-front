@@ -18,3 +18,30 @@ export const useAxiosGetInfinityPageList = (params: GetInfinityPageListParams) =
 export const useAxiosPostActionUpInfinity = (tweetId: string, up: boolean) => {
   return usePost<ResponseData<string>>(`infinity/infinity/action/up/${tweetId}?up=${up}`)
 }
+
+export interface SendInfinityRB {
+  content: string;
+  imgUrlList: any[];
+  infinityClubId?: number;
+  infinityTopicId?: number;
+  refId?: number;
+  type: InfinityType;
+}
+
+export enum InfinityType {
+  Tweet,
+
+  upTweet,
+
+  TweetReply,
+
+  Article,
+
+  Question,
+
+  Answer,
+}
+
+export const useAxiosPostSendInfinity = (data:SendInfinityRB) => {
+  return usePost<ResponseData<InfinityI>>('infinity/infinity',data)
+}

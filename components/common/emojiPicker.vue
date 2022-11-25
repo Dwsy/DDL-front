@@ -1,10 +1,7 @@
 <template>
   <v-menu v-model="emojiPickerMenu" :close-on-content-click="false">
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" icon size="small">
-        <v-icon> mdi-sticker-emoji </v-icon>
-        <v-tooltip activator="parent" location="top"> 表情 </v-tooltip>
-      </v-btn>
+      <slot :activator="props"></slot>
     </template>
 
     <EmojiPicker :native="true" @select="onSelectEmoji" />

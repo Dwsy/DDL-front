@@ -11,25 +11,100 @@
           v-model="text"
           variant="underlined"
           :placeholder="props.placeholder"
-          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"
         ></v-textarea>
+        <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
       </v-col>
     </v-row>
-
-<!--    <div class="flex flex-shrink-0 items-center p-4 pb-0">-->
-<!--      <div class="items-top flex w-12">-->
-<!--        <v-avatar>-->
-<!--          <v-img :src="userStore.userInfo.avatar" />-->
-<!--        </v-avatar>-->
-<!--      </div>-->
-<!--      <div class="w-full p-2">-->
-<!--        <v-textarea-->
-<!--          v-model="text"-->
-<!--          :placeholder="props.placeholder"-->
-<!--          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
-<!--        ></v-textarea>-->
-<!--      </div>-->
-<!--    </div>-->
+    {{ imgUrlList }}
+    <div id="d-send-img-box">
+      <vue-easy-lightbox
+        :visible="visibleRef"
+        :imgs="imgUrlList"
+        :index="ShowIndex"
+        @hide="onHide"
+      ></vue-easy-lightbox>
+      <div class="SongList mt-3 pa-4">
+        <!--        //用v-for循环渲染缩略图-->
+        <v-row>
+          <v-col cols="10" class="ml-5">
+            <v-row class="covers" :style="{ display: MinDisplay }">
+              <v-col
+                :cols="getImgCol()"
+                class="cover d-img-cover-content"
+                style="padding: 1px"
+                v-for="(img, index) in imgBase64List"
+                :key="img"
+              >
+                <v-img :src="img" class="min" @click.stop="ZoomIn(index)" cover aspect-ratio="1" />
+                <v-icon class="d-img-del-btn" size="x-large" @click="delImg(index)">
+                  mdi-delete-forever
+                </v-icon>
+              </v-col>
+              <v-col
+                :cols="getImgCol()"
+                v-show="imgBase64List.length < 9"
+                @click="handleImageClick()"
+                style="cursor: pointer"
+                class="cover d-img-cover-content"
+              >
+                <!--                <v-btn class="d-img-add-btn mx-auto my-auto" icon>-->
+                <v-icon size="x-large" class="d-img-add-btn mx-auto my-auto"> mdi-plus</v-icon>
+                <!--                </v-btn>-->
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <!--        //渲染放大后的图-->
+        <div class="max d-img-max" :style="{ display: display }">
+          <div class="pa-2">
+            <v-btn variant="tonal" color="#448623" @click.stop="viewImg()">
+              <v-icon size="large">mdi-magnify</v-icon>
+              <span class="text-subtitle-1">查看大图</span>
+            </v-btn>
+          </div>
+          <div
+            v-for="(img, index) in imgBase64List"
+            :key="img"
+            style="height: 100%; width: 100%"
+            class="d-img-max-content"
+            :class="[index === ShowIndex ? 'active' : 'None']"
+          >
+            <v-img :src="img" @click.stop="ZoomOut" width="100%" />
+            <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
+            <div
+              v-if="index !== imgBase64List.length - 1"
+              class="d-img-next"
+              @click.stop="ShowIndex++"
+            ></div>
+          </div>
+          <!--          //放大后图片下方的导航图-->
+          <div class="small">
+            <div
+              :class="[{ smallActive: index === ShowIndex }, 'cover-small']"
+              v-for="(img, index) in imgBase64List"
+              :key="img"
+              @click.stop="select(index)"
+            >
+              <v-img :src="img" width="100%" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--    <div class="flex flex-shrink-0 items-center p-4 pb-0">-->
+    <!--      <div class="items-top flex w-12">-->
+    <!--        <v-avatar>-->
+    <!--          <v-img :src="userStore.userInfo.avatar" />-->
+    <!--        </v-avatar>-->
+    <!--      </div>-->
+    <!--      <div class="w-full p-2">-->
+    <!--        <v-textarea-->
+    <!--          v-model="text"-->
+    <!--          :placeholder="props.placeholder"-->
+    <!--          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
+    <!--        ></v-textarea>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <!-- File Selector -->
     <div class="pl-16">
@@ -43,12 +118,12 @@
 
       <input
         ref="imageInput"
-        accept="image/png, image/gif, image/jpeg"
+        accept="image/gif,image/jpeg,image/jpg,image/png"
         hidden
         placeholder=""
         type="file"
         user=""
-        @change="handleImageChange"
+        @change="addImg"
       />
     </div>
 
@@ -68,6 +143,28 @@
             </g>
           </svg>
         </div>
+
+        <emoji-picker @addEmoji="addEmoji">
+          <template v-slot="{ activator }">
+            <div
+              v-bind="activator"
+              class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <g>
+                  <path
+                    d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"
+                  ></path>
+                  <path
+                    d="M12 17.115c-1.892 0-3.633-.95-4.656-2.544-.224-.348-.123-.81.226-1.035.348-.226.812-.124 1.036.226.747 1.162 2.016 1.855 3.395 1.855s2.648-.693 3.396-1.854c.224-.35.688-.45 1.036-.225.35.224.45.688.226 1.036-1.025 1.594-2.766 2.545-4.658 2.545z"
+                  ></path>
+                  <circle cx="14.738" cy="9.458" r="1.478"></circle>
+                  <circle cx="9.262" cy="9.458" r="1.478"></circle>
+                </g>
+              </svg>
+            </div>
+          </template>
+        </emoji-picker>
 
         <div
           class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
@@ -101,23 +198,6 @@
         >
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
             <g>
-              <path
-                d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"
-              ></path>
-              <path
-                d="M12 17.115c-1.892 0-3.633-.95-4.656-2.544-.224-.348-.123-.81.226-1.035.348-.226.812-.124 1.036.226.747 1.162 2.016 1.855 3.395 1.855s2.648-.693 3.396-1.854c.224-.35.688-.45 1.036-.225.35.224.45.688.226 1.036-1.025 1.594-2.766 2.545-4.658 2.545z"
-              ></path>
-              <circle cx="14.738" cy="9.458" r="1.478"></circle>
-              <circle cx="9.262" cy="9.458" r="1.478"></circle>
-            </g>
-          </svg>
-        </div>
-
-        <div
-          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
-        >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-            <g>
               <path d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2z"></path>
               <path
                 d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2zM18 2.2h-1.3v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H7.7v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H4.8c-1.4 0-2.5 1.1-2.5 2.5v13.1c0 1.4 1.1 2.5 2.5 2.5h2.9c.4 0 .8-.3.8-.8 0-.4-.3-.8-.8-.8H4.8c-.6 0-1-.5-1-1V7.9c0-.3.4-.7 1-.7H18c.6 0 1 .4 1 .7v1.8c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-5c-.1-1.4-1.2-2.5-2.6-2.5zm1 3.7c-.3-.1-.7-.2-1-.2H4.8c-.4 0-.7.1-1 .2V4.7c0-.6.5-1 1-1h1.3v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5h7.5v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5H18c.6 0 1 .5 1 1v1.2z"
@@ -134,27 +214,37 @@
       </div>
 
       <div class="ml-auto">
-        <UIButton size="sm" :disabled="isDisabled" @onClick="handleFormSubmit">
-          <span class="font-bold"> Tweet </span>
-        </UIButton>
+        <v-btn :disabled="isDisabled" variant="tonal" color="#0070f0" rounded @click="send">
+          <span>发送</span>
+        </v-btn>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
-
-const { twitterBorderColor } = useTailwindConfig()
-import UIButton from '~/components/Tcomponents/UI/Button.vue'
+import EmojiPicker from '~~/components/common/emojiPicker.vue'
 import { computed, ref } from 'vue'
 import { useUserStore } from '~/stores/user'
+import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
+import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
+import { InfinityType, SendInfinityRB } from '~/composables/Api/infinity'
 
+const infinityStore = useInfinityStore()
+const { twitterBorderColor } = useTailwindConfig()
 const userStore = useUserStore()
 const imageInput = ref()
 const selectedFile = ref(null)
 const inputImageUrl = ref(null)
 const text = ref('')
-
+const imgUrlList = ref<string[]>([
+  'https://tvax1.sinaimg.cn/large/005NWBIgly1h4309fjc7qj31700uxdnz.jpg',
+  'https://tvax2.sinaimg.cn/large/005NWBIgly1h45agrlezij30bs0egads.jpg',
+  'https://tvax2.sinaimg.cn/large/005NWBIgly1ggg4o2sdjaj34j235dx6q.jpg',
+  'https://tvax1.sinaimg.cn/large/005NWBIgly1h4309fjc7qj31700uxdnz.jpg',
+])
+const imgBase64List = ref<string[]>([...imgUrlList.value])
 const emits = defineEmits(['onSubmit'])
 
 const isDisabled = computed(() => text.value === '')
@@ -169,29 +259,227 @@ const props = defineProps({
     required: true,
   },
 })
+const addEmoji = (emoji) => {
+  text.value += emoji
+  console.log(emoji)
+}
+const changeImgFile = async (file) => {
+  const { data: response } = await useAxiosPostUploadAvatar(file)
+  if (response.code === 0) {
+    const url = 'http://' + response.data + '?imageMogr2'
+    imgUrlList.value.push(url)
+    // await chatsStore.sendImg(url)
+  } else {
+    warningMsg('发送失败')
+  }
+}
+const addImg = async (event) => {
+  const file = event.target.files[0]
+  await changeImgFile(file)
+  selectedFile.value = file
+  const reader = new FileReader()
+  reader.onload = (event) => {
+    imgBase64List.value.push(event.target.result as string)
+  }
+  reader.readAsDataURL(file)
+}
 
 function handleFormSubmit() {
-  emits('onSubmit', {
-    text: text.value,
-    mediaFiles: [selectedFile.value],
-  })
+  // emits('onSubmit', {
+  //   text: text.value,
+  //   mediaFiles: [selectedFile.value],
+  // })
 }
 
 function handleImageClick() {
+  if (imgBase64List.value.length >= 9) {
+    defaultMsg('最多只能上传9张图片')
+    return
+  }
   imageInput.value.click()
 }
 
-function handleImageChange(event) {
-  const file = event.target.files[0]
-
-  selectedFile.value = file
-
-  const reader = new FileReader()
-
-  reader.onload = (event) => {
-    inputImageUrl.value = event.target.result
+const getImgCol = () => {
+  // return 6
+  switch (imgBase64List.value.length) {
+    case 1:
+      return 12
+    case 2:
+      return 6
+    case 3:
+      return 6
+    default:
+      return 4
   }
+}
+const ShowIndex = ref()
+const display = ref('none')
+const MinDisplay = ref('flex')
 
-  reader.readAsDataURL(file)
+function handleCommentClick() {
+  // emitter.$emit('replyTweet', props.tweet)
+}
+
+function ZoomIn(i) {
+  display.value = 'block'
+  MinDisplay.value = 'none'
+  ShowIndex.value = i
+  document.getElementById('d-send-img-box').scrollIntoView({
+    behavior: 'smooth',
+  })
+}
+
+function ZoomOut() {
+  display.value = 'none'
+  MinDisplay.value = 'flex'
+}
+
+function select(i) {
+  ShowIndex.value = i
+  document.getElementById('d-send-img-box').scrollIntoView({
+    behavior: 'smooth',
+  })
+}
+
+const visibleRef = ref(false)
+const indexRef = ref(0)
+const viewImg = () => {
+  indexRef.value = ShowIndex.value
+  visibleRef.value = true
+  // console.log(props.tweet.imgUrlList[ShowIndex.value])
+  // console.log((visibleRef.value = true))
+}
+const onHide = () => (visibleRef.value = false)
+const delImg = (index) => {
+  imgUrlList.value.splice(index, 1)
+  imgBase64List.value.splice(index, 1)
+  // console.log(imgUrlList.value)
+}
+const send = async () => {
+  if (text.value === '') {
+    defaultMsg('内容不能为空')
+    return
+  }
+  let RB: SendInfinityRB = {
+    content: text.value,
+    imgUrlList: imgUrlList.value,
+    infinityClubId: null,
+    infinityTopicId: null,
+    refId: null,
+    type: InfinityType.Tweet,
+  }
+  const infinity = await infinityStore.sendInfinity(RB)
+
 }
 </script>
+
+<style scoped>
+.d-img-next {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAhNJREFUaAXtmb9OwlAUxttLiYkV0plB4sgLODC5QRTiYqIbcXDyHXwMEyMMbg7GBfmzEBISIDHdGYU3KLQQEwp4LvHE5oJJIfTS4XQ5vdDe+/V3Ttp+PaoCW7PZ1BzHuY1Go2fz+bwfiUSKmUzmi/8na1Or1eoBY8w0DOMkkUjo4/HY7ff737PZrJDL5d5lCVFAyINpms7Csw2Hw0W9Xh+Xy+UrWUIYpOEimUzq3gXj8biSTqcPIVUvssQwVVWt6XTq1bHcj8ViUsUwEPHY6/UcqIm9i1FqtdpTq9VyXNf1VMrf7mg0klMzsKQKxVkiMWJREBmRCI6JDJIQI5ERieA4dGTgDlwMzU2PxGCdeCOvGSLjJYL7RAZJiJHIiERwTGSQhBg3JHPOz1fFSXY15mLghfxZ1/UbMGs6GLmVqS3LUrrdrgWG7pit/LujH8C4LbLZ7B146dd2uz1c55vAbyvcyNm2fRqYEH49XIzf69L8HrjNcfx5BKm5htQc/ZcaoKFAaj63md/XOb8PRduHe1wWq69JNz1oAxHBffYgEZg2IkEkkABGqgkigQQwUk0QCSSAkWqCSCABjGGpCd4m8fOiG9w7ZqVSuWw0GvsVAWlhmqbdp1Kptb6De45OpzOBLlchn8+/YRqDiLynZ0ATcWVumSL44gwM0MdgMJh4lcgWwdcOTQN6+VlCaMl/gU8tyW7J/wCJLeOSU2dAQgAAAABJRU5ErkJggg==),
+    pointer;
+  right: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 33%;
+  z-index: 10;
+}
+
+.d-img-prev {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAsVJREFUaAXtmUur2kAUx5NYUXtFiwtx0UU30iLcRWlx4aa4E8W29wv0G/QLlO5vP0BpN1210G0X9YlQC4ILKYLQhctaaF0IPrjx/Uj/I02ITXI1cSZCyUBwPJnM+eU/J5k5GZ6zsRSLxbs8z7/dbDYPXS5Xb7VaXWYymXc2InBcLpdLAkTsdDrr+XwuDQYDqVqtXhUKhRcEhLeDhkBAgc/xePwsFAopLmezGQeYWTgcDgiKlVHFCIK483q9nNvtXnS73TtMQa6DICCLxYIcHqj18wYxsCj7ICRJ4prN5hjB+zqdTs+ZKHIIRKPRmIxGo68+n+8lEYJ6sB4KMRwOqx6P52kymVxRB7EKQRXkGAhqIMdCUAGhAXE0CC2Io0BoQlgGoQ1hCYQFhGkQVhCmQFhCHAzCGoKA7J30TEB8Uc8dpHMz5dpJzyTEhTyBmQGQ2xqC2AlBYHRB7IbQBTkFhAbkVBA7IKeEUEAOhBj/Xd4d9XQQp3qFL5fL95ACfvs3+ZEbk9U2FrpMIYgvAY7exGIxnzoDsxtiCwI1HkQiEd03LPKOYb/f/443JpPhkG94CyIIQm8ymahtSj0ajd5CAnSO8xnFyKgirNfrV61WS4QyGheBQIBLJBI3AfsRAf1Y04C2AZ8LPtRqNRFQCBltQUYmoc2YOQxc8w6M3vA6yuipQmyOMo4yRgoY2Z2Y+e+UyefzT4xuiordTMw4MFBrp8hLCEeZHVnwx1Fm37LTiRmjmMGe3iMqLzejTuB474K81+uR7OA36UP3Q41R52btBKZUKr33+/0XyI/OkB9puqhUKiSNOdee0TS1bkCWKKVSqWeiKH6q1+tjvSQOe78ubDBeWfdi4kr1MGEzUQmXdru9hGI10hXToVGzEhh8ArnE7/NgMLiYTqfCcrn8gSOdzWZ/2QYiQ+EpuY36fQB1sbvZxPBtk+4/aTj+WpXZtpcAAAAASUVORK5CYII=),
+    pointer;
+  left: 0;
+  box-sizing: border-box;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 33%;
+  z-index: 10;
+}
+
+.d-img-max-content {
+  background: #f4f5f7;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.d-img-del-btn {
+  background-color: rgba(0, 0, 0, 0.18);
+  color: #dd2f2f;
+  right: 0;
+  height: 20%;
+  position: absolute;
+  top: 0;
+  width: 20%;
+  z-index: 10;
+}
+
+.d-img-cover-content {
+  background: #f4f5f7;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.SongList {
+  width: 80%;
+}
+
+.covers {
+  /*display: flex;*/
+  /*justify-content: start;*/
+  /*justify-content: space-between;*/
+  /*flex-wrap: wrap;*/
+}
+
+.cover {
+  display: flex;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  /*width: 33%;*/
+  /*height: 33%;*/
+  /*margin: 10px 0;*/
+}
+
+.min {
+  border-radius: 4px;
+  cursor: zoom-in;
+}
+
+.max {
+  cursor: zoom-out;
+  width: 130%;
+}
+
+.small {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.cover-small {
+  display: flex;
+  justify-content: center;
+  width: 10%;
+  margin: 10px 0;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.cover-small:hover {
+  opacity: 1;
+}
+
+.active {
+  display: flex;
+}
+
+.None {
+  display: none;
+}
+
+.smallActive {
+  opacity: 1;
+}
+</style>
