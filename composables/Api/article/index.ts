@@ -1,7 +1,7 @@
 import http from '~~/utils/fetch'
 import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
-import { ResponseData } from '~/types/utils/axios'
+import { ResponseData, ResponsePageData } from "~/types/utils/axios";
 import { PageParam } from '~/types/common'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number; page?: number }) => {
@@ -25,7 +25,7 @@ export const useAxiosGetArticleList = (params?: {
   order?: string
   properties?: string
 }) => {
-  return useGet<ResponseData<any>>('article/article/field/list', params)
+  return useGet<ResponsePageData<any>>('article/article/field/list', params)
 }
 
 export const useFetchGetArticleField = (id) => {

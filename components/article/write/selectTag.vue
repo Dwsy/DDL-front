@@ -21,13 +21,13 @@
       dense
       item-title="name"
       item-value="name"
-      label="搜索添加标签"
+      placeholder="搜索添加标签"
       prepend-inner-icon="mdi-magnify"
       return-object
     >
     </v-autocomplete>
     <!--    fixme https://github.com/vuetifyjs/vuetify/pull/15871-->
-    <div class="pt-2">
+    <div class="pt-">
       <span v-show="!readonly" class="text-grey-darken-1"
         >你还可以添加{{ 3 - articleTagList.length }}个标签</span
       >
@@ -42,10 +42,11 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from '#app'
-import { useFetchGetSearchSuggestion } from '~/composables/Api/search'
+// import { useFetchGetSearchSuggestion } from '~/composables/Api/search'
 import { onMounted, watch, ref, inject, watchEffect } from 'vue'
 import { useAxiosGetTagSuggestion } from '~/composables/Api/article/manageArticle'
 import { useFetchGetArticleTagList } from '~/composables/Api/article'
+import { defaultMsg } from "~/composables/utils/toastification";
 // import {ArticleTag} from '~/types/article'
 // import {TagSuggestion} from '~/types/article/manageArticle'
 
@@ -62,12 +63,15 @@ onMounted(() => {
   // console.log()
   watchEffect(() => {
     if (articleTagList.value.length >= 3) {
+      if (articleTagList.value.length > 3) {
+        articleTagList.value.pop()
+        defaultMsg('最多可以添加三个标签')
+      }
       readonly.value = true
       TagNumColor.value = 'red'
     } else {
       readonly.value = false
       TagNumColor.value = '#000'
-      // console.log('f')
     }
   })
   watch(

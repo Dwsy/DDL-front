@@ -7,13 +7,14 @@ import {
   useAxiosPostActionUpInfinity,
   useAxiosPostSendInfinity,
 } from '~/composables/Api/infinity'
-import { InfinityI } from '~/types/infinity'
+import { InfinityI, InfinityTopic } from "~/types/infinity";
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 
 interface InfinityStore {
   InfinityDataList: Ref<InfinityI[]>
   getPageParams: GetInfinityPageListParams
+  infinityTopicList: Ref<InfinityTopic[]>
 }
 
 export const useInfinityStore = defineStore('InfinityStore', {
@@ -26,6 +27,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
         size: 8,
       },
       InfinityDataList: ref<InfinityI[]>([]),
+      infinityTopicList:ref<InfinityTopic[]>([])
     }
   },
   actions: {
@@ -68,7 +70,9 @@ export const useInfinityStore = defineStore('InfinityStore', {
         successMsg('发送成功')
         let infinity = axiosResponse.data
         //jpa userinfo null
-        infinity.user.userInfo = useUserStore().userInfo
+        const userStore = useUserStore();
+        infinity.user.userInfo = userStore.userInfo
+        infinity.user.nickname=userStore.user.nickname
         this.InfinityDataList = [infinity, ...this.InfinityDataList]
       } else {
         warningMsg(axiosResponse.msg)

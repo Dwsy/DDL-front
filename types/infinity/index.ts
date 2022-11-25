@@ -1,6 +1,6 @@
 import { User } from '~/types/user'
 
-interface InfinityTopic {
+export interface InfinityTopic {
   id: string
   createTime: number
   name: string
@@ -12,7 +12,7 @@ interface InfinityTopic {
   followerNum: number
 }
 
-interface InfinityClub {
+export interface InfinityClub {
   id: string
   createTime: number
   name: string
@@ -34,7 +34,7 @@ export interface InfinityI {
   collectNum: number
   refId: string
   ua: any
-  infinityTopic: InfinityTopic
+  infinityTopics: InfinityTopic[]
   infinityClub: InfinityClub
   parentUserId: string
   parentTweetId: any

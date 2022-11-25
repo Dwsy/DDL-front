@@ -2,95 +2,129 @@
   <div>
     <v-row>
       <v-col cols="1">
-        <v-avatar class="ma-4">
+        <v-avatar class="ma-4" size="50">
           <v-img :src="userStore.userInfo.avatar" />
         </v-avatar>
       </v-col>
-      <v-col class="mr-6">
+      <v-col cols="11" class="pr-8">
         <v-textarea
+          class="d-tweet-input"
           v-model="text"
-          variant="underlined"
+          variant="filled"
           :placeholder="props.placeholder"
+          auto-grow
+          max-rows="30"
+          :rules="[rules.length(2000)]"
+          counter
         ></v-textarea>
+        <v-progress-circular
+          class="ml-2 d-input-count-progress "
+          :model-value="textProgress"
+          :size="20"
+          :width="3"
+          :class="{'text-red': textProgress > 99}"
+        ></v-progress-circular>
+
+            <v-btn
+              @click="showSelectTopic = true"
+              v-if="!showSelectTopic"
+              variant="tonal"
+              color="#60a5fa"
+            >
+              <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>
+              添加话题
+            </v-btn>
+            <SelectTopic v-else></SelectTopic>
+
         <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
       </v-col>
-    </v-row>
-    {{ imgUrlList }}
-    <div id="d-send-img-box">
-      <vue-easy-lightbox
-        :visible="visibleRef"
-        :imgs="imgUrlList"
-        :index="ShowIndex"
-        @hide="onHide"
-      ></vue-easy-lightbox>
-      <div class="SongList mt-3 pa-4">
-        <!--        //用v-for循环渲染缩略图-->
-        <v-row>
-          <v-col cols="10" class="ml-5">
-            <v-row class="covers" :style="{ display: MinDisplay }">
-              <v-col
-                :cols="getImgCol()"
-                class="cover d-img-cover-content"
-                style="padding: 1px"
-                v-for="(img, index) in imgBase64List"
-                :key="img"
-              >
-                <v-img :src="img" class="min" @click.stop="ZoomIn(index)" cover aspect-ratio="1" />
-                <v-icon class="d-img-del-btn" size="x-large" @click="delImg(index)">
-                  mdi-delete-forever
-                </v-icon>
-              </v-col>
-              <v-col
-                :cols="getImgCol()"
-                v-show="imgBase64List.length < 9"
-                @click="handleImageClick()"
-                style="cursor: pointer"
-                class="cover d-img-cover-content"
-              >
-                <!--                <v-btn class="d-img-add-btn mx-auto my-auto" icon>-->
-                <v-icon size="x-large" class="d-img-add-btn mx-auto my-auto"> mdi-plus</v-icon>
-                <!--                </v-btn>-->
+
+      <v-col cols="11" offset="1">
+        <div id="d-send-img-box" v-show="imgUrlList.length > 0">
+          <vue-easy-lightbox
+            :visible="visibleRef"
+            :imgs="imgUrlList"
+            :index="ShowIndex"
+            @hide="onHide"
+          ></vue-easy-lightbox>
+          <div class="SongList ml-4">
+            <!--        //用v-for循环渲染缩略图-->
+            <v-row>
+              <v-col cols="10">
+                <v-row class="covers" :style="{ display: MinDisplay }">
+                  <v-col
+                    :cols="getImgCol()"
+                    class="cover d-img-cover-content"
+                    style="padding: 1px"
+                    v-for="(img, index) in imgBase64List"
+                    :key="img"
+                  >
+                    <v-img
+                      :src="img"
+                      class="min"
+                      @click.stop="ZoomIn(index)"
+                      cover
+                      aspect-ratio="1"
+                    />
+                    <v-icon class="d-img-del-btn" size="x-large" @click="delImg(index)">
+                      mdi-delete-forever
+                    </v-icon>
+                  </v-col>
+                  <v-col
+                    :cols="getImgCol()"
+                    v-show="imgBase64List.length < 9"
+                    @click="handleImageClick()"
+                    style="cursor: pointer"
+                    class="cover d-img-cover-content"
+                  >
+                    <!--                <v-btn class="d-img-add-btn mx-auto my-auto" icon>-->
+                    <v-icon size="x-large" class="d-img-add-btn mx-auto my-auto"> mdi-plus</v-icon>
+                    <!--                </v-btn>-->
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
-          </v-col>
-        </v-row>
-        <!--        //渲染放大后的图-->
-        <div class="max d-img-max" :style="{ display: display }">
-          <div class="pa-2">
-            <v-btn variant="tonal" color="#448623" @click.stop="viewImg()">
-              <v-icon size="large">mdi-magnify</v-icon>
-              <span class="text-subtitle-1">查看大图</span>
-            </v-btn>
-          </div>
-          <div
-            v-for="(img, index) in imgBase64List"
-            :key="img"
-            style="height: 100%; width: 100%"
-            class="d-img-max-content"
-            :class="[index === ShowIndex ? 'active' : 'None']"
-          >
-            <v-img :src="img" @click.stop="ZoomOut" width="100%" />
-            <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
-            <div
-              v-if="index !== imgBase64List.length - 1"
-              class="d-img-next"
-              @click.stop="ShowIndex++"
-            ></div>
-          </div>
-          <!--          //放大后图片下方的导航图-->
-          <div class="small">
-            <div
-              :class="[{ smallActive: index === ShowIndex }, 'cover-small']"
-              v-for="(img, index) in imgBase64List"
-              :key="img"
-              @click.stop="select(index)"
-            >
-              <v-img :src="img" width="100%" />
+            <!--        //渲染放大后的图-->
+            <div class="max d-img-max" :style="{ display: display }">
+              <div class="pa-2">
+                <v-btn variant="tonal" color="#448623" @click.stop="viewImg()">
+                  <v-icon size="large">mdi-magnify</v-icon>
+                  <span class="text-subtitle-1">查看大图</span>
+                </v-btn>
+              </div>
+              <div
+                v-for="(img, index) in imgBase64List"
+                :key="img"
+                style="height: 100%; width: 100%"
+                class="d-img-max-content"
+                :class="[index === ShowIndex ? 'active' : 'None']"
+              >
+                <v-img :src="img" @click.stop="ZoomOut" width="100%" />
+                <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
+                <div
+                  v-if="index !== imgBase64List.length - 1"
+                  class="d-img-next"
+                  @click.stop="ShowIndex++"
+                ></div>
+              </div>
+              <!--          //放大后图片下方的导航图-->
+              <div class="small">
+                <div
+                  :class="[{ smallActive: index === ShowIndex }, 'cover-small']"
+                  v-for="(img, index) in imgBase64List"
+                  :key="img"
+                  @click.stop="select(index)"
+                >
+                  <v-img :src="img" width="100%" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
+    <!--    {{ imgUrlList }}-->
+
     <!--    <div class="flex flex-shrink-0 items-center p-4 pb-0">-->
     <!--      <div class="items-top flex w-12">-->
     <!--        <v-avatar>-->
@@ -224,12 +258,14 @@
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import EmojiPicker from '~~/components/common/emojiPicker.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '~/stores/user'
 import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
 import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { InfinityType, SendInfinityRB } from '~/composables/Api/infinity'
+import SelectTopic from '~/components/Infinity/selectTopic.vue'
+import { rules } from '~/utils/rules'
 
 const infinityStore = useInfinityStore()
 const { twitterBorderColor } = useTailwindConfig()
@@ -246,7 +282,7 @@ const imgUrlList = ref<string[]>([
 ])
 const imgBase64List = ref<string[]>([...imgUrlList.value])
 const emits = defineEmits(['onSubmit'])
-
+const showSelectTopic = ref(false)
 const isDisabled = computed(() => text.value === '')
 
 const props = defineProps({
@@ -259,6 +295,14 @@ const props = defineProps({
     required: true,
   },
 })
+onMounted(() => {
+  let count: Element = document.querySelector(
+    '.d-tweet-input  > div.v-input__details > div.v-counter'
+  )
+  let progress: Element = document.querySelector('.d-input-count-progress')
+  count.parentElement.append(progress)
+})
+
 const addEmoji = (emoji) => {
   text.value += emoji
   console.log(emoji)
@@ -360,20 +404,26 @@ const send = async () => {
     defaultMsg('内容不能为空')
     return
   }
+
   let RB: SendInfinityRB = {
     content: text.value,
     imgUrlList: imgUrlList.value,
     infinityClubId: null,
-    infinityTopicId: null,
+    infinityTopicIds: infinityStore.infinityTopicList.map((item) => item.id),
     refId: null,
     type: InfinityType.Tweet,
   }
   const infinity = await infinityStore.sendInfinity(RB)
-
 }
+const textProgress = computed(() => {
+  return 0 ^ ((text.value.length / 2000) * 100)
+})
 </script>
 
 <style scoped>
+/*:deep(.d-tweet-input > div.v-input__details > div.v-counter) {*/
+/*  display: inherit!important;*/
+/*}*/
 .d-img-next {
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAhNJREFUaAXtmb9OwlAUxttLiYkV0plB4sgLODC5QRTiYqIbcXDyHXwMEyMMbg7GBfmzEBISIDHdGYU3KLQQEwp4LvHE5oJJIfTS4XQ5vdDe+/V3Ttp+PaoCW7PZ1BzHuY1Go2fz+bwfiUSKmUzmi/8na1Or1eoBY8w0DOMkkUjo4/HY7ff737PZrJDL5d5lCVFAyINpms7Csw2Hw0W9Xh+Xy+UrWUIYpOEimUzq3gXj8biSTqcPIVUvssQwVVWt6XTq1bHcj8ViUsUwEPHY6/UcqIm9i1FqtdpTq9VyXNf1VMrf7mg0klMzsKQKxVkiMWJREBmRCI6JDJIQI5ERieA4dGTgDlwMzU2PxGCdeCOvGSLjJYL7RAZJiJHIiERwTGSQhBg3JHPOz1fFSXY15mLghfxZ1/UbMGs6GLmVqS3LUrrdrgWG7pit/LujH8C4LbLZ7B146dd2uz1c55vAbyvcyNm2fRqYEH49XIzf69L8HrjNcfx5BKm5htQc/ZcaoKFAaj63md/XOb8PRduHe1wWq69JNz1oAxHBffYgEZg2IkEkkABGqgkigQQwUk0QCSSAkWqCSCABjGGpCd4m8fOiG9w7ZqVSuWw0GvsVAWlhmqbdp1Kptb6De45OpzOBLlchn8+/YRqDiLynZ0ATcWVumSL44gwM0MdgMJh4lcgWwdcOTQN6+VlCaMl/gU8tyW7J/wCJLeOSU2dAQgAAAABJRU5ErkJggg==),
     pointer;

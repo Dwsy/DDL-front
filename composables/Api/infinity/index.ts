@@ -1,6 +1,6 @@
 import { useDel, useGet, usePost } from '~/composables/useAxios'
-import { ResponseData } from '~/types/utils/axios'
-import { InfinityI } from '~/types/infinity'
+import { ResponseData, ResponsePageData } from "~/types/utils/axios";
+import { InfinityI, InfinityTopic } from "~/types/infinity";
 
 export interface GetInfinityPageListParams {
   order?: string
@@ -12,7 +12,7 @@ export interface GetInfinityPageListParams {
 }
 
 export const useAxiosGetInfinityPageList = (params: GetInfinityPageListParams) => {
-  return useGet<ResponseData<InfinityI>>('infinity/infinity/list', params)
+  return useGet<ResponsePageData<InfinityI>>('infinity/infinity/list', params)
 }
 
 export const useAxiosPostActionUpInfinity = (tweetId: string, up: boolean) => {
@@ -22,8 +22,8 @@ export const useAxiosPostActionUpInfinity = (tweetId: string, up: boolean) => {
 export interface SendInfinityRB {
   content: string;
   imgUrlList: any[];
-  infinityClubId?: number;
-  infinityTopicId?: number;
+  infinityClubId?: string;
+  infinityTopicIds?: string[];
   refId?: number;
   type: InfinityType;
 }
@@ -44,4 +44,8 @@ export enum InfinityType {
 
 export const useAxiosPostSendInfinity = (data:SendInfinityRB) => {
   return usePost<ResponseData<InfinityI>>('infinity/infinity',data)
+}
+
+export const useAxiosGetInfinityTopicList = () => {
+  return useGet<ResponsePageData<InfinityTopic>>(`infinity/topic/list`)
 }

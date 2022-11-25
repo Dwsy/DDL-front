@@ -20,12 +20,16 @@
           <span class="text-gray-400 text-sm dark:text-white">{{
             timeAgoFilter(tweet.createTime)
           }}</span>
-          <p
+          <div
             :class="textSize"
             class="w-auto flex-shrink font-medium text-gray-800 dark:text-white d-t-content"
           >
             {{ props.tweet.content }}
-          </p>
+            <template v-for="p in props.tweet.infinityTopics">
+              <p class="text-sky-500">#{{ p.name }}</p>
+            </template>
+          </div>
+
           <vue-easy-lightbox
             :visible="visibleRef"
             :imgs="tweet.imgUrlList"
@@ -92,6 +96,12 @@
             </div>
           </div>
 
+          <div class="mr-6 mt-8" v-if="tweet.infinityClub != null">
+            <v-chip prepend-icon="mdi-infinity" color="red">
+              <span class="text-base"> {{ tweet.infinityClub.name }}</span>
+            </v-chip>
+          </div>
+
           <div class="mt-3" v-if="!props.hideActions">
             <TweetItemActions
               :compact="props.compact"
@@ -110,7 +120,7 @@ import { computed, ref } from 'vue'
 import TweetItemHeader from '~/components/Tcomponents/Tweet/Item/Header.vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
 import { InfinityI } from '~/types/infinity'
-import { timeAgoFilter } from '#imports'
+import { timeAgoFilter } from '~/composables/useTools'
 
 const { twitterBorderColor } = useTailwindConfig()
 
