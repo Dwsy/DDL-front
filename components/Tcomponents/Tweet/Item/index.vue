@@ -235,7 +235,7 @@ const onHide = () => (visibleRef.value = false)
 
 .max {
   cursor: zoom-out;
-  width: 90%;
+  width: 130%;
 }
 
 .small {

@@ -5,12 +5,14 @@ import {
   GetInfinityPageListParams,
   useAxiosGetInfinityPageList,
   useAxiosPostActionUpInfinity,
+  useAxiosPostSendInfinity,
 } from '~/composables/Api/infinity'
 import { InfinityI } from '~/types/infinity'
-import { defaultMsg, successMsg, warningMsg } from "~/composables/utils/toastification";
+import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
+import { useUserStore } from '~/stores/user'
 
 interface InfinityStore {
-  InfinityDataList: InfinityI[]
+  InfinityDataList: Ref<InfinityI[]>
   getPageParams: GetInfinityPageListParams
 }
 
@@ -23,7 +25,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
         page: 1,
         size: 8,
       },
-      InfinityDataList: [],
+      InfinityDataList: ref<InfinityI[]>([]),
     }
   },
   actions: {
@@ -57,6 +59,20 @@ export const useInfinityStore = defineStore('InfinityStore', {
         }
       } else {
         warningMsg(axiosResponse.data)
+      }
+    },
+    async sendInfinity(data: any) {
+      // this.InfinityDataList = []
+      const { data: axiosResponse } = await useAxiosPostSendInfinity(data)
+      if (axiosResponse.code === 0) {
+        successMsg('发送成功')
+        let infinity = axiosResponse.data
+        //jpa userinfo null
+        infinity.user.userInfo = useUserStore().userInfo
+        this.InfinityDataList = [infinity, ...this.InfinityDataList]
+      } else {
+        warningMsg(axiosResponse.msg)
+        return null
       }
     },
   },

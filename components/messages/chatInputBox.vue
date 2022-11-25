@@ -2,7 +2,14 @@
   <v-container>
     <client-only>
       <v-toolbar density="compact" multiple>
-        <emoji-picker @addEmoji="addEmoji"></emoji-picker>
+        <emoji-picker @addEmoji="addEmoji">
+          <template v-slot="{activator}">
+            <v-btn v-bind="activator" icon size="small">
+              <v-icon> mdi-sticker-emoji</v-icon>
+              <v-tooltip activator="parent" location="top"> 表情</v-tooltip>
+            </v-btn>
+          </template>
+        </emoji-picker>
         <input
           id="file"
           accept="image/gif,image/jpeg,image/jpg,image/png"
@@ -11,12 +18,12 @@
           v-on:change="changeImgFile($event)"
         />
         <v-btn icon size="small" @click="openChangeFile">
-          <v-icon> mdi-wallpaper </v-icon>
-          <v-tooltip activator="parent" location="top"> 发送图片 </v-tooltip>
+          <v-icon> mdi-wallpaper</v-icon>
+          <v-tooltip activator="parent" location="top"> 发送图片</v-tooltip>
         </v-btn>
         <v-btn icon @click="changeInputMode()">
-          <v-icon v-if="chatsStore.enableMdMode"> mdi-language-markdown </v-icon>
-          <v-icon v-else> mdi-language-markdown-outline </v-icon>
+          <v-icon v-if="chatsStore.enableMdMode"> mdi-language-markdown</v-icon>
+          <v-icon v-else> mdi-language-markdown-outline</v-icon>
           <v-tooltip activator="parent" location="top">
             {{ chatsStore.enableMdMode ? '关闭' : '开启' }}markdown模式
           </v-tooltip>
@@ -32,8 +39,8 @@
               v-bind="props"
               @click="openPreviewDialog"
             >
-              <v-tooltip activator="parent" location="top"> 预览markdown </v-tooltip>
-              <v-icon> mdi-eye </v-icon>
+              <v-tooltip activator="parent" location="top"> 预览markdown</v-tooltip>
+              <v-icon> mdi-eye</v-icon>
             </v-btn>
           </template>
           <template v-slot:default="{ isActive }">
@@ -63,8 +70,8 @@
     >
     </v-textarea>
     <v-btn class="float-end mx-6 mb-4" color="primary" @click="chatsStore.sendMessage()"
-      >发送</v-btn
-    >
+      >发送
+    </v-btn>
   </v-container>
 </template>
 

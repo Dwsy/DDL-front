@@ -1,7 +1,7 @@
 <template>
   <v-list>
     <v-toolbar-title class="dwsy ml-0 pt-4 pl-4">
-      <h1 style="font-size: 30px">DDL</h1>
+      <div class="text-3xl font-medium font-sans">DDLink</div>
     </v-toolbar-title>
 
     <br />
