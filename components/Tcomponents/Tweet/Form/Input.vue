@@ -18,11 +18,11 @@
           counter
         ></v-textarea>
         <v-progress-circular
-          class="ml-2 d-input-count-progress "
+          class="ml-2 d-input-count-progress"
           :model-value="textProgress"
           :size="20"
           :width="3"
-          :class="{'text-red': textProgress > 99}"
+          :class="{'text-red': textProgress > 99,'text-sky-500': textProgress < 99}"
         ></v-progress-circular>
 
             <v-btn
@@ -162,7 +162,7 @@
     </div>
 
     <!-- Icons -->
-    <div class="flex p-2 pl-14">
+    <div class="flex p-2 pl-14 ml-4">
       <div class="flex w-full text-white">
         <div
           class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"

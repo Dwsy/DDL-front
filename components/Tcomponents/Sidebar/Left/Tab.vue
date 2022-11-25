@@ -1,14 +1,14 @@
 <template>
   <nuxt-link
     to="#"
-    class="dark:hover:bg-dim-200 flex w-min items-center rounded-full p-3 text-black hover:bg-gray-200 dark:text-white"
+    class="dark:hover:bg-dim-200 flex  items-center rounded-full p-3 text-black hover:bg-gray-200 dark:text-white"
     :class="defaultTransition"
   >
-    <div class="text-dark h-6 w-6">
+    <div class="text-dark h-6 w-6 dark:text-white">
       <slot name="icon"></slot>
     </div>
 
-    <div class="ml-4 hidden text-xl xl:block" :class="textClasses">
+    <div class="ml-4 hidden text-xl xl:block dark:text-white" :class="textClasses">
       <slot name="name"></slot>
     </div>
   </nuxt-link>

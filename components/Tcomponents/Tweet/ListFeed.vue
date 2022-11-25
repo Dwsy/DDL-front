@@ -5,7 +5,7 @@
     </div>
     <div
       v-else
-      class="dark:hover:bg-dim-300 cursor-pointer border-b pb-4 hover:bg-gray-100"
+      class="cursor-pointer border-b pb-4"
       :class="[twitterBorderColor, defaultTransition]"
       v-for="tweet in infinityStore.InfinityDataList"
       :key="tweet.id"

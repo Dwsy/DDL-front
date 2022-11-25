@@ -1,8 +1,8 @@
 <template>
   <div>
-    <MainSection title="Home" :loading="loading">
+    <MainSection title="主页" :loading="loading">
       <Head>
-        <Title>Home / Twitter</Title>
+        <Title>Infinity主页</Title>
       </Head>
 
       <div class="border-b" :class="twitterBorderColor">

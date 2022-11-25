@@ -1,6 +1,6 @@
 <template>
   <div class="border-x" :class="twitterBorderColor">
-    <div class="dark:bg-dim-900/80 sticky top-0 bg-white/80 px-4 py-3 backdrop-blur-md">
+    <div class="sticky top-0  px-4 py-3 backdrop-blur-md">
       <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
         {{ props.title }}
       </h2>

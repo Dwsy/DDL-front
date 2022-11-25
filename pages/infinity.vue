@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="dark:bg-dim-900 bg-white">
+
+    <div>
       <LoadingPage v-if="isAuthLoading" />
 
       <!--      App-->
@@ -26,7 +26,7 @@
           <!-- Right Sidebar -->
           <div class="col-span-12 hidden md:col-span-3 md:block xl:col-span-4">
             <div class="sticky top-0">
-              <SidebarRight />
+<!--              <SidebarRight />-->
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
       <!--        />-->
       <!--      </UIModal>-->
     </div>
-  </div>
+
 </template>
 <script setup lang="ts">
 import { onBeforeMount, onMounted, ref } from 'vue'
