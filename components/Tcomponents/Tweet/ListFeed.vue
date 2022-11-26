@@ -9,8 +9,12 @@
       :class="[twitterBorderColor, defaultTransition]"
       v-for="tweet in infinityStore.InfinityDataList"
       :key="tweet.id"
+      @click="redirect(tweet)"
     >
-      <TweetItem :tweet="tweet" compact />
+
+<!--      <nuxt-link :to="`/infinity/status/${tweet.id}`">-->
+        <TweetItem :tweet="tweet" compact />
+<!--      </nuxt-link>-->
     </div>
     <div v-if="infinityStore.end" class="p-4">
       <p class="text-center text-gray-500">倒头了 😢</p>
@@ -22,16 +26,16 @@ import useTailwindConfig from '~/composables/useTailwindConfig'
 
 const { twitterBorderColor, defaultTransition } = useTailwindConfig()
 import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
-import { computed, PropType, ref, toRefs } from "vue";
+import { computed, PropType, ref, toRefs } from 'vue'
 import { navigateTo } from '#app'
 import { InfinityI } from '~/types/infinity'
-import { useInfinityStore } from "~/stores/infinity/infinityStore";
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
 // const props = defineProps<{ tweetList: InfinityI[] }>()
-const infinityStore = useInfinityStore();
+const infinityStore = useInfinityStore()
 const isEmptyArray = computed(() => infinityStore.InfinityDataList.length === 0)
 
 function redirect(tweet) {
-  navigateTo(`/status/${tweet.id}`)
+  navigateTo(`/infinity/status/${tweet.id}`)
 }
 </script>

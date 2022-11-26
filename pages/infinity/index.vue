@@ -24,6 +24,7 @@ import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
 import { navigateTo } from '#app'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { useLoadingWin } from "~/composables/useTools";
+import { definePageMeta } from "#imports";
 // const {getTweets} = useTweets()
 const infinityStore = useInfinityStore()
 const loading = ref(false)
@@ -58,7 +59,9 @@ const loading = ref(false)
 //   },
 //   repliesCount: 21,
 // }
-
+definePageMeta({
+  keepalive: true,
+})
 onBeforeMount(async () => {
   loading.value = true
   await infinityStore.loadInfinityData()

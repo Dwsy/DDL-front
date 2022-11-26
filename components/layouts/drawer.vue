@@ -27,7 +27,7 @@
             {{ item.icon }}
           </v-icon>
           <BellIcon v-else class="mr-2 dark:text-slate-200" style="width: 27px" />
-          <span class="ml-3 text-lg font-medium dark:text-slate-200">
+          <span class="ml-3  font-semibold text-xl dark:text-slate-200">
             {{ item.text }}
           </span>
         </nuxt-link>

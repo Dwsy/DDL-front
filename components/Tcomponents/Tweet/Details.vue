@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <TweetItem :tweet="props.tweet" />
 
     <TweetForm
@@ -10,11 +9,11 @@
       @on-success="handleFormSuccess"
     />
 
-    <DetailsListFeed/>
+    <DetailsListFeed />
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted } from 'vue'
 import { navigateTo } from '#app'
 import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
 import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
@@ -23,6 +22,7 @@ import { InfinityI } from '~/types/infinity'
 import { User } from '~/types/user'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
+const infinityStore = useInfinityStore()
 const props = defineProps<{
   tweet: InfinityI
   user: User | any
@@ -31,10 +31,11 @@ const props = defineProps<{
 onMounted(() => {
   console.log('props.tweet', props.tweet)
 })
+
 // const comments =[]
 function handleFormSuccess(tweet) {
   navigateTo({
-    path: `/status/${tweet.id}`,
+    path: `/infinity/status/${tweet.id}`,
   })
 }
 </script>

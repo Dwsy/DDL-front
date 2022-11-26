@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full items-center justify-start">
 
-    <TweetItemActionsIcon :size="size" color="blue" @click="emits('onCommentClick')">
+    <TweetItemActionsIcon :size="size" color="blue" @click.stop="emits('onCommentClick')">
       <template v-slot:icon="{ classes }">
         <ChatBubbleBottomCenterIcon :class="classes" />
       </template>
@@ -26,13 +26,13 @@
         <HeartIcon
           v-if="!tweet.up"
           :class="classes"
-          @click="infinityStore.upActionTweet(tweet.id, true)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, true)"
         />
         <HeartIconSolid
           v-else
           :class="classes"
           class="text-blue-400"
-          @click="infinityStore.upActionTweet(tweet.id, false)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, false)"
         />
       </template>
 

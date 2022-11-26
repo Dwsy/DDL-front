@@ -97,7 +97,7 @@
 
           <v-row class="mt-2">
             <v-col>
-              <div  v-if="tweet.infinityClub != null">
+              <div v-if="tweet.infinityClub != null">
                 <v-chip class="mr-2" prepend-icon="mdi-eye" color="blue">
                   <span class="text-base"> {{ tweet.upNum }}次查看</span>
                 </v-chip>
@@ -106,21 +106,6 @@
                 </v-chip>
               </div>
             </v-col>
-            <!--            <v-col>-->
-            <!--              <div class="" v-if="tweet.infinityClub != null">-->
-            <!--                <v-chip prepend-icon="mdi-eye" color="blue">-->
-            <!--                  <span class="text-base"> {{tweet.ua}}</span>-->
-            <!--                </v-chip>-->
-            <!--              </div>-->
-            <!--            </v-col>-->
-            <!--            <v-spacer></v-spacer>-->
-            <!--            <v-col>-->
-            <!--              <div class="ml-6" v-if="tweet.infinityClub != null">-->
-            <!--                <v-chip prepend-icon="mdi-infinity" color="red">-->
-            <!--                  <span class="text-base"> {{ tweet.infinityClub.name }}</span>-->
-            <!--                </v-chip>-->
-            <!--              </div>-->
-            <!--            </v-col>-->
           </v-row>
           <div class="mt-0" v-if="!props.hideActions">
             <TweetItemActions
@@ -176,7 +161,7 @@
               <div
                 class="text-sky-600 mt-2"
                 style="margin-left: 8.3333333333%"
-                @click="showComment = !showComment"
+                @click.stop="showComment = !showComment"
               >
                 收起评论
               </div>
@@ -189,11 +174,13 @@
 </template>
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { computed, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, provide, Ref, ref } from 'vue'
 import TweetItemHeader from '~/components/Tcomponents/Tweet/Item/Header.vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
 import { InfinityI } from '~/types/infinity'
 import { timeAgoFilter } from '~/composables/useTools'
+import { useRoute } from '#app'
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
 const { twitterBorderColor } = useTailwindConfig()
 
@@ -227,9 +214,19 @@ const display = ref('none')
 const MinDisplay = ref('flex')
 
 const showComment = ref(false)
+const infinityStore = useInfinityStore();
+let replyDialog: Ref<boolean> = null
+if (!infinityStore.isHome) {
+  replyDialog = inject('replyDialog')
+}
 
 function handleCommentClick() {
-  showComment.value = !showComment.value
+  if (replyDialog != null) {
+    infinityStore.replyInfinityData = props.tweet
+    replyDialog.value = true
+  } else {
+    showComment.value = !showComment.value
+  }
 }
 
 function ZoomIn(i) {

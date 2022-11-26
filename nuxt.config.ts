@@ -2,6 +2,7 @@ console.log(process.env.NUXT_PUBLIC_API_BASE_URL)
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  // ssr: Boolean(process.env.NUXT_SSR),
   app: {
     head: {
       meta: [],

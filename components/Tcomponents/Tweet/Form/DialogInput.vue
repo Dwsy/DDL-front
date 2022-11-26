@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="1">
-        <v-avatar class="ma-4" size="50">
-          <v-img :src="userStore.userInfo.avatar" />
-        </v-avatar>
-      </v-col>
-      <v-col cols="11" class="pr-8">
+      <!--      <v-col cols="1">-->
+      <!--        <v-avatar class="ma-4" size="50">-->
+      <!--          <v-img :src="userStore.userInfo.avatar" />-->
+      <!--        </v-avatar>-->
+      <!--      </v-col>-->
+      <v-col cols="11" class="ml-6 mt-2">
         <v-textarea
-          class="d-tweet-input"
+          class="d-dialog-tweet-input"
           v-model="text"
-          variant="underlined"
+          variant="filled"
           :placeholder="props.placeholder"
           auto-grow
           max-rows="30"
@@ -18,30 +18,30 @@
           counter
         ></v-textarea>
         <v-progress-circular
-          class="ml-2 d-input-count-progress"
+          class="d-dialog-input-count-progress ml-2 mr-n4"
           :model-value="textProgress"
           :size="20"
           :width="3"
           :class="{ 'text-red': textProgress > 99, 'text-sky-500': textProgress < 99 }"
         ></v-progress-circular>
 
-        <template v-if="infinityStore.isHome">
-          <v-btn
-            @click="showSelectTopic = true"
-            v-if="!showSelectTopic"
-            variant="tonal"
-            color="#60a5fa"
-          >
-            <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>
-            添加话题
-          </v-btn>
-          <SelectTopic v-else></SelectTopic>
-        </template>
+        <!--        <template v-if="infinityStore.isHome">-->
+        <!--          <v-btn-->
+        <!--            @click="showSelectTopic = true"-->
+        <!--            v-if="!showSelectTopic"-->
+        <!--            variant="tonal"-->
+        <!--            color="#60a5fa"-->
+        <!--          >-->
+        <!--            <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>-->
+        <!--            添加话题-->
+        <!--          </v-btn>-->
+        <!--          <SelectTopic v-else></SelectTopic>-->
+        <!--        </template>-->
 
         <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
       </v-col>
 
-      <v-col cols="11" offset="1">
+      <v-col cols="12" class="mx-6">
         <div id="d-send-img-box" v-show="imgUrlList.length > 0">
           <vue-easy-lightbox
             :visible="visibleRef"
@@ -127,7 +127,7 @@
     </v-row>
 
     <!-- File Selector -->
-    <div class="pl-16">
+    <div class="">
       <img
         v-if="inputImageUrl"
         :class="twitterBorderColor"
@@ -148,8 +148,8 @@
     </div>
 
     <!-- Icons -->
-    <div class="flex p-2 pl-14 ml-4">
-      <div class="flex w-full text-white">
+    <div class="flex">
+      <div class="flex w-full text-white mx-6">
         <div
           class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
           @click="handleImageClick"
@@ -201,41 +201,41 @@
           </svg>
         </div>
 
-        <div
-          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
-        >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-            <g>
-              <path
-                d="M20.222 9.16h-1.334c.015-.09.028-.182.028-.277V6.57c0-.98-.797-1.777-1.778-1.777H3.5V3.358c0-.414-.336-.75-.75-.75s-.75.336-.75.75V20.83c0 .415.336.75.75.75s.75-.335.75-.75v-1.434h10.556c.98 0 1.778-.797 1.778-1.777v-2.313c0-.095-.014-.187-.028-.278h4.417c.98 0 1.778-.798 1.778-1.778v-2.31c0-.983-.797-1.78-1.778-1.78zM17.14 6.293c.152 0 .277.124.277.277v2.31c0 .154-.125.28-.278.28H3.5V6.29h13.64zm-2.807 9.014v2.312c0 .153-.125.277-.278.277H3.5v-2.868h10.556c.153 0 .277.126.277.28zM20.5 13.25c0 .153-.125.277-.278.277H3.5V10.66h16.722c.153 0 .278.124.278.277v2.313z"
-              ></path>
-            </g>
-          </svg>
-        </div>
+        <!--        <div-->
+        <!--          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"-->
+        <!--        >-->
+        <!--          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">-->
+        <!--            <g>-->
+        <!--              <path-->
+        <!--                d="M20.222 9.16h-1.334c.015-.09.028-.182.028-.277V6.57c0-.98-.797-1.777-1.778-1.777H3.5V3.358c0-.414-.336-.75-.75-.75s-.75.336-.75.75V20.83c0 .415.336.75.75.75s.75-.335.75-.75v-1.434h10.556c.98 0 1.778-.797 1.778-1.777v-2.313c0-.095-.014-.187-.028-.278h4.417c.98 0 1.778-.798 1.778-1.778v-2.31c0-.983-.797-1.78-1.778-1.78zM17.14 6.293c.152 0 .277.124.277.277v2.31c0 .154-.125.28-.278.28H3.5V6.29h13.64zm-2.807 9.014v2.312c0 .153-.125.277-.278.277H3.5v-2.868h10.556c.153 0 .277.126.277.28zM20.5 13.25c0 .153-.125.277-.278.277H3.5V10.66h16.722c.153 0 .278.124.278.277v2.313z"-->
+        <!--              ></path>-->
+        <!--            </g>-->
+        <!--          </svg>-->
+        <!--        </div>-->
 
-        <div
-          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"
-        >
-          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-            <g>
-              <path d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2z"></path>
-              <path
-                d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2zM18 2.2h-1.3v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H7.7v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H4.8c-1.4 0-2.5 1.1-2.5 2.5v13.1c0 1.4 1.1 2.5 2.5 2.5h2.9c.4 0 .8-.3.8-.8 0-.4-.3-.8-.8-.8H4.8c-.6 0-1-.5-1-1V7.9c0-.3.4-.7 1-.7H18c.6 0 1 .4 1 .7v1.8c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-5c-.1-1.4-1.2-2.5-2.6-2.5zm1 3.7c-.3-.1-.7-.2-1-.2H4.8c-.4 0-.7.1-1 .2V4.7c0-.6.5-1 1-1h1.3v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5h7.5v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5H18c.6 0 1 .5 1 1v1.2z"
-              ></path>
-              <path
-                d="M15.5 10.4c-3.4 0-6.2 2.8-6.2 6.2 0 3.4 2.8 6.2 6.2 6.2 3.4 0 6.2-2.8 6.2-6.2 0-3.4-2.8-6.2-6.2-6.2zm0 11c-2.6 0-4.7-2.1-4.7-4.7s2.1-4.7 4.7-4.7 4.7 2.1 4.7 4.7c0 2.5-2.1 4.7-4.7 4.7z"
-              ></path>
-              <path
-                d="M18.9 18.7c-.1.2-.4.4-.6.4-.1 0-.3 0-.4-.1l-3.1-2v-3c0-.4.3-.8.8-.8.4 0 .8.3.8.8v2.2l2.4 1.5c.2.2.3.6.1 1z"
-              ></path>
-            </g>
-          </svg>
-        </div>
+        <!--        <div-->
+        <!--          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"-->
+        <!--        >-->
+        <!--          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">-->
+        <!--            <g>-->
+        <!--              <path d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2z"></path>-->
+        <!--              <path-->
+        <!--                d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2zM18 2.2h-1.3v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H7.7v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H4.8c-1.4 0-2.5 1.1-2.5 2.5v13.1c0 1.4 1.1 2.5 2.5 2.5h2.9c.4 0 .8-.3.8-.8 0-.4-.3-.8-.8-.8H4.8c-.6 0-1-.5-1-1V7.9c0-.3.4-.7 1-.7H18c.6 0 1 .4 1 .7v1.8c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-5c-.1-1.4-1.2-2.5-2.6-2.5zm1 3.7c-.3-.1-.7-.2-1-.2H4.8c-.4 0-.7.1-1 .2V4.7c0-.6.5-1 1-1h1.3v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5h7.5v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5H18c.6 0 1 .5 1 1v1.2z"-->
+        <!--              ></path>-->
+        <!--              <path-->
+        <!--                d="M15.5 10.4c-3.4 0-6.2 2.8-6.2 6.2 0 3.4 2.8 6.2 6.2 6.2 3.4 0 6.2-2.8 6.2-6.2 0-3.4-2.8-6.2-6.2-6.2zm0 11c-2.6 0-4.7-2.1-4.7-4.7s2.1-4.7 4.7-4.7 4.7 2.1 4.7 4.7c0 2.5-2.1 4.7-4.7 4.7z"-->
+        <!--              ></path>-->
+        <!--              <path-->
+        <!--                d="M18.9 18.7c-.1.2-.4.4-.6.4-.1 0-.3 0-.4-.1l-3.1-2v-3c0-.4.3-.8.8-.8.4 0 .8.3.8.8v2.2l2.4 1.5c.2.2.3.6.1 1z"-->
+        <!--              ></path>-->
+        <!--            </g>-->
+        <!--          </svg>-->
+        <!--        </div>-->
       </div>
 
-      <div class="ml-auto">
-        <v-btn :disabled="isDisabled" variant="tonal" color="#0070f0" rounded @click="send">
-          <span>发送</span>
+      <div class="mr-4 mb-4">
+        <v-btn :disabled="isDisabled" variant="tonal" color="#0070f0" rounded @click="reply">
+          <span>回复</span>
         </v-btn>
       </div>
     </div>
@@ -249,10 +249,9 @@ import { useUserStore } from '~/stores/user'
 import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
 import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
-import { InfinityType, ReplyInfinityRB, SendInfinityRB } from "~/composables/Api/infinity";
+import { InfinityType, ReplyInfinityRB, SendInfinityRB } from '~/composables/Api/infinity'
 import SelectTopic from '~/components/Infinity/selectTopic.vue'
 import { rules } from '~/utils/rules'
-import { InfinityI } from '~/types/infinity'
 import { useRoute } from "#app";
 
 const infinityStore = useInfinityStore()
@@ -268,16 +267,15 @@ const emits = defineEmits(['onSubmit'])
 const showSelectTopic = ref(false)
 const isDisabled = computed(() => text.value === '')
 
-const props = defineProps<{
-  replyTo: InfinityI
-  placeholder: string
-}>()
+const props = defineProps({
+  placeholder: {
+    type: String,
+    required: true,
+  },
+})
 onMounted(() => {
-  let count: Element = document.querySelector(
-    '.d-tweet-input  > div.v-input__details > div.v-counter'
-  )
-  let progress: Element = document.querySelector('.d-input-count-progress')
-  count.parentElement.append(progress)
+  appendProgress()
+  console.log('12appendProgressappendProgressappendProgress')
 })
 
 const addEmoji = (emoji) => {
@@ -291,9 +289,10 @@ const changeImgFile = async (file) => {
     imgUrlList.value.push(url)
     // await chatsStore.sendImg(url)
   } else {
-    warningMsg('发送失败')
+    warningMsg('回复失败')
   }
 }
+
 const addImg = async (event) => {
   const file = event.target.files[0]
   await changeImgFile(file)
@@ -303,6 +302,14 @@ const addImg = async (event) => {
     imgBase64List.value.push(event.target.result as string)
   }
   reader.readAsDataURL(file)
+}
+
+const appendProgress = () => {
+  let count: Element = document.querySelector(
+    '.d-dialog-tweet-input  > div.v-input__details > div.v-counter'
+  )
+  let progress: Element = document.querySelector('.d-dialog-input-count-progress')
+  count.parentElement.append(progress)
 }
 
 function handleFormSubmit() {
@@ -376,40 +383,22 @@ const delImg = (index) => {
   imgBase64List.value.splice(index, 1)
   // console.log(imgUrlList.value)
 }
-const send = async () => {
+const reply = async () => {
   if (text.value === '') {
     defaultMsg('内容不能为空')
     return
   }
-
-  if (props.replyTo != null) {
-    await reply()
-    return
-  }
-
-  let RB: SendInfinityRB = {
-    content: text.value,
-    imgUrlList: imgUrlList.value,
-    infinityClubId: null,
-    infinityTopicIds: infinityStore.infinityTopicList.map((item) => item.id),
-    refId: null,
-    type: InfinityType.Tweet,
-  }
-  const infinity = await infinityStore.sendInfinity(RB)
-}
-
-const reply = async () => {
+  const replyInfinityData = infinityStore.replyInfinityData;
   let RB: ReplyInfinityRB = {
     content:text.value,
     imgUrlList: imgUrlList.value,
     replyId:String(useRoute().params.id),
-    replyUserId: null,
-    replyUserTweetId: null,
+    replyUserId: replyInfinityData.user.id,
+    replyUserTweetId: replyInfinityData.id,
   }
 
   await infinityStore.replyInfinity(RB)
 }
-
 const textProgress = computed(() => {
   return 0 ^ ((text.value.length / 2000) * 100)
 })
@@ -468,7 +457,7 @@ const textProgress = computed(() => {
 }
 
 .SongList {
-  width: 80%;
+  width: 25%;
 }
 
 .covers {
@@ -482,14 +471,15 @@ const textProgress = computed(() => {
   display: flex;
   justify-content: center;
   -webkit-font-smoothing: antialiased;
-  /*width: 33%;*/
-  /*height: 33%;*/
+  width: 33%;
+  height: 33%;
   /*margin: 10px 0;*/
 }
 
 .min {
   border-radius: 4px;
   cursor: zoom-in;
+  /*width: 200%!important;*/
 }
 
 .max {
@@ -506,7 +496,7 @@ const textProgress = computed(() => {
 .cover-small {
   display: flex;
   justify-content: center;
-  width: 10%;
+  width: 18%;
   margin: 10px 0;
   opacity: 0.6;
   cursor: pointer;

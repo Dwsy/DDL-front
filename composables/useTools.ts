@@ -165,7 +165,7 @@ export const useLoadingWin = (loadingMore: Function) => {
     let clientHeight =
       window.innerHeight ||
       Math.min(document.documentElement.clientHeight, document.body.clientHeight)
-    console.log(clientHeight + scrollTop, scrollHeight)
+    // console.log(clientHeight + scrollTop, scrollHeight)
     if (clientHeight + scrollTop + 100 >= scrollHeight) {
       if (loading) {
         console.log('useLoadingWin', loading)

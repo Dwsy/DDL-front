@@ -46,6 +46,18 @@ export const useAxiosPostSendInfinity = (data: SendInfinityRB) => {
   return usePost<ResponseData<InfinityI>>('infinity/infinity', data)
 }
 
+export interface ReplyInfinityRB {
+  content: string
+  replyId: string
+  replyUserId?: string
+  replyUserTweetId?: string
+  imgUrlList?: string[]
+}
+
+export const useAxiosPostReplyInfinity = (data: ReplyInfinityRB) => {
+  return usePost<ResponseData<InfinityI>>('infinity/infinity/comment', data)
+}
+
 export const useAxiosGetInfinityTopicList = () => {
   return useGet<ResponsePageData<InfinityTopic>>(`infinity/topic/list`)
 }
@@ -55,6 +67,6 @@ export const useAxiosGetInfinityById = (id: string) => {
 }
 
 export const useAxiosGetInfinityCommentById = (id: string, params: GetInfinityPageListParams) => {
-  return useGet<ResponsePageData<InfinityI>>('infinity/infinity/comment/'+id, params)
+  return useGet<ResponsePageData<InfinityI>>('infinity/infinity/comment/' + id, params)
   // return useGet<ResponsePageData<InfinityI>>('http://localhost:7088/infinity/childComments/'+id, params)
 }

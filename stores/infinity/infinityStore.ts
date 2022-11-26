@@ -1,17 +1,18 @@
 import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
+import {User} from '~/types/user'
 import { useAxiosGetUserInfo, useAxiosPostCheck } from '~/composables/Api/user'
 import {
-  GetInfinityPageListParams,
+  GetInfinityPageListParams, ReplyInfinityRB, SendInfinityRB,
   useAxiosGetInfinityPageList,
-  useAxiosPostActionUpInfinity,
-  useAxiosPostSendInfinity,
-} from '~/composables/Api/infinity'
+  useAxiosPostActionUpInfinity, useAxiosPostReplyInfinity,
+  useAxiosPostSendInfinity
+} from "~/composables/Api/infinity";
 import { InfinityI, InfinityTopic } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { useFetchGetArticleList } from '~/composables/Api/article'
-
+//todo 分离 comment 和 tweet store
 interface InfinityStore {
   InfinityDataList: Ref<InfinityI[]>
   commentDataList: Ref<InfinityI[]>
@@ -19,6 +20,8 @@ interface InfinityStore {
   infinityTopicList: Ref<InfinityTopic[]>
   totalPages: number
   end: boolean
+  isHome: Ref<boolean>
+  replyInfinityData:InfinityI
 }
 
 export const useInfinityStore = defineStore('InfinityStore', {
@@ -35,6 +38,8 @@ export const useInfinityStore = defineStore('InfinityStore', {
       infinityTopicList: ref<InfinityTopic[]>([]),
       totalPages: 0,
       end: false,
+      isHome: ref(true),
+      replyInfinityData: null
     }
   },
   actions: {
@@ -51,18 +56,25 @@ export const useInfinityStore = defineStore('InfinityStore', {
         warningMsg(axiosResponse.msg)
       }
     },
-    async upActionTweet(id: string, up: boolean) {
+    async upActionTweet(id: string, up: boolean, status = false) {
       const { data: axiosResponse } = await useAxiosPostActionUpInfinity(id, up)
+      let dataList
+      if (this.commentDataList.length == []) {
+        dataList = this.InfinityDataList
+      } else {
+        dataList = this.commentDataList
+      }
+
       if (axiosResponse.code === 0) {
         if (axiosResponse.data === '点赞成功') {
-          const index = this.InfinityDataList.findIndex((item) => item.id === id)
-          this.InfinityDataList[index].upNum += 1
-          this.InfinityDataList[index].up = up
+          const index = dataList.findIndex((item) => item.id === id)
+          dataList[index].upNum += 1
+          dataList[index].up = up
           successMsg(axiosResponse.data)
         } else if (axiosResponse.data === '取消点赞成功') {
-          const index = this.InfinityDataList.findIndex((item) => item.id === id)
-          this.InfinityDataList[index].upNum -= 1
-          this.InfinityDataList[index].up = up
+          const index = dataList.findIndex((item) => item.id === id)
+          dataList[index].upNum -= 1
+          dataList[index].up = up
           successMsg(axiosResponse.data)
         } else {
           defaultMsg(axiosResponse.data)
@@ -71,7 +83,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
         warningMsg(axiosResponse.data)
       }
     },
-    async sendInfinity(data: any) {
+    async sendInfinity(data: SendInfinityRB) {
       // this.InfinityDataList = []
       const { data: axiosResponse } = await useAxiosPostSendInfinity(data)
       if (axiosResponse.code === 0) {
@@ -82,6 +94,22 @@ export const useInfinityStore = defineStore('InfinityStore', {
         infinity.user.userInfo = userStore.userInfo
         infinity.user.nickname = userStore.user.nickname
         this.InfinityDataList = [infinity, ...this.InfinityDataList]
+      } else {
+        warningMsg(axiosResponse.msg)
+        return null
+      }
+    },
+    async replyInfinity(data: ReplyInfinityRB) {
+      // this.InfinityDataList = []
+      const { data: axiosResponse } = await useAxiosPostReplyInfinity(data)
+      if (axiosResponse.code === 0) {
+        successMsg('回复成功')
+        let infinity = axiosResponse.data
+        //jpa userinfo null
+        const userStore = useUserStore()
+        infinity.user.userInfo = userStore.userInfo
+        infinity.user.nickname = userStore.user.nickname
+        this.commentDataList = [infinity, ...this.commentDataList]
       } else {
         warningMsg(axiosResponse.msg)
         return null
