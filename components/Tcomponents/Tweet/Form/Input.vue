@@ -10,7 +10,7 @@
         <v-textarea
           class="d-tweet-input"
           v-model="text"
-          variant="filled"
+          variant="underlined"
           :placeholder="props.placeholder"
           auto-grow
           max-rows="30"
@@ -22,19 +22,19 @@
           :model-value="textProgress"
           :size="20"
           :width="3"
-          :class="{'text-red': textProgress > 99,'text-sky-500': textProgress < 99}"
+          :class="{ 'text-red': textProgress > 99, 'text-sky-500': textProgress < 99 }"
         ></v-progress-circular>
 
-            <v-btn
-              @click="showSelectTopic = true"
-              v-if="!showSelectTopic"
-              variant="tonal"
-              color="#60a5fa"
-            >
-              <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>
-              添加话题
-            </v-btn>
-            <SelectTopic v-else></SelectTopic>
+        <v-btn
+          @click="showSelectTopic = true"
+          v-if="!showSelectTopic"
+          variant="tonal"
+          color="#60a5fa"
+        >
+          <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>
+          添加话题
+        </v-btn>
+        <SelectTopic v-else></SelectTopic>
 
         <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
       </v-col>
@@ -123,22 +123,6 @@
         </div>
       </v-col>
     </v-row>
-    <!--    {{ imgUrlList }}-->
-
-    <!--    <div class="flex flex-shrink-0 items-center p-4 pb-0">-->
-    <!--      <div class="items-top flex w-12">-->
-    <!--        <v-avatar>-->
-    <!--          <v-img :src="userStore.userInfo.avatar" />-->
-    <!--        </v-avatar>-->
-    <!--      </div>-->
-    <!--      <div class="w-full p-2">-->
-    <!--        <v-textarea-->
-    <!--          v-model="text"-->
-    <!--          :placeholder="props.placeholder"-->
-    <!--          class="dark:tex.white h-auto w-full border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
-    <!--        ></v-textarea>-->
-    <!--      </div>-->
-    <!--    </div>-->
 
     <!-- File Selector -->
     <div class="pl-16">
@@ -274,22 +258,13 @@ const imageInput = ref()
 const selectedFile = ref(null)
 const inputImageUrl = ref(null)
 const text = ref('')
-const imgUrlList = ref<string[]>([
-  'https://tvax1.sinaimg.cn/large/005NWBIgly1h4309fjc7qj31700uxdnz.jpg',
-  'https://tvax2.sinaimg.cn/large/005NWBIgly1h45agrlezij30bs0egads.jpg',
-  'https://tvax2.sinaimg.cn/large/005NWBIgly1ggg4o2sdjaj34j235dx6q.jpg',
-  'https://tvax1.sinaimg.cn/large/005NWBIgly1h4309fjc7qj31700uxdnz.jpg',
-])
+const imgUrlList = ref<string[]>([])
 const imgBase64List = ref<string[]>([...imgUrlList.value])
 const emits = defineEmits(['onSubmit'])
 const showSelectTopic = ref(false)
 const isDisabled = computed(() => text.value === '')
 
 const props = defineProps({
-  user: {
-    type: Object,
-    required: true,
-  },
   placeholder: {
     type: String,
     required: true,

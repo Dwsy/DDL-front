@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
-import { onActivated, onMounted, onUnmounted, ref } from 'vue'
+import { onActivated, onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
 import { definePageMeta, useFetchGetArticleList, useLoadingWin } from '#imports'
 import { articleListData } from '~/types/article'
 import { onBeforeRouteLeave } from 'vue-router'
@@ -87,6 +87,9 @@ onMounted(() => {
   // console.log(indexTop.value)
   document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(loadingMore)
+})
+onBeforeUnmount(() => {
+  document.body.onscroll = null
 })
 // onUnmounted(() => {
 // console.log('index unmounted')

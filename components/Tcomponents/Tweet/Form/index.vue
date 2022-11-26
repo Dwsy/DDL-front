@@ -7,7 +7,6 @@
       <TweetItem v-if="props.replyTo && props.showReply" :tweet="props.replyTo" hideActions />
       <TweetFormInput
         :placeholder="props.placeholder"
-        :user="props.user"
         @onSubmit="handleFormSubmit"
       />
     </div>
@@ -24,13 +23,13 @@ const loading = ref(false)
 // const { postTweet } = useTweets()
 
 const props = defineProps({
-  user: {
-    type: Object,
-    required: true,
-  },
+  // user: {
+  //   type: Object,
+  //   required: true,
+  // },
   placeholder: {
     type: String,
-    default: "发表的你的想法。",
+    default: "有什么新鲜事。",
   },
   replyTo: {
     type: Object,

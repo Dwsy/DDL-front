@@ -1,6 +1,6 @@
 import { useDel, useGet, usePost } from '~/composables/useAxios'
-import { ResponseData, ResponsePageData } from "~/types/utils/axios";
-import { InfinityI, InfinityTopic } from "~/types/infinity";
+import { ResponseData, ResponsePageData } from '~/types/utils/axios'
+import { InfinityI, InfinityTopic } from '~/types/infinity'
 
 export interface GetInfinityPageListParams {
   order?: string
@@ -20,12 +20,12 @@ export const useAxiosPostActionUpInfinity = (tweetId: string, up: boolean) => {
 }
 
 export interface SendInfinityRB {
-  content: string;
-  imgUrlList: any[];
-  infinityClubId?: string;
-  infinityTopicIds?: string[];
-  refId?: number;
-  type: InfinityType;
+  content: string
+  imgUrlList: any[]
+  infinityClubId?: string
+  infinityTopicIds?: string[]
+  refId?: number
+  type: InfinityType
 }
 
 export enum InfinityType {
@@ -42,10 +42,19 @@ export enum InfinityType {
   Answer,
 }
 
-export const useAxiosPostSendInfinity = (data:SendInfinityRB) => {
-  return usePost<ResponseData<InfinityI>>('infinity/infinity',data)
+export const useAxiosPostSendInfinity = (data: SendInfinityRB) => {
+  return usePost<ResponseData<InfinityI>>('infinity/infinity', data)
 }
 
 export const useAxiosGetInfinityTopicList = () => {
   return useGet<ResponsePageData<InfinityTopic>>(`infinity/topic/list`)
+}
+
+export const useAxiosGetInfinityById = (id: string) => {
+  return useGet<ResponseData<InfinityI>>(`infinity/infinity/${id}`)
+}
+
+export const useAxiosGetInfinityCommentById = (id: string, params: GetInfinityPageListParams) => {
+  return useGet<ResponsePageData<InfinityI>>('infinity/infinity/comment/'+id, params)
+  // return useGet<ResponsePageData<InfinityI>>('http://localhost:7088/infinity/childComments/'+id, params)
 }

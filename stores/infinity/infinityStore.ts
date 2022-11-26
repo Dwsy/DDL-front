@@ -7,14 +7,18 @@ import {
   useAxiosPostActionUpInfinity,
   useAxiosPostSendInfinity,
 } from '~/composables/Api/infinity'
-import { InfinityI, InfinityTopic } from "~/types/infinity";
+import { InfinityI, InfinityTopic } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
+import { useFetchGetArticleList } from '~/composables/Api/article'
 
 interface InfinityStore {
   InfinityDataList: Ref<InfinityI[]>
+  commentDataList: Ref<InfinityI[]>
   getPageParams: GetInfinityPageListParams
   infinityTopicList: Ref<InfinityTopic[]>
+  totalPages: number
+  end: boolean
 }
 
 export const useInfinityStore = defineStore('InfinityStore', {
@@ -27,7 +31,10 @@ export const useInfinityStore = defineStore('InfinityStore', {
         size: 8,
       },
       InfinityDataList: ref<InfinityI[]>([]),
-      infinityTopicList:ref<InfinityTopic[]>([])
+      commentDataList: ref<InfinityI[]>([]),
+      infinityTopicList: ref<InfinityTopic[]>([]),
+      totalPages: 0,
+      end: false,
     }
   },
   actions: {
@@ -36,6 +43,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
       if (axiosResponse.code === 0) {
         if (this.getPageParams.page === 1) {
           this.InfinityDataList = axiosResponse.data.content
+          this.totalPages = axiosResponse.data.totalPages
         } else {
           this.InfinityDataList = this.InfinityDataList.concat(axiosResponse.data.content)
         }
@@ -70,14 +78,27 @@ export const useInfinityStore = defineStore('InfinityStore', {
         successMsg('发送成功')
         let infinity = axiosResponse.data
         //jpa userinfo null
-        const userStore = useUserStore();
+        const userStore = useUserStore()
         infinity.user.userInfo = userStore.userInfo
-        infinity.user.nickname=userStore.user.nickname
+        infinity.user.nickname = userStore.user.nickname
         this.InfinityDataList = [infinity, ...this.InfinityDataList]
       } else {
         warningMsg(axiosResponse.msg)
         return null
       }
+    },
+    async loadingMore() {
+      if (this.getPageParams.page >= Number(this.totalPages)) {
+        if (this.InfinityDataList.length > this.getPageParams.size) {
+          this.end = true
+          document.body.onscroll = null
+        }
+        return
+      }
+      this.getPageParams.page += 1
+      await this.loadInfinityData()
+      // const { data: listDataNew } = await useFetchGetArticleList(params.value)
+      // listContent.value.push(...listDataNew.content)
     },
   },
 })

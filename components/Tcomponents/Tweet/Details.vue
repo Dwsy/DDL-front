@@ -1,37 +1,37 @@
 <template>
   <div>
+
     <TweetItem :tweet="props.tweet" />
 
     <TweetForm
       :reply-to="props.tweet"
       :user="props.user"
-      placeholder="Tweet your reply"
+      placeholder="发表你的回复"
       @on-success="handleFormSuccess"
     />
 
-    <TweetListFeed :tweets="replies" />
+    <DetailsListFeed/>
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from "vue";
 import { navigateTo } from '#app'
 import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
 import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
-import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
+import DetailsListFeed from '~/components/Tcomponents/Tweet/DetailsListFeed.vue'
+import { InfinityI } from '~/types/infinity'
+import { User } from '~/types/user'
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
-const props = defineProps({
-  tweet: {
-    type: Object,
-    required: true,
-  },
-  user: {
-    type: Object,
-    required: true,
-  },
+const props = defineProps<{
+  tweet: InfinityI
+  user: User | any
+}>()
+
+onMounted(() => {
+  console.log('props.tweet', props.tweet)
 })
-
-const replies = computed(() => props.tweet?.replies || [])
-
+// const comments =[]
 function handleFormSuccess(tweet) {
   navigateTo({
     path: `/status/${tweet.id}`,

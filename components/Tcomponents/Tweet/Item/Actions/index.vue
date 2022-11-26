@@ -1,6 +1,7 @@
 <template>
-  <div class="flex w-full items-center justify-around">
-    <TweetItemActionsIcon :size="size" color="blue" @on-click="emits('onCommentClick')">
+  <div class="flex w-full items-center justify-start">
+
+    <TweetItemActionsIcon :size="size" color="blue" @click="emits('onCommentClick')">
       <template v-slot:icon="{ classes }">
         <ChatBubbleBottomCenterIcon :class="classes" />
       </template>

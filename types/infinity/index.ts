@@ -31,6 +31,7 @@ export interface InfinityI {
   content: string
   type: string
   upNum: number
+  viewNum: number
   collectNum: number
   refId: string
   ua: any
@@ -42,7 +43,7 @@ export interface InfinityI {
   replySerialNumber: number
   up: boolean
   parentUser: any
-  childComments: any[]
+  childComments: InfinityI[]
   childCommentNum: number
   childCommentTotalPages: number
   imgUrlList: string[]

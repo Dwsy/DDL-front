@@ -1,5 +1,5 @@
 <template>
-  <div class="group flex cursor-pointer items-center text-gray-400">
+  <div class="group flex cursor-pointer items-center mr-10 text-gray-400">
     <!--    @click.stop.prevent="emits('onClick')"-->
     <div
       :class="`rounded-full p-2 group-hover:bg-${props.color}-100 group-hover:text-${props.color}-400 dark:group-hover:bg-opacity-20 ${defaultTransition}`"

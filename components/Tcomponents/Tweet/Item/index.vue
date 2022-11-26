@@ -1,8 +1,8 @@
 <template>
   <client-only>
-    <v-row>
+    <v-row v-if="tweet">
       <!--      <TweetItemHeader :tweet="props.tweet" :id="tweet.id" />-->
-      <v-col style="max-width: 4%; flex: 0 0 4%" class="pl-6 pt-6">
+      <v-col style="max-width: 4%; flex: 0 0 4%" class="pl-6 pt-6" :id="tweet.id">
         <div>
           <v-avatar size="52">
             <v-img :src="tweet.user.userInfo.avatar"></v-img>
@@ -16,10 +16,9 @@
         <!--        <div :class="tweetBodyWrapper">-->
         <div class="mt-4" style="margin-left: 5%">
           <span class="font-medium text-gray-800 dark:text-white">{{ tweet.user.nickname }}</span>
-          <span class="text-gray-400 text-sm">&nbsp&nbsp</span>
-          <span class="text-gray-400 text-sm dark:text-white">{{
-            timeAgoFilter(tweet.createTime)
-          }}</span>
+          <span class="text-gray-400 text-sm dark:text-white"
+            >&nbsp&nbsp{{ timeAgoFilter(tweet.createTime) }}</span
+          >
           <div
             :class="textSize"
             class="w-auto flex-shrink font-medium text-gray-800 dark:text-white d-t-content"
@@ -96,19 +95,93 @@
             </div>
           </div>
 
-          <div class="mr-6 mt-8" v-if="tweet.infinityClub != null">
-            <v-chip prepend-icon="mdi-infinity" color="red">
-              <span class="text-base"> {{ tweet.infinityClub.name }}</span>
-            </v-chip>
-          </div>
-
-          <div class="mt-3" v-if="!props.hideActions">
+          <v-row class="mt-2">
+            <v-col>
+              <div  v-if="tweet.infinityClub != null">
+                <v-chip class="mr-2" prepend-icon="mdi-eye" color="blue">
+                  <span class="text-base"> {{ tweet.upNum }}次查看</span>
+                </v-chip>
+                <v-chip prepend-icon="mdi-infinity" color="red">
+                  <span class="text-base"> {{ tweet.infinityClub.name }}</span>
+                </v-chip>
+              </div>
+            </v-col>
+            <!--            <v-col>-->
+            <!--              <div class="" v-if="tweet.infinityClub != null">-->
+            <!--                <v-chip prepend-icon="mdi-eye" color="blue">-->
+            <!--                  <span class="text-base"> {{tweet.ua}}</span>-->
+            <!--                </v-chip>-->
+            <!--              </div>-->
+            <!--            </v-col>-->
+            <!--            <v-spacer></v-spacer>-->
+            <!--            <v-col>-->
+            <!--              <div class="ml-6" v-if="tweet.infinityClub != null">-->
+            <!--                <v-chip prepend-icon="mdi-infinity" color="red">-->
+            <!--                  <span class="text-base"> {{ tweet.infinityClub.name }}</span>-->
+            <!--                </v-chip>-->
+            <!--              </div>-->
+            <!--            </v-col>-->
+          </v-row>
+          <div class="mt-0" v-if="!props.hideActions">
             <TweetItemActions
               :compact="props.compact"
               :tweet="props.tweet"
               @on-comment-click="handleCommentClick"
             />
           </div>
+          <template v-if="showComment">
+            <div class="bg-gray-100 dark:bg-neutral-900 my-2 mr-3">
+              <v-row v-iShowDetails v-for="comment in tweet.childComments" :id="`${comment.id}`">
+                <v-col cols="1" class="ml-4 mr-n4">
+                  <v-avatar>
+                    <v-img :src="comment.user.userInfo.avatar"></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col class="mt-1">
+                  <v-row>
+                    <v-col cols="12">
+                      <span class="text-sky-500"> #{{ comment.replySerialNumber + 1 }} </span>
+                      <span> &nbsp;{{ comment.user.nickname }} </span>
+                      <span class="text-grey">
+                        &nbsp;&nbsp;{{ timeAgoFilter(comment.createTime) }}
+                      </span>
+                    </v-col>
+                    <v-col class="mt-n6" cols="12">
+                      <span class="">
+                        {{ comment.content }}
+                      </span>
+                      <span class="text-sky-600 ml-2">
+                        {{ comment.imgUrlList.length > 0 ? '[图片]' : '' }}
+                      </span>
+                      <div>
+                        <span class="">
+                          赞({{ comment.upNum }}) &nbsp; 回复({{ comment.childCommentTotalPages }})
+                        </span>
+                        <span
+                          style="display: none"
+                          class="d-i-comment-details ml-2 text-grey"
+                          :id="`details-${comment.id}`"
+                        >
+                          <nuxt-link :to="`/infinity/status/${tweet.id}`"> 查看详情 </nuxt-link>
+                        </span>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-divider class="my-2"></v-divider>
+                </v-col>
+              </v-row>
+              <v-divider class="my-2"></v-divider>
+              <!--/*              <div class="text-sky-600" style="margin-left: 8.3333333333%"> 查看更多评论 </div>*/-->
+              <div class="text-sky-600" style="margin-left: 8.3333333333%">查看更多评论</div>
+              <div
+                class="text-sky-600 mt-2"
+                style="margin-left: 8.3333333333%"
+                @click="showComment = !showComment"
+              >
+                收起评论
+              </div>
+            </div>
+          </template>
         </div>
       </v-col>
     </v-row>
@@ -116,7 +189,7 @@
 </template>
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import TweetItemHeader from '~/components/Tcomponents/Tweet/Item/Header.vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
 import { InfinityI } from '~/types/infinity'
@@ -130,6 +203,8 @@ const props = defineProps<{
   compact?: boolean
   hideActions?: boolean
 }>()
+
+onMounted(() => {})
 const tweetBodyWrapper = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'))
 
 const textSize = computed(() => (props.compact ? 'text-base' : 'text-2xl'))
@@ -151,8 +226,10 @@ const ShowIndex = ref()
 const display = ref('none')
 const MinDisplay = ref('flex')
 
+const showComment = ref(false)
+
 function handleCommentClick() {
-  // emitter.$emit('replyTweet', props.tweet)
+  showComment.value = !showComment.value
 }
 
 function ZoomIn(i) {
