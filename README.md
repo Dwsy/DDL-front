@@ -1,6 +1,6 @@
 ## DDL-front (D-DeveloperLink)
 
-### 程序员社区前端
+### 开发者社区前端
 
 #### 项目介绍
 
