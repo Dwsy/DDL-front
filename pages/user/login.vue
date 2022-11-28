@@ -29,6 +29,7 @@
     </v-row>
     <div>
       <v-btn @click="check()">签到</v-btn>
+      <v-btn target="_blank" @click="github()">github</v-btn>
       <div class="my-5">payload::{{ payload }}</div>
       <div>
         {{ User.token }}
@@ -45,7 +46,10 @@ import { rsaEncrypt } from '~/composables/useTools'
 import { onMounted, ref } from 'vue'
 import { successMsg, useGet, usePost, useRouter } from '#imports'
 import { ResponseData } from '~/types/utils/axios'
+import { randomInt } from 'crypto'
+import { useRoute } from '#app'
 
+const route = useRoute()
 // definePageMeta({ keepalive: {}, })
 const valid = ref(null)
 const username = ref('Dwsy')
@@ -54,22 +58,20 @@ const payload = ref(null)
 const publicKey = ref()
 const t = ref<string>()
 const User = useUserStore()
-onMounted(() => {})
+onMounted(async () => {
+  if (route.query?.token != null) {
+    await setToken(String(route.query.token))
+    await useRouter().push({
+      query: {},
+    })
+  }
+})
 const check = async () => {
   let { data } = await User.CheckIn()
   console.log(data)
 }
-const login = async () => {
-  publicKey.value = (await useGet<ResponseData<any>>('au/authority/rsa-pks')).data['data']
-  // console.log('publicKey', publicKey.value)
-  // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
-  let uap = {
-    username: username.value,
-    password: rsaEncrypt(publicKey.value, password.value),
-  }
-  const r = await usePost<ResponseData<any>>('au/authority/token', uap)
-  t.value = r.data['token']
-  let token = t.value
+
+async function setToken(token: string) {
   payload.value = CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8)
   // console.log(token.split('.')[1])
   // console.log(payload)
@@ -81,6 +83,20 @@ const login = async () => {
   // console.log("payload.value['ddl-user']\n",JSON.parse(payload.value))
   User.setIsLogin(true)
   await User.getUserInfo()
+}
+
+const login = async () => {
+  publicKey.value = (await useGet<ResponseData<any>>('au/authority/rsa-pks')).data['data']
+  // console.log('publicKey', publicKey.value)
+  // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
+  let uap = {
+    username: username.value,
+    password: rsaEncrypt(publicKey.value, password.value),
+  }
+  const r = await usePost<ResponseData<any>>('au/authority/token', uap)
+  t.value = r.data['token']
+  let token = t.value
+  await setToken(token)
   // Router.push('/')
 }
 
@@ -97,5 +113,11 @@ const logout = () => {
       }
     }
   })
+}
+
+const github = () => {
+  const state = Math.floor(Math.random() * 10000)
+  let url = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=http://localhost:7002/ddl-authority-center/authority/github&scope=user:email&state=${state}`
+  window.open(url)
 }
 </script>
