@@ -56,6 +56,7 @@ import { GetInfinityPageListParams, useAxiosGetInfinityPageList } from '~/compos
 import { useLayout } from '~/stores/layout'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { definePageMeta } from '#imports'
+import { watchEffect } from 'vue'
 
 definePageMeta({
   keepalive: true,

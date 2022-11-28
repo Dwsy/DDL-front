@@ -21,8 +21,8 @@ import { useUserStore } from '~/stores/user'
 import { InfinityI } from '~/types/infinity'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { useLoadingWin } from '~/composables/useTools'
-import { definePageMeta, ref } from "#imports";
-import { onBeforeMount, onBeforeUnmount, onMounted, watch } from "vue";
+import { definePageMeta, ref } from '#imports'
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, watch, watchEffect } from 'vue'
 
 const user = useUserStore().user
 const loading = ref(false)
@@ -30,9 +30,9 @@ const tweet = ref<InfinityI>()
 // const { getTweetById } = useTweets()
 // const { useAuthUser } = useAuth()
 // const user = useAuthUser()
-definePageMeta({
-  keepalive: true,
-})
+// definePageMeta({
+//   keepalive: true,
+// })
 watch(
   () => useRoute().fullPath,
   () => getTweet()
@@ -40,19 +40,19 @@ watch(
 
 onMounted(() => {
   // document.documentElement.scrollTop = 0
+  console.log('mounted status')
   document.body.onscroll = useLoadingWin(loadingMore)
   getTweet()
 })
-
-function getId() {
+const getId = computed(() => {
   return String(useRoute().params.id)
-}
+})
 
 const infinityStore = useInfinityStore()
 
 async function getTweet() {
-  const id = getId();
-  if (id==undefined) {
+  const id = getId.value
+  if (id === undefined || id === 'undefined') {
     return
   }
   loading.value = true
@@ -62,6 +62,14 @@ async function getTweet() {
     totalPages.value = response.data.childCommentTotalPages
     loading.value = false
     tweet.value = response.data
+    let commentReplyMap: Object = response.data.childCommentReplyMap
+    console.log(commentReplyMap)
+    Object.keys(commentReplyMap).forEach((key) => {
+      infinityStore.commentReplyDataMap.set(key, commentReplyMap[key])
+    })
+    // commentReplyMap.for((val, key) => {
+    //   infinityStore.commentReplyDataMap.set(key, val)
+    // })
   } else {
     errorMsg(response.msg)
   }
@@ -70,12 +78,15 @@ async function getTweet() {
 const page = ref(1)
 const totalPages = ref()
 const getCommentsPage = async () => {
-  const { data: axiosResponse } = await useAxiosGetInfinityCommentById(getId(), {
+  const { data: axiosResponse } = await useAxiosGetInfinityCommentById(getId.value, {
     page: page.value,
   })
   if (axiosResponse.code === 0) {
-    infinityStore.commentDataList.push(...axiosResponse.data.content)
-    totalPages.value = axiosResponse.data.totalPages
+    infinityStore.commentDataList.push(...axiosResponse.data.childComments.content)
+    Object.keys(axiosResponse.data.commentReplyMap).forEach((key) => {
+      infinityStore.commentReplyDataMap.set(key, axiosResponse.data.commentReplyMap[key])
+    })
+    totalPages.value = axiosResponse.data.childComments.totalPages
   } else {
     errorMsg(axiosResponse.msg)
   }

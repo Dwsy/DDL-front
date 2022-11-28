@@ -277,7 +277,7 @@ onMounted(() => {
     '.d-tweet-input  > div.v-input__details > div.v-counter'
   )
   let progress: Element = document.querySelector('.d-input-count-progress')
-  count.parentElement.append(progress)
+  // count.parentElement.append(progress)
 })
 
 const addEmoji = (emoji) => {

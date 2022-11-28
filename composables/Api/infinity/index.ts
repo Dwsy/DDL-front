@@ -1,5 +1,5 @@
 import { useDel, useGet, usePost } from '~/composables/useAxios'
-import { ResponseData, ResponsePageData } from '~/types/utils/axios'
+import { PageData, ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { InfinityI, InfinityTopic } from '~/types/infinity'
 
 export interface GetInfinityPageListParams {
@@ -66,7 +66,12 @@ export const useAxiosGetInfinityById = (id: string) => {
   return useGet<ResponseData<InfinityI>>(`infinity/infinity/${id}`)
 }
 
+interface CommentAndReplyData {
+  childComments: PageData<InfinityI>
+  commentReplyMap: Map<string, InfinityI[]>
+}
+
 export const useAxiosGetInfinityCommentById = (id: string, params: GetInfinityPageListParams) => {
-  return useGet<ResponsePageData<InfinityI>>('infinity/infinity/comment/' + id, params)
+  return useGet<ResponseData<CommentAndReplyData>>('infinity/infinity/comment/' + id, params)
   // return useGet<ResponsePageData<InfinityI>>('http://localhost:7088/infinity/childComments/'+id, params)
 }

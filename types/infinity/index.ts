@@ -44,6 +44,7 @@ export interface InfinityI {
   up: boolean
   parentUser: any
   childComments: InfinityI[]
+  childCommentReplyMap: Map<string, InfinityI[]>
   childCommentNum: number
   childCommentTotalPages: number
   imgUrlList: string[]

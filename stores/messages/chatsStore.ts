@@ -12,6 +12,7 @@ import { nextTick, successMsg } from '#imports'
 import { defaultMsg, errorMsg, warningMsg } from '~~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { chatTextConvert, getChatType } from '~/composables/useTools'
+import { subString } from '~/utils/BigInt'
 
 interface ChatsStore {
   chatsList: Ref<ChatsListData[]>
@@ -152,7 +153,8 @@ export const useChatsStore = defineStore('chats', {
       if (toUserId == undefined) {
         toUserId = this.chatsToUserId
       }
-      if (Number(user.user.id) < Number(toUserId)) {
+      // if (Number(user.user.id) < Number(toUserId)) {
+      if (Number(subString(user.user.id, toUserId)) < 0) {
         conversationId = user.user.id + '_' + toUserId
       } else {
         conversationId = toUserId + '_' + user.user.id

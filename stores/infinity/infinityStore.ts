@@ -16,6 +16,7 @@ import { useFetchGetArticleList } from '~/composables/Api/article'
 interface InfinityStore {
   InfinityDataList: Ref<InfinityI[]>
   commentDataList: Ref<InfinityI[]>
+  commentReplyDataMap: Ref<Map<string,InfinityI[]>>
   getPageParams: GetInfinityPageListParams
   infinityTopicList: Ref<InfinityTopic[]>
   totalPages: number
@@ -35,6 +36,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
       },
       InfinityDataList: ref<InfinityI[]>([]),
       commentDataList: ref<InfinityI[]>([]),
+      commentReplyDataMap: ref<Map<string,InfinityI[]>>(new Map<string, InfinityI[]>()),
       infinityTopicList: ref<InfinityTopic[]>([]),
       totalPages: 0,
       end: false,
