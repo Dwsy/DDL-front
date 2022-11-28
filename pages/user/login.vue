@@ -29,7 +29,14 @@
     </v-row>
     <div>
       <v-btn @click="check()">签到</v-btn>
-      <v-btn target="_blank" @click="github()">github</v-btn>
+      <v-btn target="_blank" @click="github()">
+        <v-icon>
+          mdi-github
+        </v-icon>
+        <span>
+          Github Login
+        </span>
+      </v-btn>
       <div class="my-5">payload::{{ payload }}</div>
       <div>
         {{ User.token }}
@@ -46,7 +53,6 @@ import { rsaEncrypt } from '~/composables/useTools'
 import { onMounted, ref } from 'vue'
 import { successMsg, useGet, usePost, useRouter } from '#imports'
 import { ResponseData } from '~/types/utils/axios'
-import { randomInt } from 'crypto'
 import { useRoute } from '#app'
 
 const route = useRoute()
@@ -117,7 +123,6 @@ const logout = () => {
 
 const github = () => {
   const state = Math.floor(Math.random() * 10000)
-  let url = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=http://localhost:7002/ddl-authority-center/authority/github&scope=user:email&state=${state}`
-  window.open(url)
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=http://localhost:7002/ddl-authority-center/authority/github&scope=user:email&state=${state}`
 }
 </script>
