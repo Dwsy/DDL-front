@@ -26,6 +26,12 @@
           </v-window>
         </v-card-text>
       </v-card>
+      <v-alert v-if="alert">
+        <v-alert-title>
+          <v-icon>mdi-alert</v-icon>
+          <span>到底了</span>
+        </v-alert-title>
+      </v-alert>
     </v-col>
     <v-col cols="4"></v-col>
   </v-row>
@@ -36,12 +42,13 @@ import { onBeforeUnmount, onMounted, onUnmounted, ref, watch, watchEffect } from
 import { useQuestionIndexStore } from '~/stores/question/questionIndexStore'
 import { useRouter } from '#app'
 import QuestionListCard from '~~/components/question/questionListCard.vue'
+import { useLoadingWin } from "~/composables/useTools";
 
 const questionIndexStore = useQuestionIndexStore()
 
 const tab = ref()
 
-await questionIndexStore.loadNewQuestion()
+await questionIndexStore.loadQuestion()
 
 onMounted(async () => {
   watchEffect(() => {
@@ -51,6 +58,7 @@ onMounted(async () => {
     questionIndexStore.page = 1
     console.log(tabValue)
   })
+  document.body.onscroll=useLoadingWin(loadingMore)
 })
 onBeforeUnmount(() => {
   document.body.onscroll = null
@@ -59,6 +67,19 @@ onUnmounted(async () => {
   await useRouter().push({ query: {} })
   questionIndexStore.$reset()
 })
+const alert = ref()
+const loadingMore = async () => {
+  console.log(123)
+  if (questionIndexStore.page >= questionIndexStore.totalPages) {
+    if (questionIndexStore.dataList.length > 8) {
+      alert.value = true
+      document.body.onscroll = null
+    }
+    return
+  }
+  questionIndexStore.page++
+  await questionIndexStore.loadQuestion()
+}
 </script>
 
 <style scoped></style>

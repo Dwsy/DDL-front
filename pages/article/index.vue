@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
-import { onActivated, onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
+import { onActivated, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue'
 import { definePageMeta, useFetchGetArticleList, useLoadingWin } from '#imports'
 import { articleListData } from '~/types/article'
 import { onBeforeRouteLeave } from 'vue-router'
@@ -106,6 +106,7 @@ onBeforeUnmount(() => {
 // })
 
 const selectTag = async (tagID) => {
+  console.log('selectTag')
   if (tagID == 0) {
     params.value.tagId = null
   } else {

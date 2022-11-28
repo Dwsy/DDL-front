@@ -24,7 +24,7 @@
       v-else
       class="cursor-pointer border-b pb-4"
       :class="[twitterBorderColor, defaultTransition]"
-      v-for="tweet in useInfinityStore().commentDataList"
+      v-for="tweet in useInfinityStore()?.commentDataList"
       :key="tweet.id"
     >
       <TweetItem :tweet="tweet" compact />

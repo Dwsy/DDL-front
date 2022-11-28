@@ -1,11 +1,11 @@
 import http from '~~/utils/fetch'
 import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
-import { ResponseData, ResponsePageData } from "~/types/utils/axios";
+import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number; page?: number }) => {
-  return http.GET('article/group/list', params)
+  return http.GET<ResponsePageData<any>>('article/group/list', params)
 }
 
 export const useFetchGetArticleList = (params?: {
@@ -15,7 +15,9 @@ export const useFetchGetArticleList = (params?: {
   order?: string
   properties?: string
 }) => {
-  return http.GET('article/article/field/list', params)
+
+  console.log('params', params)
+  return http.GET<ResponsePageData<any>>('article/article/field/list', params)
 }
 
 export const useAxiosGetArticleList = (params?: {
@@ -29,16 +31,16 @@ export const useAxiosGetArticleList = (params?: {
 }
 
 export const useFetchGetArticleField = (id) => {
-  return http.GET('article/article/field/' + id, null)
+  return http.GET<ResponsePageData<any>>('article/article/field/' + id, null)
 }
 
 export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
-  return http.GET('article/article/content/' + id, params)
+  return http.GET<ResponsePageData<any>>('article/article/content/' + id, params)
 }
 
 //----
 export const useFetchGetArticleComment = (id, params?: { size?: number; page?: number }) => {
-  return http.GET('article/comment/' + id, params)
+  return http.GET<ResponsePageData<any>>('article/comment/' + id, params)
 }
 export const useAxiosGetArticleChildComment = (aid, pid, params?: PageParam) => {
   return useGet<ResponseData<any>>(`article/comment/child/${aid}-${pid}`, params)
@@ -100,11 +102,11 @@ export const useFetchGetArticleTagListByGroupId = (
   id?,
   params?: { order?: string; properties?: string }
 ) => {
-  return http.GET('article/tag/group/list/' + id, params)
+  return http.GET<ResponsePageData<any>>('article/tag/group/list/' + id, params)
 }
 
 export const useFetchGetArticleTagList = (params?: { order?: string; properties?: string }) => {
-  return http.GET('article/tag/list/', params)
+  return http.GET<ResponsePageData<any>>('article/tag/list/', params)
 }
 
 export const useAxiosGetCollectionGroupList = () => {

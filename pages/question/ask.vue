@@ -107,7 +107,7 @@
               </v-textarea>
 
               <v-card-actions>
-                <v-btn text @click="cancelChange()"> 取消 </v-btn>
+                <v-btn text @click="cancelChange()"> 取消</v-btn>
                 <v-btn
                   color="primary"
                   text
@@ -141,7 +141,7 @@
               >
                 <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
                 <v-icon color="#FFF" size="x-large">mdi-cookie-cog-outline</v-icon>
-                <v-tooltip activator="parent" location="bottom">文章外观设置 </v-tooltip>
+                <v-tooltip activator="parent" location="bottom">文章外观设置</v-tooltip>
               </v-btn>
             </template>
             <v-card>
@@ -445,7 +445,7 @@ onMounted(async () => {
   document.title = '提问题'
   const id = String(route.query.id)
   let version = Number(route.query.version || -1)
-  console.log('version', version)
+  console.log('id', id)
   await load(id, version)
   // if (themeInstance.global.name.value === 'dark') {
   //   await changeThemes(themes[darkThemeName.value])
@@ -480,8 +480,10 @@ onMounted(async () => {
 })
 
 const load = async (id: string, version: number) => {
-  if (Boolean(id) === false) {
+  console.log('Boolean(id) === false', Boolean(id) === false)
+  if (id === undefined || id === 'undefined') {
     isNew.value = true
+
     await router.push({
       query: {
         new: 'true',

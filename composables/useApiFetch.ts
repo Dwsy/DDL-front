@@ -6,13 +6,13 @@ export const useApiFetch = (url, options = {}) => {
 }
 
 export const useFetchGet = (params?: { size?: number; page?: number }) => {
-  return http.GET('/app/v1/tags', params)
+  return http.GET<ResponsePageData<any>>('/app/v1/tags', params)
 }
 
 // export const useFetchGetArticleGroupList = (params?: { size?: number, page?: number }) => {
-//     return http.GET('article/group/list', params)
+//     return http.GET<ResponsePageData<any>>('article/group/list', params)
 // }
 
 // export const useFetchGetArticleList = (params?: { size?: number, page?: number }) => {
-//     return http.GET('article/article/field/list', params)
+//     return http.GET<ResponsePageData<any>>('article/article/field/list', params)
 // }

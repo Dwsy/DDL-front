@@ -9,19 +9,26 @@ import { QuestionData } from '~/types/question'
 interface QuestionIndexStore {
   page: number
   dataList: Array<QuestionData>
+  totalPages: number
 }
 
 export const useQuestionIndexStore = defineStore('QuestionIndexStore', {
   state: (): QuestionIndexStore => ({
     page: 1,
     dataList: [],
+    totalPages: 0,
   }),
   actions: {
-    async loadNewQuestion() {
+    async loadQuestion() {
       const data = await useFetchGetNewQuestionPageList(this.page)
       // console.log(data)
       if (data.code === 0) {
-        this.dataList = data.data.content
+        if (this.page===1) {
+          this.dataList = data.data.content
+          this.totalPages=data.data.totalPages
+        }else {
+          this.dataList = this.dataList.concat(data.data.content)
+        }
       }
     },
   },

@@ -49,7 +49,7 @@ const fetch = (url: string, options?: any): Promise<any> => {
 }
 
 export default new (class Http {
-  GET(url: string, params?: any): Promise<ResponseData<any>> {
+  GET<T>(url: string, params?: any): Promise<T> {
     return fetch(url, { method: 'get', params })
   }
 

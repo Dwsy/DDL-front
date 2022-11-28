@@ -17,11 +17,11 @@ export const useAxiosGetSearchQuestion = (
 }
 
 export const useFetchGetArticleSearchSuggestion = (query: string) =>
-  http.GET('search/article/suggestion/' + query, null)
+  http.GET<ResponsePageData<any>>('search/article/suggestion/' + query, null)
 
 export const useAxiosGetArticleSearchSuggestion = (query: string) =>
   useGet<ResponseData<any>>('search/article/suggestion/' + query, null)
 
 export const useAxiosGetQuestionSearchSuggestion = (query: string) =>
   useGet<ResponseData<any>>('search/question/suggestion/' + query, null)
-// export const useAxiosGetSearchSuggestion = (query:string) => http.GET('search/article/suggestion/'+query,null)
+// export const useAxiosGetSearchSuggestion = (query:string) => http.GET<ResponsePageData<any>>('search/article/suggestion/'+query,null)
