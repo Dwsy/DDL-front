@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="1">
         <v-avatar class="ma-4" size="50">
-          <v-img :src="userStore.userInfo.avatar" />
+          <v-img :src="userStore?.userInfo?.avatar" />
         </v-avatar>
       </v-col>
       <v-col cols="11" class="pr-8">
@@ -277,7 +277,7 @@ onMounted(() => {
     '.d-tweet-input  > div.v-input__details > div.v-counter'
   )
   let progress: Element = document.querySelector('.d-input-count-progress')
-  // count.parentElement.append(progress)
+  count.parentElement.append(progress)
 })
 
 const addEmoji = (emoji) => {

@@ -26,8 +26,8 @@ const loading = ref(true)
 
 const props = defineProps<{
   placeholder: string
-  replyTo: InfinityI
-  showReply: boolean
+  replyTo?: InfinityI
+  showReply?: boolean
 }>()
 onMounted(() => {
   loading.value = false

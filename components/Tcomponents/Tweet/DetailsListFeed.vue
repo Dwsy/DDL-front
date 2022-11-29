@@ -16,7 +16,7 @@
         </v-card>
       </v-dialog>
     </client-only>
-
+    <v-divider></v-divider>
     <div v-if="isEmptyArray" class="p-4">
       <p class="text-center text-gray-500">No tweets 😢</p>
     </div>
@@ -28,10 +28,10 @@
       :key="tweet.id"
     >
       <TweetItem :tweet="tweet" compact :time-line="hasReply(tweet.id)" />
-      <template v-if="hasReply(tweet.id)" v-for="(reply,rIndex) in getReply(tweet.id)">
+      <template v-if="hasReply(tweet.id)" v-for="(reply, rIndex) in getReply(tweet.id)">
         <!--        {{ test(tweet.id) }}-->
-<!--        {{ rIndex + 1 !== getReply(tweet.id).length }}-->
-<!--        {{ rIndex + 1 }}//{{ getReply(tweet.id).length }}-->
+        <!--        {{ rIndex + 1 !== getReply(tweet.id).length }}-->
+        <!--        {{ rIndex + 1 }}//{{ getReply(tweet.id).length }}-->
         <TweetItem
           :tweet="reply"
           compact
@@ -89,7 +89,7 @@ const getMapSize = (map: Map<string, any>) => {
   background-color: v-bind(
     'theme.global.name.value === "dark" ? "rgb(66, 83, 100)" : "rgb(207, 217, 222)"'
   ) !important;
-  /*height: 100%;*/
+  height: 100%;
   /*height: calc(100% - 52px);*/
   margin-left: 26px;
   /*margin-top: 1px;*/

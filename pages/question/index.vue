@@ -69,9 +69,8 @@ onUnmounted(async () => {
 })
 const alert = ref()
 const loadingMore = async () => {
-  console.log(123)
   if (questionIndexStore.page >= questionIndexStore.totalPages) {
-    if (questionIndexStore.dataList.length > 8) {
+    if (questionIndexStore.dataList.length > (8*2)) {
       alert.value = true
       document.body.onscroll = null
     }

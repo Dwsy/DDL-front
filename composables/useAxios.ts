@@ -19,7 +19,7 @@ export const useGet = async <T>(url: string, params?: object, needToken?: boolea
     r = await CreateAxios(url, 'get', { params })
     // r = await Axios(url, {params: params})
   } catch (error) {
-    console.log('EEE', error)
+    // console.log('EEE', error)
     r = error
   }
   return r

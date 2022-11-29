@@ -58,14 +58,14 @@ import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { definePageMeta } from '#imports'
 import { watchEffect } from 'vue'
 
-definePageMeta({
-  keepalive: true,
-})
+// definePageMeta({
+//   keepalive: true,
+// })
 const infinityStore = useInfinityStore()
 watchEffect(() => {
-  console.log('infinityStore.isHome', infinityStore.isHome)
+  // console.log('infinityStore.isHome', infinityStore.isHome)
   infinityStore.isHome = !useRoute().path.startsWith('/infinity/status')
-  console.log('infinityStore.isHome', infinityStore.isHome)
+  // console.log('infinityStore.isHome', infinityStore.isHome)
   //todo
 })
 useLayout().showFooter = false

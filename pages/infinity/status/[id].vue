@@ -5,7 +5,8 @@
         <Head>
           <Title></Title>
         </Head>
-
+        {{count}}
+        <v-btn @click="count++">++</v-btn>
         <TweetDetails :tweet="tweet" :user="user" />
       </MainSection>
     </div>
@@ -22,7 +23,9 @@ import { InfinityI } from '~/types/infinity'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { useLoadingWin } from '~/composables/useTools'
 import { definePageMeta, ref } from '#imports'
-import { computed, onBeforeMount, onBeforeUnmount, onMounted, watch, watchEffect } from 'vue'
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, watch, watchEffect } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
+import clear from 'clear-module'
 
 const user = useUserStore().user
 const loading = ref(false)
@@ -30,23 +33,33 @@ const tweet = ref<InfinityI>()
 // const { getTweetById } = useTweets()
 // const { useAuthUser } = useAuth()
 // const user = useAuthUser()
-// definePageMeta({
-//   keepalive: true,
-// })
-watch(
-  () => useRoute().fullPath,
-  () => getTweet()
-)
+definePageMeta({
+  keepalive: true,
+  key: 'status',
+})
+const count = ref(1)
+// watch(
+//   () => useRoute().fullPath,
+//   () => getTweet()
+// )
+const getId = computed(() => {
+  return String(useRoute().params.id)
+})
+watchEffect(() => {
+  getTweet()
+})
 
 onMounted(() => {
   // document.documentElement.scrollTop = 0
   console.log('mounted status')
   document.body.onscroll = useLoadingWin(loadingMore)
-  getTweet()
+  // getTweet()
 })
-const getId = computed(() => {
-  return String(useRoute().params.id)
+onUnmounted(() => {
+  console.log('onUnmounted status')
+  document.body.onscroll = null
 })
+
 
 const infinityStore = useInfinityStore()
 
@@ -63,7 +76,7 @@ async function getTweet() {
     loading.value = false
     tweet.value = response.data
     let commentReplyMap: Object = response.data.childCommentReplyMap
-    console.log(commentReplyMap)
+    // console.log(commentReplyMap)
     Object.keys(commentReplyMap).forEach((key) => {
       infinityStore.commentReplyDataMap.set(key, commentReplyMap[key])
     })
@@ -106,5 +119,12 @@ const loadingMore = async () => {
 
 onBeforeUnmount(() => {
   document.body.onscroll = null
+})
+onBeforeRouteLeave((to, from, next) => {
+  // console.log('onBeforeRouteLeave')
+  infinityStore.commentReplyDataMap.clear()
+  infinityStore.commentDataList=[]
+  document.body.onscroll = null
+  next()
 })
 </script>

@@ -3,8 +3,8 @@
     <template v-slot:activator="{ props }">
       <slot :activator="props"></slot>
     </template>
-
-    <EmojiPicker :native="true" @select="onSelectEmoji" />
+    <EmojiPicker :native="true" @select="onSelectEmoji" :theme="String(useLayout().themeName)" />
+    <!--    <EmojiPicker :native="true" @select="onSelectEmoji" theme="dark" />-->
   </v-menu>
 </template>
 
@@ -12,6 +12,8 @@
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
 import { ref } from 'vue'
+import { useTheme } from 'vuetify'
+import { useLayout } from '~/stores/layout'
 
 const emojiPickerMenu = ref(false)
 const emit = defineEmits(['addEmoji'])

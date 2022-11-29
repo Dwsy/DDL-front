@@ -29,7 +29,7 @@ const props = defineProps<{
 }>()
 
 onMounted(() => {
-  console.log('props.tweet', props.tweet)
+  // console.log('props.tweet', props.tweet)
 })
 
 // const comments =[]

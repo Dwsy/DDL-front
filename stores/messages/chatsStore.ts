@@ -76,7 +76,7 @@ export const useChatsStore = defineStore('chats', {
         if (item.toUserId == item.chatUserId) {
           item.content = '我: ' + item.content
         }
-        this.connectWsChannel(Number(item.chatUserId))
+        this.connectWsChannel(item.chatUserId)
         this.chatMsgUnreadNum.set(item.chatUserId, item.unreadMsgCount)
       })
 

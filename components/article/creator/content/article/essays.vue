@@ -56,7 +56,7 @@ onMounted(async () => {
       tab.value = String(route.query.state)
     }
   } else {
-    console.log('route.query.state', route.query.state)
+    // console.log('route.query.state', route.query.state)
     let href = window.location.href
     window.history.replaceState({}, 'title', href + '?state=all')
   }

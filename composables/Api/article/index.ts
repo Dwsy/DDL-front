@@ -16,7 +16,7 @@ export const useFetchGetArticleList = (params?: {
   properties?: string
 }) => {
 
-  console.log('params', params)
+  // console.log('params', params)
   return http.GET<ResponsePageData<any>>('article/article/field/list', params)
 }
 

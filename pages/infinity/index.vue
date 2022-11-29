@@ -6,7 +6,7 @@
       </Head>
 
       <div class="border-b" :class="twitterBorderColor">
-        <TweetForm  @on-success="handleFormSuccess" />
+        <TweetForm  @on-success="handleFormSuccess"  placeholder="有什么新鲜事。"/>
       </div>
 
       <TweetListFeed :tweetList="infinityStore.InfinityDataList" />
@@ -61,6 +61,7 @@ const loading = ref(false)
 // }
 definePageMeta({
   keepalive: true,
+  key: 'infinity',
 })
 onBeforeMount(async () => {
   loading.value = true
@@ -68,7 +69,7 @@ onBeforeMount(async () => {
   loading.value = false
 })
 onMounted(() => {
-  // console.log('index mounted')
+  console.log('index mounted')
   // console.log(indexTop.value)
   document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(infinityStore.loadingMore)
