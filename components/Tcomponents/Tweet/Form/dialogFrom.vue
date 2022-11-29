@@ -7,7 +7,6 @@
 <!--      <TweetItem v-if="props.replyTo && props.showReply" :tweet="props.replyTo" hideActions />-->
       <TweetFormInput
         :placeholder="props.placeholder"
-        @onSubmit="handleFormSubmit"
       />
     </div>
   </div>
@@ -18,7 +17,7 @@ import UISpinner from '~/components/Tcomponents/UI/Spinner'
 import TweetItem from '~/components/Tcomponents/Tweet/Item'
 import TweetFormInput from '~/components/Tcomponents/Tweet/Form/DialogInput.vue'
 
-const emits = defineEmits(['onSuccess'])
+
 const loading = ref(false)
 // const { postTweet } = useTweets()
 

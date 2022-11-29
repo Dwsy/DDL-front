@@ -6,7 +6,7 @@
       :reply-to="props.tweet"
       :user="props.user"
       placeholder="发表你的回复"
-      @on-success="handleFormSuccess"
+      class="d-tw-status-input"
     />
 
     <DetailsListFeed />
@@ -33,9 +33,4 @@ onMounted(() => {
 })
 
 // const comments =[]
-function handleFormSuccess(tweet) {
-  navigateTo({
-    path: `/infinity/status/${tweet.id}`,
-  })
-}
 </script>

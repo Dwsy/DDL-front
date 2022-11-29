@@ -1,12 +1,11 @@
 <template>
   <div class="flex w-full items-center justify-start">
-
-    <TweetItemActionsIcon :size="size" color="blue" @click.stop="emits('onCommentClick')">
+    <TweetItemActionsIcon :size="size" color="blue" @click.stop="clickCommentBtn()">
       <template v-slot:icon="{ classes }">
         <ChatBubbleBottomCenterIcon :class="classes" />
       </template>
 
-      <template v-if="showStats" v-slot:default>
+      <template v-slot:default>
         {{ props.tweet.childCommentNum }}
       </template>
     </TweetItemActionsIcon>
@@ -16,7 +15,7 @@
         <ReceiptRefundIcon :class="classes" />
       </template>
 
-      <template v-if="showStats" v-slot:default>
+      <template v-slot:default>
         {{ generateRandomNumber() }}
       </template>
     </TweetItemActionsIcon>
@@ -26,17 +25,17 @@
         <HeartIcon
           v-if="!tweet.up"
           :class="classes"
-          @click.stop="infinityStore.upActionTweet(tweet.id, true)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, true, compact)"
         />
         <HeartIconSolid
           v-else
           :class="classes"
           class="text-blue-400"
-          @click.stop="infinityStore.upActionTweet(tweet.id, false)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, false, compact)"
         />
       </template>
 
-      <template v-if="showStats" v-slot:default>
+      <template v-slot:default>
         {{ tweet.upNum }}
       </template>
     </TweetItemActionsIcon>
@@ -46,7 +45,7 @@
         <CloudArrowUpIcon :class="classes" />
       </template>
 
-      <template v-if="showStats" v-slot:default>
+      <template v-slot:default>
         {{ generateRandomNumber() }}
       </template>
     </TweetItemActionsIcon>
@@ -79,9 +78,17 @@ const props = defineProps<{
   compact: boolean
 }>()
 
-const showStats = computed(() => props.compact)
-const size = computed(() => (props.compact ? 5 : 8))
-
+// const showStats = computed(() => props.compact)
+// const showStats = computed(() => true)
+const size = computed(() => (props.compact ? 5 : 6))
+const clickCommentBtn = () => {
+  if (props.compact) {
+    emits('onCommentClick')
+  } else {
+    const inputElement: HTMLInputElement = document.querySelector('.d-tw-status-input .v-field__input')
+    inputElement.focus()
+  }
+}
 function generateRandomNumber() {
   return Math.floor(Math.random() * 100)
 }

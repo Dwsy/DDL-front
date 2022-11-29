@@ -5,11 +5,7 @@
     </div>
     <div v-else>
       <!--      <TweetItem v-if="props.replyTo && props.showReply" :tweet="props.replyTo" hideActions />-->
-      <TweetFormInput
-        :placeholder="props.placeholder"
-        @onSubmit="handleFormSubmit"
-        :reply-to="props.replyTo"
-      />
+      <TweetFormInput :placeholder="props.placeholder" :reply-to="props.replyTo" />
     </div>
   </div>
 </template>
@@ -20,9 +16,7 @@ import TweetItem from '~/components/Tcomponents/Tweet/Item'
 import TweetFormInput from '~/components/Tcomponents/Tweet/Form/Input.vue'
 import { InfinityI } from '~/types/infinity'
 
-const emits = defineEmits(['onSuccess'])
 const loading = ref(true)
-// const { postTweet } = useTweets()
 
 const props = defineProps<{
   placeholder: string
@@ -33,20 +27,4 @@ onMounted(() => {
   loading.value = false
 })
 
-async function handleFormSubmit(data) {
-  // loading.value = true
-  // try {
-  //     const response = await postTweet({
-  //         text: data.text,
-  //         mediaFiles: data.mediaFiles,
-  //         replyTo: props.replyTo?.id
-  //     })
-  //
-  //     emits('onSuccess', response.tweet)
-  // } catch (error) {
-  //     console.log(error)
-  // } finally {
-  //     loading.value = false
-  // }
-}
 </script>

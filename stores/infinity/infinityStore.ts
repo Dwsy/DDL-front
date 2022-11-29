@@ -1,28 +1,33 @@
 import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
-import {User} from '~/types/user'
+import { User } from '~/types/user'
 import { useAxiosGetUserInfo, useAxiosPostCheck } from '~/composables/Api/user'
 import {
-  GetInfinityPageListParams, ReplyInfinityRB, SendInfinityRB,
+  GetInfinityPageListParams,
+  ReplyInfinityRB,
+  SendInfinityRB,
   useAxiosGetInfinityPageList,
-  useAxiosPostActionUpInfinity, useAxiosPostReplyInfinity,
-  useAxiosPostSendInfinity
-} from "~/composables/Api/infinity";
+  useAxiosPostActionUpInfinity,
+  useAxiosPostReplyInfinity,
+  useAxiosPostSendInfinity,
+} from '~/composables/Api/infinity'
 import { InfinityI, InfinityTopic } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { useFetchGetArticleList } from '~/composables/Api/article'
+import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
+
 //todo 分离 comment 和 tweet store
 interface InfinityStore {
   InfinityDataList: Ref<InfinityI[]>
   commentDataList: Ref<InfinityI[]>
-  commentReplyDataMap: Ref<Map<string,InfinityI[]>>
+  commentReplyDataMap: Ref<Map<string, InfinityI[]>>
   getPageParams: GetInfinityPageListParams
   infinityTopicList: Ref<InfinityTopic[]>
   totalPages: number
   end: boolean
   isHome: Ref<boolean>
-  replyInfinityData:InfinityI
+  replyInfinityData: InfinityI
 }
 
 export const useInfinityStore = defineStore('InfinityStore', {
@@ -36,12 +41,12 @@ export const useInfinityStore = defineStore('InfinityStore', {
       },
       InfinityDataList: ref<InfinityI[]>([]),
       commentDataList: ref<InfinityI[]>([]),
-      commentReplyDataMap: ref<Map<string,InfinityI[]>>(new Map<string, InfinityI[]>()),
+      commentReplyDataMap: ref<Map<string, InfinityI[]>>(new Map<string, InfinityI[]>()),
       infinityTopicList: ref<InfinityTopic[]>([]),
       totalPages: 0,
       end: false,
       isHome: ref(true),
-      replyInfinityData: null
+      replyInfinityData: null,
     }
   },
   actions: {
@@ -66,18 +71,29 @@ export const useInfinityStore = defineStore('InfinityStore', {
       } else {
         dataList = this.commentDataList
       }
-
       if (axiosResponse.code === 0) {
         if (axiosResponse.data === '点赞成功') {
-          const index = dataList.findIndex((item) => item.id === id)
-          dataList[index].upNum += 1
-          dataList[index].up = up
+          if (status) {
+            const index = dataList.findIndex((item) => item.id === id)
+            dataList[index].upNum += 1
+            dataList[index].up = up
+          } else {
+            const infinityStatusStore = useInfinityStatusStore()
+            infinityStatusStore.tweet.upNum += 1
+            infinityStatusStore.tweet.up = up
+          }
           successMsg(axiosResponse.data)
         } else if (axiosResponse.data === '取消点赞成功') {
-          const index = dataList.findIndex((item) => item.id === id)
-          dataList[index].upNum -= 1
-          dataList[index].up = up
-          successMsg(axiosResponse.data)
+          if (status) {
+            const index = dataList.findIndex((item) => item.id === id)
+            dataList[index].upNum -= 1
+            dataList[index].up = up
+            successMsg(axiosResponse.data)
+          } else {
+            const infinityStatusStore = useInfinityStatusStore()
+            infinityStatusStore.tweet.upNum -= 1
+            infinityStatusStore.tweet.up = up
+          }
         } else {
           defaultMsg(axiosResponse.data)
         }
