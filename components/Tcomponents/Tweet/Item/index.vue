@@ -3,16 +3,15 @@
     <v-row v-if="tweet">
       <!--      <TweetItemHeader :tweet="props.tweet" :id="tweet.id" />-->
       <v-col style="max-width: 4%; flex: 0 0 4%" class="pl-6 pt-6" :id="tweet.id">
-<!--        <div>-->
-          <v-avatar size="52" style="z-index: 10" class="mb-2 ">
-            <v-img :src="tweet.user.userInfo.avatar"></v-img>
-          </v-avatar>
-          <div class="d-tw-timeLine" :style="{height:timeLineHeight}" v-if="timeLine">
-          </div>
-          <!--          <div class="ml-3">-->
+        <!--        <div>-->
+        <v-avatar size="52" style="z-index: 10" class="mb-2">
+          <v-img :src="tweet.user.userInfo.avatar"></v-img>
+        </v-avatar>
+        <div class="d-tw-timeLine" :style="{ height: timeLineHeight }" v-if="timeLine"></div>
+        <!--          <div class="ml-3">-->
 
-          <!--          </div>-->
-<!--        </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </v-col>
       <v-col>
         <!--        <div :class="tweetBodyWrapper">-->
@@ -21,6 +20,12 @@
           <span class="text-gray-400 text-sm dark:text-white"
             >&nbsp&nbsp{{ timeAgoFilter(tweet.createTime) }}</span
           >
+          <div v-if="tweet.parentUserId !== '0'" class="text-sm">
+            <span>回复&nbsp</span
+            ><a target="_blank" :href="`/user/${tweet.parentUserId}`">
+              <span class="text-sky-500">@{{ tweet.replyUserName }}</span>
+            </a>
+          </div>
           <div
             :class="textSize"
             class="w-auto flex-shrink font-medium text-gray-800 dark:text-white d-t-content"
@@ -51,7 +56,7 @@
                   >
                     <v-img
                       :src="img"
-                      class="min"
+                      class="min rounded-lg"
                       @click.stop="ZoomIn(index)"
                       cover
                       aspect-ratio="1"
@@ -183,6 +188,8 @@ import { InfinityI } from '~/types/infinity'
 import { timeAgoFilter } from '~/composables/useTools'
 import { useRoute } from '#app'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
+import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
+import A from '~/pages/messages/chats/a.vue'
 
 const { twitterBorderColor } = useTailwindConfig()
 
@@ -191,8 +198,8 @@ const props = defineProps<{
   tweet: InfinityI
   compact?: boolean
   hideActions?: boolean
-  timeLine?:boolean
-  timeLineHeight?:string
+  timeLine?: boolean
+  timeLineHeight?: string
 }>()
 
 onMounted(() => {})
@@ -218,18 +225,15 @@ const display = ref('none')
 const MinDisplay = ref('flex')
 
 const showComment = ref(false)
-const infinityStore = useInfinityStore();
-let replyDialog: Ref<boolean> = null
-if (!infinityStore.isHome) {
-  replyDialog = inject('replyDialog')
-}
+const infinityStore = useInfinityStore()
 
 function handleCommentClick() {
-  if (replyDialog != null) {
-    infinityStore.replyInfinityData = props.tweet
-    replyDialog.value = true
-  } else {
+  if (infinityStore.isHome) {
     showComment.value = !showComment.value
+  } else {
+    const infinityStatusStore = useInfinityStatusStore()
+    infinityStatusStore.replyInfinityData = props.tweet
+    infinityStatusStore.replyDialog = true
   }
 }
 
@@ -266,7 +270,6 @@ const onHide = () => (visibleRef.value = false)
 </script>
 
 <style scoped>
-
 .d-img-next {
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAhNJREFUaAXtmb9OwlAUxttLiYkV0plB4sgLODC5QRTiYqIbcXDyHXwMEyMMbg7GBfmzEBISIDHdGYU3KLQQEwp4LvHE5oJJIfTS4XQ5vdDe+/V3Ttp+PaoCW7PZ1BzHuY1Go2fz+bwfiUSKmUzmi/8na1Or1eoBY8w0DOMkkUjo4/HY7ff737PZrJDL5d5lCVFAyINpms7Csw2Hw0W9Xh+Xy+UrWUIYpOEimUzq3gXj8biSTqcPIVUvssQwVVWt6XTq1bHcj8ViUsUwEPHY6/UcqIm9i1FqtdpTq9VyXNf1VMrf7mg0klMzsKQKxVkiMWJREBmRCI6JDJIQI5ERieA4dGTgDlwMzU2PxGCdeCOvGSLjJYL7RAZJiJHIiERwTGSQhBg3JHPOz1fFSXY15mLghfxZ1/UbMGs6GLmVqS3LUrrdrgWG7pit/LujH8C4LbLZ7B146dd2uz1c55vAbyvcyNm2fRqYEH49XIzf69L8HrjNcfx5BKm5htQc/ZcaoKFAaj63md/XOb8PRduHe1wWq69JNz1oAxHBffYgEZg2IkEkkABGqgkigQQwUk0QCSSAkWqCSCABjGGpCd4m8fOiG9w7ZqVSuWw0GvsVAWlhmqbdp1Kptb6De45OpzOBLlchn8+/YRqDiLynZ0ATcWVumSL44gwM0MdgMJh4lcgWwdcOTQN6+VlCaMl/gU8tyW7J/wCJLeOSU2dAQgAAAABJRU5ErkJggg==),
     pointer;
@@ -318,7 +321,7 @@ const onHide = () => (visibleRef.value = false)
 }
 
 .min {
-  border-radius: 4px;
+  /*border-radius: 4px;*/
   cursor: zoom-in;
 }
 

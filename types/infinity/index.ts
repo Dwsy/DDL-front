@@ -40,6 +40,7 @@ export interface InfinityI {
   parentUserId: string
   parentTweetId: any
   replyUserTweetId: string
+  replyUserName?:string
   replySerialNumber: number
   up: boolean
   parentUser: any

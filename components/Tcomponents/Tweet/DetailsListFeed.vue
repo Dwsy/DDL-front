@@ -2,17 +2,17 @@
   <div>
     <!--    {{replyDialog}}-->
     <client-only>
-      <v-dialog v-model="replyDialog">
+      <v-dialog v-model="infinityStatusStore.replyDialog" width="45%">
         <!--        :reply-to="props.tweet"-->
         <!--        :user="props.user"-->
         <!--        @on-success="handleFormSuccess"-->
-        <v-card class="mx-auto w-5/12">
+        <v-card >
           <v-toolbar
-            :title="`回复@：${infinityStore.replyInfinityData.user.nickname}`"
+            :title="`回复@：${infinityStatusStore.replyInfinityData.user.nickname}`"
             color="#228be6"
             style="color: white"
           ></v-toolbar>
-          <DialogFrom placeholder="~~~" />
+          <DialogFrom placeholder="~~~"/>
         </v-card>
       </v-dialog>
     </client-only>
@@ -20,11 +20,11 @@
     <div v-if="isEmptyArray" class="p-4">
       <p class="text-center text-gray-500">No tweets 😢</p>
     </div>
+    <TransitionGroup v-else tag="div" name="list">
     <div
-      v-else
       class="cursor-pointer border-b pb-4"
       :class="[twitterBorderColor, defaultTransition]"
-      v-for="(tweet, index) in infinityStore?.commentDataList"
+      v-for="(tweet, index) in infinityStatusStore?.commentDataList"
       :key="tweet.id"
     >
       <TweetItem :tweet="tweet" compact :time-line="hasReply(tweet.id)" />
@@ -40,7 +40,8 @@
         ></TweetItem>
       </template>
     </div>
-    <div v-if="infinityStore.end" class="p-4">
+    </TransitionGroup>
+    <div v-if="infinityStatusStore.end" class="p-4">
       <p class="text-center text-gray-500">倒头了 😢</p>
     </div>
   </div>
@@ -52,35 +53,33 @@ import DialogFrom from '~/components/Tcomponents/Tweet/Form/dialogFrom.vue'
 const theme = useTheme()
 const { twitterBorderColor, defaultTransition } = useTailwindConfig()
 import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
-import { computed, inject, PropType, provide, ref, toRefs } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { navigateTo } from '#app'
-import { User } from '~/types/user'
-import { useInfinityStore } from '~/stores/infinity/infinityStore'
-import { Ref } from '@vue/runtime-core'
 import { useTheme } from 'vuetify'
-// const props = defineProps<{ commentsList: InfinityI[] }>()
-const infinityStore = useInfinityStore()
-const isEmptyArray = computed(() => infinityStore.commentDataList.length === 0)
-const replyDialog = ref(false)
-provide('replyDialog', replyDialog)
+import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
+
+const infinityStatusStore = useInfinityStatusStore()
+const isEmptyArray = computed(() => infinityStatusStore.commentDataList.length === 0)
+
 
 function redirect(tweet) {
   navigateTo(`/infinity/status/${tweet.id}`)
 }
 
 const hasReply = (id: string) => {
-  if (infinityStore.commentReplyDataMap.has(id)) {
+  if (infinityStatusStore.commentReplyDataMap.has(id)) {
     return true
   }
 }
 const getReply = (id: string) => {
-  return infinityStore.commentReplyDataMap.get(id)
+  return infinityStatusStore.commentReplyDataMap.get(id)
 }
 
 const getMapSize = (map: Map<string, any>) => {
   console.log(map.size)
   return map.size
 }
+
 </script>
 
 <style scoped>
@@ -94,4 +93,22 @@ const getMapSize = (map: Map<string, any>) => {
   margin-left: 26px;
   /*margin-top: 1px;*/
 }
+.list-move, /* 对移动中的元素应用的过渡 */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* 确保将离开的元素从布局流中删除
+  以便能够正确地计算移动的动画。 */
+.list-leave-active {
+  position: absolute;
+}
+
 </style>

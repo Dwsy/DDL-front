@@ -24,21 +24,6 @@
           :width="3"
           :class="{ 'text-red': textProgress > 99, 'text-sky-500': textProgress < 99 }"
         ></v-progress-circular>
-
-        <!--        <template v-if="infinityStore.isHome">-->
-        <!--          <v-btn-->
-        <!--            @click="showSelectTopic = true"-->
-        <!--            v-if="!showSelectTopic"-->
-        <!--            variant="tonal"-->
-        <!--            color="#60a5fa"-->
-        <!--          >-->
-        <!--            <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>-->
-        <!--            添加话题-->
-        <!--          </v-btn>-->
-        <!--          <SelectTopic v-else></SelectTopic>-->
-        <!--        </template>-->
-
-        <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->
       </v-col>
 
       <v-col cols="12" class="mx-6">
@@ -142,7 +127,6 @@
         hidden
         placeholder=""
         type="file"
-        user=""
         @change="addImg"
       />
     </div>
@@ -200,37 +184,6 @@
             </g>
           </svg>
         </div>
-
-        <!--        <div-->
-        <!--          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"-->
-        <!--        >-->
-        <!--          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">-->
-        <!--            <g>-->
-        <!--              <path-->
-        <!--                d="M20.222 9.16h-1.334c.015-.09.028-.182.028-.277V6.57c0-.98-.797-1.777-1.778-1.777H3.5V3.358c0-.414-.336-.75-.75-.75s-.75.336-.75.75V20.83c0 .415.336.75.75.75s.75-.335.75-.75v-1.434h10.556c.98 0 1.778-.797 1.778-1.777v-2.313c0-.095-.014-.187-.028-.278h4.417c.98 0 1.778-.798 1.778-1.778v-2.31c0-.983-.797-1.78-1.778-1.78zM17.14 6.293c.152 0 .277.124.277.277v2.31c0 .154-.125.28-.278.28H3.5V6.29h13.64zm-2.807 9.014v2.312c0 .153-.125.277-.278.277H3.5v-2.868h10.556c.153 0 .277.126.277.28zM20.5 13.25c0 .153-.125.277-.278.277H3.5V10.66h16.722c.153 0 .278.124.278.277v2.313z"-->
-        <!--              ></path>-->
-        <!--            </g>-->
-        <!--          </svg>-->
-        <!--        </div>-->
-
-        <!--        <div-->
-        <!--          class="dark:hover:bg-dim-800 cursor-pointer rounded-full p-2 text-blue-400 hover:bg-blue-50"-->
-        <!--        >-->
-        <!--          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">-->
-        <!--            <g>-->
-        <!--              <path d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2z"></path>-->
-        <!--              <path-->
-        <!--                d="M-37.9 18c-.1-.1-.1-.1-.1-.2.1 0 .1.1.1.2zM18 2.2h-1.3v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H7.7v-.3c0-.4-.3-.8-.8-.8-.4 0-.8.3-.8.8v.3H4.8c-1.4 0-2.5 1.1-2.5 2.5v13.1c0 1.4 1.1 2.5 2.5 2.5h2.9c.4 0 .8-.3.8-.8 0-.4-.3-.8-.8-.8H4.8c-.6 0-1-.5-1-1V7.9c0-.3.4-.7 1-.7H18c.6 0 1 .4 1 .7v1.8c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-5c-.1-1.4-1.2-2.5-2.6-2.5zm1 3.7c-.3-.1-.7-.2-1-.2H4.8c-.4 0-.7.1-1 .2V4.7c0-.6.5-1 1-1h1.3v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5h7.5v.5c0 .4.3.8.8.8.4 0 .8-.3.8-.8v-.5H18c.6 0 1 .5 1 1v1.2z"-->
-        <!--              ></path>-->
-        <!--              <path-->
-        <!--                d="M15.5 10.4c-3.4 0-6.2 2.8-6.2 6.2 0 3.4 2.8 6.2 6.2 6.2 3.4 0 6.2-2.8 6.2-6.2 0-3.4-2.8-6.2-6.2-6.2zm0 11c-2.6 0-4.7-2.1-4.7-4.7s2.1-4.7 4.7-4.7 4.7 2.1 4.7 4.7c0 2.5-2.1 4.7-4.7 4.7z"-->
-        <!--              ></path>-->
-        <!--              <path-->
-        <!--                d="M18.9 18.7c-.1.2-.4.4-.6.4-.1 0-.3 0-.4-.1l-3.1-2v-3c0-.4.3-.8.8-.8.4 0 .8.3.8.8v2.2l2.4 1.5c.2.2.3.6.1 1z"-->
-        <!--              ></path>-->
-        <!--            </g>-->
-        <!--          </svg>-->
-        <!--        </div>-->
       </div>
 
       <div class="mr-4 mb-4">
@@ -248,13 +201,12 @@ import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '~/stores/user'
 import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
 import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
-import { useInfinityStore } from '~/stores/infinity/infinityStore'
-import { InfinityType, ReplyInfinityRB, SendInfinityRB } from '~/composables/Api/infinity'
-import SelectTopic from '~/components/Infinity/selectTopic.vue'
+import { ReplyInfinityRB } from '~/composables/Api/infinity'
 import { rules } from '~/utils/rules'
-import { useRoute } from "#app";
+import { useRoute } from '#app'
+import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 
-const infinityStore = useInfinityStore()
+const infinityStatusStore = useInfinityStatusStore()
 const { twitterBorderColor } = useTailwindConfig()
 const userStore = useUserStore()
 const imageInput = ref()
@@ -388,16 +340,17 @@ const reply = async () => {
     defaultMsg('内容不能为空')
     return
   }
-  const replyInfinityData = infinityStore.replyInfinityData;
+  const replyInfinityData = infinityStatusStore.replyInfinityData
   let RB: ReplyInfinityRB = {
-    content:text.value,
+    content: text.value,
     imgUrlList: imgUrlList.value,
-    replyId:String(useRoute().params.id),
+    replyId: String(useRoute().params.id),
     replyUserId: replyInfinityData.user.id,
     replyUserTweetId: replyInfinityData.id,
   }
-
-  await infinityStore.replyInfinity(RB)
+  if (await infinityStatusStore.replyInfinity(RB)) {
+    infinityStatusStore.replyDialog = false
+  }
 }
 const textProgress = computed(() => {
   return 0 ^ ((text.value.length / 2000) * 100)

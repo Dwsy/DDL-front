@@ -127,9 +127,6 @@ import {
 } from '~/types/user/collection'
 import { warningMsg } from '~/composables/utils/toastification'
 import { dateFilter } from '~/composables/useTools'
-import { useGet } from '~/composables/useAxios'
-import { ResponseData } from '~/types/utils/axios'
-
 const route = useRoute()
 const router = useRouter()
 const uid = String(route.params.id)
