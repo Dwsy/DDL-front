@@ -249,11 +249,12 @@ import { useUserStore } from '~/stores/user'
 import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
 import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
-import { InfinityType, ReplyInfinityRB, SendInfinityRB } from "~/composables/Api/infinity";
+import { InfinityType, ReplyInfinityRB, SendInfinityRB } from '~/composables/Api/infinity'
 import SelectTopic from '~/components/Infinity/selectTopic.vue'
 import { rules } from '~/utils/rules'
 import { InfinityI } from '~/types/infinity'
-import { useRoute } from "#app";
+import { useRoute } from '#app'
+import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 
 const infinityStore = useInfinityStore()
 const { twitterBorderColor } = useTailwindConfig()
@@ -400,14 +401,17 @@ const send = async () => {
 
 const reply = async () => {
   let RB: ReplyInfinityRB = {
-    content:text.value,
+    content: text.value,
     imgUrlList: imgUrlList.value,
-    replyId:String(useRoute().params.id),
+    replyId: String(useRoute().params.id),
     replyUserId: null,
     replyUserTweetId: null,
   }
-
-  await infinityStore.replyInfinity(RB)
+  if (infinityStore.isHome) {
+    await infinityStore.replyInfinity(RB)
+  } else {
+    await useInfinityStatusStore().replyInfinity(RB)
+  }
 }
 
 const textProgress = computed(() => {

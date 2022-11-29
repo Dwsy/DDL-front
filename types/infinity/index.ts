@@ -29,7 +29,7 @@ export interface InfinityI {
   createTime: number
   user: User
   content: string
-  type: string
+  type: InfinityType
   upNum: number
   viewNum: number
   collectNum: number
@@ -49,4 +49,20 @@ export interface InfinityI {
   childCommentNum: number
   childCommentTotalPages: number
   imgUrlList: string[]
+}
+export enum InfinityType {
+  Tweet,
+
+  upTweet,
+
+  TweetCommentOrReply,
+
+  Article,
+
+  Question,
+
+  Answer,
+}
+export enum TwShowStatus {
+  index,status,comment,reply
 }

@@ -7,6 +7,7 @@
         <!--        :user="props.user"-->
         <!--        @on-success="handleFormSuccess"-->
         <v-card >
+<!--          {{infinityStatusStore.replyInfinityData}}-->
           <v-toolbar
             :title="`回复@：${infinityStatusStore.replyInfinityData.user.nickname}`"
             color="#228be6"
@@ -67,7 +68,7 @@ function redirect(tweet) {
 }
 
 const hasReply = (id: string) => {
-  if (infinityStatusStore.commentReplyDataMap.has(id)) {
+  if (infinityStatusStore.commentReplyDataMap.get(id).length>0) {
     return true
   }
 }

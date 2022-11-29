@@ -65,10 +65,47 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         const userStore = useUserStore()
         infinity.user.userInfo = userStore.userInfo
         infinity.user.nickname = userStore.user.nickname
-        if (data.replyUserTweetId != undefined) {
-          this.commentReplyDataMap.get(data.replyUserTweetId).unshift(infinity)
-        } else {
-          this.commentDataList = [infinity, ...this.commentDataList]
+        if (data.replyUserTweetId){
+          let replyDataList = this.commentReplyDataMap.get(data.replyUserTweetId)
+          infinity.replyUserName = this.replyInfinityData.user.nickname
+          if (this.replyInfinityData.replyUserTweetId) {
+            console.log(replyDataList)
+            let index = replyDataList.findIndex((item) => item.id === this.replyInfinityData.id)
+            console.log("index",index)
+            replyDataList.splice(index+1, 0, infinity)
+          } else {
+            replyDataList.unshift(infinity)
+          }
+
+
+        //   // this?.replyInfinityData?.replyUserTweetId != undefined
+        //   console.log(data.replyUserTweetId)
+          //   infinity.replyUserName=this.replyInfinityData.user.nickname
+        //   console.log(this.replyInfinityData)
+        //   console.log("Object.values(this.commentReplyDataMap)",Object.values(this.commentReplyDataMap))
+        //   console.log(
+        //     'Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)',
+        //     Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)
+        //   )
+        //   if (Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)!=-1) {
+        //     this.commentReplyDataMap.get(data.replyUserTweetId).unshift(infinity)
+        //   }else {
+        //     let replyDataList = this.commentReplyDataMap.get(this.replyInfinityData)
+        //     console.log('replyDataList',replyDataList)
+        //     let index = replyDataList.findIndex((item) => item.id === data.replyUserTweetId)
+        //     replyDataList.splice(index + 1, 0, infinity)
+        //   }
+        //
+        // } else {
+        //   console.log("          this.commentDataList = [infinity, ...this.commentDataList]")
+        //   console.log(infinity)
+        //   this.commentDataList = [infinity, ...this.commentDataList]
+        }
+        else {
+            console.log("          this.commentDataList = [infinity, ...this.commentDataList]")
+            console.log(infinity)
+          this.commentReplyDataMap.set(infinity.id,[])
+            this.commentDataList = [infinity, ...this.commentDataList]
         }
         return true
       } else {
@@ -91,6 +128,12 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         Object.keys(commentReplyMap).forEach((key) => {
           this.commentReplyDataMap.set(key, commentReplyMap[key])
         })
+        this.commentDataList.forEach((c)=>{
+          if (!this.commentReplyDataMap.has(c.id)){
+            this.commentReplyDataMap.set(c.id, [])
+          }
+        })
+
       } else {
         errorMsg(response.msg)
       }
@@ -103,6 +146,11 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         this.commentDataList.push(...axiosResponse.data.childComments.content)
         Object.keys(axiosResponse.data.commentReplyMap).forEach((key) => {
           this.commentReplyDataMap.set(key, axiosResponse.data.commentReplyMap[key])
+        })
+        this.commentDataList.forEach((c)=>{
+          if (!this.commentReplyDataMap.has(c.id)){
+            this.commentReplyDataMap.set(c.id, [])
+          }
         })
         this.totalPages = axiosResponse.data.childComments.totalPages
       } else {

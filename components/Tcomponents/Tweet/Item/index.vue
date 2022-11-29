@@ -20,7 +20,7 @@
           <span class="text-gray-400 text-sm dark:text-white"
             >&nbsp&nbsp{{ timeAgoFilter(tweet.createTime) }}</span
           >
-          <div v-if="tweet.parentUserId !== '0'" class="text-sm">
+          <div v-if="tweet?.parentUserId != null" class="text-sm">
             <span>回复&nbsp</span
             ><a target="_blank" :href="`/user/${tweet.parentUserId}`">
               <span class="text-sky-500">@{{ tweet.replyUserName }}</span>
@@ -36,75 +36,77 @@
             </template>
           </div>
 
-          <vue-easy-lightbox
-            :visible="visibleRef"
-            :imgs="tweet.imgUrlList"
-            :index="ShowIndex"
-            @hide="onHide"
-          ></vue-easy-lightbox>
-          <div class="SongList mt-3">
-            <!--        //用v-for循环渲染缩略图-->
-            <v-row>
-              <v-col cols="10" class="ml-3">
-                <v-row class="covers" :style="{ display: MinDisplay }">
-                  <v-col
-                    :cols="getImgCol"
-                    class="cover"
-                    style="padding: 1px"
-                    v-for="(img, index) in tweet.imgUrlList"
-                    :key="img"
-                  >
-                    <v-img
-                      :src="img"
-                      class="min rounded-lg"
-                      @click.stop="ZoomIn(index)"
-                      cover
-                      aspect-ratio="1"
-                    />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-            <!--        //渲染放大后的图-->
-            <div class="max d-img-max" :style="{ display: display }">
-              <div class="pa-2">
-                <v-btn variant="tonal" color="#448623" @click.stop="viewImg()">
-                  <v-icon size="large">mdi-magnify</v-icon>
-                  <span class="text-subtitle-1">查看大图</span>
-                </v-btn>
-              </div>
-              <div
-                v-for="(img, index) in tweet.imgUrlList"
-                :key="img"
-                style="height: 100%; width: 100%"
-                class="d-img-max-content"
-                :class="[index === ShowIndex ? 'active' : 'None']"
-              >
-                <v-img :src="img" @click.stop="ZoomOut" width="100%" />
-                <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
+          <template v-if="tweet.imgUrlList?.length!==0">
+            <vue-easy-lightbox
+              :visible="visibleRef"
+              :imgs="tweet.imgUrlList"
+              :index="ShowIndex"
+              @hide="onHide"
+            ></vue-easy-lightbox>
+            <div class="SongList mt-3">
+              <!--        //用v-for循环渲染缩略图-->
+              <v-row>
+                <v-col cols="10" class="ml-3">
+                  <v-row class="covers" :style="{ display: MinDisplay }">
+                    <v-col
+                      :cols="getImgCol"
+                      class="cover"
+                      style="padding: 1px"
+                      v-for="(img, index) in tweet.imgUrlList"
+                      :key="img"
+                    >
+                      <v-img
+                        :src="img"
+                        class="min rounded-lg"
+                        @click.stop="ZoomIn(index)"
+                        cover
+                        aspect-ratio="1"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <!--        //渲染放大后的图-->
+              <div class="max d-img-max" :style="{ display: display }">
+                <div class="pa-2">
+                  <v-btn variant="tonal" color="#448623" @click.stop="viewImg()">
+                    <v-icon size="large">mdi-magnify</v-icon>
+                    <span class="text-subtitle-1">查看大图</span>
+                  </v-btn>
+                </div>
                 <div
-                  v-if="index !== tweet.imgUrlList.length - 1"
-                  class="d-img-next"
-                  @click.stop="ShowIndex++"
-                ></div>
-              </div>
-              <!--          //放大后图片下方的导航图-->
-              <div class="small">
-                <div
-                  :class="[{ smallActive: index === ShowIndex }, 'cover-small']"
                   v-for="(img, index) in tweet.imgUrlList"
                   :key="img"
-                  @click.stop="select(index)"
+                  style="height: 100%; width: 100%"
+                  class="d-img-max-content"
+                  :class="[index === ShowIndex ? 'active' : 'None']"
                 >
-                  <v-img :src="img" width="100%" />
+                  <v-img :src="img" @click.stop="ZoomOut" width="100%" />
+                  <div v-if="index !== 0" class="d-img-prev" @click.stop="ShowIndex--"></div>
+                  <div
+                    v-if="index !== tweet.imgUrlList.length - 1"
+                    class="d-img-next"
+                    @click.stop="ShowIndex++"
+                  ></div>
+                </div>
+                <!--          //放大后图片下方的导航图-->
+                <div class="small">
+                  <div
+                    :class="[{ smallActive: index === ShowIndex }, 'cover-small']"
+                    v-for="(img, index) in tweet.imgUrlList"
+                    :key="img"
+                    @click.stop="select(index)"
+                  >
+                    <v-img :src="img" width="100%" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </template>
 
-          <v-row class="mt-2">
+          <v-row class="mt-1" v-if="tweet.infinityClub != null">
             <v-col>
-              <div v-if="tweet.infinityClub != null">
+              <div >
                 <v-chip class="mr-2" prepend-icon="mdi-eye" color="blue">
                   <span class="text-base"> {{ tweet.upNum }}次查看</span>
                 </v-chip>
@@ -114,10 +116,13 @@
               </div>
             </v-col>
           </v-row>
-          <div class="mt-0" v-if="!props.hideActions">
+          <div  :class="{
+            'mt-2':tweet.imgUrlList?.length!==0,
+          }" v-if="!props.hideActions">
             <TweetItemActions
               :compact="props.compact"
               :tweet="props.tweet"
+              :twType="twType"
               @on-comment-click="handleCommentClick"
             />
           </div>
@@ -181,12 +186,10 @@
 </template>
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { computed, inject, onMounted, provide, Ref, ref } from 'vue'
-import TweetItemHeader from '~/components/Tcomponents/Tweet/Item/Header.vue'
+import { computed, onMounted, ref } from 'vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
-import { InfinityI } from '~/types/infinity'
+import { InfinityI, InfinityType, TwShowStatus } from '~/types/infinity'
 import { timeAgoFilter } from '~/composables/useTools'
-import { useRoute } from '#app'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 import A from '~/pages/messages/chats/a.vue'
@@ -201,8 +204,28 @@ const props = defineProps<{
   timeLine?: boolean
   timeLineHeight?: string
 }>()
+const twType = ref(TwShowStatus.index)
+onMounted(() => {
+  setTwType()
+})
 
-onMounted(() => {})
+const setTwType = () => {
+  if (!props.compact) {
+    twType.value = TwShowStatus.status
+    return
+  }
+  if (props.tweet.type === InfinityType.Tweet) {
+    twType.value = TwShowStatus.index
+    return
+  }
+  if (props.tweet?.replyUserTweetId == null) {
+    twType.value = TwShowStatus.comment
+    return
+  } else {
+    twType.value = TwShowStatus.reply
+    return
+  }
+}
 const tweetBodyWrapper = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'))
 
 const textSize = computed(() => (props.compact ? 'text-base' : 'text-2xl'))
@@ -229,7 +252,12 @@ const infinityStore = useInfinityStore()
 
 function handleCommentClick() {
   if (infinityStore.isHome) {
-    showComment.value = !showComment.value
+    if (props.tweet.childCommentNum != 0) {
+      showComment.value = !showComment.value
+    } else {
+      console.log("//todo reply open dialog")
+      //todo reply open dialog
+    }
   } else {
     const infinityStatusStore = useInfinityStatusStore()
     infinityStatusStore.replyInfinityData = props.tweet

@@ -25,13 +25,13 @@
         <HeartIcon
           v-if="!tweet.up"
           :class="classes"
-          @click.stop="infinityStore.upActionTweet(tweet.id, true, compact)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, true, twType,tweet.replyUserTweetId)"
         />
         <HeartIconSolid
           v-else
           :class="classes"
           class="text-blue-400"
-          @click.stop="infinityStore.upActionTweet(tweet.id, false, compact)"
+          @click.stop="infinityStore.upActionTweet(tweet.id, false, twType,tweet.replyUserTweetId)"
         />
       </template>
 
@@ -56,17 +56,13 @@ import TweetItemActionsIcon from '~/components/Tcomponents/Tweet/Item/Actions/Ic
 
 import {
   ChatBubbleBottomCenterIcon,
-  ReceiptRefundIcon,
-  HeartIcon,
   CloudArrowUpIcon,
+  HeartIcon,
+  ReceiptRefundIcon,
 } from '@heroicons/vue/24/outline/esm/index.js'
-import {
-  HeartIcon as HeartIconSolid,
-  ReceiptRefundIcon as ReceiptRefundIconSolid,
-  ChatBubbleBottomCenterIcon as ChatBubbleBottomCenterIconIconSolid,
-} from '@heroicons/vue/24/solid/esm/index.js'
+import { HeartIcon as HeartIconSolid } from '@heroicons/vue/24/solid/esm/index.js'
 import { computed } from 'vue'
-import { InfinityI } from '~/types/infinity'
+import { InfinityI, TwShowStatus } from '~/types/infinity'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
 const infinityStore = useInfinityStore()
@@ -76,16 +72,19 @@ const x = () => {}
 const props = defineProps<{
   tweet: InfinityI
   compact: boolean
+  twType: TwShowStatus
 }>()
 
 // const showStats = computed(() => props.compact)
 // const showStats = computed(() => true)
 const size = computed(() => (props.compact ? 5 : 6))
 const clickCommentBtn = () => {
-  if (props.compact) {
+  if (props.twType != TwShowStatus.status) {
     emits('onCommentClick')
   } else {
-    const inputElement: HTMLInputElement = document.querySelector('.d-tw-status-input .v-field__input')
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.d-tw-status-input .v-field__input'
+    )
     inputElement.focus()
   }
 }

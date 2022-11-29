@@ -1,7 +1,5 @@
 import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
-import { User } from '~/types/user'
-import { useAxiosGetUserInfo, useAxiosPostCheck } from '~/composables/Api/user'
 import {
   GetInfinityPageListParams,
   ReplyInfinityRB,
@@ -9,12 +7,11 @@ import {
   useAxiosGetInfinityPageList,
   useAxiosPostActionUpInfinity,
   useAxiosPostReplyInfinity,
-  useAxiosPostSendInfinity,
+  useAxiosPostSendInfinity
 } from '~/composables/Api/infinity'
-import { InfinityI, InfinityTopic } from '~/types/infinity'
+import { InfinityI, InfinityTopic, TwShowStatus } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
-import { useFetchGetArticleList } from '~/composables/Api/article'
 import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 
 //todo 分离 comment 和 tweet store
@@ -63,37 +60,58 @@ export const useInfinityStore = defineStore('InfinityStore', {
         warningMsg(axiosResponse.msg)
       }
     },
-    async upActionTweet(id: string, up: boolean, status = false) {
+    async upActionTweet(id: string, up: boolean, showStatus: TwShowStatus,replyId?:string) {
       const { data: axiosResponse } = await useAxiosPostActionUpInfinity(id, up)
-      let dataList
-      if (this.commentDataList.length == []) {
-        dataList = this.InfinityDataList
-      } else {
-        dataList = this.commentDataList
-      }
+      let  dataList = this.InfinityDataList
       if (axiosResponse.code === 0) {
         if (axiosResponse.data === '点赞成功') {
-          if (status) {
+          if (showStatus==TwShowStatus.index) {
             const index = dataList.findIndex((item) => item.id === id)
             dataList[index].upNum += 1
-            dataList[index].up = up
+            dataList[index].up = true
           } else {
             const infinityStatusStore = useInfinityStatusStore()
-            infinityStatusStore.tweet.upNum += 1
-            infinityStatusStore.tweet.up = up
+            if (showStatus==TwShowStatus.status) {
+              infinityStatusStore.tweet.upNum += 1
+              infinityStatusStore.tweet.up = this
+            }else if (showStatus==TwShowStatus.comment) {
+              let commentDataList = infinityStatusStore.commentDataList
+              const index = commentDataList.findIndex((item) => item.id === id)
+              commentDataList[index].upNum += 1
+              commentDataList[index].up = this
+            }else if (showStatus==TwShowStatus.reply) {
+              let replyDataList = infinityStatusStore.commentReplyDataMap.get(replyId)
+              const index = replyDataList.findIndex((item) => item.id === id)
+              replyDataList[index].upNum += 1
+              replyDataList[index].up = this
+            }
+
           }
           successMsg(axiosResponse.data)
         } else if (axiosResponse.data === '取消点赞成功') {
-          if (status) {
+          if (showStatus==TwShowStatus.index) {
             const index = dataList.findIndex((item) => item.id === id)
             dataList[index].upNum -= 1
-            dataList[index].up = up
-            successMsg(axiosResponse.data)
+            dataList[index].up = false
           } else {
             const infinityStatusStore = useInfinityStatusStore()
-            infinityStatusStore.tweet.upNum -= 1
-            infinityStatusStore.tweet.up = up
+            if (showStatus==TwShowStatus.status) {
+              infinityStatusStore.tweet.upNum -= 1
+              infinityStatusStore.tweet.up = false
+            }else if (showStatus==TwShowStatus.comment) {
+              let commentDataList = infinityStatusStore.commentDataList
+              const index = commentDataList.findIndex((item) => item.id === id)
+              commentDataList[index].upNum -= 1
+              commentDataList[index].up = false
+            }else if (showStatus==TwShowStatus.reply) {
+              let replyDataList = infinityStatusStore.commentReplyDataMap.get(replyId)
+              const index = replyDataList.findIndex((item) => item.id === id)
+              replyDataList[index].upNum -= 1
+              replyDataList[index].up = false
+            }
+
           }
+          successMsg(axiosResponse.data)
         } else {
           defaultMsg(axiosResponse.data)
         }
