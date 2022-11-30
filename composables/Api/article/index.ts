@@ -31,11 +31,11 @@ export const useAxiosGetArticleList = (params?: {
 }
 
 export const useFetchGetArticleField = (id) => {
-  return http.GET<ResponsePageData<any>>('article/article/field/' + id, null)
+  return http.GET<any>('article/article/field/' + id, null)
 }
 
 export const useFetchGetArticleContent = (id, params?: { type?: number }) => {
-  return http.GET<ResponsePageData<any>>('article/article/content/' + id, params)
+  return http.GET<any>('article/article/content/' + id, params)
 }
 
 //----
@@ -133,7 +133,7 @@ export const useAxiosPostAddCollectionToGroup = (body: collectionData) => {
 }
 
 export const useAxiosCancelCollectionToGroup = (body: collectionData) => {
-  return useDel('user/collection/', body)
+  return useDel<ResponseData<any>>('user/collection/', body)
 }
 
 export const useAxiosGetArticleCollectionState = (articleId: string) => {

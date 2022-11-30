@@ -12,10 +12,10 @@
     </div>
 
     <div class="mt-2 space-y-3">
-        <SidebarLeftTab active to="/infinity">
-          <template v-slot:icon>
-            <HomeIcon />
-            <HomeIconSolid/>
+        <SidebarLeftTab  to="/infinity/home">
+          <template v-slot:icon="{active}">
+            <HomeIconSolid v-if="active"/>
+            <HomeIcon v-else/>
           </template>
           <template v-slot:name> 主页</template>
         </SidebarLeftTab>
@@ -126,18 +126,19 @@ import {
   HomeIcon,
   ChartBarIcon,
 } from '@heroicons/vue/24/outline/esm/index.js'
-// import {
-//   HashtagIcon as HashtagIconSolid,
-//   BellIcon as BellIconSolid,
-//   InboxIcon as InboxIconSolid,
-//   BookmarkIcon as BookmarkIconSolid,
-//   DocumentTextIcon as DocumentTextIconSolid,
-//   UserIcon as UserIconSolid,
-//   ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconSolid,
-//   PencilIcon as PencilIconSolid,
-//   ChevronDownIcon as ChevronDownIconSolid,
-//   ChartBarIcon as ChartBarIconSolid,
-// } from '@heroicons/vue/24/solid/index'
+import {
+  HashtagIcon as HashtagIconSolid,
+  BellIcon as BellIconSolid,
+  InboxIcon as InboxIconSolid,
+  BookmarkIcon as BookmarkIconSolid,
+  DocumentTextIcon as DocumentTextIconSolid,
+  UserIcon as UserIconSolid,
+  ChatBubbleOvalLeftIcon as ChatBubbleOvalLeftIconSolid,
+  PencilIcon as PencilIconSolid,
+  ChevronDownIcon as ChevronDownIconSolid,
+  ChartBarIcon as ChartBarIconSolid,
+  HomeIcon as HomeIconSolid
+} from '@heroicons/vue/24/solid/esm/index.js'
 // import {AcademicCapIconSolid,HomeIconSolid} from '~~/types/other/HeroiconsSolidIndex'
 
 const { defaultTransition } = useTailwindConfig()
@@ -145,6 +146,7 @@ import LogoTwitter from '~~/components/Tcomponents/Logo/Twitter.vue'
 import UIButton from '~~/components/Tcomponents/UI/Button.vue'
 import SidebarLeftTab from '~~/components/Tcomponents/Sidebar/Left/Tab.vue'
 import useTailwindConfig from '~/composables/useTailwindConfig'
+import { useRoute } from '#app'
 
 const emits = defineEmits(['onTweet', 'onLogout'])
 
@@ -154,4 +156,5 @@ const props = defineProps({
     required: true,
   },
 })
+const path = useRoute().path
 </script>

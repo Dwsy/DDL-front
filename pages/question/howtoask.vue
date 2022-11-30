@@ -23,7 +23,7 @@
         <!--        </client-only>-->
         <span class="text-h6 text-green">提问要求</span>
         <div class="d-answer-tip-recommend">
-          <p class="card-text mdi">
+          <s class="card-text mdi">
             《
             <nuxt-link
               class="d-markdown-tip"
@@ -33,7 +33,7 @@
               提问的智慧
             </nuxt-link>
             》
-          </p>
+          </s>
           <p class="card-text mdi">主题与编程技术、程序算法、开发工具相关</p>
           <p class="card-text mdi">标题清晰，不笼统，不做标题党</p>
           <p class="card-text mdi">

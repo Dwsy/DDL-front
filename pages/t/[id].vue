@@ -7,7 +7,7 @@
   <div>
     <pre>
   {{ r }}
-</pre
+    </pre>
     >
   </div>
 </template>

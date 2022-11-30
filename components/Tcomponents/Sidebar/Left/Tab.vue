@@ -4,9 +4,10 @@
     class="dark:hover:bg-dim-200 flex  items-center rounded-full p-3 text-black hover:bg-gray-200 dark:text-white"
     :class="defaultTransition"
   >
-    <div class="text-dark h-6 w-6 dark:text-white">
-      <slot name="icon"></slot>
-    </div>
+
+  <div class="text-dark h-6 w-6 dark:text-white">
+  <slot name="icon" :active="active"></slot>
+  </div>
 
     <div class="ml-4 hidden text-xl xl:block dark:text-white" :class="textClasses">
       <slot name="name"></slot>
@@ -15,20 +16,18 @@
 </template>
 <script setup lang="ts">
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useRoute } from '#app'
 
 const { defaultTransition } = useTailwindConfig()
 
 const props = defineProps({
-  active: {
-    type: Boolean,
-    default: false,
-  },
   to: {
     type: String,
     default: '#',
   },
 })
-
-const textClasses = computed(() => (props.active ? 'font-semibold' : 'font-normal'))
+const route = useRoute()
+const active = computed(()=>route.path.startsWith(props.to))
+const textClasses = computed(() => (active ? 'font-semibold' : 'font-normal'))
 </script>

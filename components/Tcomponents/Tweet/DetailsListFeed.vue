@@ -40,6 +40,19 @@
           :time-line-height="rIndex + 1 !== getReply(tweet.id).length ? '100%' : ''"
         ></TweetItem>
       </template>
+<div>
+  <v-btn v-if="showLoadMore(tweet.id)"
+         :loading="infinityStatusStore.commentDataList[index].loadMoreState"
+         :disabled="infinityStatusStore.commentDataList[index].loadMoreState"
+         @click="loadMoreComment(index)"
+         variant="tonal"
+         color="red"
+         style="margin-left: 40%"
+  >
+    加载更多...
+  </v-btn>
+</div>
+
     </div>
     </TransitionGroup>
     <div v-if="infinityStatusStore.end" class="p-4">
@@ -62,9 +75,21 @@ import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 const infinityStatusStore = useInfinityStatusStore()
 const isEmptyArray = computed(() => infinityStatusStore.commentDataList.length === 0)
 
-
+const loadMoreComment = (index:number) => {
+  infinityStatusStore.commentDataList[index].loadMoreState=true
+  setTimeout(() => {
+    infinityStatusStore.commentDataList[index].loadMoreState=false
+  }, 1000)
+}
 function redirect(tweet) {
   navigateTo(`/infinity/status/${tweet.id}`)
+}
+
+const showLoadMore = (id) => {
+  const replyList = infinityStatusStore.commentReplyDataMap.get(id)
+  if (replyList.length>=8) {
+    return true
+  }
 }
 
 const hasReply = (id: string) => {

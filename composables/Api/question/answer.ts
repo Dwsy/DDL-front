@@ -2,14 +2,14 @@ import http from '~~/utils/fetch'
 import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
 import { ResponseData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
-import { AnswerType } from '~/types/question/answer'
+import { AnswerData, AnswerType } from '~/types/question/answer'
 
 export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: PageParam) => {
   return useGet<ResponseData<any>>(`qa/answer/${questionId}`, param)
 }
 
 export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {
-  return usePost<ResponseData<string>>('qa/answer', body)
+  return usePost<ResponseData<AnswerData>>('qa/answer', body)
 }
 
 export const userAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {

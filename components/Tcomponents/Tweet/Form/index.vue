@@ -10,9 +10,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import UISpinner from '~~/components/Tcomponents/UI/Spinner.vue'
+// import TweetItem from '~/components/Tcomponents/Tweet/Item'
 import { onMounted, ref } from 'vue'
-import UISpinner from '~/components/Tcomponents/UI/Spinner'
-import TweetItem from '~/components/Tcomponents/Tweet/Item'
 import TweetFormInput from '~/components/Tcomponents/Tweet/Form/Input.vue'
 import { InfinityI } from '~/types/infinity'
 

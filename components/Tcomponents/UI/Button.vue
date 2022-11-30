@@ -11,6 +11,8 @@
   </button>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const emits = defineEmits(['onClick'])
 
 const props = defineProps({

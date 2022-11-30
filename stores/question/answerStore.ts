@@ -55,10 +55,10 @@ export const useAnswerStore = defineStore('AnswerStore', {
       }
     },
 
-    async answerOrCommentQuestion(body: AnswerQuestionRB, handle?: () => void) {
+    async answerOrCommentQuestion(body: AnswerQuestionRB, handle: (ret: AnswerData) => void) {
+      const answer = body.answerType == AnswerType.answer
       if (body.mdText.trim() === '') {
-        console.log("body.mdText.trim() === ''", body.mdText.trim() === '')
-        if (body.answerType == AnswerType.answer) {
+        if (answer) {
           customMsg('回答不能为空', {
             type: TYPE.WARNING,
             toastClassName: 'd-custom-toast-warning',
@@ -75,10 +75,10 @@ export const useAnswerStore = defineStore('AnswerStore', {
       const { data: axiosResponse } = await useAxiosPostAnswerQuestion(body)
       if (axiosResponse.code === 0) {
         console.log('axiosResponse.data', axiosResponse.data)
-        successMsg('回答发送成功')
-        if (handle) {
-          handle()
-        }
+        successMsg(answer ? `回答发送成功` : `回复发送成功`)
+        console.log('axiosResponse.dat', axiosResponse.data)
+        handle(axiosResponse.data)
+
         return axiosResponse.data
       } else {
         warningMsg(axiosResponse.msg)

@@ -49,6 +49,8 @@ export interface InfinityI {
   childCommentNum: number
   childCommentTotalPages: number
   imgUrlList: string[]
+  ///
+  loadMoreState?:boolean
 }
 export enum InfinityType {
   Tweet,

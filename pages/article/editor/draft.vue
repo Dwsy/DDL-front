@@ -84,7 +84,7 @@
                       v-for="g in articleGroupList"
                       :key="g.id"
                       :value="g.id"
-                      filter="true"
+                      :filter="true"
                       @click="articleGroupId = g.id"
                     >
                       {{ g.name }}
@@ -138,7 +138,7 @@
                 clearable
                 counter="150"
                 label="文章摘要"
-                no-resize="no-resize"
+                :no-resize="true"
                 placeholder="输入文章摘要...为空截取正文前150字"
                 variant="outlined"
               ></v-textarea>
@@ -444,8 +444,8 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from '#app'
 import { nextTick, onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
-import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
+import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 import {
   ContentType,
   useAxiosGetArticleContent,

@@ -100,7 +100,7 @@
                 clearable
                 counter="150"
                 label="文章摘要"
-                no-resize="no-resize"
+                no-resize="true"
                 placeholder="输入文章摘要..."
                 variant="outlined"
               >

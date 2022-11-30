@@ -646,10 +646,10 @@
               </v-card-title>
               <div v-for="group in collectionGroupList" :key="group.id" class="d-flex my-n6 px-4">
                 {{ group.select }}
+                /* :model-value="group.select" */
                 <v-checkbox
                   v-model="group.select"
                   :label="group.groupName"
-                  :model-value="group.select"
                   class="pr-2"
                   @change="addCollectionToGroup(group.id, group.select)"
                 ></v-checkbox>
@@ -1029,8 +1029,7 @@ onMounted(() => {
   counter-reset: linenumber;
 }
 
-:deep(.markdown-body pre code ul li) {
-}
+
 
 :deep(.markdown-body pre code ul li:before) {
   counter-increment: linenumber;

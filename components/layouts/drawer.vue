@@ -60,7 +60,7 @@ let items = reactive([
   {
     icon: 'mdi-infinity',
     text: '圈子',
-    link: '/infinity',
+    link: '/infinity/home',
     active: false,
   },
   {

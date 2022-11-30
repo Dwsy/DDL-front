@@ -9,7 +9,7 @@ interface layout {
   themeName: string
   showFooter: boolean
   loading: boolean
-  unReadNotifyCount
+  unReadNotifyCount:number
 }
 
 // const theme = useTheme()
