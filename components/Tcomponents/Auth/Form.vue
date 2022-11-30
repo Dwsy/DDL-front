@@ -16,6 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import LogoTwitter from '~/components/Tcomponents/Logo/Twitter.vue'
 import UIInput from '~/components/Tcomponents/UI/Input.vue'
 import UIButton from '~/components/Tcomponents/UI/Button.vue'
@@ -38,7 +39,7 @@ async function handleLogin() {
   //         password: data.password
   //     })
   // } catch (error) {
-  //     console.log(error)
+  //     clog(error)
   // } finally {
   //     data.loading = false
   // }

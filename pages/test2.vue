@@ -13,10 +13,11 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
 
 const cutDown = (res) => {
-  console.log(res)
+  clog(res)
 }
 </script>
 <script lang="ts">

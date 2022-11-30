@@ -1,4 +1,5 @@
-<!--<script setup lang="ts">-->
+<!--<script setup lang="ts">
+import { clog } from '~/utils/clog'-->
 <!--import {-->
 <!--  ref, onMounted, getCurrentInstance, watch,-->
 <!--} from 'vue'-->

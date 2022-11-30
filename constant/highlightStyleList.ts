@@ -2,7 +2,7 @@ import { HighlightStyleNameBase16 } from '~/types/other/HighlightStyle'
 
 export const changeHighlightStyle = async (name: string, ssr?: boolean) => {
   let css = null
-  // console.log('HighlightStyle', name)
+  // clog('HighlightStyle', name)
   switch (name) {
     case 'a11yDark':
       css = await import('~~/constant/highlightCJs/a11yDark')
@@ -764,7 +764,7 @@ export const changeHighlightStyle = async (name: string, ssr?: boolean) => {
     return css.default
   }
   let markdownThemeStyleElement = document.querySelector('#highlightStyle')
-  // console.log(css)
+  // clog(css)
   if (markdownThemeStyleElement) {
     markdownThemeStyleElement.innerHTML = css.default
   } else {

@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, provide, ref, watchEffect } from 'vue'
 
 import { warningMsg } from '~/composables/utils/toastification'

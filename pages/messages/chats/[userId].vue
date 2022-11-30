@@ -126,6 +126,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta, isNumber } from '#imports'
 import { defaultMsg, errorMsg, warningMsg } from '~/composables/utils/toastification'
 import { useChatsStore, ChatRecordStatus, ChatType } from '~/stores/messages/chatsStore'
@@ -241,7 +242,7 @@ onMounted(async () => {
   // chatsStore.connectWsChannel()
 })
 onMounted(() => {
-  console.log('window onMounted')
+  clog('window onMounted')
   chatsStore.totalPages = 1
   chatsStore.chatRecord = []
   chatsStore.load = true
@@ -274,7 +275,7 @@ const mediumZoomFn = () => {
       mediumZoom(imgNode, {
         background: 'rgba(0,0,0,0.8)',
       })
-      console.log('mediumZoom:', imgNode.parentElement.id)
+      clog('mediumZoom:', imgNode.parentElement.id)
     }
   })
   // mediumZoom(imgNodes, {

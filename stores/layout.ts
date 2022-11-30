@@ -29,10 +29,10 @@ export const useLayout = defineStore('layout', {
   actions: {
     switchDrawer() {
       this.drawer = !this.drawer
-      console.log(this.drawer)
+      clog(this.drawer)
     },
     switchTheme(theme: ThemeInstance, themeName?: string) {
-      // console.log("theme:",theme.global.name.value)
+      // clog("theme:",theme.global.name.value)
       if (themeName) {
         theme.global.name.value = themeName
       } else {
@@ -60,7 +60,7 @@ export const useLayout = defineStore('layout', {
       if (response.data.code == 0) {
         this.unReadNotifyCount = response.data.data.unreadNotifyCount
       } else {
-        console.log(response.data.msg)
+        clog(response.data.msg)
       }
     },
     // setThemeDark(){

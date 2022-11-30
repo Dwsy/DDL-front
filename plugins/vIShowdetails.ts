@@ -3,7 +3,7 @@ import { defineNuxtPlugin } from '#app'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('iShowDetails', {
     mounted(el, binding) {
-      console.log(el);
+      clog(el);
       const detailsNode: HTMLElement = el.querySelector('.d-i-comment-details')
       el.addEventListener('mouseleave', () => {
         if (detailsNode.style.display === 'inline') {

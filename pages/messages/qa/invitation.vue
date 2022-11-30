@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta, dateFilter, timeAgoFilter } from '#imports'
 import { onActivated, onDeactivated, onMounted, onUnmounted } from 'vue'
 import { useLoadingWin } from '~/composables/useTools'
@@ -67,7 +68,7 @@ definePageMeta({
 
 let qaInvitationAnswerStore = useQaInvitationAnswerStore()
 onMounted(async () => {
-  console.log('reply mounted')
+  clog('reply mounted')
   document.documentElement.scrollTop = 0
   await qaInvitationAnswerStore.loadQaInvitationAnswerNotifyList()
   // document.body.onscroll =  useLoadingWin(loadingMore)
@@ -76,17 +77,17 @@ onMounted(async () => {
 onUnmounted(() => {
   qaInvitationAnswerStore.page = 1
   qaInvitationAnswerStore.totalPages = null
-  // console.log('qaAnswerNotifyList unmounted')
+  // clog('qaAnswerNotifyList unmounted')
 })
 // onActivated(() => {
-//   console.log('qaAnswerNotifyList activated')
+//   clog('qaAnswerNotifyList activated')
 // })
 // onDeactivated(() => {
-//   console.log('qaAnswerNotifyList deactivated')
+//   clog('qaAnswerNotifyList deactivated')
 // })
 
 const loadingMore = async () => {
-  console.log(123)
+  clog(123)
   if (qaInvitationAnswerStore.page >= qaInvitationAnswerStore.totalPages) {
     if (qaInvitationAnswerStore.qaInvitationAnswerNotifyList.length > 15) {
       // alert.value = true

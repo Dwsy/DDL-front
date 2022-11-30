@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { provide, ref } from 'vue'
 
 const location = ref('North Pole')

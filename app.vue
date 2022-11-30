@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta, useCookie } from '#imports'
 import '~~/assets/css/main.css'
 import { useUserStore } from '~~/stores/user'
@@ -65,16 +66,16 @@ onMounted(async () => {
   if (localToken !== '') {
     user.setToken(localToken)
     user.setUser(JSON.parse(window.localStorage.getItem('user')))
-    // console.log('user::', user.user)
+    // clog('user::', user.user)
     await user.getUserInfo()
-    // console.log('info::', user.userInfo)
+    // clog('info::', user.userInfo)
     user.setIsLogin(true)
 
     // 后端接口判断
   }
 })
 if (typeof window === 'undefined') {
-  console.log('NODE')
+  clog('NODE')
 } else {
 }
 </script>

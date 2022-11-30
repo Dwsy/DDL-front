@@ -65,6 +65,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { Group, QuestionData, QuestionTag } from '~/types/question'
 import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
 import { User } from '~/types/user'

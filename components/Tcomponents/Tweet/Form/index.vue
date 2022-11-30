@@ -10,6 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import UISpinner from '~~/components/Tcomponents/UI/Spinner.vue'
 // import TweetItem from '~/components/Tcomponents/Tweet/Item'
 import { onMounted, ref } from 'vue'

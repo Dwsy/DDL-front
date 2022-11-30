@@ -15,8 +15,9 @@
    <NuxtWelcome />
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useNuxtApp } from '#app'
-console.log(useNuxtApp);
+clog(useNuxtApp);
 
 let { $axios } = useNuxtApp()
 const axios = $axios()

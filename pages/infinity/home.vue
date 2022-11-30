@@ -14,6 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
 import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
 import { navigateTo, onBeforeRouteUpdate } from '#app'
@@ -38,8 +39,8 @@ onBeforeMount(async () => {
   loading.value = false
 })
 onMounted(() => {
-  console.log('index mounted')
-  // console.log(indexTop.value)
+  clog('index mounted')
+  // clog(indexTop.value)
   document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(infinityStore.loadingMore)
 })

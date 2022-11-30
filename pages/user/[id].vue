@@ -134,6 +134,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { dateFilter, timeAgoFilter, useRoute } from '#imports'
 import { user, UserInfo, useUserStore } from '~/stores/user'
 import { onMounted, ref, watch, watchEffect } from 'vue'
@@ -170,7 +171,7 @@ const userFollowingList = ref()
 const UserFollowerList = ref()
 
 onMounted(async () => {
-  console.log('user id onMounted')
+  clog('user id onMounted')
   setTimeout(async () => {
     const { data: axiosResponse } = await useAxiosGetUserInfoByUid(uid)
     if (axiosResponse.code === 0) {
@@ -183,7 +184,7 @@ onMounted(async () => {
     }
   }, 200)
   watch(tab, async (newTab) => {
-    // console.log('watch tab', newTab)
+    // clog('watch tab', newTab)
     await router.push({
       query: {
         tab: newTab,
@@ -192,7 +193,7 @@ onMounted(async () => {
   })
 
   watchEffect(async () => {
-    console.log('watchEffect', tab.value)
+    clog('watchEffect', tab.value)
     const newTab = tab.value
 
     if (newTab === 'article') {
@@ -202,7 +203,7 @@ onMounted(async () => {
       }
     }
     if (newTab === 'dynamic') {
-      console.log('dynamic')
+      clog('dynamic')
     }
     if (newTab === 'thumb') {
       // let params = {}
@@ -210,19 +211,19 @@ onMounted(async () => {
         type: UserActiveType.UP_Article,
       })
       if (response.code === 0) {
-        console.log(response.data)
+        clog(response.data)
         userThumbList.value = response.data.content
       }
-      console.log('thumb')
+      clog('thumb')
     }
     if (newTab === 'question') {
-      console.log('question')
+      clog('question')
     }
     if (newTab === 'answer') {
-      console.log('answer')
+      clog('answer')
     }
     if (newTab === 'collect') {
-      console.log('collect')
+      clog('collect')
     }
     if (newTab === 'follow') {
       const newFollowTab = followTab.value
@@ -243,7 +244,7 @@ onMounted(async () => {
         }
       }
 
-      // console.log('follow')
+      // clog('follow')
     }
   })
 })

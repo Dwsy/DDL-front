@@ -13,8 +13,8 @@ const fetch = (url: string, options?: any): Promise<any> => {
   // const t = Math.trunc(new Date().getTime() / 12000) + ''
   const key = hash(JSON.stringify(options) + url + t)
   //  const key = hash(JSON.stringify(options) + '_' + url+ new Date().getTime())
-  //  console.log("h",hash(JSON.stringify(options) + url+t));
-  //  console.log(key);
+  //  clog("h",hash(JSON.stringify(options) + url+t));
+  //  clog(key);
   console.info(url)
   // 如果需要统一加参数可以options.params.token = 'xxx'
   return new Promise((resolve, reject) => {
@@ -25,8 +25,8 @@ const fetch = (url: string, options?: any): Promise<any> => {
           return
         }
         const value = data.value
-        // console.log("data",data)
-        // console.log("value",value)
+        // clog("data",data)
+        // clog("value",value)
         if (!value) {
           // 这里处理错你自定义的错误，例如code !== 1
 
@@ -42,7 +42,7 @@ const fetch = (url: string, options?: any): Promise<any> => {
         }
       })
       .catch((err: any) => {
-        console.log(err)
+        clog(err)
         reject(err)
       })
   })

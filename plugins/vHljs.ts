@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     mounted(el, binding) {
       let addCopy = binding.value.addCopy
       const CodeNodeList: NodeListOf<HTMLElement> = el.querySelectorAll('pre code')
-      // console.log('CodeNodeList', CodeNodeList)
+      // clog('CodeNodeList', CodeNodeList)
       const CodeLength = CodeNodeList.length
       // CodeNodeList.forEach((line, i) => {
       //     line.innerHTML = '<ul><li>' + line.innerHTML.replace(/\n/g, '\n</li><li>') + '\n</li></ul>'
@@ -26,7 +26,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         }, 1500)
       } else {
         for (let i = 0; i < CodeLength; i++) {
-          // console.log(CodeNodeList[i])
+          // clog(CodeNodeList[i])
           renderCode(CodeNodeList[i], addCopy)
         }
       }
@@ -40,7 +40,7 @@ const renderCode = (el: HTMLElement, addCopy: boolean) => {
     /<li><\/li>/g,
     ''
   )
-  // console.log(el.innerHTML)
+  // clog(el.innerHTML)
   if (addCopy) {
     let copy = document.createElement('button')
     copy.setAttribute('class', 'd-code-copy')

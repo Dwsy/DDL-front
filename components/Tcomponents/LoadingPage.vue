@@ -6,5 +6,6 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import LogoTwitter from '~~/components/Tcomponents/Logo/Twitter.vue'
 </script>

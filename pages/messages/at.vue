@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta } from '#imports'
 
 definePageMeta({

@@ -33,6 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from '#app'
 import {

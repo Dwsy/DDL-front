@@ -53,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta, dateFilter } from '#imports'
 import { onMounted, onUnmounted } from 'vue'
 import { useThumbStore } from '~/stores/messages/article/thumbStore'
@@ -65,7 +66,7 @@ definePageMeta({
 let thumbStore = useThumbStore()
 
 onMounted(async () => {
-  console.log('thumbonMounted')
+  clog('thumbonMounted')
   document.documentElement.scrollTop = 0
   await thumbStore.loadThumbNotifyList()
   document.body.onscroll = loadingWin

@@ -10,6 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 const { getTweets: getTweetsComposable } = useTweets()
 
 const loading = ref(false)
@@ -34,7 +35,7 @@ async function getTweets() {
 
     searchTweets.value = tweets
   } catch (error) {
-    console.log(error)
+    clog(error)
   } finally {
     loading.value = false
   }

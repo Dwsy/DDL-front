@@ -19,19 +19,19 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
     (config: AxiosRequestConfig) => {
       const User = useUserStore()
       const token = User.token
-      // console.log("++++interceptors++++");
+      // clog("++++interceptors++++");
       // let token = window.localStorage.getItem("token")
-      // console.log(appConfig)
+      // clog(appConfig)
       const flag: any = config || {}
       // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
 
       if (Boolean(token) && !config.url.includes('qiniu.dwsy.link')) {
         flag.headers['Authorization'] = 'Bearer ' + token
         // if (!useUser.IsLogin) {
-        //   console.log("ads");
+        //   clog("ads");
         //   useUser.setIsLogn(true);
         // } else {
-        //   console.log("ads");
+        //   clog("ads");
         //   useUser.setIsLogn(false);
         // }
         // conflg.headers["Authorization"] = "Bearer" + token;
@@ -46,10 +46,10 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
 
   Axios.interceptors.response.use(
     async (response) => {
-      // console.log("response");
-      // console.log(response);
+      // clog("response");
+      // clog(response);
 
-      // console.log("response");
+      // clog("response");
       if (response.data.code == 104) {
         warningMsg('用户信息验证失效，请重新登录')
         await useRouter().push('/user/login')
@@ -62,16 +62,16 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
       }
     },
     async (error: AxiosError) => {
-      console.log('error', error)
-      console.log('response.status', error.response.status)
+      clog('error', error)
+      clog('response.status', error.response.status)
       if (error.response.status == 502) {
         warningMsg('服务器内部错误')
       }
       if (error.response.status == 401) {
-        console.log('no token')
+        clog('no token')
         //   message({ type: "error", message: String(error.response.data.message) });
       }
-      // console.log(error.response.data);
+      // clog(error.response.data);
 
       return Promise.reject(error.response)
     }

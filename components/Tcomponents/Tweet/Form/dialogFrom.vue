@@ -12,6 +12,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { ref } from 'vue'
 import UISpinner from '~/components/Tcomponents/UI/Spinner'
 import TweetItem from '~/components/Tcomponents/Tweet/Item'
@@ -51,7 +52,7 @@ async function handleFormSubmit(data) {
   //
   //     emits('onSuccess', response.tweet)
   // } catch (error) {
-  //     console.log(error)
+  //     clog(error)
   // } finally {
   //     loading.value = false
   // }

@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import {
   definePageMeta,
   successMsg,
@@ -93,7 +94,7 @@ onMounted(async () => {
 })
 
 const cutDown = async (res) => {
-  console.log(res)
+  clog(res)
   avatarFile.value = res.file
   await submitFile()
   userInfo.value.avatar = res.dataURL
@@ -143,7 +144,7 @@ const save = async () => {
   } else {
     warningMsg('保存失败')
   }
-  console.log(userInfo.value)
+  clog(userInfo.value)
 }
 </script>
 

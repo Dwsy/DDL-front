@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useLayout } from '~/stores/layout'
 
 const layout = useLayout()

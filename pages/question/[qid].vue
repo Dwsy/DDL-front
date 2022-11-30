@@ -1032,6 +1032,7 @@ import {
   userAxiosGetAcceptAnswer,
   userAxiosPostInvitationUserAnswerQuestion,
 } from '~/composables/Api/question/answer'
+import { clog } from '~/utils/clog'
 
 const theme = useTheme()
 const route = useRoute()
@@ -1072,7 +1073,7 @@ if (responseData.code === 0) {
   }
   questionStore.cookieThemeState = useCookie('theme')
 } else {
-  console.log(responseData.msg)
+  clog(responseData.msg)
 }
 questionStore.init(questionId)
 const title = ref(questionStore.filed.title)
@@ -1144,11 +1145,11 @@ const openCollectionDialog = async (type: collectionType, sourceId: string) => {
     // if (articleCollectionState.value.code === 0) {
     //   const state = articleCollectionState.value.data
     //   // selectCollectionGroup.value = state
-    //   // console.log(state)
+    //   // clog(state)
     //   for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
     //     for (const iKey in state) {
-    //       // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
-    //       // console.log("state[iKey].value[i].id",state[iKey])
+    //       // clog("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
+    //       // clog("state[iKey].value[i].id",state[iKey])
     //       if (state[iKey] === collectionGroupList.value[i].id) {
     //         collectionGroupList.value[i].select = true
     //       }
@@ -1209,6 +1210,7 @@ const unsubscribe = () => {
   unFollowUser(questionStore.filed.user.id)
   questionStore.follow = false
 }
+
 
 const showCommentDialog = (
   user: User,
@@ -1312,7 +1314,7 @@ const watchQuestion = async (cancel = false) => {
 }
 
 const commentQuestion = (isActive) => {
-  console.log('commentQuestion')
+  clog('commentQuestion')
   const handle = (ret: AnswerData) => {
     isActive.value = false
     complementRet(ret)
@@ -1331,7 +1333,7 @@ const commentQuestion = (isActive) => {
 }
 
 const replyQuestionComment = () => {
-  console.log('replyQuestionComment')
+  clog('replyQuestionComment')
   const handle = (ret: AnswerData) => {
     commentDialog.value = false
     complementRet(ret)
@@ -1357,7 +1359,7 @@ const replyQuestionComment = () => {
 }
 
 const commentAnswer = (index, answerId, isActive) => {
-  console.log('commentAnswer')
+  clog('commentAnswer')
   const handle = (ret: AnswerData) => {
     complementRet(ret)
     answerStore.dataList[index].childQaAnswers.unshift(ret)
@@ -1398,7 +1400,7 @@ const complementRet = (ret: AnswerData) => {
   ret.user.userInfo = userStore.userInfo
   ret.user.id = userStore.user.id
   ret.user.nickname = userStore.user.nickname
-  console.log('ret.user', ret.user)
+  clog('ret.user', ret.user)
 }
 </script>
 

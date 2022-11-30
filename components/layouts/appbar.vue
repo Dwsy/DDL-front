@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useLayout } from '~~/stores/layout'
 import { useTheme } from 'vuetify'
 import Search from './search.vue'
@@ -86,9 +87,9 @@ const isArticlePage = ref(true)
 // }
 
 onMounted(async () => {
-  console.log('onMounted')
+  clog('onMounted')
   watchEffect(() => {
-    // console.log('route.path', route.path)
+    // clog('route.path', route.path)
     isArticlePage.value = route.path.startsWith('/article')
   })
   await layout.getUnreadCount()

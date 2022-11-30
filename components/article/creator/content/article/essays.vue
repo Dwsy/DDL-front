@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { inject, onMounted, provide, ref, watch, watchEffect } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import List from '~~/components/article/index/list.vue'
@@ -56,7 +57,7 @@ onMounted(async () => {
       tab.value = String(route.query.state)
     }
   } else {
-    // console.log('route.query.state', route.query.state)
+    // clog('route.query.state', route.query.state)
     let href = window.location.href
     window.history.replaceState({}, 'title', href + '?state=all')
   }

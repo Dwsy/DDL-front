@@ -17,5 +17,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
+import { clog } from '~/utils/clog'
 import AuthForm from '~/components/Tcomponents/Auth/Form.vue'
 </script>

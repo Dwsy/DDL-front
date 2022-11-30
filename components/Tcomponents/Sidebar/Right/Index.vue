@@ -81,6 +81,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline/esm/index.js'
 import { ref } from 'vue'
 import { useRouter } from '#app'

@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import { onActivated, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue'
@@ -83,8 +84,8 @@ useHead({
   title: '文章',
 })
 onMounted(() => {
-  // console.log('index mounted')
-  // console.log(indexTop.value)
+  // clog('index mounted')
+  // clog(indexTop.value)
   document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(loadingMore)
 })
@@ -92,11 +93,11 @@ onBeforeUnmount(() => {
   document.body.onscroll = null
 })
 // onUnmounted(() => {
-// console.log('index unmounted')
+// clog('index unmounted')
 // document.body.onscroll = document.documentElement.scrollTop=0
 // })
 // onActivated(() => {
-//   console.log("onActivated")
+//   clog("onActivated")
 //   document.documentElement.scrollTop = indexTop.value || 0
 // })
 // onBeforeRouteLeave((to, from, next) => {
@@ -106,7 +107,7 @@ onBeforeUnmount(() => {
 // })
 
 const selectTag = async (tagID) => {
-  console.log('selectTag')
+  clog('selectTag')
   if (tagID == 0) {
     params.value.tagId = null
   } else {

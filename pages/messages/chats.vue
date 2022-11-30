@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, onUnmounted } from 'vue'
 import { useChatsStore } from '~/stores/messages/chatsStore'
 import { definePageMeta } from '#imports'
@@ -70,12 +71,12 @@ useHead({
 
 const chatsStore = useChatsStore()
 onMounted(async () => {
-  console.log('chatsStore onMounted')
+  clog('chatsStore onMounted')
   await chatsStore.loadChatsList()
 })
 
 onUnmounted(() => {
-  console.log('onUnmounted')
+  clog('onUnmounted')
 })
 </script>
 

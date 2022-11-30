@@ -19,6 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import useTailwindConfig from '../../composables/useTailwindConfig'
 import UISpinner from '/components/Tcomponents/UI/Spinner.vue'
 

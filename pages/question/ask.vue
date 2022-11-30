@@ -373,6 +373,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRoute, useRouter } from '#app'
 import { onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
@@ -445,7 +446,7 @@ onMounted(async () => {
   document.title = '提问题'
   const id = String(route.query.id)
   let version = Number(route.query.version || -1)
-  console.log('id', id)
+  clog('id', id)
   await load(id, version)
   // if (themeInstance.global.name.value === 'dark') {
   //   await changeThemes(themes[darkThemeName.value])
@@ -454,14 +455,14 @@ onMounted(async () => {
   // }
   watchEffect(async () => {
     if (themeInstance.global.name.value === 'dark') {
-      console.log("stance.global.name.value === 'dark') {")
+      clog("stance.global.name.value === 'dark') {")
       await changeThemes(themes[darkThemeName.value])
       await changeHighlightStyle(darkHighlightStyle.value)
       if (selectThemeTabName.value !== 'dark') {
         selectThemeTabName.value = 'dark'
       }
     } else {
-      console.log('eeee')
+      clog('eeee')
       await changeThemes(themes[themeName.value])
       await changeHighlightStyle(highlightStyle.value)
       if (selectThemeTabName.value !== 'light') {
@@ -480,7 +481,7 @@ onMounted(async () => {
 })
 
 const load = async (id: string, version: number) => {
-  console.log('Boolean(id) === false', Boolean(id) === false)
+  clog('Boolean(id) === false', Boolean(id) === false)
   if (id === undefined || id === 'undefined') {
     isNew.value = true
 
@@ -596,7 +597,7 @@ const updateQuestion = async () => {
   // questionTagList.value.forEach((tag) => {
   questionTagIds.value.add('1')
   // })
-  console.log(questionTagIds.value)
+  clog(questionTagIds.value)
   let body: CreateQuestionBody = {
     // allow_answer: true,
     questionGroupId: questionGroupId.value,

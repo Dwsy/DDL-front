@@ -61,6 +61,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRouter } from '#app'
 import { onMounted, watch, ref, inject, watchEffect, toRef, toRefs } from 'vue'
 import { useAxiosGetTagSuggestion } from '~/composables/Api/article/manageArticle'
@@ -82,7 +83,7 @@ const readonly = ref(false)
 const TagNumColor = ref('')
 onMounted(() => {
   // infinityTopicList.value =
-  // console.log()
+  // clog()
   watchEffect(() => {
     // if (infinityTopicList.value.length >= 3) {
     //   if (infinityTopicList.value.length > 3) {

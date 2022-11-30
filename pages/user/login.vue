@@ -46,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useUserStore } from '~~/stores/user'
 // import tool from "~~/utils/tool"
 import CryptoJS from 'crypto-js'
@@ -74,27 +75,27 @@ onMounted(async () => {
 })
 const check = async () => {
   let { data } = await User.CheckIn()
-  console.log(data)
+  clog(data)
 }
 
 async function setToken(token: string) {
   payload.value = CryptoJS.enc.Base64.parse(token.split('.')[1]).toString(CryptoJS.enc.Utf8)
-  // console.log(token.split('.')[1])
-  // console.log(payload)
+  // clog(token.split('.')[1])
+  // clog(payload)
   User.setToken(token)
   localStorage.setItem('token', token)
   localStorage.setItem('user', JSON.parse(payload.value)['ddl-user'])
   User.setUser(JSON.parse(JSON.parse(payload.value)['ddl-user']))
-  console.log('login', User.user)
-  // console.log("payload.value['ddl-user']\n",JSON.parse(payload.value))
+  clog('login', User.user)
+  // clog("payload.value['ddl-user']\n",JSON.parse(payload.value))
   User.setIsLogin(true)
   await User.getUserInfo()
 }
 
 const login = async () => {
   publicKey.value = (await useGet<ResponseData<any>>('au/authority/rsa-pks')).data['data']
-  // console.log('publicKey', publicKey.value)
-  // console.log('rsa decode', rsaEncrypt(publicKey.value, password.value))
+  // clog('publicKey', publicKey.value)
+  // clog('rsa decode', rsaEncrypt(publicKey.value, password.value))
   let uap = {
     username: username.value,
     password: rsaEncrypt(publicKey.value, password.value),

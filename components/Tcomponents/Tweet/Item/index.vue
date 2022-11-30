@@ -185,6 +185,7 @@
   </client-only>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import { computed, onMounted, ref } from 'vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
@@ -255,7 +256,7 @@ function handleCommentClick() {
     if (props.tweet.childCommentNum != 0) {
       showComment.value = !showComment.value
     } else {
-      console.log("//todo reply open dialog")
+      clog("//todo reply open dialog")
       //todo reply open dialog
     }
   } else {
@@ -291,8 +292,8 @@ const indexRef = ref(0)
 const viewImg = () => {
   indexRef.value = ShowIndex.value
   visibleRef.value = true
-  console.log(props.tweet.imgUrlList[ShowIndex.value])
-  console.log((visibleRef.value = true))
+  clog(props.tweet.imgUrlList[ShowIndex.value])
+  clog((visibleRef.value = true))
 }
 const onHide = () => (visibleRef.value = false)
 </script>

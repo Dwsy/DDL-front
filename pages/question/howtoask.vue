@@ -75,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useLayout } from '~/stores/layout'

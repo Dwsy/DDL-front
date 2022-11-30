@@ -69,9 +69,9 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
           let replyDataList = this.commentReplyDataMap.get(data.replyUserTweetId)
           infinity.replyUserName = this.replyInfinityData.user.nickname
           if (this.replyInfinityData.replyUserTweetId) {
-            console.log(replyDataList)
+            clog(replyDataList)
             let index = replyDataList.findIndex((item) => item.id === this.replyInfinityData.id)
-            console.log("index",index)
+            clog("index",index)
             replyDataList.splice(index+1, 0, infinity)
           } else {
             replyDataList.unshift(infinity)
@@ -79,11 +79,11 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
 
 
         //   // this?.replyInfinityData?.replyUserTweetId != undefined
-        //   console.log(data.replyUserTweetId)
+        //   clog(data.replyUserTweetId)
           //   infinity.replyUserName=this.replyInfinityData.user.nickname
-        //   console.log(this.replyInfinityData)
-        //   console.log("Object.values(this.commentReplyDataMap)",Object.values(this.commentReplyDataMap))
-        //   console.log(
+        //   clog(this.replyInfinityData)
+        //   clog("Object.values(this.commentReplyDataMap)",Object.values(this.commentReplyDataMap))
+        //   clog(
         //     'Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)',
         //     Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)
         //   )
@@ -91,19 +91,19 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         //     this.commentReplyDataMap.get(data.replyUserTweetId).unshift(infinity)
         //   }else {
         //     let replyDataList = this.commentReplyDataMap.get(this.replyInfinityData)
-        //     console.log('replyDataList',replyDataList)
+        //     clog('replyDataList',replyDataList)
         //     let index = replyDataList.findIndex((item) => item.id === data.replyUserTweetId)
         //     replyDataList.splice(index + 1, 0, infinity)
         //   }
         //
         // } else {
-        //   console.log("          this.commentDataList = [infinity, ...this.commentDataList]")
-        //   console.log(infinity)
+        //   clog("          this.commentDataList = [infinity, ...this.commentDataList]")
+        //   clog(infinity)
         //   this.commentDataList = [infinity, ...this.commentDataList]
         }
         else {
-            console.log("          this.commentDataList = [infinity, ...this.commentDataList]")
-            console.log(infinity)
+            clog("          this.commentDataList = [infinity, ...this.commentDataList]")
+            clog(infinity)
           this.commentReplyDataMap.set(infinity.id,[])
             this.commentDataList = [infinity, ...this.commentDataList]
         }

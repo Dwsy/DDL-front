@@ -11,6 +11,7 @@
   </button>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { computed } from 'vue'
 
 const emits = defineEmits(['onClick'])

@@ -97,8 +97,8 @@ export const useQuestionStore = defineStore('QuestionStore', {
       }
     },
     getActionColor(userAction: AnswerType, action: AnswerType) {
-      console.log('userAction', userAction)
-      console.log('action', action)
+      clog('userAction', userAction)
+      clog('action', action)
       if (userAction == action) {
         return 'blue-lighten-2'
       } else {

@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useChatsStore } from '~/stores/messages/chatsStore'
 import { onMounted, onUnmounted } from 'vue'
 import { definePageMeta } from '#imports'
@@ -57,7 +58,7 @@ let items = [
 
 onMounted(() => {
   layout.showFooter = false
-  // console.log('11Messsage mounted')
+  // clog('11Messsage mounted')
 })
 onUnmounted(() => {
   layout.showFooter = true

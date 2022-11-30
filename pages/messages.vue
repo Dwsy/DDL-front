@@ -45,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { inject, onMounted, onUnmounted, provide, reactive, ref } from 'vue'
 import { definePageMeta } from '#imports'
 import { warningMsg } from '~/composables/utils/toastification'
@@ -137,7 +138,7 @@ let items = ref<items[]>([
 //todo read --
 onMounted(async () => {
   layout.showFooter = false
-  console.log('11Messsage mounted')
+  clog('11Messsage mounted')
 
   const { data: axiosResponse } = await useAxiosGetUnreadMessageCount(CountType.Detail)
 
@@ -170,9 +171,9 @@ const changeTitle = (title) => {
   document.title = '消息中：' + title
 }
 onBeforeRouteLeave((to, from) => {
-  console.log('leave')
-  console.log('to', to)
-  console.log('from', from)
+  clog('leave')
+  clog('to', to)
+  clog('from', from)
   layout.getUnreadCount()
 })
 </script>

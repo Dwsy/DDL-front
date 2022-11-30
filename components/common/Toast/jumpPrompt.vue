@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 // import {TYPE} from 'vue-toastification/src/ts/constants'
 import { onMounted, onUnmounted, ref } from 'vue'
 
@@ -27,7 +28,7 @@ onMounted(() => {
   message.value = props.msg.replace('{{}}', second.value.toString())
   const interval = setInterval(() => {
     second.value--
-    // console.log(second.value)
+    // clog(second.value)
     message.value = props.msg.replace('{{}}', String(second.value))
   }, 1000)
   setTimeout(() => {

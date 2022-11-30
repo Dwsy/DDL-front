@@ -165,10 +165,10 @@ export const useLoadingWin = (loadingMore: Function) => {
     let clientHeight =
       window.innerHeight ||
       Math.min(document.documentElement.clientHeight, document.body.clientHeight)
-    // console.log(clientHeight + scrollTop, scrollHeight)
+    // clog(clientHeight + scrollTop, scrollHeight)
     if (clientHeight + scrollTop + 100 >= scrollHeight) {
       if (loading) {
-        console.log('useLoadingWin', loading)
+        clog('useLoadingWin', loading)
         loading = false
         await loadingMore()
         setTimeout(() => {
@@ -185,7 +185,7 @@ export const handleCopy = (el: any) => {
   const selection = window.getSelection()
   if (selection.rangeCount > 0) selection.removeAllRanges()
   selection.addRange(range)
-  // console.log(range)
+  // clog(range)
   document.execCommand('copy')
   selection.removeRange(range)
 }
@@ -196,6 +196,6 @@ export const getRandomColor = () => {
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)]
   }
-  // console.log(color)
+  // clog(color)
   return color
 }

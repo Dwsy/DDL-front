@@ -74,9 +74,9 @@ export const useAnswerStore = defineStore('AnswerStore', {
       }
       const { data: axiosResponse } = await useAxiosPostAnswerQuestion(body)
       if (axiosResponse.code === 0) {
-        console.log('axiosResponse.data', axiosResponse.data)
+        clog('axiosResponse.data', axiosResponse.data)
         successMsg(answer ? `回答发送成功` : `回复发送成功`)
-        console.log('axiosResponse.dat', axiosResponse.data)
+        clog('axiosResponse.dat', axiosResponse.data)
         handle(axiosResponse.data)
 
         return axiosResponse.data

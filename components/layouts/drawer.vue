@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onBeforeMount, reactive, watchEffect } from 'vue'
 import { useTheme } from 'vuetify'
 import { BellIcon } from '@heroicons/vue/24/outline/esm/index.js'

@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import {
   changeHighlightStyle,
   HighlightStyleNameList,
@@ -20,7 +21,7 @@ import {
 import { ref } from 'vue'
 
 const x = (item) => {
-  console.log(item)
+  clog(item)
   return '123'
 }
 const highlightStyle = ref()

@@ -81,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { dateFilter, getRandomColor, timeAgoFilter } from '#imports'
 import { inject, Ref } from 'vue'
 import { articleListData } from '~/types/article'

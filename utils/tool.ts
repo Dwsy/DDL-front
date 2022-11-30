@@ -159,9 +159,9 @@
 // tool.RSA = {
 //     encrypt(data, publicKey) {
 //         let encryptor = new JSEncrypt() // 新建JSEncrypt对象
-// 		console.log("publicKey"+publicKey);
+// 		clog("publicKey"+publicKey);
 // 		encryptor.setPublicKey('-----BEGIN PUBLIC KEY-----\n' + publicKey + '\n-----END PUBLIC KEY-----') // 设置公钥
-// 		console.log(encryptor)
+// 		clog(encryptor)
 //         return encryptor.encrypt(data) // 对密码进行加密
 //     }
 // }

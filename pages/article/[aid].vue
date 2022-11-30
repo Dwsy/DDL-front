@@ -689,6 +689,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import {
   CommentType,
   useAxiosCancelCollectionToGroup,
@@ -738,7 +739,7 @@ articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
   router.push('/article')
 }
-// console.log('title', ArticleField.data.title)
+// clog('title', ArticleField.data.title)
 const title = ref<string>(ArticleField.data.title)
 let ArticleContent = await useFetchGetArticleContent(aid)
 articleStore.contentHtml = ArticleContent.data
@@ -791,7 +792,7 @@ onMounted(async () => {
   }, 200)
   await articleCommentStore.init(articleStore.articleField)
   if (route.hash.startsWith('#comment-')) {
-    console.log('goto comment:', route.hash)
+    clog('goto comment:', route.hash)
     const el = document.querySelector(route.hash)
     if (el) {
       el.scrollIntoView({
@@ -819,7 +820,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  console.log('onUnmounted')
+  clog('onUnmounted')
   articleStore.$reset()
   articleCommentStore.$reset()
 })
@@ -868,11 +869,11 @@ const collectionArticles = async () => {
     if (articleCollectionState.value.code === 0) {
       const state = articleCollectionState.value.data
       // selectCollectionGroup.value = state
-      // console.log(state)
+      // clog(state)
       for (let i = collectionGroupList.value.length - 1; i >= 0; i--) {
         for (const iKey in state) {
-          // console.log("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
-          // console.log("state[iKey].value[i].id",state[iKey])
+          // clog("collectionGroupList.value[i].id",collectionGroupList.value[i].id)
+          // clog("state[iKey].value[i].id",state[iKey])
           if (state[iKey] === collectionGroupList.value[i].id) {
             collectionGroupList.value[i].select = true
           }
@@ -899,7 +900,7 @@ const newCollectionGroup = async () => {
   }
 }
 const loadArticleCollectionState = async () => {
-  console.log('loadArticleCollectionState')
+  clog('loadArticleCollectionState')
   const { data: articleCollectionStateData } = await useAxiosGetArticleCollectionState(aid)
   articleCollectionState.value = articleCollectionStateData
 }

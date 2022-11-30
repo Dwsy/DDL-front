@@ -14,7 +14,7 @@ const fileDisplay = (filePath) => {
   //         fs.mkdir('./highlightCJs', function (err) {
   //             if (err)
   //                 console.error(err)
-  //             console.log('创建目录成功')
+  //             clog('创建目录成功')
   //         })
   //     }
   // })
@@ -33,7 +33,7 @@ const fileDisplay = (filePath) => {
         // 是否是文件夹
         const isDir = stats.isDirectory()
         if (isFile) {
-          // console.log(filedir)
+          // clog(filedir)
           fs.readFile(fileDir, 'utf8', function (err, dataStr) {
             const cjs = `export default \`${dataStr}\``
             filename = filename.replace('typora-', '')
@@ -43,17 +43,17 @@ const fileDisplay = (filePath) => {
               o = o + a[i].slice(0, 1).toUpperCase() + a[i].slice(1)
             }
             arr.push(o.replace('', '.js'))
-            // console.log(arr)
+            // clog(arr)
             fs.writeFile(`./${dirName}/${o.replace('.css', '.js')}`, cjs, function (err) {
               // 如果err为true，则文件写入失败，并返回失败信息
               if (err) {
                 return console.error('文件写入失败！' + err.message)
               }
               // 若文件写入成功，将显示“文件写入成功”
-              // console.log(filename)
-              // console.log('文件写入成功！')
+              // clog(filename)
+              // clog('文件写入成功！')
             })
-            // console.log(dataStr)
+            // clog(dataStr)
           })
         }
       })

@@ -442,6 +442,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRoute, useRouter } from '#app'
 import { nextTick, onMounted, provide, ref, toRaw, watch, watchEffect } from 'vue'
 import BytemdEditor from '~/components/article/write/bytemdEditor.vue'
@@ -671,7 +672,7 @@ const send = async () => {
   await nextTick()
   setTimeout(() => {
     const element: HTMLImageElement = document.querySelector('.d-draft-banner img')
-    console.log(element)
+    clog(element)
     mediumZoom(element, {
       background: 'rgba(0, 0, 0, 0.8)',
       scrollOffset: 0,
@@ -720,7 +721,7 @@ const updateArticle = async () => {
     articleTagIds.value.add(tag.id)
     // articleTagIds.value.push(tag.id)
   })
-  console.log(articleTagIds.value)
+  clog(articleTagIds.value)
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
@@ -752,7 +753,7 @@ const updateArticle = async () => {
   }
 }
 const saveState = () => {
-  // console.log('saveState')
+  // clog('saveState')
   beforeChangeState = {
     articleGroupId: toRaw(articleGroupId.value),
     articleTagList: toRaw(articleTagList.value),
@@ -792,7 +793,7 @@ const uploadBannerFile = async (res) => {
   //todo 文件上传接口细分
   bannerFileUploading.value = true
   const file = bannerFile.value
-  console.log(file)
+  clog(file)
   if (res.dataURL === localBannerImg.value) {
     defaultMsg('请勿重复上传')
     bannerFileUploading.value = false

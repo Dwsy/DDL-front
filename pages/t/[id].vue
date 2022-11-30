@@ -13,12 +13,13 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 // import { getById } from "~~/api/useApiTest"
 // import { useFetchResponse } from "~~/composables/useFetchResponse"
 import { useRoute } from '#app'
 
 let route = useRoute()
-// console.log(route.params.id)
+// clog(route.params.id)
 
 // let { $axios } = useNuxtApp()
 // const axios = $axios()
@@ -32,7 +33,7 @@ let body = {
 const { data } = await useAsyncData(body.url, () => $fetch(body.url))
 let r = data.value['content']['text']
 // const {data} = await useAsyncData('byid', () =>  useFetchResponse(body))
-// console.log(data.value);
+// clog(data.value);
 
 // await $fetch.raw(url, {
 //     method: methods,
@@ -40,10 +41,10 @@ let r = data.value['content']['text']
 //     // baseURL: baseUrl,
 //     params: params,
 //   });
-// console.log(data.value);
+// clog(data.value);
 // let array: Array<any> = null
 // data.map(e => {
-//   console.log(e._id);
+//   clog(e._id);
 //   // let { data } =
 //   let body = {
 //     url: "https://nestapi.dwsy.link/api/contents/all/" + e._id,

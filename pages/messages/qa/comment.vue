@@ -129,6 +129,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { dateFilter, definePageMeta, QaCommentType } from '#imports'
 import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 // import {NotifyType} from '~/stores/messages/replyStrore'
@@ -147,7 +148,7 @@ const type = ref(QaCommentType.all)
 // let replyStore = useReplyStore()
 let qaCommentStore = useQaCommentStore()
 onMounted(async () => {
-  console.log('reply mounted')
+  clog('reply mounted')
   document.documentElement.scrollTop = 0
   await qaCommentStore.loadQaCommentNotifyList(type.value, false)
   // document.body.onscroll =  useLoadingWin(loadingMore)
@@ -166,13 +167,13 @@ onMounted(async () => {
 onUnmounted(() => {
   qaCommentStore.page = 1
   qaCommentStore.totalPages = null
-  console.log('replyNotifyList unmounted')
+  clog('replyNotifyList unmounted')
 })
 onActivated(() => {
-  console.log('replyNotifyList activated')
+  clog('replyNotifyList activated')
 })
 onDeactivated(() => {
-  console.log('replyNotifyList deactivated')
+  clog('replyNotifyList deactivated')
 })
 
 const loadingMore = async () => {

@@ -76,15 +76,15 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
         })
         commentContent.childCommentPage = 1
       }
-      // console.log(this.commentList)
+      // clog(this.commentList)
       this.loadingComment = false
       this.totalPages = commentData.data.totalPages
     },
     async loadChildComment(pComment, page: number) {
       const pid = pComment.id
-      console.log('pid', pid)
-      console.log('aid', this.aid)
-      console.log('page', page)
+      clog('pid', pid)
+      clog('aid', this.aid)
+      clog('page', page)
       let { data: commentData } = await useAxiosGetArticleChildComment(this.aid, pid, {
         page,
       })
@@ -150,7 +150,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
           const time = new Date().getTime()
           const userStore = useUserStore()
           const t = `回复@${replyUserCommentName}：` + text
-          // console.log(t)
+          // clog(t)
           let commentSerialNumber = 1
           //todo 使用后端返回数据
           const childComments = this.commentList[pIndexId].childComments
@@ -193,7 +193,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
 
         // let {data: commentData} = await useAxiosGetArticleComment(this.aid)
         // this.commentList = commentData.data.content
-        // console.log('articleCommentStore.commentList', this.commentList)
+        // clog('articleCommentStore.commentList', this.commentList)
         //前端填充2或重新加载后端数据
         // this.commentList.unshift(newComment)
       }
@@ -255,7 +255,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
         articleFieldId: this.field.id,
         commentType: commentType,
       }
-      console.log(body)
+      clog(body)
 
       let { data: actionData } = await useAxiosPostActionArticleComment(body)
       if (actionData.code !== 0) {

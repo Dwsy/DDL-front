@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { definePageMeta, dateFilter } from '#imports'
 import { onActivated, onDeactivated, onMounted, onUnmounted } from 'vue'
 import { useReplyStore } from '~/stores/messages/article/replyStrore'
@@ -68,7 +69,7 @@ definePageMeta({
 let replyStore = useReplyStore()
 
 onMounted(async () => {
-  console.log('reply mounted')
+  clog('reply mounted')
   document.documentElement.scrollTop = 0
   await replyStore.loadReplyNotifyList()
   // document.body.onscroll =  useLoadingWin(loadingMore)
@@ -77,13 +78,13 @@ onMounted(async () => {
 onUnmounted(() => {
   replyStore.page = 1
   replyStore.totalPages = null
-  console.log('replyNotifyList unmounted')
+  clog('replyNotifyList unmounted')
 })
 onActivated(() => {
-  console.log('replyNotifyList activated')
+  clog('replyNotifyList activated')
 })
 onDeactivated(() => {
-  console.log('replyNotifyList deactivated')
+  clog('replyNotifyList deactivated')
 })
 
 const loadingWin = async () => {
@@ -102,7 +103,7 @@ const loadingWin = async () => {
 }
 
 const loadingMore = async () => {
-  console.log(123)
+  clog(123)
   if (replyStore.page >= replyStore.totalPages) {
     if (replyStore.replyNotifyList.length > 15) {
       // alert.value = true

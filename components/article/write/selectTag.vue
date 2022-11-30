@@ -41,6 +41,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRouter } from '#app'
 // import { useFetchGetSearchSuggestion } from '~/composables/Api/search'
 import { onMounted, watch, ref, inject, watchEffect } from 'vue'
@@ -60,7 +61,7 @@ const readonly = ref(false)
 const TagNumColor = ref('')
 onMounted(() => {
   // articleTagList.value =
-  // console.log()
+  // clog()
   watchEffect(() => {
     if (articleTagList.value.length >= 3) {
       if (articleTagList.value.length > 3) {

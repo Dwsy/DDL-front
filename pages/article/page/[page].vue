@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 // 搜索引擎 分页模式 SEO
 import List, { articleListData } from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
@@ -57,7 +58,7 @@ totalPages.value = listData.totalPages
 const alert = ref(false)
 
 const selectTag = async (tagID) => {
-  // console.log(tagID);
+  // clog(tagID);
   params.value.tagId = tagID
   // page.value = 1
   alert.value = false
@@ -74,7 +75,7 @@ const selectTag = async (tagID) => {
 //   //窗口可视范围高度
 //   var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight, document.body.clientHeight);
 //   if (clientHeight + scrollTop + 100 >= scrollHeight) {
-//     console.log("loading more");
+//     clog("loading more");
 //     await loadingMore()
 //   }
 // }
@@ -86,8 +87,8 @@ const selectTag = async (tagID) => {
 //     }
 //     return
 //   }
-//   console.log("page", page.value);
-//   console.log("totalPages", totalPages.value);
+//   clog("page", page.value);
+//   clog("totalPages", totalPages.value);
 
 //   page.value += 1
 //   const { data: listDataNew } = await useFetchGetArticleList(params.value)

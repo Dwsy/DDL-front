@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { getUploadPictureBase64AndAudit } from '~/composables/utils/picture'
 import { onMounted, ref } from 'vue'
 

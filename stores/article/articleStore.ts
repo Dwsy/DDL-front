@@ -28,7 +28,7 @@ export const useArticleStore = defineStore('ArticleStore', {
   getters: {},
   actions: {
     async init() {
-      // console.log(this.articleField.markDownTheme)
+      // clog(this.articleField.markDownTheme)
       // if (this.articleField.markDownTheme !== undefined) {
       //     await this.changeThemeLight(this.articleField.markDownTheme)
       // } else {

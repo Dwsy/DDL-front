@@ -13,6 +13,7 @@
   </client-only>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onBeforeRouteUpdate, useRoute } from '#app'
 import MainSection from '~/components/Tcomponents/MainSection.vue'
 import TweetDetails from '~/components/Tcomponents/Tweet/Details.vue'
@@ -33,7 +34,7 @@ const infinityStatusStore = useInfinityStatusStore()
 onBeforeRouteUpdate((to, from, next) => {
   if (to.path.startsWith('/infinity/status')) {
     infinityStatusStore.id = String(to.params.id)
-    console.log('String(useRoute()', useRoute())
+    clog('String(useRoute()', useRoute())
     infinityStatusStore.getTweet()
   } else {
     infinityStatusStore.commentReplyDataMap.clear()

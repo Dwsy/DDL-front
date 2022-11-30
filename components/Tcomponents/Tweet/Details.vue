@@ -13,6 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { computed, onMounted } from 'vue'
 import { navigateTo } from '#app'
 import TweetItem from '~/components/Tcomponents/Tweet/Item/index.vue'
@@ -29,7 +30,7 @@ const props = defineProps<{
 }>()
 
 onMounted(() => {
-  // console.log('props.tweet', props.tweet)
+  // clog('props.tweet', props.tweet)
 })
 
 // const comments =[]

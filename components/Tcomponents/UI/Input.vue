@@ -15,6 +15,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import input from '/components/Tcomponents/Logo/Twitter'
 
 const emits = defineEmits(['update:modelValue'])

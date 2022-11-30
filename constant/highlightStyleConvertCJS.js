@@ -11,7 +11,7 @@ const fileDisplay = (filePath) => {
     if (!exists) {
       fs.mkdir('./highlightCJs', function (err) {
         if (err) console.error(err)
-        console.log('创建目录成功')
+        clog('创建目录成功')
       })
     }
   })
@@ -29,7 +29,7 @@ const fileDisplay = (filePath) => {
       }
       arr.push(o)
     }
-    console.log(arr)
+    clog(arr)
     files.forEach((filename) => {
       //获取当前文件的绝对路径
       const fileDir = path.join(filePath, filename)
@@ -41,7 +41,7 @@ const fileDisplay = (filePath) => {
         // 是否是文件夹
         const isDir = stats.isDirectory()
         if (isFile) {
-          // console.log(filedir)
+          // clog(filedir)
           fs.readFile(fileDir, 'utf8', function (err, dataStr) {
             const cjs = `export default \`${dataStr}\``
 
@@ -51,7 +51,7 @@ const fileDisplay = (filePath) => {
               o = o + a[i].slice(0, 1).toUpperCase() + a[i].slice(1)
             }
             arr.push(o)
-            // console.log(arr)
+            // clog(arr)
 
             // fs.watchFile('./highlightStyleNamelist.js',)
             // fs.writeFile(`./highlightCJs/base16/${o.replace('', '.ts')}`, cjs, function (err) {
@@ -60,10 +60,10 @@ const fileDisplay = (filePath) => {
             //         return console.error('文件写入失败！' + err.message)
             //     }
             //     // 若文件写入成功，将显示“文件写入成功”
-            //     console.log(filename)
-            //     console.log('文件写入成功！')
+            //     clog(filename)
+            //     clog('文件写入成功！')
             // })
-            // console.log(dataStr)
+            // clog(dataStr)
           })
         }
       })
@@ -335,5 +335,5 @@ for (let i = 0; i < base16.length; i++) {
         break`
   template = template.replace('{{1}}', 'base16-' + base16[i])
   template = template.replace('{{2}}', base16[i])
-  console.log(template)
+  clog(template)
 }

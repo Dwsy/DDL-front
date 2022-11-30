@@ -52,6 +52,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import TweetItemActionsIcon from '~/components/Tcomponents/Tweet/Item/Actions/Icon.vue'
 
 import {

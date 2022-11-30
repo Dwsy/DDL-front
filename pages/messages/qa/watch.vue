@@ -88,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { dateFilter, definePageMeta, QaCommentType, useGet } from '#imports'
 import { onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useLoadingWin } from '~/composables/useTools'

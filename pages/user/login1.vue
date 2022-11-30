@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useUserStore } from '~~/stores/user'
 import { definePageMeta } from '#imports'
 import { onMounted } from 'vue'
@@ -33,14 +34,14 @@ const login = () => {
   )
   localStorage.setItem('user', 'Dwsy')
   User.setUser('Dwsy')
-  console.log('login')
+  clog('login')
 }
 const reset = () => {
   User.$reset()
   localStorage.clear()
-  console.log('logout')
+  clog('logout')
 }
 onMounted(() => {
-  console.log('onMounted11111111111111111111111111111')
+  clog('onMounted11111111111111111111111111111')
 })
 </script>

@@ -61,6 +61,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import DialogFrom from '~/components/Tcomponents/Tweet/Form/dialogFrom.vue'
 
@@ -102,7 +103,7 @@ const getReply = (id: string) => {
 }
 
 const getMapSize = (map: Map<string, any>) => {
-  console.log(map.size)
+  clog(map.size)
   return map.size
 }
 

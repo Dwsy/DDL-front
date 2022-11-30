@@ -76,6 +76,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { dateFilter, useCookie } from '#imports'
 import { articleListData } from '~/types/article'
 import { onMounted, ref, watch } from 'vue'

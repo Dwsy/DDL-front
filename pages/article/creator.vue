@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useUserStore } from '~/stores/user'
 import { ref } from 'vue'
 import { useLayout } from '~/stores/layout'

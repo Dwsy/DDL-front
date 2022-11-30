@@ -87,7 +87,7 @@ export const useChatsStore = defineStore('chats', {
       // }
     },
     async pullLastMessage(init: boolean, toUserId?: string, latest?: number) {
-      console.log('拉取消息', init, toUserId, latest)
+      clog('拉取消息', init, toUserId, latest)
       if (init) {
         this.msg = ''
         this.chatMsgUnreadNum.set(toUserId, 0)
@@ -122,7 +122,7 @@ export const useChatsStore = defineStore('chats', {
             latest: latest,
             page: (this.chatRecordPage += 1),
           }
-          // console.log('this.chatsToUserId', this.chatsToUserId)
+          // clog('this.chatsToUserId', this.chatsToUserId)
           let { data: response } = await UseAxiosGetHistoryMessage(this.chatsToUserId, params)
           if (response.code === 0) {
             let ra: Array<ChatRecord> = []
@@ -145,7 +145,7 @@ export const useChatsStore = defineStore('chats', {
     },
     connectWsChannel(toUserId?: number) {
       if (!('WebSocket' in window)) {
-        console.log('您的浏览器不支持WebSocket')
+        clog('您的浏览器不支持WebSocket')
         return
       }
       let conversationId
@@ -159,12 +159,12 @@ export const useChatsStore = defineStore('chats', {
       } else {
         conversationId = toUserId + '_' + user.user.id
       }
-      console.log(conversationId)
+      clog(conversationId)
       let auth = false
       let wsPath = 'ws://localhost:7050/private/message/'
       // let wsPath = 'ws://192.168.5.11:7050/private/message/'
       if (this.chatWsMap.has(toUserId)) {
-        // console.log('已经存在连接')
+        // clog('已经存在连接')
         return
       }
       let ws = new WebSocket(wsPath + conversationId)
@@ -174,10 +174,10 @@ export const useChatsStore = defineStore('chats', {
         content: user.token,
       }
       ws.onopen = function () {
-        console.log('连接成功')
+        clog('连接成功')
       }
       ws.onmessage = (event) => {
-        // console.log('收到消息', event.data)
+        // clog('收到消息', event.data)
         let data = event.data
         if (data === 'success') {
           ws.send(JSON.stringify(authMsg))
@@ -185,7 +185,7 @@ export const useChatsStore = defineStore('chats', {
         }
         if (data === '鉴权成功') {
           this.chatWsMap.set(toUserId, ws)
-          console.log('ok!')
+          clog('ok!')
           return
         }
         if (data === '鉴权失败' || data === 'error') {
@@ -206,10 +206,10 @@ export const useChatsStore = defineStore('chats', {
         }
       }
       ws.onclose = function () {
-        console.log('连接关闭')
+        clog('连接关闭')
       }
       ws.onerror = function () {
-        console.log('连接错误')
+        clog('连接错误')
       }
     },
 
@@ -232,7 +232,7 @@ export const useChatsStore = defineStore('chats', {
     //             this.chatUserNickname = this.chatRecord[0].chatUserNickname
     //             this.toUserId = toUserId
     //         } else {
-    //             console.log('page')
+    //             clog('page')
     //         }
     //     } else {
     //         warningMsg(response.msg)
@@ -299,8 +299,8 @@ export const useChatsStore = defineStore('chats', {
       Message.content = decodeURI(chatTextConvert(Message.content, Message.chatType))
       Message.chatUserNickname = this.chatUserNickname
       Message.chatUserAvatar = this.chatUserAvatar
-      // console.log('this.chatsToUserId', this.chatsToUserId)
-      // console.log('Message.formUserId', Message.formUserId)
+      // clog('this.chatsToUserId', this.chatsToUserId)
+      // clog('Message.formUserId', Message.formUserId)
 
       // let msg: ChatRecord = {
       //     chatUserAvatar: undefined,
@@ -334,7 +334,7 @@ export const useChatsStore = defineStore('chats', {
           this.chatsList.unshift(temp)
           const unreadNum = this.chatMsgUnreadNum
           unreadNum.set(Message.formUserId, unreadNum.get(Message.formUserId) + 1)
-          // console.log('unreadNum.get(this.chatsToUserId)', unreadNum.get(this.chatsToUserId))
+          // clog('unreadNum.get(this.chatsToUserId)', unreadNum.get(this.chatsToUserId))
           break
         }
       }
@@ -344,7 +344,7 @@ export const useChatsStore = defineStore('chats', {
         errorMsg('标记已读失败')
         return
       }
-      console.log('已读：', id)
+      clog('已读：', id)
     },
     async wsReadMsg(msg: string) {
       let id = Number(msg)

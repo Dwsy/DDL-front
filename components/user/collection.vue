@@ -112,6 +112,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useRoute, useRouter } from '#app'
 import { onMounted, ref } from 'vue'
 import {
@@ -133,7 +134,7 @@ const uid = String(route.params.id)
 const collectionGroupList = ref<collectionGroup[]>()
 const gid = ref(String(route.query.group) || null)
 onMounted(async () => {
-  console.log('mounted collection')
+  clog('mounted collection')
   const { data: axiosResponse } = await useAxiosGetCollectionGroupListByUserId(uid)
   if (axiosResponse.code === 0) {
     collectionGroupList.value = axiosResponse.data
@@ -184,7 +185,7 @@ const loadCollectionList = async () => {
     page: page.value,
     order: order.value === 0 ? 'ASC' : 'DESC',
   }
-  console.log('CollectionType.Answer', CollectionType.Answer.toString())
+  clog('CollectionType.Answer', CollectionType.Answer.toString())
   const { data: response } = await useAxiosGetCollectionListByGroupId(gid.value, params)
   if (response.code === 0) {
     collectionListData.value = response.data.content

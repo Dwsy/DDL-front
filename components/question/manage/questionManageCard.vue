@@ -79,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { inject, onMounted, Ref } from 'vue'
 import { QuestionField, QuestionStateColor, QuestionStateZh } from '~/types/question'
 import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'

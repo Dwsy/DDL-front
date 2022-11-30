@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, ref } from 'vue'
 import {
   useFetchGetArticleGroupList,
@@ -56,7 +57,7 @@ const changeGroup = async (id: string) => {
   }
   tags.value = (await useFetchGetArticleTagListByGroupId(id)).data
   selectionTag.value = 0
-  // console.log(selectionTag.value);
+  // clog(selectionTag.value);
 }
 const changeTag = (id: string) => {}
 </script>

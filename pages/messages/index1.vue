@@ -10,6 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, ref } from 'vue'
 import { definePageMeta } from '#imports'
 

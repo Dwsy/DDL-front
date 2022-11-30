@@ -16,6 +16,7 @@
   <v-btn @click="t"> show </v-btn>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 // import {tokeTest,baseUrlTest} from "~~/api/useApiTest"
 import { ref } from 'vue'
 let r = ref(null)
@@ -27,13 +28,13 @@ onMounted(async () => {
     // let {data}=  await tokeTest()
     let { data } = await baseUrlTest()
     r.value = ref(data)
-    console.log('browser')
-    // console.log(process);
+    clog('browser')
+    // clog(process);
 
     // alert(config.process.env.API_BASE_URL)
-    // console.log(response.value)
+    // clog(response.value)
   } else {
-    console.log('NODE token')
+    clog('NODE token')
   }
 })
 

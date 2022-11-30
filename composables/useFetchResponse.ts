@@ -16,7 +16,7 @@
 //   // if (Token) {
 //   //   HeaderOption.Authorization = "Bearer" + Token;
 //   // }
-//   console.log("统一拦截1");
+//   clog("统一拦截1");
 //   HeaderOption.Authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE";
 //   const response  =  $fetch(url, {
 //     method: methods,
@@ -31,7 +31,7 @@
 //     headers: HeaderOption,
 // 		async onResponseError({ response }) {
 // 			// if (response.status === 401) {
-// 			// 	console.log('auth');
+// 			// 	clog('auth');
 // 			// 	await useRequest('/api/auth/refresh');
 // 			// 	return await request(API, method, body);
 // 			// } else {

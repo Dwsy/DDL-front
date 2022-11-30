@@ -44,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import {
   defaultMsg,
   definePageMeta,
@@ -80,7 +81,7 @@ onMounted(async () => {
 })
 const savePwd = () => {}
 const sendEmailCode = async () => {
-  console.log('sendEmailCode', modifyEmailCode.value)
+  clog('sendEmailCode', modifyEmailCode.value)
   if (modifyEmailCode.value === undefined) {
     const { data: ret } = await useAxiosPostModifyEmail(true, userSetting.value.email)
     if (ret.code === 0) {

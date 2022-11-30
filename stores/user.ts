@@ -44,12 +44,12 @@ export const useUserStore = defineStore('user', {
       this.token = token
     },
     setUser(user: any) {
-      // console.log('setUser:', user)
-      // console.log('setUserType:', typeof user)
+      // clog('setUser:', user)
+      // clog('setUserType:', typeof user)
       if (user != null) this.user = user
     },
     async getUserInfo(refresh = false) {
-      console.log('getUserInfo', this.userInfo === null)
+      clog('getUserInfo', this.userInfo === null)
       if (refresh || this.userInfo === null) {
         if (this.user) {
           let { data } = await useAxiosGetUserInfo()

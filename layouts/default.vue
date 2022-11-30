@@ -38,6 +38,7 @@
   </v-app>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useLayout } from '~~/stores/layout'
 import { nextTick, onBeforeMount, onBeforeUpdate, onMounted, ref, watch, watchEffect } from 'vue'
 import { useTheme } from 'vuetify'

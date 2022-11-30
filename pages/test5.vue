@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
 import { ref } from 'vue'

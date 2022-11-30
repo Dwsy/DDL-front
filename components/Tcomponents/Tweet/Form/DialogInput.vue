@@ -195,6 +195,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import EmojiPicker from '~~/components/common/emojiPicker.vue'
 import { computed, onMounted, ref } from 'vue'
@@ -227,12 +228,12 @@ const props = defineProps({
 })
 onMounted(() => {
   appendProgress()
-  console.log('12appendProgressappendProgressappendProgress')
+  clog('12appendProgressappendProgressappendProgress')
 })
 
 const addEmoji = (emoji) => {
   text.value += emoji
-  console.log(emoji)
+  clog(emoji)
 }
 const changeImgFile = async (file) => {
   const { data: response } = await useAxiosPostUploadAvatar(file)
@@ -326,14 +327,14 @@ const indexRef = ref(0)
 const viewImg = () => {
   indexRef.value = ShowIndex.value
   visibleRef.value = true
-  // console.log(props.tweet.imgUrlList[ShowIndex.value])
-  // console.log((visibleRef.value = true))
+  // clog(props.tweet.imgUrlList[ShowIndex.value])
+  // clog((visibleRef.value = true))
 }
 const onHide = () => (visibleRef.value = false)
 const delImg = (index) => {
   imgUrlList.value.splice(index, 1)
   imgBase64List.value.splice(index, 1)
-  // console.log(imgUrlList.value)
+  // clog(imgUrlList.value)
 }
 const reply = async () => {
   if (text.value === '') {

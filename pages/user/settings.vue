@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useUserStore } from '~/stores/user'
 import { definePageMeta, useRoute } from '#imports'
 import { onMounted, ref } from 'vue'
@@ -56,7 +57,7 @@ onMounted(async () => {
     user.value = userStore.user
     userInfo.value = userStore.userInfo
   }, 200)
-  console.log(userInfo.value)
+  clog(userInfo.value)
 })
 const settingList: setting[] = [
   {

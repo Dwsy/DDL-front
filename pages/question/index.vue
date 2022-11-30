@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onBeforeUnmount, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 import { useQuestionIndexStore } from '~/stores/question/questionIndexStore'
 import { useRouter } from '#app'
@@ -56,7 +57,7 @@ onMounted(async () => {
   })
   watch(tab, (tabValue) => {
     questionIndexStore.page = 1
-    console.log(tabValue)
+    clog(tabValue)
   })
   document.body.onscroll=useLoadingWin(loadingMore)
 })

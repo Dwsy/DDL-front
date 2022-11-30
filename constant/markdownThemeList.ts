@@ -5,7 +5,7 @@ const mwebThemePath = '~~/constant/mwebMarkDownThemes/'
 export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) => {
   let css = null
 
-  // console.log('markdownTheme.name', markdownTheme.name)
+  // clog('markdownTheme.name', markdownTheme.name)
   switch (markdownTheme.name) {
     case 'smartblue':
       css = await import('juejin-markdown-themes/dist/smartblue')
@@ -187,18 +187,18 @@ export const changeThemes = async (markdownTheme: MarkdownTheme, ssr?: boolean) 
   if (ssr) {
     return css.default
   }
-  // console.log(css.default)
+  // clog(css.default)
   let markdownThemeStyleElement = document.querySelector('#markdownTheme')
   if (markdownThemeStyleElement) {
     markdownThemeStyleElement.innerHTML = css.default
   } else {
-    // console.log('创建style标签')
+    // clog('创建style标签')
     markdownThemeStyleElement = document.createElement('style')
     markdownThemeStyleElement.id = 'markdownTheme'
     markdownThemeStyleElement.innerHTML = css.default
     document.head.appendChild(markdownThemeStyleElement)
   }
-  // console.log('markdownThemeStyleElement', new Date().getTime() - s)
+  // clog('markdownThemeStyleElement', new Date().getTime() - s)
 }
 
 export const themes: Record<MarkdownThemeNameList, MarkdownTheme> = {

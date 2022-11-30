@@ -44,6 +44,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 // import { computed, onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 // import LoadingPage from '~/components/Tcomponents/LoadingPage.vue'
 import SidebarLeft from '~/components/Tcomponents/Sidebar/Left/index.vue'
@@ -63,9 +64,9 @@ import { watchEffect } from 'vue'
 // })
 const infinityStore = useInfinityStore()
 watchEffect(() => {
-  // console.log('infinityStore.isHome', infinityStore.isHome)
+  // clog('infinityStore.isHome', infinityStore.isHome)
   infinityStore.isHome = !useRoute().path.startsWith('/infinity/status')
-  // console.log('infinityStore.isHome', infinityStore.isHome)
+  // clog('infinityStore.isHome', infinityStore.isHome)
   //todo
 })
 useLayout().showFooter = false

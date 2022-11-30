@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { onMounted, ref } from 'vue'
 import { dateFilter, useAxiosGetSearchArticle, useRoute } from '#imports'
 import { ArticleSearchData } from '~/types/search'
@@ -132,7 +133,7 @@ const loadingWin = async () => {
     window.innerHeight ||
     Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {
-    console.log('loading more')
+    clog('loading more')
     await loadingMore()
   }
 }

@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import footnotes from '@bytemd/plugin-footnotes'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import gfm from '@bytemd/plugin-gfm'
@@ -113,7 +114,7 @@ const editorTheme = async () => {
     document.querySelector('html').style.backgroundColor = '#0e0e0e'
     // let element: HTMLElement = document.querySelector('#input-0')
     // element.style.color = '#FFF'
-    console.log('dark')
+    clog('dark')
     // await changeThemes(themes[darkThemeName.value])
     let right: HTMLElement = document.querySelector('.bytemd-status-right')
     right.style.color = '#FFF'
@@ -198,7 +199,7 @@ const uploadImages = async (files) => {
   ]
 }
 const upload = async (files) => {
-  // console.log(files)
+  // clog(files)
   const { data: response } = await useAxiosPostUploadImg(files[0])
   if (response.code === 0) {
     successMsg('上传成功')
@@ -229,7 +230,7 @@ const hasTipPrefixAndReplace = (p: Element, replacePrefixStrList: string[]): boo
           ret = true
         }
       }
-      // console.log(lines.join('\n'))
+      // clog(lines.join('\n'))
       p.innerHTML = lines.join('\n')
     } else {
       if (innerHTML.startsWith(string)) {

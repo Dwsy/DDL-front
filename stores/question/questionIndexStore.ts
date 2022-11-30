@@ -21,7 +21,7 @@ export const useQuestionIndexStore = defineStore('QuestionIndexStore', {
   actions: {
     async loadQuestion() {
       const data = await useFetchGetNewQuestionPageList(this.page)
-      // console.log(data)
+      // clog(data)
       if (data.code === 0) {
         if (this.page===1) {
           this.dataList = data.data.content

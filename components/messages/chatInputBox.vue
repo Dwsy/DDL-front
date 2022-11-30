@@ -76,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import { useChatsStore } from '~/stores/messages/chatsStore'
 import EmojiPicker from '~~/components/common/emojiPicker.vue'
 import { onMounted, ref, watch } from 'vue'
@@ -95,7 +96,7 @@ onMounted(async () => {
   await changeThemes(themes['hydrogen'], false)
   await changeHighlightStyle('after')
   watch(imgFile, (val) => {
-    console.log(val)
+    clog(val)
     // if(val){
     //   chatsStore.sendImg(val)
     // }

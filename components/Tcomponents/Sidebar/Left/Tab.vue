@@ -15,6 +15,7 @@
   </nuxt-link>
 </template>
 <script setup lang="ts">
+import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import { computed, ref } from 'vue'
 import { useRoute } from '#app'
