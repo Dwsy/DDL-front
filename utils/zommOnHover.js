@@ -142,7 +142,7 @@ export const twimg_zoom = (function () {
                 if (load_failed > 0) popup.classList.remove('load');
               } else {
                 is_load = true;
-                if (load_failed == 0) popup.classList.add('load');
+                if (load_failed === 0) popup.classList.add('load');
                 load_failed++;
                 if (load_failed < 14) load_n_show();
                 else popup.classList.remove('load');

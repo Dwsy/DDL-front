@@ -6,16 +6,14 @@
 
     <br />
 
-    <!--    <template v-for="item in items">-->
-
-    <!--      <v-list-item :to="item.link" variant="flat" rounded="xl"-->
-    <!--                   :prepend-icon="item.icon">-->
-    <!--        <v-list-item-title>-->
-    <!--          {{ item.text }}-->
-    <!--          <v-divider></v-divider>-->
-    <!--        </v-list-item-title>-->
-    <!--      </v-list-item>-->
-    <!--    </template>-->
+<!--    <template v-for="item in items">-->
+<!--      <v-list-item :to="item.link" variant="flat"  :prepend-icon="item.icon">-->
+<!--        <v-list-item-title>-->
+<!--          {{ item.text }}-->
+<!--          <v-divider></v-divider>-->
+<!--        </v-list-item-title>-->
+<!--      </v-list-item>-->
+<!--    </template>-->
     <nav aria-label="Main Nav" class="flex flex-col space-y-1">
       <template v-for="item in items">
         <nuxt-link
@@ -27,7 +25,7 @@
             {{ item.icon }}
           </v-icon>
           <BellIcon v-else class="mr-2 dark:text-slate-200" style="width: 27px" />
-          <span class="ml-3  font-semibold text-xl dark:text-slate-200">
+          <span class="ml-3 font-mono text-xl dark:text-sky-50">
             {{ item.text }}
           </span>
         </nuxt-link>

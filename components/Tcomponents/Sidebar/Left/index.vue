@@ -1,5 +1,6 @@
 <template>
-  <div class="flex h-screen flex-col">
+  <div class="flex  flex-col">
+<!--  <div class="flex h-screen flex-col">-->
     <div
       :class="defaultTransition"
       class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"

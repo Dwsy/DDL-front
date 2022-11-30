@@ -124,12 +124,12 @@ onMounted(async () => {
 
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
-  var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+  let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
   //滚动条滚动距离
-  var scrollTop =
+  let scrollTop =
     window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
   //窗口可视范围高度
-  var clientHeight =
+  let clientHeight =
     window.innerHeight ||
     Math.min(document.documentElement.clientHeight, document.body.clientHeight)
   if (clientHeight + scrollTop + 100 >= scrollHeight) {

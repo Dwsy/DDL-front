@@ -723,16 +723,16 @@ definePageMeta({
 })
 
 useLayout().showFooter = true
-
+const theme = useTheme()
 //todo 移动端适配
 let route = useRoute()
 let aid = String(route.params.aid)
 const cookieThemeState = useCookie('theme')
-let theme = useTheme()
-let user = useUserStore()
+
+const user = useUserStore()
 const router = useRouter()
-let articleStore = useArticleStore()
-let articleCommentStore = useArticleCommentStore()
+const articleStore = useArticleStore()
+const articleCommentStore = useArticleCommentStore()
 let ArticleField = await useFetchGetArticleField(aid)
 
 articleStore.articleField = ArticleField.data

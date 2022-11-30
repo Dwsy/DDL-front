@@ -8,7 +8,7 @@
     <!--        color="deep-purple"-->
     <!--        class="d-progress-linear"-->
     <!--    ></v-progress-linear>-->
-    <v-app-bar density="compact" elevation="1">
+    <v-app-bar density="compact" elevation="1" :style="{backgroundColor:appBarColor}">
       <v-app-bar-nav-icon @click.stop="layout.switchDrawer()"></v-app-bar-nav-icon>
 
       <v-row>
@@ -52,7 +52,7 @@
             </router-link>
             <nuxt-link to="/user/login">
               <v-btn icon>
-                <v-icon> mdi-account </v-icon>
+                <v-icon> mdi-account</v-icon>
               </v-btn>
             </nuxt-link>
             <!--        <a href="#comments">-->
@@ -71,7 +71,7 @@ import { useLayout } from '~~/stores/layout'
 import { useTheme } from 'vuetify'
 import Search from './search.vue'
 import { useUserStore } from '~/stores/user'
-import { onMounted, provide, ref, watchEffect } from 'vue'
+import { computed, onMounted, provide, ref, watchEffect } from 'vue'
 import { CountType, useAxiosGetUnreadMessageCount } from '~/composables/Api/messages'
 import { warningMsg } from '~/composables/utils/toastification'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
@@ -94,6 +94,9 @@ onMounted(async () => {
   })
   await layout.getUnreadCount()
 })
+const appBarColor = computed(() => {
+  return theme.global.name.value === 'dark' ? '#000000ab' : '#ffffffaa'
+})
 </script>
 
 <style scoped>
@@ -104,8 +107,8 @@ onMounted(async () => {
 </style>
 
 <style>
-.v-app-bar.v-toolbar {
-  background-color: v-bind('theme.global.name.value === "dark" ? "#000000ab" : "#ffffffaa"');
-  /*color: #000;*/
-}
+/*.v-app-bar.v-toolbar {*/
+/*  background-color: v-bind('theme.global.name.value === "dark" ? "#000000ab" : "#ffffffaa"') !important;*/
+/*  !*color: #000;*!*/
+/*}*/
 </style>

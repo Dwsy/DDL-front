@@ -25,11 +25,15 @@
     <!--    <v-navigation-drawer v-model="layout.drawer" width="calc(100% - 70% - 20px)">-->
     <!--      <slot name="drawer"></slot>-->
     <!--    </v-navigation-drawer>-->
-    <v-navigation-drawer v-model="layout.drawer" style="width: 8%">
+    <v-navigation-drawer
+      v-model="layout.drawer"
+      style="width: 8%"
+      :style="{ width: navigationDrawerWidth }"
+    >
       <slot name="drawer"></slot>
     </v-navigation-drawer>
 
-    <v-main :style="{ '--v-layout-left': drawerWidth }">
+    <v-main :style="{ '--v-layout-left': drawerWidth }" style="'--v-layout-left':8% ">
       <v-container fluid id="main-container" class="box">
         <slot />
         <slot name="footer"></slot>
@@ -47,19 +51,47 @@ const theme = useTheme()
 const layout = useLayout()
 const dark = ref()
 const drawerWidth = ref('8%')
+const navigationDrawerWidth = ref('8%')
 watchEffect(() => {
   dark.value = theme.global.name.value === 'dark'
 })
 
 const show = ref(false)
-onBeforeMount(async () => {
+onMounted(async () => {
   watchEffect(() => {
     drawerWidth.value = layout.drawer ? '8%' : '0px'
   })
-  // await nextTick()
-  setTimeout(() => {
+  let innerWidth = window.innerWidth
+  if (innerWidth < 500) {
+    setTimeout(() => {
+      show.value = true
+    }, 100)
+  } else {
+    await nextTick()
     show.value = true
-  }, 100)
+  }
+  const setNavigationDrawerWidth = () => {
+    console.log('setNavigationDrawerWidth')
+    innerWidth = window.innerWidth
+    if (innerWidth < 1890) {
+      navigationDrawerWidth.value = '8%'
+    }
+    if (innerWidth < 1600) {
+      navigationDrawerWidth.value = '12%'
+    }
+    if (innerWidth < 1280) {
+      navigationDrawerWidth.value = '25%'
+    }
+    if (innerWidth < 900) {
+      navigationDrawerWidth.value = '30%'
+    }
+    if (innerWidth < 500) {
+      navigationDrawerWidth.value = '50%'
+    }
+  }
+  setNavigationDrawerWidth()
+
+  window.addEventListener('resize', setNavigationDrawerWidth)
 })
 </script>
 

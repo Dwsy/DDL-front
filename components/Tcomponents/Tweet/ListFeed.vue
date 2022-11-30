@@ -9,10 +9,9 @@
         :class="[twitterBorderColor, defaultTransition]"
         v-for="tweet in infinityStore.InfinityDataList"
         :key="tweet.id"
-        @click="redirect(tweet)"
       >
         <!--      <nuxt-link :to="`/infinity/status/${tweet.id}`">-->
-        <TweetItem :tweet="tweet" compact />
+        <TweetItem :tweet="tweet" compact @click.stop="redirect(tweet)" />
         <!--      </nuxt-link>-->
       </div>
     </TransitionGroup>

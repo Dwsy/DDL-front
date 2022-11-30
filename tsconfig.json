@@ -1,5 +1,10 @@
 {
   // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
-  "jsx": "preserve"
+  "compilerOptions": {
+    "jsx": "preserve"
+  },
+  "ts-node": {
+    "ignoreDiagnostics": [1232]
+  },
 }

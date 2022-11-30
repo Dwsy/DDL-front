@@ -1,4 +1,5 @@
 import http from '../utils/fetch'
+import { ResponsePageData } from '~/types/utils/axios'
 
 export const useApiFetch = (url, options = {}) => {
   return $fetch('http://localhost/' + url, options)

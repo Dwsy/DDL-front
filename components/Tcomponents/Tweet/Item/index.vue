@@ -36,13 +36,18 @@
             </template>
           </div>
 
-          <template v-if="tweet.imgUrlList?.length!==0">
+          <template v-if="hasImg">
             <vue-easy-lightbox
               :visible="visibleRef"
               :imgs="tweet.imgUrlList"
               :index="ShowIndex"
+              :loop="true"
+              :moveDisabled="true"
+              :scrollDisabled="false"
               @hide="onHide"
-            ></vue-easy-lightbox>
+              :zoomScale="0.3"
+            >
+            </vue-easy-lightbox>
             <div class="SongList mt-3">
               <!--        //用v-for循环渲染缩略图-->
               <v-row>
@@ -106,7 +111,7 @@
 
           <v-row class="mt-1" v-if="tweet.infinityClub != null">
             <v-col>
-              <div >
+              <div>
                 <v-chip class="mr-2" prepend-icon="mdi-eye" color="blue">
                   <span class="text-base"> {{ tweet.upNum }}次查看</span>
                 </v-chip>
@@ -116,9 +121,13 @@
               </div>
             </v-col>
           </v-row>
-          <div  :class="{
-            'mt-2':tweet.imgUrlList?.length!==0,
-          }" v-if="!props.hideActions">
+          <div
+            :class="{
+              'mt-2': hasImg,
+              'mt-1': hasImg,
+            }"
+            v-if="!props.hideActions"
+          >
             <TweetItemActions
               :compact="props.compact"
               :tweet="props.tweet"
@@ -205,6 +214,9 @@ const props = defineProps<{
   timeLine?: boolean
   timeLineHeight?: string
 }>()
+const hasImg = computed(() => {
+  return props.tweet.imgUrlList?.length !== 0
+})
 const twType = ref(TwShowStatus.index)
 onMounted(() => {
   setTwType()
@@ -256,7 +268,7 @@ function handleCommentClick() {
     if (props.tweet.childCommentNum != 0) {
       showComment.value = !showComment.value
     } else {
-      clog("//todo reply open dialog")
+      clog('//todo reply open dialog')
       //todo reply open dialog
     }
   } else {
@@ -294,8 +306,16 @@ const viewImg = () => {
   visibleRef.value = true
   clog(props.tweet.imgUrlList[ShowIndex.value])
   clog((visibleRef.value = true))
+  //这里element是我们要禁用鼠标滚轮触发滚动条的元素
+  const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
+  main.onmousewheel = () => false
 }
-const onHide = () => (visibleRef.value = false)
+
+const onHide = () => {
+  const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
+  main.onmousewheel = () => true
+  visibleRef.value = false
+}
 </script>
 
 <style scoped>

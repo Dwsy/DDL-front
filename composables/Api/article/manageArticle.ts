@@ -31,9 +31,7 @@ export const useAxiosPostUploadImg = (file) => {
 }
 // http://localhost:7080/article/tag/suggestion/re
 
-export const useAxiosGetTagSuggestion = (
-  query
-): Promise<AxiosResponse<ResponseData<TagSuggestion[]>, any>> => {
+export const useAxiosGetTagSuggestion = (query) => {
   return useGet<ResponseData<any>>('search/article/tag/suggestion/' + query)
 }
 
