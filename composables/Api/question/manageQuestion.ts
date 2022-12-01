@@ -10,3 +10,7 @@ export const useAxiosGetUserQuestionList = (params?: GetUserQuestionListParams) 
 export const useAxiosGetQuestionCountByState = () => {
   return useGet<ResponseData<any>>('qa/question/manage/field/num')
 }
+
+export const useAxiosDelQuestionById = (id: string) => {
+  return useDel<ResponseData<boolean>>('qa/question/manage/' + id)
+}

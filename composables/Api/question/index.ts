@@ -2,7 +2,7 @@ import http from '~~/utils/fetch'
 import { useDel, useGet, usePost } from '~/composables/useAxios'
 import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { UserActionI } from '~/composables/Api/article'
-import { QuestionData } from '~/types/question'
+import { QaGroup, QuestionData } from '~/types/question'
 
 export const useAxiosGetNewQuestionPageList = (page: number) => {
   return useGet<ResponseData<any>>('/qa/question/field/list', { page })
@@ -25,7 +25,7 @@ export const useFetchGetQuestionContent = (questionId: string) => {
 }
 
 export const useFetchGetQuestionGroupList = () => {
-  return http.GET<ResponsePageData<any>>('/qa/group/list')
+  return http.GET<ResponseData<QaGroup[]>>('/qa/group/list')
 }
 
 export const useAxiosGetUserToQuestionAction = (questionId: string) => {

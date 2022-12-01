@@ -124,6 +124,7 @@ const delArticle = async (id: string, state: ArticleState, index: number, close)
     errorMsg(axiosResponse.msg)
     return
   }
+
   articleFiledData.value.splice(index, 1)
   switch (state) {
     case ArticleState.published:

@@ -96,6 +96,7 @@ onMounted(async () => {
 })
 const appBarColor = computed(() => {
   return theme.global.name.value === 'dark' ? '#000000ab' : '#ffffffaa'
+  // return theme.global.name.value === 'dark' ? '#2228' : '#ffffffaa'
 })
 </script>
 

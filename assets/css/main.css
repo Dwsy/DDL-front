@@ -12,7 +12,7 @@
 }
 
 .d-header header {
-  backdrop-filter: saturate(100%) blur(20px) !important;
+  backdrop-filter: saturate(100%) blur(24px) !important;
 }
 
 html {

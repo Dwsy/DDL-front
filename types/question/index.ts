@@ -83,7 +83,7 @@ export enum QuestionState {
 
 export enum QuestionStateZh {
   ASK = '发起问题',
-  DRAFT = '超高',
+  DRAFT = '草稿',
   HAVE_ANSWER = '已有答案',
   RESOLVED = '以解决',
   UNRESOLVED = '未解决',

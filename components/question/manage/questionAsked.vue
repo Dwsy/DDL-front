@@ -33,7 +33,7 @@ import { useAxiosGetUserQuestionList } from '~/composables/Api/question/manageQu
 import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
 import { useLayout } from '~/stores/layout'
 
-useLayout().drawer = false
+// useLayout().drawer = false
 const route = useRoute()
 const router = useRouter()
 const tab = ref()

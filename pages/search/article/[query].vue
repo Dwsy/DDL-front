@@ -113,8 +113,9 @@ const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
-  document.title = '搜索:' + Route.params.query
-  let { data: searchRet } = await useAxiosGetSearchArticle(Route.params.query, params.value)
+  console.log("Route",Route)
+  document.title = '搜索:' + Route.params.s
+  let { data: searchRet } = await useAxiosGetSearchArticle(Route.params.s, params.value)
   totalElements.value = searchRet.data.totalElements
   searchListContent.value = searchRet.data.content
   totalPages.value = searchRet.data.totalPages
@@ -146,7 +147,7 @@ const loadingMore = async () => {
     return
   }
   params.value.page += 1
-  let { data: searchRetNew } = await useAxiosGetSearchArticle(Route.params.query, params.value)
+  let { data: searchRetNew } = await useAxiosGetSearchArticle(Route.params.s, params.value)
   searchListContent.value.push(...searchRetNew.data.content)
 }
 </script>

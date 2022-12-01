@@ -13,7 +13,7 @@ export interface CreateQuestionBody {
   markDownThemeDark: string
   questionGroupId: string
   questionId?: string
-  questionState?: QuestionState
+  questionState?: QuestionState|string
   questionTagIds: any[]
   summary: string
   title: string

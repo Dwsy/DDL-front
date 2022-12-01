@@ -11,12 +11,15 @@
       >
       </v-text-field>
       <div class="mt-2 mr-4 ml-2">
-        <v-btn elevation="0" variant="tonal" color="#39c7af">手动保存</v-btn>
-
+        <v-btn elevation="0" variant="tonal" color="#39c7af" v-if="!isNew">手动保存</v-btn>
+        <v-btn elevation="0" variant="tonal" color="#8a1874" v-else @click="send(true)"
+          >存为草稿
+        </v-btn>
         <client-only>
           <v-menu v-model="versionHistoryMenu" location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn
+                v-if="!isNew"
                 class="ml-1"
                 color="#00a381"
                 elevation="0"
@@ -27,10 +30,15 @@
                 历史版本
               </v-btn>
             </template>
-            <v-card class="pa-3" style="width: 300px">
+            <v-card class="pa-3" style="width: 500px">
               <v-row v-for="(item, index) in versionHistoryList">
                 <v-col @click="gotoVersion(index)">
-                  <span class="text-subtitle-1">标题：{{ item.title }}</span>
+                  <span
+                    class="text-subtitle-1"
+                    v-text="`标题:${item.title.slice(0, 10)}`"
+                    v-bind:title="item.title"
+                    :class="{ 'text-green-700': nowVersion === index }"
+                  ></span>
                   <span class="text-grey float-right">{{ timeAgoFilter(item.date) }}</span>
                   <v-divider></v-divider>
                 </v-col>
@@ -64,7 +72,7 @@
             </template>
             <v-card min-width="600px">
               <div class="px-4 pt-2">
-                <div class="text-h6">{{ isNew ? '发布' : '更新' }}问题</div>
+                <div class="text-h6" v-text="sendDialogTitle"></div>
                 <v-divider class="mb-3"></v-divider>
 
                 <v-row>
@@ -100,31 +108,25 @@
                 clearable
                 counter="150"
                 label="文章摘要"
-                no-resize="true"
+                :no-resize="true"
                 placeholder="输入文章摘要..."
                 variant="outlined"
               >
               </v-textarea>
-
+              <v-select
+                v-model="questionState"
+                :items="questionStateItems"
+                class="mt-n5 mx-2"
+                item-title="text"
+                item-value="value"
+                label="设置问题状态"
+                prepend-icon="mdi-eye-circle-outline"
+                return-object
+                variant="underlined"
+              ></v-select>
               <v-card-actions>
                 <v-btn text @click="cancelChange()"> 取消</v-btn>
-                <v-btn
-                  color="primary"
-                  text
-                  @click="
-                    () => {
-                      if (isNew) {
-                        publishQuestion()
-                        this.menu = false
-                      } else {
-                        updateQuestion()
-                        this.menu = false
-                      }
-                    }
-                  "
-                >
-                  确定
-                </v-btn>
+                <v-btn color="primary" text @click="ok()"> 确定</v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -400,8 +402,8 @@ import {
 } from '~~/constant/markdownThemeList'
 import {
   changeHighlightStyle,
-  HighlightStyleNameList,
   HighlightStyleBase16NameList,
+  HighlightStyleNameList,
 } from '~~/constant/highlightStyleList'
 import { useUserStore } from '~/stores/user'
 import { useTheme } from 'vuetify'
@@ -409,7 +411,7 @@ import { TYPE } from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
 import { useLayout } from '~/stores/layout'
 import { CreateQuestionBody, useAxiosGetQuestionContent } from '~/composables/Api/messages/ask'
-import { QaGroup, QuestionField, QuestionTag } from '~/types/question'
+import { QaGroup, QuestionField, QuestionState, QuestionTag } from '~/types/question'
 import { ResponseData } from '~/types/utils/axios'
 
 definePageMeta({
@@ -497,6 +499,7 @@ const load = async (id: string, version: number) => {
         questionId.value,
         version
       )
+      nowVersion.value = version
       //todo 优化
       if (questionFieldResponse.data === null) {
         await router.push({
@@ -521,14 +524,20 @@ const load = async (id: string, version: number) => {
           version
         )
         if (ContentResponse.code === 0) {
-          title.value = questionFieldData.value.title
+          const questionField = questionFieldData.value
+          title.value = questionField.title
           content.value = ContentResponse.data
-          summary.value = questionFieldData.value.summary
-          themeName.value = questionFieldData.value.markDownTheme
-          darkThemeName.value = questionFieldData.value.markDownThemeDark
-          highlightStyle.value = questionFieldData.value.codeHighlightStyle
-          questionGroupId.value = questionFieldData.value.group.id
-          darkHighlightStyle.value = questionFieldData.value.codeHighlightStyleDark
+          summary.value = questionField.summary
+          questionState.value = {
+            text: '发布',
+            value: QuestionState.ASK,
+          }
+          //问题状态基于回答以及采纳 只能存为草稿或隐藏
+          themeName.value = questionField.markDownTheme
+          darkThemeName.value = questionField.markDownThemeDark
+          highlightStyle.value = questionField.codeHighlightStyle
+          questionGroupId.value = questionField.group.id
+          darkHighlightStyle.value = questionField.codeHighlightStyleDark
         }
       }
     }
@@ -547,8 +556,27 @@ const rules = {
 const changeText = async (text) => {
   content.value = text
 }
-
-const send = () => {
+const sendDialogTitle = ref((isNew ? '发布' : '更新') + '问题')
+const questionState = ref<{
+  text: string
+  value: QuestionState
+}>()
+const questionStateItems = [
+  {
+    text: '草稿',
+    value: QuestionState.DRAFT,
+  },
+  {
+    text: '发布',
+    value: QuestionState.ASK,
+  },
+  {
+    text: '隐藏',
+    value: QuestionState.HIDE,
+  },
+]
+//todo存储之前的状态
+const send = (saveDraft?: boolean) => {
   if (title.value.trim() === '') {
     infoMsg('问题标题不能为空')
     return
@@ -557,7 +585,26 @@ const send = () => {
     infoMsg('提问内容不能为空')
     return
   }
+  if (menu.value == true) {
+    menu.value = false
+    return
+  }
   saveState()
+  if (saveDraft) {
+    questionState.value = {
+      text: '存为草稿',
+      value: QuestionState.DRAFT,
+    }
+    sendDialogTitle.value = '保存为草稿'
+  } else {
+    if (isNew.value) {
+      questionState.value = {
+        text: '发布',
+        value: QuestionState.ASK,
+      }
+    }
+    sendDialogTitle.value = (isNew ? '发布' : '更新') + '问题'
+  }
   menu.value = true
 }
 
@@ -571,7 +618,7 @@ const publishQuestion = async () => {
     // allow_answer: true,
     questionGroupId: questionGroupId.value,
     // questionId: 0,
-    // questionState: '',
+    questionState: questionState.value.value.toUpperCase(),
     questionTagIds: Array.from(questionTagIds.value),
     content: content.value,
     summary: summary.value,
@@ -583,6 +630,12 @@ const publishQuestion = async () => {
   }
   const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
   if (axiosResponse.code === 0) {
+    if (questionState.value.value === QuestionState.DRAFT) {
+      successMsg('保存草稿成功')
+      isNew.value=false
+      questionId.value=axiosResponse.data
+      return
+    }
     const url = '/question/' + axiosResponse.data
     const timeout = setTimeout(() => {
       window.location.href = url
@@ -602,7 +655,7 @@ const updateQuestion = async () => {
     // allow_answer: true,
     questionGroupId: questionGroupId.value,
     questionId: questionId.value,
-    // questionState: '',
+    questionState: questionState.value.value.toUpperCase(),
     questionTagIds: Array.from(questionTagIds.value),
     content: content.value,
     summary: summary.value,
@@ -614,6 +667,13 @@ const updateQuestion = async () => {
   }
   const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body)
   if (axiosResponse.code === 0) {
+    if (questionState.value.value === QuestionState.DRAFT) {
+      successMsg('保存草稿成功')
+      return
+    } else if (questionState.value.value === QuestionState.HIDE) {
+      successMsg('隐藏')
+      return
+    }
     const url = '/question/' + axiosResponse.data
     const timeout = setTimeout(() => {
       window.location.href = url
@@ -634,6 +694,16 @@ let beforeChangeState = {
   questionGroupId: '',
   questionTagList: [],
   summary: '',
+}
+
+const ok = () => {
+  if (isNew.value) {
+    publishQuestion()
+    menu.value = false
+  } else {
+    updateQuestion()
+    menu.value = false
+  }
 }
 
 const cancelChange = () => {
@@ -671,11 +741,11 @@ interface versionDataI {
 
 const getVersionHistoryList = async () => {
   const { data: response } = await useGet<ResponseData<versionDataI[]>>(
-    'article/article/manage/historyVersion/' + questionId.value
+    'qa/question/manage/historyVersion/' + questionId.value
   )
   versionHistoryList.value = response.data
 }
-
+const nowVersion = ref()
 const gotoVersion = async (version: number) => {
   await load(questionId.value, version)
   // successMsg('切换版本成功')

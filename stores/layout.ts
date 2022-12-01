@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { ThemeInstance } from 'vuetify'
 import { CountType, useAxiosGetUnreadMessageCount } from '~/composables/Api/messages'
 import { warningMsg } from '~/composables/utils/toastification'
+import { clog } from '~/utils/clog'
 
 interface layout {
   drawer: boolean

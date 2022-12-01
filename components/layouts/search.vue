@@ -64,7 +64,7 @@ onMounted(async () => {
   )
 })
 const getSearchType = () => {
-  console.log(route.path)
+  console.log(route)
   if (route.path.startsWith('/search')) {
     if (route.path.startsWith('/search/question')) {
       searchLabelText.value = '搜索问题'
@@ -97,9 +97,19 @@ const suggestion = async () => {
 }
 const query = () => {
   if (searchType.value === 'article') {
-    Router.push('/search/article/' + text.value)
+    Router.push({
+      path:'/search/article',
+      query: {
+        s: text.value,
+      },
+    })
   } else if (searchType.value === 'question') {
-    Router.push('/search/question/' + text.value)
+    Router.push({
+      path:'/search/question',
+      query: {
+        s: text.value,
+      },
+    })
   }
 }
 const debounce = (fun, delay) => {

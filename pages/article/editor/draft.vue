@@ -707,6 +707,10 @@ const send = async (saveDraft?: boolean) => {
     infoMsg('内容不能为空')
     return
   }
+  if (menu.value == true) {
+    menu.value=false
+    return
+  }
   saveState()
   if (saveDraft) {
     articleState.value = {
