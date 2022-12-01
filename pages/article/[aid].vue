@@ -1068,7 +1068,7 @@ onMounted(() => {
 :deep(.toc) {
   position: sticky;
   top: 10%;
-  height: 800px;
+  height: 100%;
   font-size: 17px;
   overflow: v-bind(tocOverflow) !important;
   /*overflow: hidden !important;*/

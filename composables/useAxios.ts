@@ -63,7 +63,7 @@ export const useDel = async <T>(url: string, data?: object) => {
     // r = await Axios.delete(url, {
     //     data: data,
     // })
-    r = await CreateAxios(url, 'put', { data })
+    r = await CreateAxios(url, 'delete', { data })
   } catch (error) {
     r = error
   }

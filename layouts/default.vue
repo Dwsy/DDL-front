@@ -27,7 +27,7 @@
     <!--    </v-navigation-drawer>-->
     <v-navigation-drawer
       v-model="layout.drawer"
-      style="width: 8%"
+
       :style="{ width: navigationDrawerWidth }"
     >
       <slot name="drawer"></slot>
@@ -57,9 +57,13 @@ watchEffect(() => {
 })
 
 const show = ref(false)
-onMounted(async () => {
+onBeforeMount(async () => {
   watchEffect(() => {
-    drawerWidth.value = layout.drawer ? '8%' : '0px'
+    if (window.innerWidth > 1280) {
+      drawerWidth.value = layout.drawer ? '8%' : '0px'
+    } else {
+      drawerWidth.value = '0px'
+    }
   })
   let innerWidth = window.innerWidth
   if (innerWidth < 500) {

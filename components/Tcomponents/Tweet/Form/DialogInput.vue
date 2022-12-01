@@ -342,18 +342,21 @@ const reply = async () => {
     return
   }
   const replyInfinityData = infinityStatusStore.replyInfinityData
-  let replyUserTweetId
+  let replyUserTweetId: string
+  let refId: string = null
   if (replyInfinityData.replyUserTweetId) {
-    replyUserTweetId=replyInfinityData.replyUserTweetId
-  }else {
-    replyUserTweetId=replyInfinityData.id
+    replyUserTweetId = replyInfinityData.replyUserTweetId
+    refId = replyInfinityData.id
+  } else {
+    replyUserTweetId = replyInfinityData.id
   }
   let RB: ReplyInfinityRB = {
     content: text.value,
     imgUrlList: imgUrlList.value,
     replyId: String(useRoute().params.id),
     replyUserId: replyInfinityData.user.id,
-    replyUserTweetId: replyUserTweetId
+    replyUserTweetId,
+    refId,
   }
   if (await infinityStatusStore.replyInfinity(RB)) {
     infinityStatusStore.replyDialog = false

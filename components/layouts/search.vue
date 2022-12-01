@@ -1,5 +1,6 @@
 <template>
   <div style="align-items: center; display: flex">
+<!--    searchType: {{ searchType }}-->
     <v-autocomplete
       v-model="model"
       v-model:search="text"
@@ -34,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
-import { onMounted, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from '#app'
 import {
   useAxiosGetArticleSearchSuggestion,
@@ -52,13 +53,7 @@ const searchType = ref()
 const isLoading = ref(false)
 onMounted(async () => {
   watchEffect(() => {
-    if (route.path.startsWith('/article')) {
-      searchType.value = 'article'
-      searchLabelText.value = '搜索文章'
-    } else {
-      searchType.value = 'question'
-      searchLabelText.value = '搜索问题'
-    }
+    searchType.value = getSearchType()
   })
   watch(
     text,
@@ -68,6 +63,26 @@ onMounted(async () => {
     { immediate: true, deep: true }
   )
 })
+const getSearchType = () => {
+  console.log(route.path)
+  if (route.path.startsWith('/search')) {
+    if (route.path.startsWith('/search/question')) {
+      searchLabelText.value = '搜索问题'
+      return 'question'
+    } else if (route.path.startsWith('/search/article')) {
+      searchLabelText.value = '搜索文章'
+      return 'article'
+    }
+  } else if (route.path.startsWith('/question')) {
+    searchLabelText.value = '搜索问题'
+    return 'question'
+  } else if (route.path.startsWith('/article')) {
+    searchLabelText.value = '搜索文章'
+    return 'article'
+  }
+  searchLabelText.value = '搜索文章'
+  return 'article'
+}
 const suggestion = async () => {
   if (text.value === '') {
     return

@@ -4,7 +4,7 @@ import { CommentType, useAxiosPostActionArticleComment } from '#imports'
 import { themes, changeThemes } from '~~/constant/markdownThemeList'
 import { HighlightStyleName, changeHighlightStyle } from '~~/constant/highlightStyleList'
 import { UserActionI, useAxiosGetArticleAction } from '~/composables/Api/article'
-import { ArticleSource } from '~/types/article/manageArticle'
+import { ArticleSource, ArticleState } from '~/types/article/manageArticle'
 import { MarkdownThemeNameList, mwebDark } from '~/types/other/markdownTheme'
 
 export const useArticleStore = defineStore('ArticleStore', {
@@ -199,7 +199,7 @@ export interface ArticleField {
   user: User
   title: string
   summary: string
-  articleState: string
+  articleState: ArticleState
   allowComment: boolean
   viewNum: number
   collectNum: number

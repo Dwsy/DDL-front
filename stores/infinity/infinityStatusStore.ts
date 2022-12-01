@@ -11,12 +11,13 @@ import {
   useAxiosGetInfinityPageList,
   useAxiosPostActionUpInfinity,
   useAxiosPostReplyInfinity,
-  useAxiosPostSendInfinity
+  useAxiosPostSendInfinity,
 } from '~/composables/Api/infinity'
 import { InfinityI, InfinityTopic } from '~/types/infinity'
 import { defaultMsg, errorMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { useFetchGetArticleList } from '~/composables/Api/article'
+import { clog } from '~/utils/clog'
 
 //todo 分离 comment 和 tweet store
 interface InfinityStore {
@@ -41,7 +42,7 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         properties: [],
         order: null,
         page: 2,
-        size: 8
+        size: 8,
       },
       commentDataList: ref<InfinityI[]>([]),
       commentReplyDataMap: ref<Map<string, InfinityI[]>>(new Map<string, InfinityI[]>()),
@@ -51,7 +52,7 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
       replyInfinityData: null,
       loading: ref(true),
       tweet: ref(null),
-      replyDialog: ref(false)
+      replyDialog: ref(false),
     }
   },
   actions: {
@@ -65,47 +66,22 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         const userStore = useUserStore()
         infinity.user.userInfo = userStore.userInfo
         infinity.user.nickname = userStore.user.nickname
-        if (data.replyUserTweetId){
+        if (data.replyUserTweetId) {
           let replyDataList = this.commentReplyDataMap.get(data.replyUserTweetId)
           infinity.replyUserName = this.replyInfinityData.user.nickname
           if (this.replyInfinityData.replyUserTweetId) {
             clog(replyDataList)
             let index = replyDataList.findIndex((item) => item.id === this.replyInfinityData.id)
-            clog("index",index)
-            replyDataList.splice(index+1, 0, infinity)
+            clog('index', index)
+            replyDataList.splice(index + 1, 0, infinity)
           } else {
             replyDataList.unshift(infinity)
           }
-
-
-        //   // this?.replyInfinityData?.replyUserTweetId != undefined
-        //   clog(data.replyUserTweetId)
-          //   infinity.replyUserName=this.replyInfinityData.user.nickname
-        //   clog(this.replyInfinityData)
-        //   clog("Object.values(this.commentReplyDataMap)",Object.values(this.commentReplyDataMap))
-        //   clog(
-        //     'Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)',
-        //     Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)
-        //   )
-        //   if (Object.values(this.commentReplyDataMap).indexOf(data.replyUserTweetId)!=-1) {
-        //     this.commentReplyDataMap.get(data.replyUserTweetId).unshift(infinity)
-        //   }else {
-        //     let replyDataList = this.commentReplyDataMap.get(this.replyInfinityData)
-        //     clog('replyDataList',replyDataList)
-        //     let index = replyDataList.findIndex((item) => item.id === data.replyUserTweetId)
-        //     replyDataList.splice(index + 1, 0, infinity)
-        //   }
-        //
-        // } else {
-        //   clog("          this.commentDataList = [infinity, ...this.commentDataList]")
-        //   clog(infinity)
-        //   this.commentDataList = [infinity, ...this.commentDataList]
-        }
-        else {
-            clog("          this.commentDataList = [infinity, ...this.commentDataList]")
-            clog(infinity)
-          this.commentReplyDataMap.set(infinity.id,[])
-            this.commentDataList = [infinity, ...this.commentDataList]
+        } else {
+          clog('          this.commentDataList = [infinity, ...this.commentDataList]')
+          clog(infinity)
+          this.commentReplyDataMap.set(infinity.id, [])
+          this.commentDataList = [infinity, ...this.commentDataList]
         }
         return true
       } else {
@@ -128,27 +104,26 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         Object.keys(commentReplyMap).forEach((key) => {
           this.commentReplyDataMap.set(key, commentReplyMap[key])
         })
-        this.commentDataList.forEach((c)=>{
-          if (!this.commentReplyDataMap.has(c.id)){
+        this.commentDataList.forEach((c) => {
+          if (!this.commentReplyDataMap.has(c.id)) {
             this.commentReplyDataMap.set(c.id, [])
           }
         })
-
       } else {
         errorMsg(response.msg)
       }
     },
     async getCommentsPage() {
       const { data: axiosResponse } = await useAxiosGetInfinityCommentById(this.id, {
-        page: this.page
+        page: this.page,
       })
       if (axiosResponse.code === 0) {
         this.commentDataList.push(...axiosResponse.data.childComments.content)
         Object.keys(axiosResponse.data.commentReplyMap).forEach((key) => {
           this.commentReplyDataMap.set(key, axiosResponse.data.commentReplyMap[key])
         })
-        this.commentDataList.forEach((c)=>{
-          if (!this.commentReplyDataMap.has(c.id)){
+        this.commentDataList.forEach((c) => {
+          if (!this.commentReplyDataMap.has(c.id)) {
             this.commentReplyDataMap.set(c.id, [])
           }
         })
@@ -167,6 +142,6 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
       }
       this.page += 1
       await this.getCommentsPage()
-    }
-  }
+    },
+  },
 })

@@ -1,13 +1,17 @@
 <template>
-  <div v-for="articleFiled in articleFiledData">
-    <p class="text-h5 l-2">
-      {{ articleFiled.title }}
-      <!--        <v-divider class="my-2"></v-divider>-->
+  <div v-for="(articleFiled, index) in articleFiledData" :key="articleFiled.id">
+    <p class="text-h5 l-2" v-text="articleFiled.title">
     </p>
     <div :title="articleFiled.summary" class="text-medium-emphasis d-article-manage-summary">
       {{ articleFiled.summary }}
     </div>
     <div>
+      <div
+        class="float-right font-semibold"
+        :style="{ color: ArticleStateColor[articleFiled.articleState] }"
+      >
+        {{ ArticleStateZh[articleFiled.articleState] }}
+      </div>
       <v-chip-group>
         <v-chip v-for="tag in articleFiled.articleTags" :key="tag.id" size="small">
           <v-icon :color="getRandomColor()">
@@ -58,9 +62,9 @@
       >
         编辑
       </v-btn>
-      <v-dialog transition="dialog-bottom-transition">
+      <v-dialog transition="">
         <template v-slot:activator="{ props }">
-          <v-btn color="red" v-bind="props" variant="tonal"> 删除 </v-btn>
+          <v-btn color="red" v-bind="props" variant="tonal"> 删除</v-btn>
         </template>
         <template v-slot:default="{ isActive }">
           <v-card max-width="30%" class="mx-auto">
@@ -69,12 +73,31 @@
               <div class="text-h6 px-12">{{ articleFiled.title }}</div>
             </v-card-text>
             <v-card-actions class="justify-end">
-              <v-btn color="#2a6e3f" variant="tonal" @click="isActive.value = false">取消 </v-btn>
-              <v-btn color="#c12c1f" variant="tonal" @click="isActive.value = false">删除 </v-btn>
+              <v-btn color="#2a6e3f" variant="tonal" @click="isActive.value = false">取消</v-btn>
+              <v-btn
+                color="#c12c1f"
+                variant="tonal"
+                @click="
+                  delArticle(articleFiled.id, articleFiled.articleState, index, () => {
+                    isActive.value = false
+                  })
+                "
+                >删除
+              </v-btn>
             </v-card-actions>
           </v-card>
         </template>
       </v-dialog>
+      <v-btn
+        v-if="articleFiled.articleState === ArticleState.published"
+        :href="`/article/${articleFiled.id}`"
+        class="ml-2"
+        color="#65318e"
+        target="_blank"
+        variant="tonal"
+      >
+        查看
+      </v-btn>
     </div>
     <v-divider class="my-2"></v-divider>
   </div>
@@ -82,12 +105,41 @@
 
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
-import { dateFilter, getRandomColor, timeAgoFilter } from '#imports'
-import { inject, Ref } from 'vue'
+import { dateFilter, errorMsg, getRandomColor, successMsg, timeAgoFilter } from '#imports'
+import { inject, ref, Ref } from 'vue'
 import { articleListData } from '~/types/article'
+import { ArticleStateColor, ArticleStateZh, ArticleState } from '~/types/article/manageArticle'
+import { useAxiosDeleteArticleById } from '~/composables/Api/article/manageArticle'
 
+// const delDialogIsActive = ref()
 const articleFiledData = inject<Ref<articleListData[]>>('manage-articleFiled')
+const counts = inject<Ref<any>>('articleCounts')
 // const articleFiledData = []
-</script>
 
-<style scoped></style>
+const delArticle = async (id: string, state: ArticleState, index: number, close) => {
+  const { data: axiosResponse } = await useAxiosDeleteArticleById(id)
+  if (axiosResponse.code === 0) {
+    successMsg('删除文章成功')
+  } else {
+    errorMsg(axiosResponse.msg)
+    return
+  }
+  articleFiledData.value.splice(index, 1)
+  switch (state) {
+    case ArticleState.published:
+      counts.value.published--
+      break
+    case ArticleState.hide:
+      counts.value.hide--
+      break
+    case ArticleState.auditing:
+      counts.value.auditing--
+      break
+    case ArticleState.rejected:
+      counts.value.rejected--
+      break
+  }
+  counts.value.all--
+  close()
+}
+</script>

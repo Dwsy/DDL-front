@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col xl="1" lg="1" md="0" sm="0" xs="0"></v-col>
+      <v-col cols="1"></v-col>
 
       <v-col xl="10" lg="10" md="10" sm="12" xs="12">
         <div>
@@ -86,7 +86,7 @@ useHead({
 onMounted(() => {
   // clog('index mounted')
   // clog(indexTop.value)
-  document.documentElement.scrollTop = 0
+  // document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(loadingMore)
 })
 onBeforeUnmount(() => {

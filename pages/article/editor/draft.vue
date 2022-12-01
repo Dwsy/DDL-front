@@ -11,12 +11,15 @@
       >
       </v-text-field>
       <div class="mt-2 mr-4 ml-2">
-        <v-btn elevation="0" variant="tonal" color="#39c7af">手动保存</v-btn>
-
+        <v-btn elevation="0" variant="tonal" color="#39c7af" v-if="!isNew">手动保存</v-btn>
+        <v-btn elevation="0" variant="tonal" color="#8a1874" v-else @click="saveDraft"
+          >存为草稿
+        </v-btn>
         <client-only>
           <v-menu v-model="versionHistoryMenu" location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn
+                v-if="!isNew"
                 class="ml-1"
                 color="#00a381"
                 elevation="0"
@@ -27,10 +30,15 @@
                 历史版本
               </v-btn>
             </template>
-            <v-card class="pa-3" style="width: 300px">
+            <v-card class="pa-3" style="width: 500px">
               <v-row v-for="(item, index) in versionHistoryList">
                 <v-col @click="gotoVersion(index)">
-                  <span class="text-subtitle-1">标题：{{ item.title }}</span>
+                  <span
+                    class="text-subtitle-1"
+                    :class="{ 'text-green-600': nowVersion === index }"
+                    :title="item.title"
+                    v-text="'标题' + item.title.substr(0, 50)"
+                  ></span>
                   <span class="text-grey float-right">{{ timeAgoFilter(item.date) }}</span>
                   <v-divider></v-divider>
                 </v-col>
@@ -70,7 +78,7 @@
             </template>
             <v-card min-width="600px">
               <div class="px-4 pt-2">
-                <div class="text-h6">{{ isNew ? '发布' : '更新' }}文章</div>
+                <div class="text-h6">{{ sendDialogTitle }}</div>
                 <v-divider class="mb-3"></v-divider>
 
                 <v-row>
@@ -142,6 +150,7 @@
                 placeholder="输入文章摘要...为空截取正文前150字"
                 variant="outlined"
               ></v-textarea>
+<!--              {{ articleSourceItem }}-->
               <v-select
                 v-model="articleSourceItem"
                 :items="ArticleSourceItems"
@@ -156,15 +165,27 @@
               <!--              {{ articleSourceItem }}-->
               <!--              {{ articleSource }}-->
               <v-text-field
-                v-if="articleSource !== ArticleSource.original"
+                v-if="articleSourceItem.value !== ArticleSource.original"
                 v-model="articleSourceUrl"
                 class="mx-2"
                 label="来源文章URL"
                 variant="outlined"
               >
               </v-text-field>
+              <!--              {{ articleState }}-->
+              <v-select
+                v-model="articleState"
+                :items="articleStateList"
+                class="mt-n5 mx-2"
+                item-title="text"
+                item-value="value"
+                label="设置文章状态"
+                prepend-icon="mdi-eye-circle-outline"
+                return-object
+                variant="underlined"
+              ></v-select>
               <v-card-actions>
-                <v-btn text @click="cancelChange()"> 取消 </v-btn>
+                <v-btn text @click="cancelChange()"> 取消</v-btn>
                 <v-btn
                   color="primary"
                   text
@@ -198,7 +219,7 @@
               >
                 <!--                <v-icon size="x-large">mdi-brush-outline</v-icon>-->
                 <v-icon color="#FFF" size="x-large">mdi-cookie-cog-outline</v-icon>
-                <v-tooltip activator="parent" location="bottom">文章外观设置 </v-tooltip>
+                <v-tooltip activator="parent" location="bottom">文章外观设置</v-tooltip>
               </v-btn>
             </template>
             <v-card>
@@ -434,7 +455,7 @@
       @cutDown="cutDown"
     >
       <template #open>
-        <v-btn class="CutterBtn" style="display: none"> CutterBtn </v-btn>
+        <v-btn class="CutterBtn" style="display: none"> CutterBtn</v-btn>
       </template>
     </ImgCutter>
     <BytemdEditor :content="content" @change-text="changeText">test</BytemdEditor>
@@ -460,6 +481,7 @@ import {
   ArticleSource,
   ArticleSourceZh,
   ArticleState,
+  ArticleStateZh,
   CreateArticleBody,
 } from '~/types/article/manageArticle'
 import { ArticleGroup, ArticleTag } from '~/types/article'
@@ -472,7 +494,6 @@ import {
   infoMsg,
   successMsg,
   timeAgoFilter,
-  useCookie,
   useFetchGetArticleGroupList,
   useGet,
   warningMsg,
@@ -487,8 +508,8 @@ import {
 } from '~~/constant/markdownThemeList'
 import {
   changeHighlightStyle,
-  HighlightStyleNameList,
   HighlightStyleBase16NameList,
+  HighlightStyleNameList,
 } from '~~/constant/highlightStyleList'
 import { useUserStore } from '~/stores/user'
 import SelectTag from '~/components/article/write/selectTag.vue'
@@ -577,11 +598,11 @@ onMounted(async () => {
     }
   })
 
-  watchEffect(async () => {
-    if (articleSourceItem.value) {
-      articleSource.value = articleSourceItem.value.value
-    }
-  })
+  // watchEffect(async () => {
+  //   if (articleSourceItem.value) {
+  //     articleSource.value = articleSourceItem.value.value
+  //   }
+  // })
 
   watch(bannerFile, () => {
     disableUploadBtn.value = bannerFile.value == null
@@ -589,8 +610,12 @@ onMounted(async () => {
 })
 
 async function load(id: string, version: number) {
-  if (Boolean(id) === false) {
+  if (id === undefined || id === 'undefined') {
     isNew.value = true
+    articleSourceItem.value = {
+      text: ArticleSourceZh.original,
+      value: ArticleSource.original,
+    }
     await router.push({
       query: {
         new: 'true',
@@ -625,20 +650,27 @@ async function load(id: string, version: number) {
         })
         if (ContentResponse.code === 0) {
           content.value = ContentResponse.data
-          title.value = articleFieldData.value.title
-          articleGroupId.value = articleFieldData.value.articleGroup.id
-          articleTagList.value = articleFieldData.value.articleTags
-          banner.value = articleFieldData.value.banner
-          summary.value = articleFieldData.value.summary
+          const articleField = articleFieldData.value
+          title.value = articleField.title
+          articleGroupId.value = articleField.articleGroup.id
+          articleTagList.value = articleField.articleTags
+          banner.value = articleField.banner
+          summary.value = articleField.summary
           // articleSource.value = articleFieldData.value.articleSource
           articleSourceItem.value = {
-            text: ArticleSourceZh[articleFieldData.value.articleSource],
-            value: articleFieldData.value.articleSource,
+            text: ArticleSourceZh[articleField.articleSource],
+            value: articleField.articleSource,
           }
-          articleSourceUrl.value = articleFieldData.value.articleSourceUrl
-          themeName.value = articleFieldData.value.markDownTheme
-          darkThemeName.value = articleFieldData.value.markDownThemeDark
-          highlightStyle.value = articleFieldData.value.codeHighlightStyle
+          articleSourceUrl.value = articleField.articleSourceUrl
+          themeName.value = articleField.markDownTheme
+          darkThemeName.value = articleField.markDownThemeDark
+          highlightStyle.value = articleField.codeHighlightStyle
+          articleState.value = {
+            text: ArticleStateZh[articleField.articleState],
+            value: articleField.articleState,
+          }
+        } else {
+          errorMsg('获取文章失败')
         }
       }
     }
@@ -647,7 +679,13 @@ async function load(id: string, version: number) {
 
 const rules = {
   email: (v) => !!(v || '').match(/@/) || '请输入有效的电子邮件',
-  length: (len) => (v) => (v || '').length <= len || `文章摘要需小于或等于${len}个字符`,
+  length: function (limitLength) {
+    return function (text) {
+      if (text.length > limitLength) {
+        return `长度不能超过 ${limitLength} 个字符`
+      }
+    }
+  },
   password: (v) =>
     !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
     '密码必须包含大写字母、数字字符和特殊字符',
@@ -658,7 +696,9 @@ const changeText = async (text) => {
   content.value = text
 }
 
-const send = async () => {
+const sendDialogTitle = ref((isNew ? '发布' : '更新') + '文章')
+
+const send = async (saveDraft?: boolean) => {
   if (title.value.trim() === '') {
     infoMsg('标题不能为空')
     return
@@ -668,6 +708,21 @@ const send = async () => {
     return
   }
   saveState()
+  if (saveDraft) {
+    articleState.value = {
+      text: ArticleStateZh[ArticleState.draft],
+      value: ArticleState.draft,
+    }
+    sendDialogTitle.value = '保存草稿'
+  } else {
+    if (isNew.value) {
+      articleState.value = {
+        text: '发布',
+        value: ArticleState.published,
+      }
+    }
+    sendDialogTitle.value = (isNew ? '发布' : '更新') + '文章'
+  }
   menu.value = true
   await nextTick()
   setTimeout(() => {
@@ -681,6 +736,10 @@ const send = async () => {
   }, 1000)
 }
 
+const saveDraft = () => {
+  send(true)
+}
+
 const publishArticle = async () => {
   articleTagIds.value = new Set<string>()
   articleTagList.value.forEach((tag) => {
@@ -689,13 +748,13 @@ const publishArticle = async () => {
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
-    articleState: ArticleState.published,
+    articleState: articleState.value.value,
     articleTagIds: Array.from(articleTagIds.value),
     banner: banner.value,
     content: content.value,
     summary: summary.value,
     title: title.value,
-    articleSource: articleSource.value,
+    articleSource: articleSourceItem.value.value,
     articleSourceUrl: articleSourceUrl.value,
     codeHighlightStyle: highlightStyle.value,
     codeHighlightStyleDark: darkHighlightStyle.value,
@@ -705,16 +764,38 @@ const publishArticle = async () => {
   const { data: axiosResponse } = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('发布成功')
-    const url = '/article/' + axiosResponse.data
-    const timeout = setTimeout(() => {
-      window.location.href = url
-      // useRouter().push('/article/' + axiosResponse.data.id)
-    }, 5000)
-    ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+    if (articleState.value.value == ArticleState.draft) {
+      successMsg('保存草稿成功')
+    } else {
+      const url = '/article/' + afId.value
+      const timeout = setTimeout(async () => {
+        window.location.href = url
+      }, 5000)
+      ComponentToastMsg(`发布成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+    }
   } else {
     errorMsg(axiosResponse.msg)
   }
 }
+const articleState = ref<{
+  text: string
+  value: ArticleState
+}>()
+
+const articleStateList = ref([
+  {
+    text: '草稿',
+    value: ArticleState.draft,
+  },
+  {
+    text: '已发布',
+    value: ArticleState.published,
+  },
+  {
+    text: '隐藏',
+    value: ArticleState.hide,
+  },
+])
 const updateArticle = async () => {
   articleTagIds.value = new Set()
   articleTagList.value.forEach((tag) => {
@@ -725,13 +806,13 @@ const updateArticle = async () => {
   let body: CreateArticleBody = {
     allowComment: true,
     articleGroupId: articleGroupId.value,
-    articleState: ArticleState.published,
+    articleState: articleState.value.value,
     articleTagIds: Array.from(articleTagIds.value),
     banner: banner.value,
     content: content.value,
     summary: summary.value,
     title: title.value,
-    articleSource: articleSource.value,
+    articleSource: articleSourceItem.value.value,
     articleSourceUrl: articleSourceUrl.value,
     articleId: afId.value,
     codeHighlightStyle: highlightStyle.value,
@@ -742,12 +823,15 @@ const updateArticle = async () => {
   const { data: axiosResponse } = await useAxiosPutUpdateArticle(body)
   if (axiosResponse.code === 0) {
     // successMsg('更新成功')
-    const url = '/article/' + afId.value
-    const timeout = setTimeout(async () => {
-      window.location.href = url
-      // await useRouter().push('/article/' + afId.value)
-    }, 5000)
-    ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+    if (articleState.value.value == ArticleState.draft) {
+      successMsg('更新文章状态为草稿成功')
+    } else {
+      const url = '/article/' + afId.value
+      const timeout = setTimeout(async () => {
+        window.location.href = url
+      }, 5000)
+      ComponentToastMsg(`更新成功{{}}秒后自动跳转到文章`, TYPE.SUCCESS, JumpPrompt, 5, timeout, url)
+    }
   } else {
     errorMsg(axiosResponse.msg)
   }
@@ -857,9 +941,10 @@ const getVersionHistoryList = async () => {
   )
   versionHistoryList.value = response.data
 }
-
+const nowVersion = ref(0)
 const gotoVersion = async (version: number) => {
   await load(afId.value, version)
+  nowVersion.value = version
   // successMsg('切换版本成功')
 }
 const editorTitleInputLabelFontSize = ref('130%')

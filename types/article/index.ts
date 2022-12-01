@@ -1,9 +1,10 @@
 import { User } from '~/types/user'
+import { ArticleState } from '~/types/article/manageArticle'
 
 export interface articleListData {
   banner: string
   summary: string
-  articleState: string
+  articleState: ArticleState
   title: string
   user: User
   allowComment: boolean

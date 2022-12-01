@@ -5,7 +5,7 @@ import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number; page?: number }) => {
-  return http.GET<ResponsePageData<any>>('article/group/list', params)
+  return http.GET<ResponseData<any>>('article/group/list', params)
 }
 
 export const useFetchGetArticleList = (params?: {

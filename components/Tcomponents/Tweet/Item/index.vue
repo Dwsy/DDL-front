@@ -46,6 +46,7 @@
               :scrollDisabled="false"
               @hide="onHide"
               :zoomScale="0.3"
+              teleport="body"
             >
             </vue-easy-lightbox>
             <div class="SongList mt-3">

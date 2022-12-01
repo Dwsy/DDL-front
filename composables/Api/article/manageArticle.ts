@@ -58,3 +58,7 @@ export const useAxiosGetHistoryVersionTitleList = (
 ) => {
   return useGet<ResponseData<any>>('article/article/manage/content/' + id, params)
 }
+
+export const useAxiosDeleteArticleById = (id) => {
+  return useDel<ResponseData<any>>('article/article/manage/' + id)
+}

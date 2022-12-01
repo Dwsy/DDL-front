@@ -28,6 +28,26 @@ export enum ArticleState {
   all = 'all',
 }
 
+export enum ArticleStateZh {
+  draft = '草稿',
+  published = '已发布',
+  hide = '隐藏',
+  auditing = '审核中',
+  rejected = '拒绝',
+  //
+  all = '全部',
+}
+
+export enum ArticleStateColor {
+  draft = '#bc763c',
+  published = '#47885e',
+  hide = '#9d5b8b',
+  auditing = '#ffea00',
+  rejected = '#ba2636',
+  //
+  all = '全部',
+}
+
 export enum ArticleSource {
   original = 'original',
   reprint = 'reprint',

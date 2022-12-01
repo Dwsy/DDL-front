@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs v-model="tab" v-if="counts">
+    <v-tabs v-model="tab" v-if="counts" class="mb-2">
       <v-tab value="all">全部 {{ counts[ArticleState.all] }}</v-tab>
       <v-tab value="published">已发布 {{ counts[ArticleState.published] }}</v-tab>
       <v-tab value="hide">已隐藏 {{ counts[ArticleState.hide] }}</v-tab>

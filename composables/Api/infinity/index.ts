@@ -52,6 +52,7 @@ export interface ReplyInfinityRB {
   replyUserId?: string
   replyUserTweetId?: string
   imgUrlList?: string[]
+  refId?:string
 }
 
 export const useAxiosPostReplyInfinity = (data: ReplyInfinityRB) => {
