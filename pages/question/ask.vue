@@ -630,10 +630,10 @@ const publishQuestion = async () => {
   }
   const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
   if (axiosResponse.code === 0) {
+    isNew.value=false
+    questionId.value=axiosResponse.data
     if (questionState.value.value === QuestionState.DRAFT) {
       successMsg('保存草稿成功')
-      isNew.value=false
-      questionId.value=axiosResponse.data
       return
     }
     const url = '/question/' + axiosResponse.data

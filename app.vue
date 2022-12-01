@@ -13,7 +13,7 @@
     <!--    <v-footer v-show="layout.showFooter">-->
     <!--    </v-footer>-->
     <NuxtLoadingIndicator color="#9d5b8b" />
-    <NuxtPage />
+    <NuxtPage :key="$route.fullPath"/>
   </NuxtLayout>
 </template>
 
@@ -33,13 +33,13 @@ import { useTheme } from 'vuetify'
 //
 // // 推荐：只在非生产环境初始化
 
-definePageMeta({
-  key: (route) => route.fullPath,
-  pageTransition: {
-    name: 'slide-x-reverse-transition',
-    mode: 'out-in',
-  },
-})
+// definePageMeta({
+//   key: (route) => route.fullPath,
+//   pageTransition: {
+//     name: 'slide-x-reverse-transition',
+//     mode: 'out-in',
+//   },
+// })
 let user = useUserStore()
 let theme = useTheme()
 const cookieThemeState = useCookie('theme')

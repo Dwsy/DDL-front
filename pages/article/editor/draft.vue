@@ -767,6 +767,8 @@ const publishArticle = async () => {
   }
   const { data: axiosResponse } = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
+    isNew.value=false
+    afId.value=axiosResponse.data
     // successMsg('发布成功')
     if (articleState.value.value == ArticleState.draft) {
       successMsg('保存草稿成功')
