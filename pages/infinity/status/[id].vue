@@ -1,16 +1,21 @@
 <template>
-  <client-only>
-    <div>
-      <MainSection title="Tweet" :loading="infinityStatusStore.loading">
-        <Head>
-          <Title></Title>
-        </Head>
-        <!--        {{count}}-->
-        <!--        <v-btn @click="count++">++</v-btn>-->
-        <TweetDetails :tweet="infinityStatusStore.tweet" :user="user" />
-      </MainSection>
-    </div>
-  </client-only>
+  <!--  <client-only>-->
+  <div>
+    <MainSection title="推文" :loading="infinityStatusStore.loading" back-to="/infinity/home">
+      <Head>
+        <Title>{{
+          `${infinityStatusStore.tweet.user.nickname}:${infinityStatusStore.tweet.content.substring(
+            0,
+            20
+          )}`
+        }}</Title>
+      </Head>
+      <!--        {{count}}-->
+      <!--        <v-btn @click="count++">++</v-btn>-->
+      <TweetDetails :tweet="infinityStatusStore.tweet" :user="user" />
+    </MainSection>
+  </div>
+  <!--  </client-only>-->
 </template>
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
@@ -26,6 +31,7 @@ import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 definePageMeta({
   keepalive: true,
   key: 'status',
+  // layout:false
 })
 
 const user = useUserStore().user

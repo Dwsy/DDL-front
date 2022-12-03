@@ -764,6 +764,7 @@ const publishArticle = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
+    sendInfinity:true
   }
   const { data: axiosResponse } = await useAxiosPostCreateArticle(body)
   if (axiosResponse.code === 0) {
@@ -824,7 +825,8 @@ const updateArticle = async () => {
     codeHighlightStyle: highlightStyle.value,
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
-    markDownThemeDark: darkThemeName.value,
+    markDownThemeDark: darkThemeName.value, sendInfinity: false
+
   }
   const { data: axiosResponse } = await useAxiosPutUpdateArticle(body)
   if (axiosResponse.code === 0) {

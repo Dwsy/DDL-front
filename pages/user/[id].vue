@@ -35,6 +35,9 @@
                   <v-btn v-else @click="unSubscribe(user)">
                     <div>取消关注</div>
                   </v-btn>
+                  <v-btn target="_blank" :href="`/messages/chats/${user.id}`" class="ml-2" color="red" variant="tonal">
+                    私信
+                  </v-btn>
                 </div>
               </div>
             </v-col>

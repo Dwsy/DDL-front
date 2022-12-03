@@ -27,6 +27,7 @@ import MainSection from '~/components/Tcomponents/MainSection.vue'
 const { twitterBorderColor } = useTailwindConfig()
 
 // const {getTweets} = useTweets()
+
 const infinityStore = useInfinityStore()
 const loading = ref(false)
 definePageMeta({

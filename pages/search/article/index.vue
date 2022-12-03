@@ -113,7 +113,7 @@ const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
-  console.log("Route",Route)
+  console.log("Route onMounted",Route)
   document.title = '搜索:' + Route.query.s
   let { data: searchRet } = await useAxiosGetSearchArticle(Route.query.s, params.value)
   totalElements.value = searchRet.data.totalElements

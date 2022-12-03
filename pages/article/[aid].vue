@@ -769,7 +769,15 @@ if (typeof window == 'undefined') {
   articleStore.HighlightStyleStr = await changeHighlightStyle(getHighlightStyleName(), true)
   articleStore.MarkdownThemeStr = await changeThemes(themes[getMarkdownThemeName()], true)
 }
+onBeforeMount(async () => {
+  let highlightStyle = document.querySelector('#highlightStyle')
+  let markdownTheme = document.querySelector('#markdownTheme')
 
+  if (highlightStyle==null||markdownTheme==null) {
+    await changeHighlightStyle(getHighlightStyleName())
+    await changeThemes(themes[getMarkdownThemeName()])
+  }
+})
 onMounted(async () => {
   //
   if (user.token === '') {
@@ -1029,8 +1037,6 @@ onMounted(() => {
   list-style-type: none;
   counter-reset: linenumber;
 }
-
-
 
 :deep(.markdown-body pre code ul li:before) {
   counter-increment: linenumber;

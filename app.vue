@@ -13,7 +13,8 @@
     <!--    <v-footer v-show="layout.showFooter">-->
     <!--    </v-footer>-->
     <NuxtLoadingIndicator color="#9d5b8b" />
-    <NuxtPage :key="$route.fullPath"/>
+<!--    <NuxtPage :key="$route.fullPath"/>-->
+    <NuxtPage/>
   </NuxtLayout>
 </template>
 

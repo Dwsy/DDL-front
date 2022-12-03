@@ -1,16 +1,16 @@
 <template>
   <div class="flex  flex-col">
 <!--  <div class="flex h-screen flex-col">-->
-    <div
-      :class="defaultTransition"
-      class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"
-    >
-      <!--      <nuxt-link to="/">-->
-      <!--        <div class="h-8 w-8">-->
-      <!--          <LogoTwitter />-->
-      <!--        </div>-->
-      <!--      </nuxt-link>-->
-    </div>
+<!--    <div-->
+<!--      :class="defaultTransition"-->
+<!--      class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"-->
+<!--    >-->
+<!--      &lt;!&ndash;      <nuxt-link to="/">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <div class="h-8 w-8">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <LogoTwitter />&ndash;&gt;-->
+<!--      &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </nuxt-link>&ndash;&gt;-->
+<!--    </div>-->
 
     <div class="mt-2 space-y-3">
         <SidebarLeftTab  to="/infinity/home">

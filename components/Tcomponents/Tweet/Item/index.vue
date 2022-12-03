@@ -4,7 +4,7 @@
       <!--      <TweetItemHeader :tweet="props.tweet" :id="tweet.id" />-->
       <v-col style="max-width: 4%; flex: 0 0 4%" class="pl-6 pt-6" :id="tweet.id">
         <!--        <div>-->
-        <v-avatar size="52" style="z-index: 10" class="mb-2">
+        <v-avatar size="52"  class="mb-2">
           <v-img :src="tweet.user.userInfo.avatar"></v-img>
         </v-avatar>
         <div class="d-tw-timeLine" :style="{ height: timeLineHeight }" v-if="timeLine"></div>
@@ -27,14 +27,36 @@
             </a>
           </div>
           <div
+
             :class="textSize"
             class="w-auto flex-shrink font-medium text-gray-800 dark:text-white d-t-content"
           >
-            {{ props.tweet.content }}
+            <template               v-if="tweet.type === InfinityType.Tweet||tweet.type===InfinityType.TweetCommentOrReply">
+              {{ props.tweet.content }}
+            </template>
+            <template v-else>
+              <div v-if="InfinityType.Article===tweet.type">
+                <p style="color: #00a0d8">发布文章：</p>
+                <p class="text-subtitle-1">                《{{ props.tweet.content.split("\n")[0] }}》</p>
+                <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
+                  {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
+                </div>
+                <v-btn variant="text" class="mt-1" style="margin-left: 80%" color="#6d00fc" target="_blank" :href="`/article/${tweet.refId}`">查看原文</v-btn>
+              </div>
+              <div v-if="InfinityType.Question===tweet.type">
+                <p style="color: #00a0d8">提问：</p>
+                <p class="text-subtitle-1">                《{{ props.tweet.content.split("\n")[0] }}》</p>
+                <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
+                  {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
+                </div>
+                <v-btn variant="text" class="mt-1" style="margin-left: 80%" color="#6d00fc" target="_blank" :href="`/question/${tweet.refId}`">查看问题</v-btn>
+              </div>
+            </template>
             <template v-for="p in props.tweet.infinityTopics">
               <p class="text-sky-500">#{{ p.name }}</p>
             </template>
           </div>
+
 
           <template v-if="hasImg">
             <vue-easy-lightbox

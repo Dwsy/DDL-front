@@ -627,6 +627,7 @@ const publishQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
+    sendInfinity: true
   }
   const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
   if (axiosResponse.code === 0) {
@@ -664,6 +665,7 @@ const updateQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
+    sendInfinity: false
   }
   const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body)
   if (axiosResponse.code === 0) {

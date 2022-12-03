@@ -66,14 +66,12 @@ onBeforeMount(async () => {
     }
   })
   let innerWidth = window.innerWidth
-  if (innerWidth < 500) {
-    setTimeout(() => {
-      show.value = true
-    }, 100)
-  } else {
-    await nextTick()
-    show.value = true
-  }
+  // if (innerWidth < 500) {
+
+  // } else {
+
+  //   show.value = true
+  // }
   const setNavigationDrawerWidth = () => {
     console.log('setNavigationDrawerWidth')
     innerWidth = window.innerWidth
@@ -94,7 +92,10 @@ onBeforeMount(async () => {
     }
   }
   setNavigationDrawerWidth()
-
+  await nextTick()
+  setTimeout(() => {
+    show.value = true
+  }, 100)
   window.addEventListener('resize', setNavigationDrawerWidth)
 })
 </script>

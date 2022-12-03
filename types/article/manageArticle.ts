@@ -17,6 +17,8 @@ export interface CreateArticleBody {
   codeHighlightStyleDark?: string
   markDownTheme?: MarkdownTheme | string
   markDownThemeDark?: mwebDark | string
+
+  sendInfinity: boolean
 }
 
 export enum ArticleState {

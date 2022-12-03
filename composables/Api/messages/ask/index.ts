@@ -17,6 +17,8 @@ export interface CreateQuestionBody {
   questionTagIds: any[]
   summary: string
   title: string
+
+  sendInfinity:boolean
 }
 
 export const useAxiosPostAskQuestion = (body: CreateQuestionBody) => {
