@@ -26,7 +26,7 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
       // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
 
       if (Boolean(token) && !config.url.includes('qiniu.dwsy.link')) {
-        flag.headers['Authorization'] = 'Bearer ' + token
+        flag.headers['Authorization'] = token
         // if (!useUser.IsLogin) {
         //   clog("ads");
         //   useUser.setIsLogn(true);

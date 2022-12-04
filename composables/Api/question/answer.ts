@@ -9,11 +9,11 @@ export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: Pag
 }
 
 export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {
-  return usePost<ResponseData<AnswerData>>('qa/answer', body)
+  return usePost<ResponseData<AnswerData>>('question/answer', body)
 }
 
 export const userAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {
-  return usePost<ResponseData<any>>('qa/answer/invitation', body)
+  return usePost<ResponseData<any>>('question/answer/invitation', body)
 }
 
 export interface AnswerQuestionRB {
@@ -26,7 +26,7 @@ export interface AnswerQuestionRB {
 }
 
 export const useAxiosPostQaAction = (body: QaActionRB) => {
-  return usePost<ResponseData<AnswerType>>('qa/answer/action', body)
+  return usePost<ResponseData<AnswerType>>('question/answer/action', body)
 }
 
 export interface QaActionRB {
@@ -43,7 +43,7 @@ export interface InvitationUserAnswerQuestionRB {
 }
 
 export const userAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
-  return useGet<ResponseData<boolean>>('qa/answer/accept', {
+  return useGet<ResponseData<boolean>>('question/answer/accept', {
     answerId,
     accepted,
   })
