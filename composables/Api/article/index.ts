@@ -31,7 +31,7 @@ export const useAxiosGetArticleList = (params?: {
 }
 
 export const useFetchGetArticleField = (id) => {
-  return http.GET<any>('article/article/field/' + id, null)
+  return http.GET<ResponseData<any>>('article/article/field/' + id, null)
 }
 
 export const useFetchGetArticleContent = (id, params?: { type?: number }) => {

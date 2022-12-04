@@ -49,7 +49,7 @@
             :index="ShowIndex"
             @hide="onHide"
           ></vue-easy-lightbox>
-          <div class="SongList ml-4">
+          <div class="ImgCard ml-4">
             <!--        //用v-for循环渲染缩略图-->
             <v-row>
               <v-col cols="10">
@@ -265,10 +265,11 @@ const selectedFile = ref(null)
 const inputImageUrl = ref(null)
 const text = ref('')
 const imgUrlList = ref<string[]>([])
+// const imgUrlList = ref<string[]>(['https://tvax1.sinaimg.cn/large/005NWBIgly1h4g7ceikwrj30hn0p0tb9.jpg'])
 const imgBase64List = ref<string[]>([...imgUrlList.value])
 const emits = defineEmits(['onSubmit'])
 const showSelectTopic = ref(false)
-const isDisabled = computed(() => text.value === '')
+const isDisabled = computed(() => text.value === ''&&imgUrlList.value.length===0)
 
 const props = defineProps<{
   replyTo: InfinityI
@@ -380,8 +381,10 @@ const delImg = (index) => {
 }
 const send = async () => {
   if (text.value === '') {
-    defaultMsg('内容不能为空')
-    return
+    if (imgUrlList.value.length === 0) {
+      defaultMsg('请输入内容')
+      return
+    }
   }
 
   if (props.replyTo != null) {
@@ -472,7 +475,7 @@ const textProgress = computed(() => {
   width: 100%;
 }
 
-.SongList {
+.ImgCard {
   width: 80%;
 }
 

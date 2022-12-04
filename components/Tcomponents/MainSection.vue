@@ -1,6 +1,6 @@
 <template>
   <div class="border-x" :class="twitterBorderColor">
-    <div class="px-2 backdrop-blur-lg" style="position: sticky; top: 48px; z-index: 10">
+    <div class="px-2 backdrop-blur-xl" style="position: sticky; top: 48px; z-index: 10" :style="{backgroundColor:appBarColor}">
       <v-btn icon class="" variant="text" :to="props.backTo" v-if="props.backTo">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -40,13 +40,19 @@
 import { clog } from '~/utils/clog'
 import useTailwindConfig from '../../composables/useTailwindConfig'
 import UISpinner from '~~/components/Tcomponents/UI/Spinner.vue'
+import { computed } from 'vue'
+import { useTheme } from 'vuetify'
 // import UISpinner from '~~/components/Tcomponents/UI/Spinner.vue'
 
 const { twitterBorderColor } = useTailwindConfig()
-
+const theme = useTheme()
 const props = defineProps<{
   title: string
   loading: boolean
   backTo?:string
 }>()
+const appBarColor = computed(() => {
+  return theme.global.name.value === 'dark' ? '#000000ab' : '#ffffffaa'
+  // return theme.global.name.value === 'dark' ? '#2228' : '#ffffffaa'
+})
 </script>

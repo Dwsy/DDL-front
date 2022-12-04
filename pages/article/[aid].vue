@@ -77,6 +77,7 @@
           </div>
           <v-divider class="my-1"></v-divider>
           <v-img
+            v-if="articleStore.articleField.banner"
             :aspect-ratio="8 / 3"
             :cover="true"
             :src="articleStore.articleField.banner"
@@ -84,7 +85,7 @@
             width="100%"
           >
           </v-img>
-          <v-divider class="mb-2"></v-divider>
+          <v-divider class="mb-2" v-if="articleStore.articleField.banner"></v-divider>
           <!--          :class="articleStore.markdownTheme"-->
           <div
             v-show="!articleStore.loading"
@@ -145,8 +146,8 @@
                 <!--                auto-grow-->
               </v-textarea>
               <v-btn class="float-end mx-6 mb-4" color="primary" @click="ReplyComment()"
-                >发送</v-btn
-              >
+                >发送
+              </v-btn>
             </v-col>
             <v-divider class="mt-n4 mb-6"></v-divider>
           </v-row>
@@ -216,8 +217,8 @@
                 <span class="mr-4"> {{ dateFilter(comment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
                 <div class="float-right" v-if="showDelBtn(comment.user.id)">
                   <v-icon @click="articleCommentStore.deleteComment(aid, comment.id)"
-                    >mdi-delete-outline</v-icon
-                  >
+                    >mdi-delete-outline
+                  </v-icon>
                 </div>
                 <v-divider></v-divider>
                 <v-row class="mt-n2">
@@ -303,7 +304,7 @@
                       </div>
                       <div v-else class="text-center">
                         <nuxt-link to="/user/login">
-                          <v-btn> 登陆 </v-btn>
+                          <v-btn> 登陆</v-btn>
                         </nuxt-link>
                       </div>
                     </v-col>
@@ -485,11 +486,11 @@
                                       </div>
                                       <div v-else class="text-center">
                                         <nuxt-link to="/user/login">
-                                          <v-btn> 登陆 </v-btn>
+                                          <v-btn> 登陆</v-btn>
                                         </nuxt-link>
                                       </div>
                                     </v-col>
-                                    <v-row> </v-row>
+                                    <v-row></v-row>
                                   </v-col>
                                 </v-row>
                               </div>
@@ -574,7 +575,7 @@
         <a href="#comments" v-if="!gotoTitle">
           <v-btn class="mr-3" elevation="0" outlined rounded size="small" @click="gotoTitle = true">
             <v-icon>mdi-message-reply-text-outline</v-icon>
-            <v-tooltip activator="parent" location="top">评论区 </v-tooltip>
+            <v-tooltip activator="parent" location="top">评论区</v-tooltip>
           </v-btn>
         </a>
         <a href="#T-title" v-else>
@@ -587,7 +588,7 @@
             @click="gotoTitle = false"
           >
             <v-icon>mdi-arrow-up-circle-outline</v-icon>
-            <v-tooltip activator="parent" location="top">回到顶部 </v-tooltip>
+            <v-tooltip activator="parent" location="top">回到顶部</v-tooltip>
           </v-btn>
         </a>
         <v-btn
@@ -631,12 +632,12 @@
               v-bind="props"
               @click="collectionArticles()"
             >
-              <v-icon v-if="!articleStore.collect" icon="mdi-cards-heart-outline"> </v-icon>
-              <v-icon v-else icon="mdi-cards-heart"> </v-icon>
+              <v-icon v-if="!articleStore.collect" icon="mdi-cards-heart-outline"></v-icon>
+              <v-icon v-else icon="mdi-cards-heart"></v-icon>
               <span v-if="articleStore.articleField.collectNum > 0">
                 {{ articleStore.articleField.collectNum }}
               </span>
-              <v-tooltip activator="parent" location="top">收藏 </v-tooltip>
+              <v-tooltip activator="parent" location="top">收藏</v-tooltip>
             </v-btn>
           </template>
           <div style="margin: auto">
@@ -671,7 +672,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="red-darken-1" text @click="collectionDialog = false"> 关闭 </v-btn>
+                <v-btn color="red-darken-1" text @click="collectionDialog = false"> 关闭</v-btn>
                 <!--                <v-btn-->
                 <!--                    color="blue-darken-1"-->
                 <!--                    text-->
@@ -713,7 +714,7 @@ import { atSrtGotoHome, dateFilter, handleCopy, timeAgoFilter } from '~/composab
 import { followUser, unFollowUser } from '~/composables/Api/user/following'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
 import { useLayout } from '~/stores/layout'
-import { useRouter } from '#app'
+import { navigateTo, useRouter } from '#app'
 import mediumZoom from 'medium-zoom'
 import { changeHighlightStyle } from '~/constant/highlightStyleList'
 import { changeThemes, themes } from '~/constant/markdownThemeList'
@@ -721,7 +722,6 @@ import { changeThemes, themes } from '~/constant/markdownThemeList'
 definePageMeta({
   keepalive: false,
 })
-
 useLayout().showFooter = true
 const theme = useTheme()
 //todo 移动端适配
@@ -734,7 +734,13 @@ const router = useRouter()
 const articleStore = useArticleStore()
 const articleCommentStore = useArticleCommentStore()
 let ArticleField = await useFetchGetArticleField(aid)
-
+if (ArticleField.code !== 0) {
+  // throw createError({
+  //   statusCode: 404,
+  //   statusMessage: '文章不存在',
+  // })
+  navigateTo("404")
+}
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
   router.push('/article')
@@ -773,7 +779,7 @@ onBeforeMount(async () => {
   let highlightStyle = document.querySelector('#highlightStyle')
   let markdownTheme = document.querySelector('#markdownTheme')
 
-  if (highlightStyle==null||markdownTheme==null) {
+  if (highlightStyle == null || markdownTheme == null) {
     await changeHighlightStyle(getHighlightStyleName())
     await changeThemes(themes[getMarkdownThemeName()])
   }

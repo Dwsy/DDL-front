@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    {{error}}
     <div v-if="error.statusCode === 404" class="grid h-screen place-content-center bg-white">
       <div class="text-center">
         <strong class="text-9xl font-black text-gray-200">404</strong>
@@ -21,9 +22,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['error'],
-  layout: 'blog', // you can set a custom layout for the error page
-}
+<script lang="ts" setup>
+const props = defineProps<{
+  error:{
+    url: string;
+    statusCode: string|number;
+    statusMessage: string;
+    message: string;
+    description: string;
+    data?: any;
+  }
+}>()
 </script>

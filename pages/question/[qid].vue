@@ -1033,6 +1033,7 @@ import {
   userAxiosPostInvitationUserAnswerQuestion,
 } from '~/composables/Api/question/answer'
 import { clog } from '~/utils/clog'
+import { navigateTo } from '#imports'
 
 const theme = useTheme()
 const route = useRoute()
@@ -1073,7 +1074,8 @@ if (responseData.code === 0) {
   }
   questionStore.cookieThemeState = useCookie('theme')
 } else {
-  clog(responseData.msg)
+  navigateTo('/question/i404')
+  // clog(responseData.msg)
 }
 questionStore.init(questionId)
 const title = ref(questionStore.filed.title)

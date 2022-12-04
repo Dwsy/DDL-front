@@ -34,7 +34,7 @@
             :index="ShowIndex"
             @hide="onHide"
           ></vue-easy-lightbox>
-          <div class="SongList ml-4">
+          <div class="ImgCard ml-4">
             <!--        //用v-for循环渲染缩略图-->
             <v-row>
               <v-col cols="10">
@@ -419,7 +419,7 @@ const textProgress = computed(() => {
   width: 100%;
 }
 
-.SongList {
+.ImgCard {
   width: 25%;
 }
 

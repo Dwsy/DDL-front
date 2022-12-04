@@ -1,25 +1,25 @@
 <template>
-  <div class="flex  flex-col">
-<!--  <div class="flex h-screen flex-col">-->
-<!--    <div-->
-<!--      :class="defaultTransition"-->
-<!--      class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"-->
-<!--    >-->
-<!--      &lt;!&ndash;      <nuxt-link to="/">&ndash;&gt;-->
-<!--      &lt;!&ndash;        <div class="h-8 w-8">&ndash;&gt;-->
-<!--      &lt;!&ndash;          <LogoTwitter />&ndash;&gt;-->
-<!--      &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--      &lt;!&ndash;      </nuxt-link>&ndash;&gt;-->
-<!--    </div>-->
+  <div class="flex flex-col">
+    <!--  <div class="flex h-screen flex-col">-->
+    <!--    <div-->
+    <!--      :class="defaultTransition"-->
+    <!--      class="my-2 w-full rounded-full p-2 hover:bg-blue-50 dark:hover:bg-white/20"-->
+    <!--    >-->
+    <!--      &lt;!&ndash;      <nuxt-link to="/">&ndash;&gt;-->
+    <!--      &lt;!&ndash;        <div class="h-8 w-8">&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <LogoTwitter />&ndash;&gt;-->
+    <!--      &lt;!&ndash;        </div>&ndash;&gt;-->
+    <!--      &lt;!&ndash;      </nuxt-link>&ndash;&gt;-->
+    <!--    </div>-->
 
     <div class="mt-2 space-y-3">
-        <SidebarLeftTab  to="/infinity/home">
-          <template v-slot:icon="{active}">
-            <HomeIconSolid v-if="active"/>
-            <HomeIcon v-else/>
-          </template>
-          <template v-slot:name> 主页</template>
-        </SidebarLeftTab>
+      <SidebarLeftTab to="/infinity/home" @click="clickHomeBtn">
+        <template v-slot:icon="{ active }">
+          <HomeIconSolid v-if="active" />
+          <HomeIcon v-else />
+        </template>
+        <template v-slot:name> 主页</template>
+      </SidebarLeftTab>
 
       <SidebarLeftTab>
         <template v-slot:icon>
@@ -100,9 +100,9 @@
     <!--            {{ user.handle }}-->
     <!--          </p>-->
     <!--        </div>-->
-    <!--      </div>-->    <!--            {{ user.handle }}-->
+    <!--      </div>-->
     <!--            {{ user.handle }}-->
-
+    <!--            {{ user.handle }}-->
 
     <!--      &lt;!&ndash; ICON &ndash;&gt;-->
     <!--      <div class="ml-auto hidden xl:block">-->
@@ -139,7 +139,7 @@ import {
   PencilIcon as PencilIconSolid,
   ChevronDownIcon as ChevronDownIconSolid,
   ChartBarIcon as ChartBarIconSolid,
-  HomeIcon as HomeIconSolid
+  HomeIcon as HomeIconSolid,
 } from '@heroicons/vue/24/solid/esm/index.js'
 // import {AcademicCapIconSolid,HomeIconSolid} from '~~/types/other/HeroiconsSolidIndex'
 
@@ -149,6 +149,7 @@ import UIButton from '~~/components/Tcomponents/UI/Button.vue'
 import SidebarLeftTab from '~~/components/Tcomponents/Sidebar/Left/Tab.vue'
 import useTailwindConfig from '~/composables/useTailwindConfig'
 import { useRoute } from '#app'
+import { useInfinityStore } from '~/stores/infinity/infinityStore'
 
 const emits = defineEmits(['onTweet', 'onLogout'])
 
@@ -159,4 +160,18 @@ const props = defineProps({
   },
 })
 const path = useRoute().path
+
+const clickHomeBtn = () => {
+  if (path === '/infinity/home') {
+    window.scrollTo(0, 0)
+    const infinityStore = useInfinityStore()
+    let testData = infinityStore.InfinityDataList[0]
+    testData.id = new Date().getDate().toString()
+    infinityStore.InfinityDataList.unshift(testData)
+    // infinityStore.loadInfinityData()
+    // infinityStore.getPageParams.page = 1
+    //todo load last tw from db
+  } else {
+  }
+}
 </script>

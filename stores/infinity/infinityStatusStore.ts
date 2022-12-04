@@ -110,7 +110,8 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
           }
         })
       } else {
-        errorMsg(response.msg)
+        navigateTo('/error/infinity')
+        // errorMsg(response.msg)
       }
     },
     async getCommentsPage() {

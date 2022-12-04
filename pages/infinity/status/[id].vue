@@ -3,12 +3,7 @@
   <div>
     <MainSection title="推文" :loading="infinityStatusStore.loading" back-to="/infinity/home">
       <Head>
-        <Title>{{
-          `${infinityStatusStore.tweet.user.nickname}:${infinityStatusStore.tweet.content.substring(
-            0,
-            20
-          )}`
-        }}</Title>
+        <Title>{{title}}}</Title>
       </Head>
       <!--        {{count}}-->
       <!--        <v-btn @click="count++">++</v-btn>-->
@@ -37,6 +32,13 @@ definePageMeta({
 const user = useUserStore().user
 
 const infinityStatusStore = useInfinityStatusStore()
+const title = computed(
+  () =>
+    `${infinityStatusStore.tweet.user.nickname}:${infinityStatusStore.tweet.content.substring(
+      0,
+      20
+    )}`
+)
 onBeforeRouteUpdate((to, from, next) => {
   if (to.path.startsWith('/infinity/status')) {
     infinityStatusStore.id = String(to.params.id)

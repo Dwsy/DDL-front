@@ -33,8 +33,8 @@
                 <v-col>
                   <v-card-title>{{ title }}</v-card-title>
                   <v-card-text
-                    class="mb-n6 ml-3 overflow-hidden"
-                    style="height: 50px; font-size: 19px; line-height: 25px; color: #86909c"
+                    class="mb-n6 ml-3 overflow-hidden text-zinc-800 dark:text-slate-300"
+                    style="height: 50px; font-size: 19px; line-height: 25px"
                     >{{ summary }}
                   </v-card-text>
                 </v-col>

@@ -41,7 +41,7 @@
                 <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
                   {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
                 </div>
-                <v-btn variant="text" class="mt-1" style="margin-left: 80%" color="#6d00fc" target="_blank" :href="`/article/${tweet.refId}`">查看原文</v-btn>
+                <v-btn variant="text" class="mt-1" style="margin-left: 85%" color="#164a84" target="_blank" :href="`/article/${tweet.refId}`" @click.stop="">查看原文</v-btn>
               </div>
               <div v-if="InfinityType.Question===tweet.type">
                 <p style="color: #00a0d8">提问：</p>
@@ -49,7 +49,7 @@
                 <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
                   {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
                 </div>
-                <v-btn variant="text" class="mt-1" style="margin-left: 80%" color="#6d00fc" target="_blank" :href="`/question/${tweet.refId}`">查看问题</v-btn>
+                <v-btn variant="text" class="mt-1" style="margin-left: 85%" color="#6d00fc" target="_blank" :href="`/question/${tweet.refId}`" @click.stop="">查看问题</v-btn>
               </div>
             </template>
             <template v-for="p in props.tweet.infinityTopics">
@@ -71,10 +71,10 @@
               teleport="body"
             >
             </vue-easy-lightbox>
-            <div class="SongList mt-3">
+            <div class="mt-3">
               <!--        //用v-for循环渲染缩略图-->
-              <v-row>
-                <v-col cols="10" class="ml-3">
+              <v-row :class="{ImgCard:props.tweet.type===InfinityType.Tweet,notTweCard:props.tweet.type!==InfinityType.Tweet}">
+                <v-col :cols="props.tweet.type===InfinityType.Tweet?10:12" class="ml-3">
                   <v-row class="covers" :style="{ display: MinDisplay }">
                     <v-col
                       :cols="getImgCol"
@@ -88,7 +88,7 @@
                         class="min rounded-lg"
                         @click.stop="ZoomIn(index)"
                         cover
-                        aspect-ratio="1"
+                        :aspect-ratio="props.tweet.type===InfinityType.Tweet?1:16/8"
                       />
                     </v-col>
                   </v-row>
@@ -266,6 +266,7 @@ const tweetBodyWrapper = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'))
 
 const textSize = computed(() => (props.compact ? 'text-base' : 'text-2xl'))
 const getImgCol = computed(() => {
+
   switch (props.tweet.imgUrlList.length) {
     case 1:
       return 12
@@ -372,8 +373,13 @@ const onHide = () => {
   width: 100%;
 }
 
-.SongList {
+.ImgCard {
   width: 70%;
+  /*width: v-bind('props.tweet.type==0?70%:100%')*/
+}
+
+.notTweCard {
+  width: 85%;
 }
 
 .covers {
