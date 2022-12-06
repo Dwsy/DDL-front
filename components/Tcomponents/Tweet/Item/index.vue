@@ -4,7 +4,7 @@
       <!--      <TweetItemHeader :tweet="props.tweet" :id="tweet.id" />-->
       <v-col style="max-width: 4%; flex: 0 0 4%" class="pl-6 pt-6" :id="tweet.id">
         <!--        <div>-->
-        <v-avatar size="52"  class="mb-2">
+        <v-avatar size="52" class="mb-2">
           <v-img :src="tweet.user.userInfo.avatar"></v-img>
         </v-avatar>
         <div class="d-tw-timeLine" :style="{ height: timeLineHeight }" v-if="timeLine"></div>
@@ -27,29 +27,50 @@
             </a>
           </div>
           <div
-
             :class="textSize"
             class="w-auto flex-shrink font-medium text-gray-800 dark:text-white d-t-content"
           >
-            <template               v-if="tweet.type === InfinityType.Tweet||tweet.type===InfinityType.TweetCommentOrReply">
+            <template
+              v-if="
+                tweet.type === InfinityType.Tweet || tweet.type === InfinityType.TweetCommentOrReply
+              "
+            >
               {{ props.tweet.content }}
             </template>
             <template v-else>
-              <div v-if="InfinityType.Article===tweet.type">
+              <div v-if="InfinityType.Article === tweet.type">
                 <p style="color: #00a0d8">发布文章：</p>
-                <p class="text-subtitle-1">                《{{ props.tweet.content.split("\n")[0] }}》</p>
-                <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
-                  {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
+                <p class="text-subtitle-1">《{{ props.tweet.content.split('\n')[0] }}》</p>
+                <div style="background-color: rgba(17, 17, 17, 0.03)" class="pa-2">
+                  {{ tweet.content.substring(tweet.content.indexOf('\n')) }}
                 </div>
-                <v-btn variant="text" class="mt-1" style="margin-left: 85%" color="#164a84" target="_blank" :href="`/article/${tweet.refId}`" @click.stop="">查看原文</v-btn>
+                <v-btn
+                  variant="text"
+                  class="mt-1"
+                  style="margin-left: 85%"
+                  color="#164a84"
+                  target="_blank"
+                  :href="`/article/${tweet.refId}`"
+                  @click.stop=""
+                  >查看原文
+                </v-btn>
               </div>
-              <div v-if="InfinityType.Question===tweet.type">
+              <div v-if="InfinityType.Question === tweet.type">
                 <p style="color: #00a0d8">提问：</p>
-                <p class="text-subtitle-1">                《{{ props.tweet.content.split("\n")[0] }}》</p>
-                <div style="background-color: rgba(17,17,17,0.03)" class="pa-2">
-                  {{ tweet.content.substring(tweet.content.indexOf("\n")) }}
+                <p class="text-subtitle-1">《{{ props.tweet.content.split('\n')[0] }}》</p>
+                <div style="background-color: rgba(17, 17, 17, 0.03)" class="pa-2">
+                  {{ tweet.content.substring(tweet.content.indexOf('\n')) }}
                 </div>
-                <v-btn variant="text" class="mt-1" style="margin-left: 85%" color="#6d00fc" target="_blank" :href="`/question/${tweet.refId}`" @click.stop="">查看问题</v-btn>
+                <v-btn
+                  variant="text"
+                  class="mt-1"
+                  style="margin-left: 85%"
+                  color="#6d00fc"
+                  target="_blank"
+                  :href="`/question/${tweet.refId}`"
+                  @click.stop=""
+                  >查看问题
+                </v-btn>
               </div>
             </template>
             <template v-for="p in props.tweet.infinityTopics">
@@ -57,24 +78,28 @@
             </template>
           </div>
 
-
           <template v-if="hasImg">
             <vue-easy-lightbox
               :visible="visibleRef"
               :imgs="tweet.imgUrlList"
               :index="ShowIndex"
               :loop="true"
-              :moveDisabled="true"
-              :scrollDisabled="false"
+              :moveDisabled="false"
+              :scrollDisabled="true"
               @hide="onHide"
               :zoomScale="0.3"
-              teleport="body"
             >
+<!--              teleport="body"-->
             </vue-easy-lightbox>
             <div class="mt-3">
               <!--        //用v-for循环渲染缩略图-->
-              <v-row :class="{ImgCard:props.tweet.type===InfinityType.Tweet,notTweCard:props.tweet.type!==InfinityType.Tweet}">
-                <v-col :cols="props.tweet.type===InfinityType.Tweet?10:12" class="ml-3">
+              <v-row
+                :class="{
+                  ImgCard: props.tweet.type === InfinityType.Tweet,
+                  notTweCard: props.tweet.type !== InfinityType.Tweet,
+                }"
+              >
+                <v-col :cols="props.tweet.type === InfinityType.Tweet ? 10 : 12" class="ml-3">
                   <v-row class="covers" :style="{ display: MinDisplay }">
                     <v-col
                       :cols="getImgCol"
@@ -88,7 +113,7 @@
                         class="min rounded-lg"
                         @click.stop="ZoomIn(index)"
                         cover
-                        :aspect-ratio="props.tweet.type===InfinityType.Tweet?1:16/8"
+                        :aspect-ratio="props.tweet.type === InfinityType.Tweet ? 1 : 16 / 8"
                       />
                     </v-col>
                   </v-row>
@@ -266,7 +291,6 @@ const tweetBodyWrapper = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'))
 
 const textSize = computed(() => (props.compact ? 'text-base' : 'text-2xl'))
 const getImgCol = computed(() => {
-
   switch (props.tweet.imgUrlList.length) {
     case 1:
       return 12
@@ -325,12 +349,13 @@ function select(i) {
 
 const visibleRef = ref(false)
 const indexRef = ref(0)
-const viewImg = () => {
+const viewImg = async () => {
   indexRef.value = ShowIndex.value
   visibleRef.value = true
   clog(props.tweet.imgUrlList[ShowIndex.value])
   clog((visibleRef.value = true))
   //这里element是我们要禁用鼠标滚轮触发滚动条的元素
+  await nextTick()
   const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
   main.onmousewheel = () => false
 }
@@ -405,7 +430,7 @@ const onHide = () => {
 
 .max {
   cursor: zoom-out;
-  width: 130%;
+  width: 100%;
 }
 
 .small {

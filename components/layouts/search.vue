@@ -44,9 +44,9 @@ import {
 
 const Router = useRouter()
 const route = useRoute()
-const model = ref(null)
-const text = ref('')
-const sug = ref(null)
+const model = ref(route.query.s||'')
+const text = ref("123")
+const sug = ref()
 const searchLabelText = ref('')
 
 const searchType = ref()

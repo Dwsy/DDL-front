@@ -31,8 +31,8 @@
                   <v-col class="px-4" cols="4">
                     <div class="text-subtitle-1">
                       <v-icon class="pb-1" color="blue darken-2" size="small"
-                        >mdi-account-circle</v-icon
-                      >
+                        >mdi-account-circle
+                      </v-icon>
                       {{ content.userNickName }} |
                       <span class="text-subtitle-2">{{
                         dateFilter(content.createTime, 'YYYY-MM-DD')
@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { dateFilter, useAxiosGetSearchArticle, useRoute } from '#imports'
 import { useAxiosGetSearchQuestion } from '~/composables/Api/search'
 import { QuestionSearchData } from '~/types/search'
@@ -104,13 +104,15 @@ const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
-  document.title = '搜索:' + Route.params.query
-  let { data: searchRet } = await useAxiosGetSearchQuestion(Route.params.query, params.value)
-  totalElements.value = searchRet.data.totalElements
-  searchListContent.value = searchRet.data.content
-  totalPages.value = searchRet.data.totalPages
-  document.body.onscroll = loadingWin
-  loading.value = false
+  watchEffect(async () => {
+    document.title = '搜索:' + Route.params.query
+    let { data: searchRet } = await useAxiosGetSearchQuestion(Route.params.query, params.value)
+    totalElements.value = searchRet.data.totalElements
+    searchListContent.value = searchRet.data.content
+    totalPages.value = searchRet.data.totalPages
+    document.body.onscroll = loadingWin
+    loading.value = false
+  })
 })
 
 const loadingWin = async () => {

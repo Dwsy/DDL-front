@@ -13,6 +13,7 @@ import { defaultMsg, errorMsg, warningMsg } from '~~/composables/utils/toastific
 import { useUserStore } from '~/stores/user'
 import { chatTextConvert, getChatType } from '~/composables/useTools'
 import { subString } from '~/utils/BigInt'
+import { useRuntimeConfig } from '#app'
 
 interface ChatsStore {
   chatsList: Ref<ChatsListData[]>
@@ -161,8 +162,9 @@ export const useChatsStore = defineStore('chats', {
       }
       clog(conversationId)
       let auth = false
-      let wsPath = 'ws://localhost:7050/private/message/'
-      // let wsPath = 'ws://192.168.5.11:7050/private/message/'
+      // const path = useRuntimeConfig().public.baseURL.split('//')[1]
+      // let wsPath = 'ws://' + path + 'api/ws/message/private/message/'
+      let wsPath = 'ws://192.168.5.11:7050/private/message/'
       if (this.chatWsMap.has(toUserId)) {
         // clog('已经存在连接')
         return

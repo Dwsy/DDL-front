@@ -1,6 +1,6 @@
 import http from '~~/utils/fetch'
 import { useGet } from '~/composables/useAxios'
-import { ResponseData } from '~/types/utils/axios'
+import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 
 export const useAxiosGetSearchArticle = (
   query,
@@ -17,7 +17,7 @@ export const useAxiosGetSearchQuestion = (
 }
 
 export const useFetchGetArticleSearchSuggestion = (query: string) =>
-  http.GET<ResponsePageData<any>>('search/article/suggestion/' + query, null)
+  http.GET<ResponseData<any>>('search/article/suggestion/' + query, null)
 
 export const useAxiosGetArticleSearchSuggestion = (query: string) =>
   useGet<ResponseData<any>>('search/article/suggestion/' + query, null)

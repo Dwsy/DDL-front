@@ -144,3 +144,8 @@ code ul li {
 .list-leave-active {
   position: absolute;
 }
+
+
+.vel-modal {
+  background: rgb(0 0 0 / 70%)!important;
+}

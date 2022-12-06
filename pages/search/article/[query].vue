@@ -31,8 +31,8 @@
                   <v-col class="px-4" cols="4">
                     <div class="text-subtitle-1">
                       <v-icon class="pb-1" color="blue darken-2" size="small"
-                        >mdi-account-circle</v-icon
-                      >
+                        >mdi-account-circle
+                      </v-icon>
                       {{ content.userNickName }} |
                       <span class="text-subtitle-2">{{
                         dateFilter(content.createTime, 'YYYY-MM-DD')
@@ -113,14 +113,16 @@ const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
-  console.log("Route",Route)
-  document.title = '搜索:' + Route.params.s
-  let { data: searchRet } = await useAxiosGetSearchArticle(Route.params.s, params.value)
-  totalElements.value = searchRet.data.totalElements
-  searchListContent.value = searchRet.data.content
-  totalPages.value = searchRet.data.totalPages
-  document.body.onscroll = loadingWin
-  loading.value = false
+  watchEffect(async () => {
+    console.log('Route', Route)
+    document.title = '搜索:' + Route.params.s
+    let { data: searchRet } = await useAxiosGetSearchArticle(Route.params.s, params.value)
+    totalElements.value = searchRet.data.totalElements
+    searchListContent.value = searchRet.data.content
+    totalPages.value = searchRet.data.totalPages
+    document.body.onscroll = loadingWin
+    loading.value = false
+  })
 })
 
 const loadingWin = async () => {

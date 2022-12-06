@@ -6,7 +6,7 @@
         <div>
           <div class="mt-8">
             <span class="text-subtitle-1" style="color: #9195a3"
-            >共找到 {{ totalElements }}条结果</span
+              >共找到 {{ totalElements }}条结果</span
             >
           </div>
 
@@ -31,12 +31,12 @@
                   <v-col class="px-4" cols="4">
                     <div class="text-subtitle-1">
                       <v-icon class="pb-1" color="blue darken-2" size="small"
-                      >mdi-account-circle</v-icon
-                      >
+                        >mdi-account-circle
+                      </v-icon>
                       {{ content.userNickName }} |
                       <span class="text-subtitle-2">{{
-                          dateFilter(content.createTime, 'YYYY-MM-DD')
-                        }}</span>
+                        dateFilter(content.createTime, 'YYYY-MM-DD')
+                      }}</span>
                       <nuxt-link v-for="tag in content.tagList" :to="`/question/tag/${tag.id}`">
                         <span class="text-subtitle-2 link">
                           /
@@ -91,26 +91,29 @@
 
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { dateFilter, useAxiosGetSearchArticle, useRoute } from '#imports'
 import { useAxiosGetSearchQuestion } from '~/composables/Api/search'
 import { QuestionSearchData } from '~/types/search'
 
 let searchListContent = ref<Array<QuestionSearchData>>()
 let Route = useRoute()
-const params = ref({ size: 10, page: 1, order: null, properties: null })
+const params = { size: 10, page: 1, order: null, properties: null }
 const totalPages = ref(null)
 const alert = ref(false)
 const totalElements = ref(0)
 const loading = ref(true)
 onMounted(async () => {
-  document.title = '搜索:' + Route.query.s
-  let { data: searchRet } = await useAxiosGetSearchQuestion(Route.query.s, params.value)
-  totalElements.value = searchRet.data.totalElements
-  searchListContent.value = searchRet.data.content
-  totalPages.value = searchRet.data.totalPages
-  document.body.onscroll = loadingWin
-  loading.value = false
+  watchEffect(async () => {
+    document.title = '搜索:' + Route.query.s
+    let { data: searchRet } = await useAxiosGetSearchQuestion(Route.query.s, params)
+    totalElements.value = searchRet.data.totalElements
+    searchListContent.value = searchRet.data.content
+    totalPages.value = searchRet.data.totalPages
+    params.page = 1
+    document.body.onscroll = loadingWin
+    loading.value = false
+  })
 })
 
 const loadingWin = async () => {
@@ -130,14 +133,14 @@ const loadingWin = async () => {
 }
 
 const loadingMore = async () => {
-  if (params.value.page >= Number(totalPages.value)) {
+  if (params.page >= Number(totalPages.value)) {
     if (searchListContent.value.length > 10) {
       alert.value = true
     }
     return
   }
-  params.value.page += 1
-  let { data: searchRetNew } = await useAxiosGetSearchArticle(Route.query.s, params.value)
+  params.page += 1
+  let { data: searchRetNew } = await useAxiosGetSearchArticle(Route.query.s, params)
   searchListContent.value.push(...searchRetNew.data.content)
 }
 </script>
