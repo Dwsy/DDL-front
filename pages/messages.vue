@@ -148,7 +148,7 @@ onMounted(async () => {
     provide('unreadNotify', unreadNotify)
     items.value[0].unreadCount = unreadNotify.unreadNotifyReplyCommentCount || 0
     items.value[1].unreadCount = unreadNotify.unreadAtMeCount || 0
-    items.value[2].unreadCount = unreadNotify.ArticleOrCommentThumbCount || 0
+    items.value[2].unreadCount = unreadNotify.unreadNotifyArticleOrCommentThumbCount || 0
     items.value[3].unreadCount = unreadNotify.unreadNotifyAnswerCount || 0
     items.value[4].unreadCount =
       unreadNotify.unreadNotifyAnswerCommentCount + unreadNotify.unreadNotifyQuestionCommentCount ||

@@ -1,6 +1,6 @@
 <template>
   <div style="align-items: center; display: flex">
-<!--    searchType: {{ searchType }}-->
+    <!--    searchType: {{ searchType }}-->
     <v-autocomplete
       v-model="model"
       v-model:search="text"
@@ -44,8 +44,8 @@ import {
 
 const Router = useRouter()
 const route = useRoute()
-const model = ref(route.query.s||'')
-const text = ref("123")
+const model = ref(route.query.s || '')
+const text = ref('')
 const sug = ref()
 const searchLabelText = ref('')
 
@@ -98,14 +98,14 @@ const suggestion = async () => {
 const query = () => {
   if (searchType.value === 'article') {
     Router.push({
-      path:'/search/article',
+      path: '/search/article',
       query: {
         s: text.value,
       },
     })
   } else if (searchType.value === 'question') {
     Router.push({
-      path:'/search/question',
+      path: '/search/question',
       query: {
         s: text.value,
       },

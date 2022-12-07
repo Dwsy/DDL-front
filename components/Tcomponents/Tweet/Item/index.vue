@@ -89,7 +89,7 @@
               @hide="onHide"
               :zoomScale="0.3"
             >
-<!--              teleport="body"-->
+              <!--              teleport="body"-->
             </vue-easy-lightbox>
             <div class="mt-3">
               <!--        //用v-for循环渲染缩略图-->
@@ -238,6 +238,7 @@
           </template>
         </div>
       </v-col>
+      <div>{{ twType }}/{{ props.tweet.type }}</div>
     </v-row>
   </client-only>
 </template>
@@ -275,7 +276,12 @@ const setTwType = () => {
     twType.value = TwShowStatus.status
     return
   }
-  if (props.tweet.type === InfinityType.Tweet) {
+  if (
+    props.tweet.type === InfinityType.Tweet ||
+    props.tweet.type === InfinityType.Article ||
+    props.tweet.type === InfinityType.Question ||
+    props.tweet.type === InfinityType.Answer
+  ) {
     twType.value = TwShowStatus.index
     return
   }
@@ -289,7 +295,7 @@ const setTwType = () => {
 }
 const tweetBodyWrapper = computed(() => (props.compact ? 'ml-16' : 'ml-2 mt-4'))
 
-const textSize = computed(() => (props.compact ? 'text-base' : 'text-2xl'))
+const textSize = computed(() => (props.compact ? 'text-base' : 'text-xl'))
 const getImgCol = computed(() => {
   switch (props.tweet.imgUrlList.length) {
     case 1:

@@ -5,7 +5,7 @@ import { PageParam } from '~/types/common'
 import { AnswerData, AnswerType } from '~/types/question/answer'
 
 export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: PageParam) => {
-  return useGet<ResponseData<any>>(`qa/answer/${questionId}`, param)
+  return useGet<ResponseData<any>>(`question/answer/${questionId}`, param)
 }
 
 export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {

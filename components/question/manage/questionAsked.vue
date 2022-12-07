@@ -2,13 +2,13 @@
   <div>
     <v-tabs v-model="tab" v-if="counts">
       <v-tab value="all">全部 {{ counts['ALL'] }}</v-tab>
-      <v-tab value="ask">发起 {{ counts['ASK'] }}</v-tab>
-      <v-tab value="resolved">以解决 {{ counts['RESOLVED'] }}</v-tab>
-      <v-tab value="have_answer">以有答案 {{ counts['HAVE_ANSWER'] }}</v-tab>
-      <v-tab value="hide">已隐藏 {{ counts['HIDE'] }}</v-tab>
-      <v-tab value="unresolved">未解决 {{ counts['UNRESOLVED'] }}</v-tab>
-      <v-tab value="auditing">审核中 {{ counts['AUDITING'] }}</v-tab>
-      <v-tab value="rejected">未通过 {{ counts['REJECTED'] }}</v-tab>
+      <v-tab value="ASK">发起 {{ counts['ASK'] }}</v-tab>
+      <v-tab value="RESOLVED">以解决 {{ counts['RESOLVED'] }}</v-tab>
+      <v-tab value="HAVE_ANSWER">以有答案 {{ counts['HAVE_ANSWER'] }}</v-tab>
+      <v-tab value="HIDE">已隐藏 {{ counts['HIDE'] }}</v-tab>
+      <v-tab value="UNRESOLVED">未解决 {{ counts['UNRESOLVED'] }}</v-tab>
+      <v-tab value="AUDITING">审核中 {{ counts['AUDITING'] }}</v-tab>
+      <v-tab value="REJECTED">未通过 {{ counts['REJECTED'] }}</v-tab>
     </v-tabs>
     <QuestionManageCard />
 
@@ -39,7 +39,7 @@ const router = useRouter()
 const tab = ref()
 const ListContent = ref<Array<QuestionField>>([])
 provide('QuestionFieldManageList', ListContent)
-const totalPages = ref(null)
+const totalPages = ref()
 const params = ref<GetUserQuestionListParams>({
   order: null,
   page: 1,

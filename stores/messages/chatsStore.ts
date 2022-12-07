@@ -1,4 +1,4 @@
-import { ref, Ref } from 'vue'
+import { nextTick, ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
   GetMessageParam,
@@ -8,8 +8,8 @@ import {
   UseAxiosPostReadMessageById,
   UseAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
-import { nextTick, successMsg } from '#imports'
-import { defaultMsg, errorMsg, warningMsg } from '~~/composables/utils/toastification'
+// import { nextTick, successMsg } from '#imports'
+import { defaultMsg, errorMsg, successMsg, warningMsg } from '~~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { chatTextConvert, getChatType } from '~/composables/useTools'
 import { subString } from '~/utils/BigInt'
@@ -144,7 +144,7 @@ export const useChatsStore = defineStore('chats', {
         }
       }
     },
-    connectWsChannel(toUserId?: number) {
+    connectWsChannel(toUserId?: string) {
       if (!('WebSocket' in window)) {
         clog('您的浏览器不支持WebSocket')
         return
@@ -162,9 +162,9 @@ export const useChatsStore = defineStore('chats', {
       }
       clog(conversationId)
       let auth = false
-      // const path = useRuntimeConfig().public.baseURL.split('//')[1]
-      // let wsPath = 'ws://' + path + 'api/ws/message/private/message/'
-      let wsPath = 'ws://192.168.5.11:7050/private/message/'
+      const path = useRuntimeConfig().public.baseURL.split('//')[1]
+      let wsPath = 'ws://' + path + 'message/private/message/'
+      // let wsPath = 'ws://192.168.5.11:7050/private/message/'
       if (this.chatWsMap.has(toUserId)) {
         // clog('已经存在连接')
         return
@@ -187,6 +187,7 @@ export const useChatsStore = defineStore('chats', {
         }
         if (data === '鉴权成功') {
           this.chatWsMap.set(toUserId, ws)
+          auth = true
           clog('ok!')
           return
         }
@@ -208,6 +209,11 @@ export const useChatsStore = defineStore('chats', {
         }
       }
       ws.onclose = function () {
+        if (auth) {
+          useChatsStore().chatsList.forEach((item) => {
+            useChatsStore().connectWsChannel(item.chatUserId)
+          })
+        }
         clog('连接关闭')
       }
       ws.onerror = function () {

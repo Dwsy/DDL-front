@@ -1294,7 +1294,7 @@ const acceptedAnswer = async (answerId: string, accept: boolean, index?: number)
 const watchQuestion = async (cancel = false) => {
   if (cancel) {
     const { data: axiosResponse } = await usePost<ResponseData<boolean>>(
-      'qa/question/unwatch/' + questionId
+      'question/question/unwatch/' + questionId
     )
     if (axiosResponse.code == 0 && axiosResponse.data) {
       questionStore.watch = false
@@ -1304,7 +1304,7 @@ const watchQuestion = async (cancel = false) => {
     }
   } else {
     const { data: response } = await usePost<ResponseData<boolean>>(
-      'qa/question/watch/' + questionId
+      'question/question/watch/' + questionId
     )
     if (response.code == 0 && response.data) {
       questionStore.watch = true

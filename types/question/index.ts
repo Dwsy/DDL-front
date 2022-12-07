@@ -69,18 +69,29 @@ export interface QuestionField {
   questionCommentTotalPages: number
 }
 
+// export enum QuestionState {
+//   ASK = 'ask',
+//   DRAFT = 'draft',
+//   HAVE_ANSWER = 'have_answer',
+//   RESOLVED = 'resolved',
+//   UNRESOLVED = 'unresolved',
+//   HIDE = 'hide',
+//   AUDITING = 'auditing',
+//   REJECTED = 'rejected',
+//   ALL = 'all',
+// }
+
 export enum QuestionState {
-  ASK = 'ask',
-  DRAFT = 'draft',
-  HAVE_ANSWER = 'have_answer',
-  RESOLVED = 'resolved',
-  UNRESOLVED = 'unresolved',
-  HIDE = 'hide',
-  AUDITING = 'auditing',
-  REJECTED = 'rejected',
+  ASK = 'ASK',
+  DRAFT = 'DRAFT',
+  HAVE_ANSWER = 'HAVE_ANSWER',
+  RESOLVED = 'RESOLVED',
+  UNRESOLVED = 'UNRESOLVED',
+  HIDE = 'HIDE',
+  AUDITING = 'AUDITING',
+  REJECTED = 'REJECTED',
   ALL = 'all',
 }
-
 export enum QuestionStateZh {
   ASK = '发起问题',
   DRAFT = '草稿',

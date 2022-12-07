@@ -13,6 +13,7 @@ import { InfinityI, InfinityTopic, TwShowStatus } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import { useUserStore } from '~/stores/user'
 import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
+import item from '~/components/Tcomponents/Sidebar/Right/PreviewCard/Item.vue'
 
 //todo 分离 comment 和 tweet store
 interface InfinityStore {

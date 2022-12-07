@@ -149,7 +149,7 @@ const delQuestion = async () => {
 }
 const showStatus = ['ASK', 'RESOLVED', 'HAVE_ANSWER', 'UNRESOLVED']
 const showViewBtn = (question: QuestionField) => {
-  console.log(showStatus)
+  // console.log(showStatus)
   console.log(question.questionState)
   return showStatus.indexOf(question.questionState) != -1
 }

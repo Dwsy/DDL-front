@@ -1,6 +1,8 @@
 import http from '~~/utils/fetch'
 import { useGet, usePost } from '~/composables/useAxios'
-import { ResponseData } from '~/types/utils/axios'
+import { ResponseData, ResponsePageData } from '~/types/utils/axios'
+import { InfinityI } from '~/types/infinity'
+import { UserActiveTypeEn } from '~/types/user/active'
 
 export const useAxiosGetUserInfo = () => {
   return useGet<ResponseData<any>>('user/info')
@@ -34,7 +36,7 @@ export const userAxiosGetUserThumbActiveListByUserId = (
     tagId?: string
     order?: string
     properties?: string
-    type: UserActiveType
+    type: UserActiveTypeEn
   }
 ) => {
   return useGet<ResponseData<any>>('user/active/thumb/' + userId, params)
@@ -61,4 +63,24 @@ export enum UserActiveType {
   UP_Question, //点赞问题
 
   UP_Question_Answer, //点赞问题回答
+  Accepted_Question_Answer,//采纳问题回答
+
+  Comment_Tweet,//回复推文
+
+  Reply_Comment_Tweet,//回复推文回复
+
+  Reply_Reply_Comment_Tweet,//回复推文二级回复
+
+  Thumb_Tweet//点赞tweet
+}
+
+export const useAxiosGetUserDynamic = (
+  userId:string,
+  params?: {
+    size?: number
+    page?: number
+    order?: string
+  }
+) => {
+  return useGet<ResponsePageData<InfinityI>>('/infinity/infinity/user/'+userId,params)
 }

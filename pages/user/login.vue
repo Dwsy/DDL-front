@@ -30,12 +30,8 @@
     <div>
       <v-btn @click="check()">签到</v-btn>
       <v-btn target="_blank" @click="github()">
-        <v-icon>
-          mdi-github
-        </v-icon>
-        <span>
-          Github Login
-        </span>
+        <v-icon> mdi-github </v-icon>
+        <span> Github Login </span>
       </v-btn>
       <div class="my-5">payload::{{ payload }}</div>
       <div>
@@ -93,22 +89,29 @@ async function setToken(token: string) {
 }
 
 const login = async () => {
-  publicKey.value = (await useGet<ResponseData<any>>('auth/rsa-pks')).data['data']
+  // publicKey.value = (await useGet<ResponseData<any>>('auth/rsa-pks')).data['data']
   // clog('publicKey', publicKey.value)
   // clog('rsa decode', rsaEncrypt(publicKey.value, password.value))
   let uap = {
     username: username.value,
     password: rsaEncrypt(publicKey.value, password.value),
   }
-  const r = await usePost<ResponseData<any>>('auth/token', uap)
-  t.value = r.data['token']
-  let token = t.value
-  await setToken(token)
+  const r = await usePost<ResponseData<any>>('auth/login', uap)
+  const authorization = r.headers.authorization
+  if (authorization != null) {
+    await setToken(authorization)
+    successMsg('登录成功')
+  } else {
+    errorMsg('登录失败')
+  }
+  // t.value = r.data['token']
+  // let token = t.value
+  // await setToken(token)
   // Router.push('/')
 }
 
 const logout = () => {
-  usePost<ResponseData<boolean>>('au/authority/logout').then((r) => {
+  usePost<ResponseData<boolean>>('auth/logout').then((r) => {
     const data = r.data
     if (data.code === 0) {
       if (data.data) {

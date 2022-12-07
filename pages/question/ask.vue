@@ -743,7 +743,7 @@ interface versionDataI {
 
 const getVersionHistoryList = async () => {
   const { data: response } = await useGet<ResponseData<versionDataI[]>>(
-    'qa/question/manage/historyVersion/' + questionId.value
+    'question/question/manage/historyVersion/' + questionId.value
   )
   versionHistoryList.value = response.data
 }

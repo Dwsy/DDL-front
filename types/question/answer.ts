@@ -73,3 +73,17 @@ export enum AnswerType {
 
   downToUp,
 }
+
+export interface UserAnswerI {
+  questionTitle: any;
+  id: string;
+  user: User;
+  upNum: number;
+  downNum: number;
+  textPrue: string;
+  accepted: boolean;
+  acceptedTime: any;
+  questionFieldId: string;
+  createTime: number;
+}
+
