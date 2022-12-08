@@ -14,10 +14,12 @@ export interface UserInfo {
   id: string
   avatar: any
   avatarNew?: any
-  level: number
+  level?: number
   sign: string
   gender: string
   birth: any
+
+  experience?: number
 }
 
 interface tokenMsg {

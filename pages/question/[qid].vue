@@ -31,7 +31,7 @@
                     >
                       <v-icon
                         :color="questionStore.support === AnswerType.up ? 'blue-lighten-2' : 'grey'"
-                        >mdi-triangle
+                      >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题有用且描述清晰
@@ -58,7 +58,7 @@
                           questionStore.support === AnswerType.down ? 'blue-lighten-2' : 'grey'
                         "
                         class="mdi-rotate-180"
-                        >mdi-triangle
+                      >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题没有认真研究用或描述不清晰
@@ -153,7 +153,7 @@
                   <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
                   <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
                   <span class="ml-4"
-                    >修改：{{
+                  >修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span
                   >
@@ -177,6 +177,7 @@
                                 class="mx-4"
                                 label="搜索用户"
                                 single-line
+                                @keydown.enter="searchInvitationUser(invitationSearchText)"
                                 @click:append-inner="searchInvitationUser(invitationSearchText)"
                               >
                               </v-text-field>
@@ -196,11 +197,12 @@
                                     <v-window-item value="following">
                                       <v-list v-for="(u, index) in invitationFollowingUserList">
                                         <v-list-item>
-                                          <nuxt-link :href="`/user/${u.id}`" target="_blank">
+                                          <nuxt-link :href="`/user/${u.userId}`" target="_blank">
                                             <v-avatar>
-                                              <v-img :src="u.userInfo.avatar"></v-img>
+                                              <v-img :src="u.avatar"></v-img>
                                             </v-avatar>
-                                            <span class="mx-3" v-text="u.nickname"></span>
+
+                                            <span class="mx-3" v-text="u.userNickName"></span>
                                           </nuxt-link>
                                           <v-chip
                                             v-for="tag in u.userTags"
@@ -221,14 +223,14 @@
                                               InvitationUserAnswerQuestion(
                                                 {
                                                   questionId: questionId,
-                                                  userId: u.id,
+                                                  userId: u.userId,
                                                   cancel: false,
                                                 },
                                                 index
                                               )
                                             "
                                           >
-                                            邀请 {{ u.id }}
+                                            邀请{{ u.userId }}
                                           </v-btn>
                                           <template v-else>
                                             <v-btn
@@ -239,7 +241,7 @@
                                                 InvitationUserAnswerQuestion(
                                                   {
                                                     questionId: questionId,
-                                                    userId: u.id,
+                                                    userId: u.userId,
                                                     cancel: true,
                                                   },
                                                   index
@@ -257,73 +259,70 @@
                                     <v-window-item value="recommended">
                                       <v-list v-for="(u, index) in invitationRecommendedUserList">
                                         <v-list-item>
-                                          <v-row>
-                                            <v-col cols="12">
-                                              <nuxt-link :href="`/user/${u.id}`" target="_blank">
-                                                <v-avatar>
-                                                  <v-img :src="u.userInfo.avatar"></v-img>
-                                                </v-avatar>
+                                          <nuxt-link :href="`/user/${u.userId}`" target="_blank">
+                                            <v-avatar>
+                                              <v-img :src="u.avatar"></v-img>
+                                            </v-avatar>
 
-                                                <span class="mx-3" v-text="u.nickname"></span>
-                                              </nuxt-link>
-                                              <v-chip
-                                                v-for="tag in u.userTags"
-                                                :key="tag.id"
-                                                size="small"
-                                              >
-                                                <v-icon>
-                                                  mdi-language-{{ tag.name.toLocaleLowerCase() }}
-                                                </v-icon>
-                                                {{ tag.name }}
-                                              </v-chip>
-                                              <v-btn
-                                                v-if="!u.invited"
-                                                class="float-right"
-                                                color="red"
-                                                variant="tonal"
-                                                @click="
-                                                  InvitationUserAnswerQuestion(
-                                                    {
-                                                      questionId: questionId,
-                                                      userId: u.id,
-                                                      cancel: false,
-                                                    },
-                                                    index
-                                                  )
-                                                "
-                                              >
-                                                邀请 {{ u.id }}
-                                              </v-btn>
-                                              <template v-else>
-                                                <v-btn
-                                                  class="d-invited float-right"
-                                                  color="#3eb370"
-                                                  variant="tonal"
-                                                  @click="
-                                                    InvitationUserAnswerQuestion(
-                                                      {
-                                                        questionId: questionId,
-                                                        userId: u.id,
-                                                        cancel: true,
-                                                      },
-                                                      index
-                                                    )
-                                                  "
-                                                >
-                                                  取消邀请{{ u.userId }}
-                                                </v-btn>
-                                              </template>
-                                            </v-col>
-                                          </v-row>
+                                            <span class="mx-3" v-text="u.userNickName"></span>
+                                          </nuxt-link>
+                                          <v-chip
+                                            v-for="tag in u.userTags"
+                                            :key="tag.id"
+                                            size="small"
+                                          >
+                                            <v-icon>
+                                              mdi-language-{{ tag.name.toLocaleLowerCase() }}
+                                            </v-icon>
+                                            {{ tag.name }}
+                                          </v-chip>
+                                          <v-btn
+                                            v-if="!u.invited"
+                                            class="float-right"
+                                            color="red"
+                                            variant="tonal"
+                                            @click="
+                                              InvitationUserAnswerQuestion(
+                                                {
+                                                  questionId: questionId,
+                                                  userId: u.userId,
+                                                  cancel: false,
+                                                },
+                                                index
+                                              )
+                                            "
+                                          >
+                                            邀请{{ u.userId }}
+                                          </v-btn>
+                                          <template v-else>
+                                            <v-btn
+                                              class="d-invited float-right"
+                                              color="#3eb370"
+                                              variant="tonal"
+                                              @click="
+                                                InvitationUserAnswerQuestion(
+                                                  {
+                                                    questionId: questionId,
+                                                    userId: u.userId,
+                                                    cancel: true,
+                                                  },
+                                                  index
+                                                )
+                                              "
+                                            >
+                                              取消邀请{{ u.userId }}
+                                            </v-btn>
+                                          </template>
                                         </v-list-item>
                                         <v-divider></v-divider>
                                       </v-list>
                                     </v-window-item>
 
-                                    <v-window-item value="search">
+                                    <v-window-item value="search"
+                                    >{{ invitationSearchUserList }}
                                       <v-list v-for="(u, index) in invitationSearchUserList">
                                         <v-list-item>
-                                          <nuxt-link :href="`/user/${u.id}`" target="_blank">
+                                          <nuxt-link :href="`/user/${u.userId}`" target="_blank">
                                             <v-avatar>
                                               <v-img :src="u.avatar"></v-img>
                                             </v-avatar>
@@ -492,14 +491,14 @@
                                 color="#e2041b"
                                 variant="outlined"
                                 @click="isActive.value = false"
-                                >关闭
+                              >关闭
                               </v-btn>
                               <v-btn
                                 append-icon="mdi-reply"
                                 color="#98d98e"
                                 variant="outlined"
                                 @click="commentQuestion(isActive)"
-                                >回复
+                              >回复
                               </v-btn>
                             </v-card-actions>
                           </v-card>
@@ -609,7 +608,7 @@
                           "
                         >
                           <v-icon :color="answerStore.getActionColor(AnswerType.up, index)"
-                            >mdi-triangle
+                          >mdi-triangle
                           </v-icon>
                           <v-tooltip activator="parent" location="right"> 这个回答有用</v-tooltip>
                         </v-btn>
@@ -633,7 +632,7 @@
                           <v-icon
                             :color="answerStore.getActionColor(AnswerType.down, index)"
                             class="mdi-rotate-180"
-                            >mdi-triangle
+                          >mdi-triangle
                           </v-icon>
                           <v-tooltip activator="parent" location="right"> 这个回答没有用</v-tooltip>
                         </v-btn>
@@ -670,7 +669,7 @@
                             icon="true"
                             @click="acceptedAnswer(answer.id, true, index)"
                           >
-                            <v-icon class="" size="large"> mdi-check-bold</v-icon>
+                            <v-icon class="text-amber-500" size="large"> mdi-check-bold</v-icon>
                             <v-tooltip activator="parent" location="right"> 采纳这个回答</v-tooltip>
                           </v-btn>
                         </template>
@@ -748,14 +747,14 @@
                                       color="#e2041b"
                                       variant="outlined"
                                       @click="isActive.value = false"
-                                      >关闭
+                                    >关闭
                                     </v-btn>
                                     <v-btn
                                       append-icon="mdi-reply"
                                       color="#92398e"
                                       variant="outlined"
                                       @click="commentAnswer(index, answer.id, isActive)"
-                                      >回复
+                                    >回复
                                     </v-btn>
                                   </v-card-actions>
                                 </v-card>
@@ -916,7 +915,7 @@
                           《Markdown 语法排版》
                         </nuxt-link>
                         <v-icon class="mb-1" size="x-large"
-                          >mdi-language-markdown-outline</v-icon
+                        >mdi-language-markdown-outline</v-icon
                         ></span
                       >
                       ，代码语义正确
@@ -930,14 +929,14 @@
                   </div>
                   <div class="my-3">
                     <v-btn color="#1aad19" size="large" variant="tonal" @click="showAnswerWin()"
-                      >撰写解决方法
+                    >撰写解决方法
                     </v-btn>
                   </div>
                   <div class="d-answer-tip-comment">
                     <p class="card-text mdi">
                       询问细节、提出修改意见时，请使用每条内容下方的<span style="color: #12a9b5"
-                        >“回复”</span
-                      >功能
+                    >“回复”</span
+                    >功能
                     </p>
                   </div>
                 </div>
@@ -980,14 +979,14 @@
                 color="#e2041b"
                 variant="outlined"
                 @click="commentDialog = false"
-                >关闭
+              >关闭
               </v-btn>
               <v-btn
                 append-icon="mdi-reply"
                 color="#98d98e"
                 variant="outlined"
                 @click="replyQuestionComment()"
-                >回复
+              >回复
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -1007,21 +1006,21 @@ import { changeThemes, themes } from '~/constant/markdownThemeList'
 import { useFetchGetQuestionContent, useFetchGetQuestionField } from '~/composables/Api/question'
 import { useTheme } from 'vuetify'
 import { useAnswerStore } from '~/stores/question/answerStore'
-import { AnswerData, AnswerType, User0 } from '~/types/question/answer'
+import { AnswerData, AnswerType, InvitedUserI } from '~/types/question/answer'
 import { User, userData } from '~/types/user'
 import AnswerBytemdEditor from '~/components/question/answerBytemdEditor.vue'
 import {
   useAxiosCancelCollectionToGroup,
   useAxiosGetCollectionGroupList,
   useAxiosPostAddCollectionToGroup,
-  useAxiosPostCreateCollectionGroup,
+  useAxiosPostCreateCollectionGroup
 } from '~/composables/Api/article'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
 import { errorMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import {
   followUser,
   unFollowUser,
-  useAxiosGetFollowingList,
+  useAxiosGetFollowingList
 } from '~/composables/Api/user/following'
 import { useLayout } from '~/stores/layout'
 import { useUserStore } from '~/stores/user'
@@ -1029,11 +1028,13 @@ import { useGet, usePost } from '~/composables/useAxios'
 import { ResponseData } from '~/types/utils/axios'
 import {
   InvitationUserAnswerQuestionRB,
+  useAxiosGetUserFollowingListAndInvitationState, useAxiosPostRecommendedUserListAndInvitationState,
   userAxiosGetAcceptAnswer,
-  userAxiosPostInvitationUserAnswerQuestion,
+  userAxiosPostInvitationUserAnswerQuestion
 } from '~/composables/Api/question/answer'
 import { clog } from '~/utils/clog'
 import { navigateTo } from '#imports'
+import { QuestionState } from '~/types/question'
 
 const theme = useTheme()
 const route = useRoute()
@@ -1058,11 +1059,11 @@ const commentAnswerIndex = ref(0)
 const collectionDialog = ref(false)
 const invitationSearchText = ref()
 
-const invitationSearchUserList = ref<User0[]>()
-const invitationRecommendedUserList = ref<User0[]>()
-const invitationFollowingUserList = ref<User0[]>()
+const invitationSearchUserList = ref<InvitedUserI[]>()
+const invitationRecommendedUserList = ref<InvitedUserI[]>()
+const invitationFollowingUserList = ref<InvitedUserI[]>()
 const invitationAnswer = ref()
-const invitationTab = ref()
+const invitationTab = ref<'following' | 'recommended' | 'search'>()
 /* const invitedBtn: Element = ref() */
 let layout = useLayout()
 layout.showFooter = true
@@ -1113,21 +1114,34 @@ onMounted(async () => {
   }
   watch(invitationAnswer, async (val) => {
     if (val) {
-      const { data: response } = await useAxiosGetFollowingList()
-      if (response.code === 0) {
-        invitationFollowingUserList.value = response.data.content
-      } else {
-        warningMsg(response.msg)
-      }
+
     }
   })
 
   watch(invitationTab, async (val) => {
+    if (val == 'following') {
+      const { data: response } = await useAxiosGetUserFollowingListAndInvitationState(questionId)
+      if (response.code === 0) {
+        invitationFollowingUserList.value = response.data.content.filter((item: User) => {
+          return item.userId !== questionStore.filed.user.id
+        })
+      } else {
+        warningMsg(response.msg)
+      }
+    }
     if (val == 'recommended') {
-      const { data: response } = await usePost<ResponseData<User[]>>('user/tag/user', {
-        tagIds: questionStore.filed.questionTags.map((t) => t.id),
+      // const { data: response } = await usePost<ResponseData<User[]>>('user/tag/user', {
+      //   tagIds: questionStore.filed.questionTags.map((t) => t.id)
+      // })
+      const { data: response } = await useAxiosPostRecommendedUserListAndInvitationState(questionId, {
+        tagIds: questionStore.filed.questionTags.map((t) => t.id)
       })
-      invitationRecommendedUserList.value = response.data
+      invitationRecommendedUserList.value = response.data.filter((item: User) => {
+        return item.userId !== questionStore.filed.user.id
+      })
+    }
+    if (val == 'search') {
+      invitationSearchUserList.value = []
     }
   })
 })
@@ -1164,7 +1178,7 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.value,
     sourceId: collectionSourceId.value,
-    groupId,
+    groupId
   }
   if (select) {
     const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(body)
@@ -1188,7 +1202,7 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
 const newCollectionGroupName = ref('')
 const newCollectionGroup = async () => {
   let body: any = {
-    groupName: newCollectionGroupName.value,
+    groupName: newCollectionGroupName.value
   }
   const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body)
   if (axiosResponse.code === 0) {
@@ -1213,7 +1227,6 @@ const unsubscribe = () => {
   questionStore.follow = false
 }
 
-
 const showCommentDialog = (
   user: User,
   CommentId: string,
@@ -1234,20 +1247,23 @@ const showAnswerWin = async () => {
   await nextTick()
   let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: 'smooth',
+    behavior: 'smooth'
   })
 }
 
 const searchInvitationUser = async (query: string) => {
-  const { data: axiosResponse } = await useGet<ResponseData<User0[]>>(
+  const { data: axiosResponse } = await useGet<ResponseData<InvitedUserI[]>>(
     `search/user/invitation-user/${query}`,
     {
       page: 1,
-      questionId,
+      questionId
     }
   )
+  console.log(axiosResponse)
   if (axiosResponse.code === 0) {
-    invitationSearchUserList.value = axiosResponse.data.content
+    invitationSearchUserList.value = axiosResponse.data.content.filter((item: User) => {
+      return item.userId !== questionStore.filed.user.id
+    })
     invitationTab.value = 'search'
     //fixme
   } else {
@@ -1259,10 +1275,23 @@ const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB
   const { data: axiosResponse } = await userAxiosPostInvitationUserAnswerQuestion(body)
   if (axiosResponse.code == 0) {
     if (body.cancel) {
-      invitationSearchUserList.value[index].invited = false
+      if ((invitationTab.value == 'search')) {
+        invitationSearchUserList.value[index].invited = false
+      } else if (invitationTab.value == 'following') {
+        invitationFollowingUserList.value[index].invited = false
+      } else {
+        invitationRecommendedUserList.value[index].invited = false
+      }
       successMsg('取消邀请成功')
     } else {
-      invitationSearchUserList.value[index].invited = true
+      if ((invitationTab.value == 'search')) {
+        invitationSearchUserList.value[index].invited = true
+      } else if (invitationTab.value == 'following') {
+        invitationFollowingUserList.value[index].invited = true
+      } else {
+        invitationRecommendedUserList.value[index].invited = true
+      }
+
       successMsg('邀请成功')
     }
   } else {
@@ -1273,7 +1302,7 @@ const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB
 const scrollIntoAnswer = () => {
   let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: 'smooth',
+    behavior: 'smooth'
   })
 }
 const acceptedAnswer = async (answerId: string, accept: boolean, index?: number) => {
@@ -1328,7 +1357,7 @@ const commentQuestion = (isActive) => {
       mdText: replyCommentText.value,
       parentAnswerId: '0',
       questionId: questionId,
-      answerType: AnswerType.comment,
+      answerType: AnswerType.comment
     },
     handle
   )
@@ -1354,7 +1383,7 @@ const replyQuestionComment = () => {
       questionId: questionId,
       answerType: commentAnswerType.value,
       replyUserAnswerId: commentCommentId.value, //todo name
-      replyUserId: commentUser.value.id,
+      replyUserId: commentUser.value.id
     },
     handle
   )
@@ -1373,7 +1402,7 @@ const commentAnswer = (index, answerId, isActive) => {
       mdText: replyCommentText.value,
       parentAnswerId: answerId,
       questionId: questionId,
-      answerType: AnswerType.answer_comment,
+      answerType: AnswerType.answer_comment
     },
     handle
   )
@@ -1392,7 +1421,7 @@ const answerQuestion = () => {
       answerType: AnswerType.answer,
       // replyUserAnswerId: ,
       // replyUserId: '',
-      mdText: content.value,
+      mdText: content.value
     },
     handle
   )

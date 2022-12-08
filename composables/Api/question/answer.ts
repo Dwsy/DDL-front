@@ -1,8 +1,8 @@
 import http from '~~/utils/fetch'
 import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
-import { ResponseData } from '~/types/utils/axios'
+import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
-import { AnswerData, AnswerType } from '~/types/question/answer'
+import { AnswerData, AnswerType, InvitedUserI } from '~/types/question/answer'
 
 export const useAxiosGetQuestionAnswerPageList = (questionId: string, param: PageParam) => {
   return useGet<ResponseData<any>>(`question/answer/${questionId}`, param)
@@ -45,6 +45,19 @@ export interface InvitationUserAnswerQuestionRB {
 export const userAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
   return useGet<ResponseData<boolean>>('question/answer/accept', {
     answerId,
-    accepted,
+    accepted
   })
+}
+
+export const useAxiosGetUserFollowingListAndInvitationState = (questionId: string, params: PageParam) => {
+  return useGet<ResponsePageData<InvitedUserI>>('question/answer/invitation/following/' + questionId, params)
+}
+
+export const useAxiosGetUserFollowerListAndInvitationState = (questionId: string, params: PageParam) => {
+  return useGet<ResponsePageData<InvitedUserI>>('question/answer/invitation/follower/' + questionId, params)
+}
+
+
+export const useAxiosPostRecommendedUserListAndInvitationState = (questionId: string, tagIds) => {
+  return usePost<ResponseData<InvitedUserI[]>>('question/answer/invitation/recommended/' + questionId, tagIds)
 }

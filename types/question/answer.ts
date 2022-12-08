@@ -1,6 +1,6 @@
 import { User } from '~/types/user'
 
-export interface User0 extends User {
+export interface InvitedUserI extends User {
   userNickName: string
   avatar: string
   userId: string

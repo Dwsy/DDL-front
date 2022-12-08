@@ -7,6 +7,9 @@
       <!--      {{ user }}-->
     </div>
     <v-row v-if="user">
+      <Head>
+        <Title> {{ user.nickname }}的个人主页 </Title>
+      </Head>
       <v-col offset="1" cols="8">
         <v-card class="pa-4">
           <v-row>
@@ -19,6 +22,11 @@
               <div class="ml-1">
                 <span class="text-h4">{{ user.nickname }}</span>
                 <div>Level：{{ user.level }}</div>
+                <v-progress-linear
+                  :color="getRandomColor()"
+                  :model-value="getExpProgressVal()"
+                  v-if="userStore.user?.id === uid"
+                ></v-progress-linear>
                 <span>签名：{{ userInfo.sign }}</span>
                 <div class="mt-4">UID:{{ user.id }}</div>
               </div>
@@ -226,19 +234,20 @@
 <script setup lang="ts">
 import QuestionAsked from '~/components/user/questionCard/index.vue'
 import { clog } from '~/utils/clog'
-import { dateFilter, timeAgoFilter, useAxiosGetUserDynamic, useRoute } from '#imports'
+import { useRoute } from '#imports'
 import { user, UserInfo, useUserStore } from '~/stores/user'
 import { onMounted, ref, watch, watchEffect } from 'vue'
 import {
   useAxiosGetArticleListByUserId,
   useAxiosGetUserInfoByUid,
   userAxiosGetUserThumbActiveListByUserId,
+  useAxiosGetUserDynamic,
 } from '~/composables/Api/user'
 import {
   followUser,
   unFollowUser,
-  useAxiosGetFollowerList,
-  useAxiosGetFollowingList,
+  useAxiosGetFollowerListByUserId,
+  useAxiosGetFollowingListByUserId,
 } from '~/composables/Api/user/following'
 import { articleListData } from '~/types/article'
 import Collection from '~~/components/user/collection.vue'
@@ -251,9 +260,9 @@ import {
   useAxiosGetUserQuestionPageById,
   userAxiosGetUserAnswerPageByUserId,
 } from '~/composables/Api/user/qa'
-import { QuestionState } from '~/types/question'
 import { UserAnswerI } from '~/types/question/answer'
-import A from '~/pages/messages/chats/a.vue'
+import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
+import { LevelExp } from '~/constant/user/level'
 
 const userStore = useUserStore()
 let userInfo = ref<UserInfo>()
@@ -349,7 +358,7 @@ onMounted(async () => {
     if (newTab === 'follow') {
       const newFollowTab = followTab.value
       if (newFollowTab === 'following') {
-        const { data: response } = await useAxiosGetFollowingList()
+        const { data: response } = await useAxiosGetFollowingListByUserId(uid)
         if (response.code === 0) {
           userFollowingList.value = response.data.content
         } else {
@@ -357,7 +366,7 @@ onMounted(async () => {
         }
       }
       if (newFollowTab === 'follower') {
-        const { data: response } = await useAxiosGetFollowerList()
+        const { data: response } = await useAxiosGetFollowerListByUserId(uid)
         if (response.code === 0) {
           UserFollowerList.value = response.data.content
         } else {
@@ -397,6 +406,13 @@ const getTweetGotoId = (tweet: InfinityI): string => {
     case InfinityType.Answer:
       return tweet.id
   }
+}
+
+const getExpProgressVal = () => {
+  const experience = userStore.userInfo.experience
+  const level = userStore.userInfo.level
+  const nextLevelExp = LevelExp[level + 1]
+  return (experience / nextLevelExp) * 100
 }
 </script>
 
