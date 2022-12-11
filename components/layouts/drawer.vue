@@ -6,14 +6,14 @@
 
     <br />
 
-<!--    <template v-for="item in items">-->
-<!--      <v-list-item :to="item.link" variant="flat"  :prepend-icon="item.icon">-->
-<!--        <v-list-item-title>-->
-<!--          {{ item.text }}-->
-<!--          <v-divider></v-divider>-->
-<!--        </v-list-item-title>-->
-<!--      </v-list-item>-->
-<!--    </template>-->
+    <!--    <template v-for="item in items">-->
+    <!--      <v-list-item :to="item.link" variant="flat"  :prepend-icon="item.icon">-->
+    <!--        <v-list-item-title>-->
+    <!--          {{ item.text }}-->
+    <!--          <v-divider></v-divider>-->
+    <!--        </v-list-item-title>-->
+    <!--      </v-list-item>-->
+    <!--    </template>-->
     <nav aria-label="Main Nav" class="flex flex-col space-y-1">
       <template v-for="item in items">
         <nuxt-link
@@ -71,7 +71,7 @@ let items = reactive([
   {
     icon: 'mdi-chart-line-variant',
     text: '排行',
-    link: '/explore',
+    link: '/rank',
     active: false,
   },
   {

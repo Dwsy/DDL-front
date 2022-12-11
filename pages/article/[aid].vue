@@ -20,7 +20,7 @@
             <v-divider class="my-1"></v-divider>
             <v-row>
               <v-col cols="1" class="mr-lg-1 mr-xl-n2 mr-md-10 mr-sm-8 mr-16">
-                <nuxt-link  :to="`/user/${articleStore.articleField.user.id}`">
+                <nuxt-link :to="`/user/${articleStore.articleField.user.id}`">
                   <v-avatar size="60">
                     <v-img :src="articleStore.articleField.user.userInfo.avatar"></v-img>
                   </v-avatar>
@@ -741,7 +741,7 @@ if (ArticleField.code !== 0) {
   //   statusCode: 404,
   //   statusMessage: '文章不存在',
   // })
-  navigateTo('404')
+  navigateTo('i404')
 }
 articleStore.articleField = ArticleField.data
 if (ArticleField.data == undefined) {
