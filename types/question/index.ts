@@ -55,6 +55,7 @@ export interface QuestionField {
   answerNum: number
   viewNum: number
   collectNum: number
+  watchNum: number
   upNum: number
   downNum: number
   summary: string

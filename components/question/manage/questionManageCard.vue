@@ -10,7 +10,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <div style="font-size: 10px; color: #007b43">关注:9999</div>
+              <div style="font-size: 10px; color: #007b43">关注:{{ question.watchNum }}</div>
             </v-col>
           </v-row>
           <v-row>

@@ -1,12 +1,7 @@
 <template>
   <div v-for="(question, index) in ListContent">
-    <nuxt-link       :to="`/question/${question.id}`"
-                     target="_blank">
-      <v-card
-        class="my-2 px-1 pt-1"
-        elevation="0"
-        color="#00000000"
-      >
+    <nuxt-link :to="`/question/${question.id}`" target="_blank">
+      <v-card class="my-2 px-1 pt-1" elevation="0" color="#00000000">
         <v-row style="font-size: 110%">
           <v-col cols="2">
             <v-row>
@@ -16,7 +11,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <div style="font-size: 10px; color: #007b43">关注:9999</div>
+                <div style="font-size: 10px; color: #007b43">关注:{{ question.watchNum }}</div>
               </v-col>
             </v-row>
             <v-row>
@@ -26,11 +21,7 @@
             </v-row>
           </v-col>
           <v-col class="ml-n16">
-            <a
-              target="_blank"
-              :href="/question/ + question.id"
-              class="text-subtitle-1"
-            >
+            <a target="_blank" :href="/question/ + question.id" class="text-subtitle-1">
               {{ question.title }}</a
             >
             <v-divider></v-divider>
@@ -51,23 +42,23 @@
               </v-chip-group>
             </div>
             <div class="text-end">
-            <span
-              class="text-grey mr-2"
-              style="font-size: 16px"
-              :title="dateFilter(question.createTime, 'YYYY/MM/DD hh:mm')"
-              v-if="
-                dateFilter(question.createTime, 'YYYY-MM-DD hh:mm') !==
-                dateFilter(question.lastModifiedTime, 'YYYY-MM-DD hh:mm')
-              "
-            >
-              修改于：{{ timeAgoFilter(question.lastModifiedTime) }}
-            </span>
+              <span
+                class="text-grey mr-2"
+                style="font-size: 16px"
+                :title="dateFilter(question.createTime, 'YYYY/MM/DD hh:mm')"
+                v-if="
+                  dateFilter(question.createTime, 'YYYY-MM-DD hh:mm') !==
+                  dateFilter(question.lastModifiedTime, 'YYYY-MM-DD hh:mm')
+                "
+              >
+                修改于：{{ timeAgoFilter(question.lastModifiedTime) }}
+              </span>
 
               <span style="font-size: 16px"> {{ timeAgoFilter(question.createTime) }}发起提问</span>
               <div>
-              <span :style="{ color: QuestionStateColor[question.questionState] }">
-                {{ QuestionStateZh[question.questionState] }}
-              </span>
+                <span :style="{ color: QuestionStateColor[question.questionState] }">
+                  {{ QuestionStateZh[question.questionState] }}
+                </span>
               </div>
             </div>
           </v-col>
@@ -88,9 +79,7 @@ import { useAxiosDelQuestionById } from '~/composables/Api/question/manageQuesti
 
 const ListContent = inject<Ref<Array<QuestionField>>>('QuestionFieldList')
 
-
 const showStatus = ['ASK', 'RESOLVED', 'HAVE_ANSWER', 'UNRESOLVED']
-
 </script>
 
 <style scoped></style>

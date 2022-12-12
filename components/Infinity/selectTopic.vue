@@ -36,28 +36,19 @@
         <v-list-item v-else variant="flat" v-bind="props" prepend-icon="mdi-music-accidental-sharp">
           浏览量：{{ item.raw.viewNum }}
         </v-list-item>
-        <!--        <v-list-item v-if="typeof item.raw !== 'object'" v-bind="props"></v-list-item>-->
-        <!--        <v-list-item-->
-        <!--          v-else-->
-        <!--          v-bind="props"-->
-        <!--          :prepend-avatar="item.raw.avatar"-->
-        <!--          :title="item.raw.name"-->
-        <!--          :subtitle="item.raw.group"-->
-        <!--        ></v-list-item>-->
       </template>
     </v-autocomplete>
-    <!--    fixme https://github.com/vuetifyjs/vuetify/pull/15871-->
-    <div class="pt-">
-<!--      <span v-show="!readonly" class="text-grey-darken-1"-->
-<!--        >你还可以添加{{ 3 - infinityStore.infinityTopicList.length }}个标签</span-->
-<!--      >-->
-      <!--      <span v-show="readonly" class="text-red-accent-2">最多可以添加三个标签</span>-->
+    <div class="pt-1">
       <span class="TagNum float-right">{{ `${infinityStore.infinityTopicList.length}/3` }}</span>
     </div>
 
-    <!--    model{{ model }}-->
-    <!--    sug{{ sug }}-->
-    <!--    text{{ text }}-->
+    <v-text-field
+      @click:append="addTopic()"
+      v-model="addTopicName"
+      label="手动添加话题"
+      append-icon="mdi-chevron-up-circle-outline"
+      :variant="'outlined'"
+    ></v-text-field>
   </div>
 </template>
 <script setup lang="ts">
@@ -71,6 +62,7 @@ import { useAxiosGetInfinityTopicList } from '~/composables/Api/infinity'
 import { InfinityTopic } from '~/types/infinity'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { toReactive } from '#imports'
+import { useAxiosPostCreateTopic } from '~/composables/Api/infinity/topic'
 // import {ArticleTag} from '~/types/article'
 // import {TagSuggestion} from '~/types/article/manageArticle'
 const infinityStore = useInfinityStore()
@@ -149,6 +141,18 @@ const debounce = (fun, delay) => {
   }
 }
 let debounceAjax = debounce(suggestion, 800)
+
+const addTopicName = ref()
+const addTopic = async () => {
+  const { data: axiosResponse } = await useAxiosPostCreateTopic({ name: addTopicName.value })
+  if (axiosResponse.code == 0) {
+    defaultMsg('添加成功')
+    addTopicName.value = ''
+    infinityStore.infinityTopicList.push(axiosResponse.data)
+  } else {
+    errorMsg(axiosResponse.msg)
+  }
+}
 </script>
 <style scoped>
 /*.TagNum {*/

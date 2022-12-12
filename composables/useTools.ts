@@ -80,6 +80,10 @@ export function isNumber(str: any) {
 }
 
 export const getChatType = (str: string) => {
+  // console.log('str', str)
+  if (str == null) {
+    return ChatType.text
+  }
   if (str.startsWith('img||')) {
     return ChatType.img
   }
@@ -121,7 +125,7 @@ export const urlToLink = (str: string) => {
   const re = /(f|ht){1}(tp|tps):\/\/([\w-]+\S)+[\w-]+([\w-?%#&=]*)?(\/[\w- ./?%#&=]*)?/g
 
   str = str.replace(re, function (url) {
-    return `<a href=${url} target="_blank"> ${url} </a>`
+    return `<a href="${url}" target="_blank"> ${url} </a>`
   })
   return str
 }

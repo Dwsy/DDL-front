@@ -157,13 +157,13 @@
             </div>
           </template>
 
-          <v-row class="mt-1" v-if="tweet.infinityClub != null">
+          <v-row class="mt-1">
             <v-col>
               <div>
                 <v-chip class="mr-2" prepend-icon="mdi-eye" color="blue">
-                  <span class="text-base"> {{ tweet.upNum }}次查看</span>
+                  <span class="text-base"> {{ tweet.viewNum }}次查看</span>
                 </v-chip>
-                <v-chip prepend-icon="mdi-infinity" color="red">
+                <v-chip prepend-icon="mdi-infinity" color="red" v-if="tweet.infinityClub != null">
                   <span class="text-base"> {{ tweet.infinityClub.name }}</span>
                 </v-chip>
               </div>
@@ -238,7 +238,7 @@
           </template>
         </div>
       </v-col>
-      <div>{{ twType }}/{{ props.tweet.type }}</div>
+      <!--      <div>{{ twType }}/{{ props.tweet.type }}</div>-->
     </v-row>
   </client-only>
 </template>

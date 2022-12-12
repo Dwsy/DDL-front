@@ -3,8 +3,8 @@
     <v-col cols="6">
       <div class="text-h4 text-center mb-4">文章</div>
       <v-tabs v-model="articleTab">
-        <v-tab value="3">三日榜</v-tab>
         <v-tab value="1">今日热门</v-tab>
+        <v-tab value="3">三日榜</v-tab>
         <v-tab value="7">七日榜</v-tab>
       </v-tabs>
       <v-chip-group mandatory>
@@ -18,8 +18,8 @@
     <v-col cols="6">
       <div class="text-h4 text-center mb-4">问答</div>
       <v-tabs v-model="questionTab">
-        <v-tab value="3">三日榜</v-tab>
         <v-tab value="1">今日热门</v-tab>
+        <v-tab value="3">三日榜</v-tab>
         <v-tab value="7">七日榜</v-tab>
       </v-tabs>
 
@@ -46,9 +46,9 @@ import { QuestionRankDataI, useAxiosGetQuestionRank } from '~/composables/Api/qu
 import { definePageMeta } from '#imports'
 const articleTab = ref()
 const questionTab = ref()
-const articleRankParams = ref<rankParamsI>({ daysAgo: 3, size: 30, groupId: null })
+const articleRankParams = ref<rankParamsI>({ daysAgo: 1, size: 30, groupId: null })
 const articleRankDataList = ref<ArticleRankDataI[]>()
-const questionRankParams = ref<rankParamsI>({ daysAgo: 3, size: 30, groupId: null })
+const questionRankParams = ref<rankParamsI>({ daysAgo: 1, size: 30, groupId: null })
 const questionRankDataList = ref<QuestionRankDataI[]>()
 const articleGroup = ref()
 onMounted(async () => {
@@ -66,6 +66,9 @@ onMounted(async () => {
   // watchEffect(async () => {
   //   await useAxiosGetArticleRank(articleRankParams.value)
   // })
+})
+onBeforeUnmount(() => {
+  document.getElementsByTagName('html')[0].style.overflow = 'auto'
 })
 
 const loadArticleRank = async () => {

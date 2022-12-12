@@ -100,6 +100,7 @@ export const useInfinityStatusStore = defineStore('InfinityStatusStore', {
         this.totalPages = response.data.childCommentTotalPages
         this.loading = false
         this.tweet = response.data
+        this.tweet.viewNum += 1
         let commentReplyMap: Object = response.data.childCommentReplyMap
         Object.keys(commentReplyMap).forEach((key) => {
           this.commentReplyDataMap.set(key, commentReplyMap[key])
