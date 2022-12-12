@@ -26,16 +26,7 @@
         ></v-progress-circular>
 
         <template v-if="infinityStore.isHome">
-          <v-btn
-            @click="showSelectTopic = true"
-            v-if="!showSelectTopic"
-            variant="tonal"
-            color="#60a5fa"
-          >
-            <v-icon size="x-large"> mdi-music-accidental-sharp</v-icon>
-            添加话题
-          </v-btn>
-          <SelectTopic v-else></SelectTopic>
+          <SelectTopic></SelectTopic>
         </template>
 
         <!--        class="dark:tex.white h-auto w-full border-0 bg-transparent text-xl text-gray-900 placeholder:text-gray-400 focus:ring-0"-->

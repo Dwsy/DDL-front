@@ -4,9 +4,9 @@ export interface InfinityTopic {
   id: string
   createTime: number
   name: string
-  description: string
-  notice: string
-  cover: string
+  description?: string
+  notice?: string
+  cover?: string
   viewNum: number
   infinityNum: number
   followerNum: number
@@ -40,7 +40,7 @@ export interface InfinityI {
   parentUserId: string
   parentTweetId: any
   replyUserTweetId: string
-  replyUserName?:string
+  replyUserName?: string
   replySerialNumber: number
   up: boolean
   parentUser: any
@@ -50,7 +50,7 @@ export interface InfinityI {
   childCommentTotalPages: number
   imgUrlList: string[]
   ///
-  loadMoreState?:boolean
+  loadMoreState?: boolean
 }
 export enum InfinityType {
   Tweet,
@@ -66,5 +66,8 @@ export enum InfinityType {
   Answer,
 }
 export enum TwShowStatus {
-  index,status,comment,reply
+  index,
+  status,
+  comment,
+  reply,
 }

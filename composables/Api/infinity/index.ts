@@ -52,7 +52,7 @@ export interface ReplyInfinityRB {
   replyUserId?: string
   replyUserTweetId?: string
   imgUrlList?: string[]
-  refId?:string
+  refId?: string
 }
 
 export const useAxiosPostReplyInfinity = (data: ReplyInfinityRB) => {
@@ -61,6 +61,24 @@ export const useAxiosPostReplyInfinity = (data: ReplyInfinityRB) => {
 
 export const useAxiosGetInfinityTopicList = () => {
   return useGet<ResponsePageData<InfinityTopic>>(`infinity/topic/list`)
+}
+
+export const useAxiosGetInfinityTopicSearchSug = (query: string) => {
+  return useGet<ResponseData<InfinityTopic[]>>('search/infinity/topic/' + query)
+}
+
+export interface InfinityTopicRankI {
+  id: string
+  name: string
+  description: any
+  viewNum: number
+  infinityNum: number
+  followerNum: number
+  scoreCount: number
+}
+
+export const useAxiosGetToDayHotTopicList = () => {
+  return useGet<ResponseData<InfinityTopic[] | InfinityTopicRankI[]>>(`data/rank/infinity/topic`)
 }
 
 export const useAxiosGetInfinityById = (id: string) => {

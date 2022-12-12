@@ -6,7 +6,7 @@
       </Head>
 
       <div class="border-b" :class="twitterBorderColor">
-        <TweetForm  @on-success="handleFormSuccess"  placeholder="有什么新鲜事。"/>
+        <TweetForm @on-success="handleFormSuccess" placeholder="有什么新鲜事。" />
       </div>
 
       <TweetListFeed :tweetList="infinityStore.InfinityDataList" />
@@ -19,10 +19,10 @@ import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'
 import TweetListFeed from '~/components/Tcomponents/Tweet/ListFeed.vue'
 import { navigateTo, onBeforeRouteUpdate } from '#app'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
-import { useLoadingWin } from "~/composables/useTools";
-import { definePageMeta } from "#imports";
+import { useLoadingWin } from '~/composables/useTools'
+import { definePageMeta } from '#imports'
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { ref, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
+import { ref, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 import MainSection from '~/components/Tcomponents/MainSection.vue'
 const { twitterBorderColor } = useTailwindConfig()
 
@@ -42,6 +42,15 @@ onMounted(() => {
   clog('index mounted')
   // clog(indexTop.value)
   document.documentElement.scrollTop = 0
+  document.body.onscroll = useLoadingWin(infinityStore.loadingMore)
+})
+onBeforeRouteUpdate(() => {
+  console.log('index beforeRouteUpdate')
+})
+
+onActivated(() => {
+  // 调用时机为首次挂载
+  // 以及每次从缓存中被重新插入时
   document.body.onscroll = useLoadingWin(infinityStore.loadingMore)
 })
 onBeforeUnmount(() => {
