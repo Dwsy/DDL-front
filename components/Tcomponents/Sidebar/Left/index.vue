@@ -21,7 +21,7 @@
         <template v-slot:name> 主页</template>
       </SidebarLeftTab>
 
-      <SidebarLeftTab>
+      <SidebarLeftTab to="/infinity/trends">
         <template v-slot:icon>
           <ChartBarIcon />
         </template>
@@ -32,7 +32,7 @@
         <template v-slot:icon>
           <BellIcon />
         </template>
-        <template v-slot:name> 关注</template>
+        <template v-slot:name> 通知</template>
       </SidebarLeftTab>
 
       <SidebarLeftTab>
@@ -70,11 +70,11 @@
       <!--        <template v-slot:name> More </template>-->
       <!--      </SidebarLeftTab>-->
 
-      <div class="hidden xl:block">
-        <UIButton liquid size="lg" @on-click="emits('onTweet')">
-          <span class="font-bold"> Tweet </span>
-        </UIButton>
-      </div>
+      <!--      <div class="hidden xl:block">-->
+      <!--        <UIButton liquid size="lg" @on-click="emits('onTweet')">-->
+      <!--          <span class="font-bold"> Tweet </span>-->
+      <!--        </UIButton>-->
+      <!--      </div>-->
 
       <div class="block xl:hidden">
         <UIButton @on-click="emits('onTweet')">

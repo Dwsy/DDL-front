@@ -16,7 +16,7 @@
           </div>
         </div>
 
-<!--         Main content -->
+        <!--         Main content -->
         <main class="col-span-12 md:col-span-8 xl:col-span-6">
           <!--            <router-view/>-->
           <NuxtPage />
@@ -24,14 +24,14 @@
 
         <!-- Right Sidebar -->
         <div class="col-span-12 hidden md:col-span-3 md:block xl:col-span-4">
-          <div class="sticky top-0">
-            <!--              <SidebarRight />-->
+          <div class="sticky top-10">
+            <SidebarRight />
           </div>
         </div>
       </div>
     </div>
 
-<!--    <AuthPage v-else />-->
+    <!--    <AuthPage v-else />-->
 
     <!--      <UIModal :isOpen="true" @on-close="handleModalClose">-->
     <!--        <TweetForm-->
@@ -48,7 +48,7 @@ import { clog } from '~/utils/clog'
 // import { computed, onBeforeMount, onMounted, ref, watchEffect } from 'vue'
 // import LoadingPage from '~/components/Tcomponents/LoadingPage.vue'
 import SidebarLeft from '~/components/Tcomponents/Sidebar/Left/index.vue'
-// import SidebarRight from '~/components/Tcomponents/Sidebar/Right/Index.vue'
+import SidebarRight from '~/components/Tcomponents/Sidebar/Right/Index.vue'
 // import AuthPage from '~/components/Tcomponents/Auth/Page.vue'
 // import UIModal from '~/components/Tcomponents/UI/Modal.vue'
 // import TweetForm from '~/components/Tcomponents/Tweet/Form/index.vue'

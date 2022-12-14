@@ -14,22 +14,19 @@
 
     <div
       :class="defaultTransition"
-      class="dark:hover:bg-dim-300 cursor-pointer p-3 text-sm text-blue-400 hover:bg-gray-100"
+      class="dark:hover:bg-dim-300 cursor-pointer p-3 text-sm text-blue-400 hover:bg-gray-100 ml-1"
+      @click="emits('showMore')"
     >
-      Show more
+      更多
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
-
+import { defineEmits, defineProps } from 'vue'
 const { twitterBorderColor, defaultTransition } = useTailwindConfig()
 
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-})
+const emits = defineEmits(['showMore'])
+const props = defineProps<{ title: string }>()
 </script>

@@ -31,7 +31,7 @@
                     >
                       <v-icon
                         :color="questionStore.support === AnswerType.up ? 'blue-lighten-2' : 'grey'"
-                      >mdi-triangle
+                        >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题有用且描述清晰
@@ -58,7 +58,7 @@
                           questionStore.support === AnswerType.down ? 'blue-lighten-2' : 'grey'
                         "
                         class="mdi-rotate-180"
-                      >mdi-triangle
+                        >mdi-triangle
                       </v-icon>
                       <v-tooltip activator="parent" location="right">
                         这个问题没有认真研究用或描述不清晰
@@ -153,7 +153,7 @@
                   <!--                  <span>发起于：{{ dateFilter(questionStore.filed.createTime, 'YYYY年MM月DD日') }}</span>-->
                   <span>发起于：{{ timeAgoFilter(questionStore.filed.createTime) }}</span>
                   <span class="ml-4"
-                  >修改：{{
+                    >修改：{{
                       dateFilter(questionStore.filed.lastModifiedTime, 'YYYY年MM月DD日')
                     }}</span
                   >
@@ -319,7 +319,7 @@
                                     </v-window-item>
 
                                     <v-window-item value="search"
-                                    >{{ invitationSearchUserList }}
+                                      >{{ invitationSearchUserList }}
                                       <v-list v-for="(u, index) in invitationSearchUserList">
                                         <v-list-item>
                                           <nuxt-link :href="`/user/${u.userId}`" target="_blank">
@@ -491,14 +491,14 @@
                                 color="#e2041b"
                                 variant="outlined"
                                 @click="isActive.value = false"
-                              >关闭
+                                >关闭
                               </v-btn>
                               <v-btn
                                 append-icon="mdi-reply"
                                 color="#98d98e"
                                 variant="outlined"
                                 @click="commentQuestion(isActive)"
-                              >回复
+                                >回复
                               </v-btn>
                             </v-card-actions>
                           </v-card>
@@ -608,7 +608,7 @@
                           "
                         >
                           <v-icon :color="answerStore.getActionColor(AnswerType.up, index)"
-                          >mdi-triangle
+                            >mdi-triangle
                           </v-icon>
                           <v-tooltip activator="parent" location="right"> 这个回答有用</v-tooltip>
                         </v-btn>
@@ -632,7 +632,7 @@
                           <v-icon
                             :color="answerStore.getActionColor(AnswerType.down, index)"
                             class="mdi-rotate-180"
-                          >mdi-triangle
+                            >mdi-triangle
                           </v-icon>
                           <v-tooltip activator="parent" location="right"> 这个回答没有用</v-tooltip>
                         </v-btn>
@@ -747,14 +747,14 @@
                                       color="#e2041b"
                                       variant="outlined"
                                       @click="isActive.value = false"
-                                    >关闭
+                                      >关闭
                                     </v-btn>
                                     <v-btn
                                       append-icon="mdi-reply"
                                       color="#92398e"
                                       variant="outlined"
                                       @click="commentAnswer(index, answer.id, isActive)"
-                                    >回复
+                                      >回复
                                     </v-btn>
                                   </v-card-actions>
                                 </v-card>
@@ -915,7 +915,7 @@
                           《Markdown 语法排版》
                         </nuxt-link>
                         <v-icon class="mb-1" size="x-large"
-                        >mdi-language-markdown-outline</v-icon
+                          >mdi-language-markdown-outline</v-icon
                         ></span
                       >
                       ，代码语义正确
@@ -929,14 +929,14 @@
                   </div>
                   <div class="my-3">
                     <v-btn color="#1aad19" size="large" variant="tonal" @click="showAnswerWin()"
-                    >撰写解决方法
+                      >撰写解决方法
                     </v-btn>
                   </div>
                   <div class="d-answer-tip-comment">
                     <p class="card-text mdi">
                       询问细节、提出修改意见时，请使用每条内容下方的<span style="color: #12a9b5"
-                    >“回复”</span
-                    >功能
+                        >“回复”</span
+                      >功能
                     </p>
                   </div>
                 </div>
@@ -979,14 +979,14 @@
                 color="#e2041b"
                 variant="outlined"
                 @click="commentDialog = false"
-              >关闭
+                >关闭
               </v-btn>
               <v-btn
                 append-icon="mdi-reply"
                 color="#98d98e"
                 variant="outlined"
                 @click="replyQuestionComment()"
-              >回复
+                >回复
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -1013,14 +1013,14 @@ import {
   useAxiosCancelCollectionToGroup,
   useAxiosGetCollectionGroupList,
   useAxiosPostAddCollectionToGroup,
-  useAxiosPostCreateCollectionGroup
+  useAxiosPostCreateCollectionGroup,
 } from '~/composables/Api/article'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
 import { errorMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 import {
   followUser,
   unFollowUser,
-  useAxiosGetFollowingList
+  useAxiosGetFollowingList,
 } from '~/composables/Api/user/following'
 import { useLayout } from '~/stores/layout'
 import { useUserStore } from '~/stores/user'
@@ -1028,9 +1028,10 @@ import { useGet, usePost } from '~/composables/useAxios'
 import { ResponseData } from '~/types/utils/axios'
 import {
   InvitationUserAnswerQuestionRB,
-  useAxiosGetUserFollowingListAndInvitationState, useAxiosPostRecommendedUserListAndInvitationState,
-  userAxiosGetAcceptAnswer,
-  userAxiosPostInvitationUserAnswerQuestion
+  useAxiosGetUserFollowingListAndInvitationState,
+  useAxiosPostRecommendedUserListAndInvitationState,
+  useAxiosGetAcceptAnswer,
+  useAxiosPostInvitationUserAnswerQuestion,
 } from '~/composables/Api/question/answer'
 import { clog } from '~/utils/clog'
 import { navigateTo } from '#imports'
@@ -1114,7 +1115,6 @@ onMounted(async () => {
   }
   watch(invitationAnswer, async (val) => {
     if (val) {
-
     }
   })
 
@@ -1133,9 +1133,12 @@ onMounted(async () => {
       // const { data: response } = await usePost<ResponseData<User[]>>('user/tag/user', {
       //   tagIds: questionStore.filed.questionTags.map((t) => t.id)
       // })
-      const { data: response } = await useAxiosPostRecommendedUserListAndInvitationState(questionId, {
-        tagIds: questionStore.filed.questionTags.map((t) => t.id)
-      })
+      const { data: response } = await useAxiosPostRecommendedUserListAndInvitationState(
+        questionId,
+        {
+          tagIds: questionStore.filed.questionTags.map((t) => t.id),
+        }
+      )
       invitationRecommendedUserList.value = response.data.filter((item: User) => {
         return item.userId !== questionStore.filed.user.id
       })
@@ -1178,7 +1181,7 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
   let body: collectionData = {
     collectionType: collectionType.value,
     sourceId: collectionSourceId.value,
-    groupId
+    groupId,
   }
   if (select) {
     const { data: axiosResponse } = await useAxiosPostAddCollectionToGroup(body)
@@ -1202,7 +1205,7 @@ const addCollectionToGroup = async (groupId: string, select: boolean) => {
 const newCollectionGroupName = ref('')
 const newCollectionGroup = async () => {
   let body: any = {
-    groupName: newCollectionGroupName.value
+    groupName: newCollectionGroupName.value,
   }
   const { data: axiosResponse } = await useAxiosPostCreateCollectionGroup(body)
   if (axiosResponse.code === 0) {
@@ -1247,7 +1250,7 @@ const showAnswerWin = async () => {
   await nextTick()
   let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: 'smooth'
+    behavior: 'smooth',
   })
 }
 
@@ -1256,7 +1259,7 @@ const searchInvitationUser = async (query: string) => {
     `search/user/invitation-user/${query}`,
     {
       page: 1,
-      questionId
+      questionId,
     }
   )
   console.log(axiosResponse)
@@ -1272,10 +1275,10 @@ const searchInvitationUser = async (query: string) => {
 }
 
 const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB, index) => {
-  const { data: axiosResponse } = await userAxiosPostInvitationUserAnswerQuestion(body)
+  const { data: axiosResponse } = await useAxiosPostInvitationUserAnswerQuestion(body)
   if (axiosResponse.code == 0) {
     if (body.cancel) {
-      if ((invitationTab.value == 'search')) {
+      if (invitationTab.value == 'search') {
         invitationSearchUserList.value[index].invited = false
       } else if (invitationTab.value == 'following') {
         invitationFollowingUserList.value[index].invited = false
@@ -1284,7 +1287,7 @@ const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB
       }
       successMsg('取消邀请成功')
     } else {
-      if ((invitationTab.value == 'search')) {
+      if (invitationTab.value == 'search') {
         invitationSearchUserList.value[index].invited = true
       } else if (invitationTab.value == 'following') {
         invitationFollowingUserList.value[index].invited = true
@@ -1302,11 +1305,11 @@ const InvitationUserAnswerQuestion = async (body: InvitationUserAnswerQuestionRB
 const scrollIntoAnswer = () => {
   let element = document.querySelector('#answer')
   element.scrollIntoView({
-    behavior: 'smooth'
+    behavior: 'smooth',
   })
 }
 const acceptedAnswer = async (answerId: string, accept: boolean, index?: number) => {
-  const { data: response } = await userAxiosGetAcceptAnswer(answerId, accept)
+  const { data: response } = await useAxiosGetAcceptAnswer(answerId, accept)
 
   if (response.code === 0 && response.data) {
     if (accept) {
@@ -1357,7 +1360,7 @@ const commentQuestion = (isActive) => {
       mdText: replyCommentText.value,
       parentAnswerId: '0',
       questionId: questionId,
-      answerType: AnswerType.comment
+      answerType: AnswerType.comment,
     },
     handle
   )
@@ -1383,7 +1386,7 @@ const replyQuestionComment = () => {
       questionId: questionId,
       answerType: commentAnswerType.value,
       replyUserAnswerId: commentCommentId.value, //todo name
-      replyUserId: commentUser.value.id
+      replyUserId: commentUser.value.id,
     },
     handle
   )
@@ -1402,7 +1405,7 @@ const commentAnswer = (index, answerId, isActive) => {
       mdText: replyCommentText.value,
       parentAnswerId: answerId,
       questionId: questionId,
-      answerType: AnswerType.answer_comment
+      answerType: AnswerType.answer_comment,
     },
     handle
   )
@@ -1421,7 +1424,7 @@ const answerQuestion = () => {
       answerType: AnswerType.answer,
       // replyUserAnswerId: ,
       // replyUserId: '',
-      mdText: content.value
+      mdText: content.value,
     },
     handle
   )

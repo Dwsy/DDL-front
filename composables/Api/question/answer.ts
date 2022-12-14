@@ -12,7 +12,7 @@ export const useAxiosPostAnswerQuestion = (body: AnswerQuestionRB) => {
   return usePost<ResponseData<AnswerData>>('question/answer', body)
 }
 
-export const userAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {
+export const useAxiosPostInvitationUserAnswerQuestion = (body: InvitationUserAnswerQuestionRB) => {
   return usePost<ResponseData<any>>('question/answer/invitation', body)
 }
 
@@ -42,22 +42,36 @@ export interface InvitationUserAnswerQuestionRB {
   cancel: boolean
 }
 
-export const userAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
+export const useAxiosGetAcceptAnswer = (answerId: string, accepted: boolean) => {
   return useGet<ResponseData<boolean>>('question/answer/accept', {
     answerId,
-    accepted
+    accepted,
   })
 }
 
-export const useAxiosGetUserFollowingListAndInvitationState = (questionId: string, params: PageParam) => {
-  return useGet<ResponsePageData<InvitedUserI>>('question/answer/invitation/following/' + questionId, params)
+export const useAxiosGetUserFollowingListAndInvitationState = (
+  questionId: string,
+  params: PageParam
+) => {
+  return useGet<ResponsePageData<InvitedUserI>>(
+    'question/answer/invitation/following/' + questionId,
+    params
+  )
 }
 
-export const useAxiosGetUserFollowerListAndInvitationState = (questionId: string, params: PageParam) => {
-  return useGet<ResponsePageData<InvitedUserI>>('question/answer/invitation/follower/' + questionId, params)
+export const useAxiosGetUserFollowerListAndInvitationState = (
+  questionId: string,
+  params: PageParam
+) => {
+  return useGet<ResponsePageData<InvitedUserI>>(
+    'question/answer/invitation/follower/' + questionId,
+    params
+  )
 }
-
 
 export const useAxiosPostRecommendedUserListAndInvitationState = (questionId: string, tagIds) => {
-  return usePost<ResponseData<InvitedUserI[]>>('question/answer/invitation/recommended/' + questionId, tagIds)
+  return usePost<ResponseData<InvitedUserI[]>>(
+    'question/answer/invitation/recommended/' + questionId,
+    tagIds
+  )
 }

@@ -6,14 +6,14 @@
         <!--        :reply-to="props.tweet"-->
         <!--        :user="props.user"-->
         <!--        @on-success="handleFormSuccess"-->
-        <v-card >
-<!--          {{infinityStatusStore.replyInfinityData}}-->
+        <v-card>
+          <!--          {{infinityStatusStore.replyInfinityData}}-->
           <v-toolbar
             :title="`回复@：${infinityStatusStore.replyInfinityData.user.nickname}`"
             color="#228be6"
             style="color: white"
           ></v-toolbar>
-          <DialogFrom placeholder="~~~"/>
+          <DialogFrom placeholder="~~~" />
         </v-card>
       </v-dialog>
     </client-only>
@@ -22,38 +22,38 @@
       <p class="text-center text-gray-500">No tweets 😢</p>
     </div>
     <TransitionGroup v-else tag="div" name="list">
-    <div
-      class="cursor-pointer border-b pb-4"
-      :class="[twitterBorderColor, defaultTransition]"
-      v-for="(tweet, index) in infinityStatusStore?.commentDataList"
-      :key="tweet.id"
-    >
-      <TweetItem :tweet="tweet" compact :time-line="hasReply(tweet.id)" />
-      <template v-if="hasReply(tweet.id)" v-for="(reply, rIndex) in getReply(tweet.id)">
-        <!--        {{ test(tweet.id) }}-->
-        <!--        {{ rIndex + 1 !== getReply(tweet.id).length }}-->
-        <!--        {{ rIndex + 1 }}//{{ getReply(tweet.id).length }}-->
-        <TweetItem
-          :tweet="reply"
-          compact
-          :time-line="rIndex + 1 !== getReply(tweet.id).length"
-          :time-line-height="rIndex + 1 !== getReply(tweet.id).length ? '100%' : ''"
-        ></TweetItem>
-      </template>
-<div>
-  <v-btn v-if="showLoadMore(tweet.id)"
-         :loading="infinityStatusStore.commentDataList[index].loadMoreState"
-         :disabled="infinityStatusStore.commentDataList[index].loadMoreState"
-         @click="loadMoreComment(index)"
-         variant="tonal"
-         color="red"
-         style="margin-left: 40%"
-  >
-    加载更多...
-  </v-btn>
-</div>
-
-    </div>
+      <div
+        class="cursor-pointer border-b pb-4"
+        :class="[twitterBorderColor, defaultTransition]"
+        v-for="(tweet, index) in infinityStatusStore?.commentDataList"
+        :key="tweet.id"
+      >
+        <TweetItem :tweet="tweet" compact :time-line="hasReply(tweet.id)" />
+        <template v-if="hasReply(tweet.id)" v-for="(reply, rIndex) in getReply(tweet.id)">
+          <!--        {{ test(tweet.id) }}-->
+          <!--        {{ rIndex + 1 !== getReply(tweet.id).length }}-->
+          <!--        {{ rIndex + 1 }}//{{ getReply(tweet.id).length }}-->
+          <TweetItem
+            :tweet="reply"
+            compact
+            :time-line="rIndex + 1 !== getReply(tweet.id).length"
+            :time-line-height="rIndex + 1 !== getReply(tweet.id).length ? '100%' : ''"
+          ></TweetItem>
+        </template>
+        <div>
+          <v-btn
+            v-if="showLoadMore(tweet.id)"
+            :loading="infinityStatusStore.commentDataList[index].loadMoreState"
+            :disabled="infinityStatusStore.commentDataList[index].loadMoreState"
+            @click="loadMoreComment(index)"
+            variant="tonal"
+            color="red"
+            style="margin-left: 40%"
+          >
+            加载更多...
+          </v-btn>
+        </div>
+      </div>
     </TransitionGroup>
     <div v-if="infinityStatusStore.end" class="p-4">
       <p class="text-center text-gray-500">倒头了 😢</p>
@@ -76,25 +76,26 @@ import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 const infinityStatusStore = useInfinityStatusStore()
 const isEmptyArray = computed(() => infinityStatusStore.commentDataList.length === 0)
 
-const loadMoreComment = (index:number) => {
-  infinityStatusStore.commentDataList[index].loadMoreState=true
+const loadMoreComment = (index: number) => {
+  infinityStatusStore.commentDataList[index].loadMoreState = true
   setTimeout(() => {
-    infinityStatusStore.commentDataList[index].loadMoreState=false
+    infinityStatusStore.commentDataList[index].loadMoreState = false
   }, 1000)
 }
+
 function redirect(tweet) {
   navigateTo(`/infinity/status/${tweet.id}`)
 }
 
 const showLoadMore = (id) => {
   const replyList = infinityStatusStore.commentReplyDataMap.get(id)
-  if (replyList.length>=8) {
+  if (replyList.length >= 8) {
     return true
   }
 }
 
 const hasReply = (id: string) => {
-  if (infinityStatusStore.commentReplyDataMap.get(id).length>0) {
+  if (infinityStatusStore.commentReplyDataMap.get(id).length > 0) {
     return true
   }
 }
@@ -106,7 +107,6 @@ const getMapSize = (map: Map<string, any>) => {
   clog(map.size)
   return map.size
 }
-
 </script>
 
 <style scoped>
@@ -120,6 +120,7 @@ const getMapSize = (map: Map<string, any>) => {
   margin-left: 26px;
   /*margin-top: 1px;*/
 }
+
 .list-move, /* 对移动中的元素应用的过渡 */
 .list-enter-active,
 .list-leave-active {
@@ -137,5 +138,4 @@ const getMapSize = (map: Map<string, any>) => {
 .list-leave-active {
   position: absolute;
 }
-
 </style>

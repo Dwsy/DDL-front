@@ -87,6 +87,7 @@
               :moveDisabled="false"
               :scrollDisabled="true"
               @hide="onHide"
+              teleport="main"
               :zoomScale="0.3"
             >
               <!--              teleport="body"-->
@@ -354,20 +355,28 @@ function select(i) {
 }
 
 const visibleRef = ref(false)
-const indexRef = ref(0)
+
 const viewImg = async () => {
-  indexRef.value = ShowIndex.value
   visibleRef.value = true
   clog(props.tweet.imgUrlList[ShowIndex.value])
   clog((visibleRef.value = true))
   //这里element是我们要禁用鼠标滚轮触发滚动条的元素
   await nextTick()
-  const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
-  main.onmousewheel = () => false
+  // const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
+  const main: any = document.querySelector('.v-main')
+  main.onmousewheel = () => {
+    // if (ShowIndex.value >= props.tweet.imgUrlList.length) {
+    //   ShowIndex.value = 0
+    // }
+    // ShowIndex.value += 1
+    // console.log(ShowIndex.value)
+    return false
+  }
 }
 
 const onHide = () => {
-  const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
+  // const main: any = document.querySelector('#main-container > div:nth-child(2) > div')
+  const main: any = document.querySelector('.v-main')
   main.onmousewheel = () => true
   visibleRef.value = false
 }

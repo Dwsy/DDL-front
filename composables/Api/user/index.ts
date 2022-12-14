@@ -28,7 +28,7 @@ export const useAxiosGetArticleListByUserId = (
   return useGet<ResponseData<any>>('article/article/field/list/' + userId, params)
 }
 
-export const userAxiosGetUserThumbActiveListByUserId = (
+export const useAxiosGetUserThumbActiveListByUserId = (
   userId,
   params?: {
     size?: number
@@ -63,24 +63,24 @@ export enum UserActiveType {
   UP_Question, //点赞问题
 
   UP_Question_Answer, //点赞问题回答
-  Accepted_Question_Answer,//采纳问题回答
+  Accepted_Question_Answer, //采纳问题回答
 
-  Comment_Tweet,//回复推文
+  Comment_Tweet, //回复推文
 
-  Reply_Comment_Tweet,//回复推文回复
+  Reply_Comment_Tweet, //回复推文回复
 
-  Reply_Reply_Comment_Tweet,//回复推文二级回复
+  Reply_Reply_Comment_Tweet, //回复推文二级回复
 
-  Thumb_Tweet//点赞tweet
+  Thumb_Tweet, //点赞tweet
 }
 
 export const useAxiosGetUserDynamic = (
-  userId:string,
+  userId: string,
   params?: {
     size?: number
     page?: number
     order?: string
   }
 ) => {
-  return useGet<ResponsePageData<InfinityI>>('/infinity/infinity/user/'+userId,params)
+  return useGet<ResponsePageData<InfinityI>>('/infinity/infinity/user/' + userId, params)
 }

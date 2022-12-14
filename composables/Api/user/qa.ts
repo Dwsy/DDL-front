@@ -15,7 +15,7 @@ export const useAxiosGetUserQuestionPageById = (
   return useGet<ResponsePageData<any>>('question/question/field/list/' + userId, params)
 }
 
-export const userAxiosGetUserAnswerPageByUserId = (
+export const useAxiosGetUserAnswerPageByUserId = (
   userId: string,
   params: {
     size?: number

@@ -2,12 +2,14 @@ import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
   GetInfinityPageListParams,
+  InfinityTopicRankI,
   ReplyInfinityRB,
   SendInfinityRB,
   useAxiosGetInfinityPageList,
+  useAxiosGetToDayHotTopicList,
   useAxiosPostActionUpInfinity,
   useAxiosPostReplyInfinity,
-  useAxiosPostSendInfinity
+  useAxiosPostSendInfinity,
 } from '~/composables/Api/infinity'
 import { InfinityI, InfinityTopic, TwShowStatus } from '~/types/infinity'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
@@ -26,6 +28,8 @@ interface InfinityStore {
   end: boolean
   isHome: Ref<boolean>
   replyInfinityData: InfinityI
+
+  hotTopicList: InfinityTopicRankI[] | InfinityTopic[]
 }
 
 export const useInfinityStore = defineStore('InfinityStore', {
@@ -45,6 +49,7 @@ export const useInfinityStore = defineStore('InfinityStore', {
       end: false,
       isHome: ref(true),
       replyInfinityData: null,
+      hotTopicList: [],
     }
   },
   actions: {
@@ -61,56 +66,73 @@ export const useInfinityStore = defineStore('InfinityStore', {
         warningMsg(axiosResponse.msg)
       }
     },
-    async upActionTweet(id: string, up: boolean, showStatus: TwShowStatus,replyId?:string) {
+    async loadHotTopic(showMore?: boolean) {
+      // if (showMore) {
+      //   const { data: axiosResponse } = await useAxiosGetToDayHotTopicList()
+      //   if (axiosResponse.code === 0) {
+      //     this.hotTopicList = axiosResponse.data
+      //   } else {
+      //     warningMsg(axiosResponse.msg)
+      //   }
+      //   return
+      // }
+      if (this.hotTopicList.length === 0) {
+        const { data: axiosResponse } = await useAxiosGetToDayHotTopicList()
+        if (axiosResponse.code === 0) {
+          this.hotTopicList = axiosResponse.data
+        } else {
+          warningMsg(axiosResponse.msg)
+        }
+      }
+    },
+    async upActionTweet(id: string, up: boolean, showStatus: TwShowStatus, replyId?: string) {
       const { data: axiosResponse } = await useAxiosPostActionUpInfinity(id, up)
-      let  dataList = this.InfinityDataList
+      let dataList = this.InfinityDataList
       if (axiosResponse.code === 0) {
         if (axiosResponse.data === '点赞成功') {
-          if (showStatus==TwShowStatus.index) {
+          if (showStatus == TwShowStatus.index) {
             const index = dataList.findIndex((item) => item.id === id)
             dataList[index].upNum += 1
             dataList[index].up = true
           } else {
             const infinityStatusStore = useInfinityStatusStore()
-            if (showStatus==TwShowStatus.status) {
+            if (showStatus == TwShowStatus.status) {
               infinityStatusStore.tweet.upNum += 1
               infinityStatusStore.tweet.up = this
-            }else if (showStatus==TwShowStatus.comment) {
+            } else if (showStatus == TwShowStatus.comment) {
               let commentDataList = infinityStatusStore.commentDataList
               const index = commentDataList.findIndex((item) => item.id === id)
               commentDataList[index].upNum += 1
               commentDataList[index].up = this
-            }else if (showStatus==TwShowStatus.reply) {
+            } else if (showStatus == TwShowStatus.reply) {
               let replyDataList = infinityStatusStore.commentReplyDataMap.get(replyId)
               const index = replyDataList.findIndex((item) => item.id === id)
               replyDataList[index].upNum += 1
               replyDataList[index].up = this
             }
-
           }
           successMsg(axiosResponse.data)
         } else if (axiosResponse.data === '取消点赞成功') {
-          if (showStatus==TwShowStatus.index) {
+          if (showStatus == TwShowStatus.index) {
             const index = dataList.findIndex((item) => item.id === id)
             dataList[index].upNum -= 1
             dataList[index].up = false
           } else {
             const infinityStatusStore = useInfinityStatusStore()
-            if (showStatus==TwShowStatus.status) {
+            if (showStatus == TwShowStatus.status) {
               infinityStatusStore.tweet.upNum -= 1
               infinityStatusStore.tweet.up = false
-            }else if (showStatus==TwShowStatus.comment) {
+            } else if (showStatus == TwShowStatus.comment) {
               let commentDataList = infinityStatusStore.commentDataList
               const index = commentDataList.findIndex((item) => item.id === id)
               commentDataList[index].upNum -= 1
               commentDataList[index].up = false
-            }else if (showStatus==TwShowStatus.reply) {
+            } else if (showStatus == TwShowStatus.reply) {
               let replyDataList = infinityStatusStore.commentReplyDataMap.get(replyId)
               const index = replyDataList.findIndex((item) => item.id === id)
               replyDataList[index].upNum -= 1
               replyDataList[index].up = false
             }
-
           }
           successMsg(axiosResponse.data)
         } else {

@@ -6,9 +6,6 @@
       </template>
     </v-chip-group>
 
-    <div class="pt-1">
-      <span class="TagNum float-right">{{ `${infinityStore.infinityTopicList.length}/3` }}</span>
-    </div>
     <v-menu location="bottom" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn variant="tonal" color="#60a5fa" v-bind="props">
@@ -17,7 +14,7 @@
         </v-btn>
       </template>
 
-      <v-card width="600px" class="pa-4">
+      <v-card width="600px" style="height: 60vh" class="pa-4">
         <v-text-field
           v-model="searchText"
           label="搜索话题"
@@ -78,7 +75,7 @@
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
 import { useRouter } from '#app'
-import { onMounted, watch, ref, inject, watchEffect, Ref, toRefs } from 'vue'
+import { onMounted, watch, ref, provide, watchEffect, Ref, toRefs } from 'vue'
 import { useAxiosGetTagSuggestion } from '~/composables/Api/article/manageArticle'
 
 import { defaultMsg } from '~/composables/utils/toastification'
@@ -106,10 +103,12 @@ const TagNumColor = ref('')
 onMounted(async () => {
   // infinityTopicList.value =
   // clog()
-  const { data: axiosResponse } = await useAxiosGetToDayHotTopicList()
-  if (axiosResponse.code === 0) {
-    sug.value = axiosResponse.data
-  }
+  // const { data: axiosResponse } = await useAxiosGetToDayHotTopicList()
+  // if (axiosResponse.code === 0) {
+  //   sug.value = axiosResponse.data
+  await infinityStore.loadHotTopic()
+  sug.value = infinityStore.hotTopicList
+  // }
   watchEffect(() => {
     // if (infinityTopicList.value.length >= 3) {
     //   if (infinityTopicList.value.length > 3) {

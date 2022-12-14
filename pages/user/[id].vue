@@ -240,7 +240,7 @@ import { onMounted, ref, watch, watchEffect } from 'vue'
 import {
   useAxiosGetArticleListByUserId,
   useAxiosGetUserInfoByUid,
-  userAxiosGetUserThumbActiveListByUserId,
+  useAxiosGetUserThumbActiveListByUserId,
   useAxiosGetUserDynamic,
 } from '~/composables/Api/user'
 import {
@@ -258,7 +258,7 @@ import { InfinityI, InfinityType } from '~/types/infinity'
 import { UserActiveTypeEn, UserThumbActiveI } from '~/types/user/active'
 import {
   useAxiosGetUserQuestionPageById,
-  userAxiosGetUserAnswerPageByUserId,
+  useAxiosGetUserAnswerPageByUserId,
 } from '~/composables/Api/user/qa'
 import { UserAnswerI } from '~/types/question/answer'
 import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
@@ -327,7 +327,7 @@ onMounted(async () => {
     }
     if (newTab === 'thumb') {
       // let params = {}
-      const { data: response } = await userAxiosGetUserThumbActiveListByUserId(uid, {
+      const { data: response } = await useAxiosGetUserThumbActiveListByUserId(uid, {
         type: thumbType.value,
       })
       if (response.code === 0) {
@@ -341,7 +341,7 @@ onMounted(async () => {
     if (newTab === 'question') {
     }
     if (newTab === 'answer') {
-      const { data: answerR } = await userAxiosGetUserAnswerPageByUserId(uid, {
+      const { data: answerR } = await useAxiosGetUserAnswerPageByUserId(uid, {
         page: 1,
         order: '',
       })

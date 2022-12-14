@@ -9,7 +9,8 @@
         :class="[twitterBorderColor, defaultTransition]"
         v-for="tweet in infinityStore.InfinityDataList"
         :key="tweet.id"
-        @click="redirect(tweet)"
+        @click="redirect(false, tweet)"
+        @click.middle="redirect(true, tweet)"
       >
         <!--      <nuxt-link :to="`/infinity/status/${tweet.id}`">-->
         <TweetItem :tweet="tweet" compact />
@@ -36,7 +37,11 @@ import { useInfinityStore } from '~/stores/infinity/infinityStore'
 const infinityStore = useInfinityStore()
 const isEmptyArray = computed(() => infinityStore.InfinityDataList.length === 0)
 
-function redirect(tweet) {
-  navigateTo(`/infinity/status/${tweet.id}`)
+function redirect(middle: boolean, tweet) {
+  if (middle) {
+    window.open(`/infinity/status/${tweet.id}`)
+  } else {
+    navigateTo(`/infinity/status/${tweet.id}`)
+  }
 }
 </script>

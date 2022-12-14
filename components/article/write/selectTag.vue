@@ -20,6 +20,7 @@
       multiple
       dense
       item-title="name"
+      z
       item-value="name"
       placeholder="搜索添加标签"
       prepend-inner-icon="mdi-magnify"
@@ -47,7 +48,7 @@ import { useRouter } from '#app'
 import { onMounted, watch, ref, inject, watchEffect } from 'vue'
 import { useAxiosGetTagSuggestion } from '~/composables/Api/article/manageArticle'
 import { useFetchGetArticleTagList } from '~/composables/Api/article'
-import { defaultMsg } from "~/composables/utils/toastification";
+import { defaultMsg } from '~/composables/utils/toastification'
 // import {ArticleTag} from '~/types/article'
 // import {TagSuggestion} from '~/types/article/manageArticle'
 
