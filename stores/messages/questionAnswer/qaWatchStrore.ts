@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { UseAxiosGetReplyMeNotify } from '~/composables/Api/messages/reply'
+import { useAxiosGetArticleReplyMeNotify } from '~/composables/Api/messages/article/reply'
 import { errorMsg } from '~/composables/utils/toastification'
 import { NotifyMsg, NotifyType, NotifyTypeEn } from '~/types/message'
-import { QaCommentType, UseAxiosGetQaCommentNotify } from '~/composables/Api/messages/qa/comment'
-import { QaWatchType, UseAxiosGetQaWatchNotify } from '~/composables/Api/messages/qa/watch'
+import { QaCommentType, useAxiosGetQaCommentNotify } from '~/composables/Api/messages/qa/comment'
+import { QaWatchType, useAxiosGetQaWatchNotify } from '~/composables/Api/messages/qa/watch'
 import { useGet } from '~/composables/useAxios'
 import { ResponseData } from '~/types/utils/axios'
 
@@ -24,7 +24,7 @@ export const useQaWatchStore = defineStore('QaWatchStore', {
   getters: {},
   actions: {
     async loadQaWatchNotifyList(type: QaWatchType, scroll?: boolean) {
-      let { data: response } = await UseAxiosGetQaWatchNotify(this.page, type)
+      let { data: response } = await useAxiosGetQaWatchNotify(this.page, type)
       if (response.code == 0) {
         if (scroll) {
           this.qaWatchNotifyList = this.qaWatchNotifyList.concat(response.data.content)

@@ -217,10 +217,27 @@
                 <span class="mr-4 pl-3">Level:{{ comment.user.level }}</span>
                 <br class="d-md-none" />
                 <span class="mr-4"> {{ dateFilter(comment.createTime, 'YYYY-MM-DD hh:mm') }}</span>
-                <div class="float-right" v-if="showDelBtn(comment.user.id)">
-                  <v-icon @click="articleCommentStore.deleteComment(aid, comment.id)"
-                    >mdi-delete-outline
-                  </v-icon>
+                <div class="float-right">
+                  <v-menu>
+                    <template v-slot:activator="{ props }">
+                      <v-icon v-bind="props">mdi-drag-horizontal</v-icon>
+                    </template>
+                    <v-card>
+                      <v-list-item>
+                        <v-list v-if="showDelBtn(comment.user.id)" class="cursor-pointer">
+                          <v-icon @click="articleCommentStore.deleteComment(aid, comment.id)"
+                            >mdi-delete-outline
+                          </v-icon>
+                          删除
+                        </v-list>
+                        <v-divider></v-divider>
+                        <v-list class="cursor-pointer">
+                          <v-icon> mdi-shield-half-full </v-icon>
+                          举报
+                        </v-list>
+                      </v-list-item>
+                    </v-card>
+                  </v-menu>
                 </div>
                 <v-divider></v-divider>
                 <v-row class="mt-n2">
@@ -315,7 +332,7 @@
                       <v-col cols="12">
                         <div
                           v-for="(childComment, Cindex) in childCommentLimit(comment)"
-                          key="comment.id"
+                          :key="childComment.id"
                         >
                           <v-row class="mt-1">
                             <v-col
@@ -345,12 +362,27 @@
                                 dateFilter(childComment.createTime, 'YYYY-MM-DD hh:mm')
                               }}</span>
                               <div class="float-right">
-                                <v-icon
-                                  v-if="showDelBtn(childComment.user.id, comment.user.id)"
-                                  @click="articleCommentStore.deleteComment(aid, childComment.id)"
-                                >
-                                  mdi-delete-outline
-                                </v-icon>
+                                <v-menu location="bottom" nudge-bottom>
+                                  <template v-slot:activator="{ props }">
+                                    <v-icon v-bind="props">mdi-drag-horizontal</v-icon>
+                                  </template>
+                                  <v-list-item>
+                                    <v-list
+                                      v-if="showDelBtn(comment.user.id)"
+                                      class="cursor-pointer"
+                                    >
+                                      <v-icon
+                                        @click="articleCommentStore.deleteComment(aid, comment.id)"
+                                        >mdi-delete-outline
+                                      </v-icon>
+                                      删除
+                                    </v-list>
+                                    <v-divider></v-divider>
+                                    <v-list class="cursor-pointer">
+                                      <v-icon> mdi-shield-half-full </v-icon>举报
+                                    </v-list>
+                                  </v-list-item>
+                                </v-menu>
                               </div>
                               <v-divider></v-divider>
                               <div>
@@ -720,6 +752,7 @@ import { navigateTo, useRouter } from '#app'
 import mediumZoom from 'medium-zoom'
 import { changeHighlightStyle } from '~/constant/highlightStyleList'
 import { changeThemes, themes } from '~/constant/markdownThemeList'
+import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline/esm/index.js'
 
 definePageMeta({
   keepalive: false,
@@ -1001,8 +1034,13 @@ onMounted(() => {
     t = setTimeout(() => {
       let active = document.querySelector('.is-active-li')
       let listOf = document.querySelectorAll('.toc > div > ol > li')
-      let viewCount = active.parentElement.childNodes.length + listOf.length
-      if (viewCount > 15 && active.parentElement !== listOf[0].parentElement) {
+      let parentElement = active.parentElement
+      if (parentElement == null) {
+        document.onscroll = null
+        return
+      }
+      let viewCount = parentElement.childNodes.length + listOf.length
+      if (viewCount > 15 && parentElement !== listOf[0].parentElement) {
         tocOverflow.value = 'auto'
       } else {
         listOf[0].scrollIntoView({

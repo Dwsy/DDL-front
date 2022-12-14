@@ -3,6 +3,7 @@ import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
 import { collectionData, collectionGroupData, collectionType } from '~/types/article'
 import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
+import { CommentContent } from '~/stores/article/articleCommentStore'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number; page?: number }) => {
   return http.GET<ResponseData<any>>('article/group/list', params)
@@ -15,7 +16,6 @@ export const useFetchGetArticleList = (params?: {
   order?: string
   properties?: string
 }) => {
-
   // clog('params', params)
   return http.GET<ResponsePageData<any>>('article/article/field/list', params)
 }
@@ -59,7 +59,7 @@ export interface ReplyArticleCommentBody {
 }
 
 export const useAxiosPostReplyArticleComment = (body: ReplyArticleCommentBody) => {
-  return usePost<ResponseData<any>>('article/comment', body)
+  return usePost<ResponseData<CommentContent>>('article/comment', body)
 }
 
 //----

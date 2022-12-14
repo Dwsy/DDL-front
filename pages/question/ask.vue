@@ -410,7 +410,7 @@ import { useTheme } from 'vuetify'
 import { TYPE } from 'vue-toastification/src/ts/constants'
 import JumpPrompt from '~/components/common/Toast/jumpPrompt.vue'
 import { useLayout } from '~/stores/layout'
-import { CreateQuestionBody, useAxiosGetQuestionContent } from '~/composables/Api/messages/ask'
+import { CreateQuestionBody, useAxiosGetQuestionContent } from '~/composables/Api/question/ask'
 import { QaGroup, QuestionField, QuestionState, QuestionTag } from '~/types/question'
 import { ResponseData } from '~/types/utils/axios'
 
@@ -627,12 +627,12 @@ const publishQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-    sendInfinity: true
+    sendInfinity: true,
   }
   const { data: axiosResponse } = await useAxiosPostAskQuestion(body)
   if (axiosResponse.code === 0) {
-    isNew.value=false
-    questionId.value=axiosResponse.data
+    isNew.value = false
+    questionId.value = axiosResponse.data
     if (questionState.value.value === QuestionState.DRAFT) {
       successMsg('保存草稿成功')
       return
@@ -665,7 +665,7 @@ const updateQuestion = async () => {
     codeHighlightStyleDark: darkHighlightStyle.value,
     markDownTheme: themeName.value,
     markDownThemeDark: darkThemeName.value,
-    sendInfinity: false
+    sendInfinity: false,
   }
   const { data: axiosResponse } = await useAxiosPutUpdateAskQuestion(body)
   if (axiosResponse.code === 0) {

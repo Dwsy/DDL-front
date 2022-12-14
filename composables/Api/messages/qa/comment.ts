@@ -9,6 +9,6 @@ export enum QaCommentType {
   answer,
 }
 
-export const UseAxiosGetQaCommentNotify = (page: number, type: QaCommentType) => {
+export const useAxiosGetQaCommentNotify = (page: number, type: QaCommentType) => {
   return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/comment', { page, type })
 }

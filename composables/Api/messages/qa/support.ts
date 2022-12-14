@@ -9,6 +9,6 @@ export enum QaSupportType {
   answer,
 }
 
-export const UseAxiosGetQaSupportNotify = (page: number, type: QaSupportType) => {
+export const useAxiosGetQaSupportNotify = (page: number, type: QaSupportType) => {
   return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/support', { page, type })
 }

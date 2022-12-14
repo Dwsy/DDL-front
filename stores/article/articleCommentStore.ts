@@ -14,6 +14,7 @@ import { useRoute } from '#imports'
 import { errorMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
 
 import { useUserStore } from '~/stores/user'
+import { User } from '~/types/user'
 
 interface ArticleCommentStore {
   commentList: CommentContent[]
@@ -137,65 +138,72 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
       let { data: ReplyCommentRetData } = await useAxiosPostReplyArticleComment(body)
       if (ReplyCommentRetData.code === 0) {
         successMsg('评论成功')
+        const userStore = useUserStore()
+        ReplyCommentRetData.data.user.userInfo = userStore.userInfo
+        ReplyCommentRetData.data.user.nickname = userStore.user.nickname
+        ReplyCommentRetData.data.childComments = []
         if (pIndexId !== undefined) {
           if (cIndexId !== undefined) {
             this.commentList[pIndexId].childComments[cIndexId].replyCommentText = ''
+            this.commentList[pIndexId].childComments.push(ReplyCommentRetData.data)
           } else {
             this.commentList[pIndexId].replyCommentText = ''
+            this.commentList[pIndexId].childComments.unshift(ReplyCommentRetData.data)
           }
         } else {
           this.replyCommentText = ''
-        }
-        if (cIndexId !== undefined) {
-          const time = new Date().getTime()
-          const userStore = useUserStore()
-          const t = `回复@${replyUserCommentName}：` + text
-          // clog(t)
-          let commentSerialNumber = 1
-          //todo 使用后端返回数据
-          const childComments = this.commentList[pIndexId].childComments
-          if (childComments.length > 0) {
-            commentSerialNumber = childComments[childComments.length - 1].commentSerialNumber + 1
-          }
-          let newComment: CommentContent = {
-            childCommentNum: 0,
-            childCommentPage: 0,
-            childCommentTotalPages: 0,
-            childComments: undefined,
-            createTime: time,
-            deleted: false,
-            downNum: 0,
-            id: time.toString(),
-            lastModifiedTime: time,
-            parentCommentId: parentCommentId,
-            parentUser: replyUserId,
-            parentUserId: replyUserId,
-            replyCommentText: '',
-            replyUserCommentId: replyUserCommentId,
-            showCommentBox: false,
-            text: t,
-            ua: navigator.userAgent,
-            upNum: 0,
-            user: {
-              id: userStore.user.id,
-              nickname: userStore.user.nickname,
-              userInfo: userStore.userInfo,
-              level: userStore.userInfo.level,
-            },
-            commentSerialNumber,
-            // replayCommentId: 1,
-            userAction: undefined,
-          }
-          this.commentList[pIndexId].childComments.push(newComment)
-        } else {
-          await this.loadComment(this.page, this.properties, this.order)
+          this.commentList.unshift(ReplyCommentRetData.data)
         }
 
-        // let {data: commentData} = await useAxiosGetArticleComment(this.aid)
-        // this.commentList = commentData.data.content
-        // clog('articleCommentStore.commentList', this.commentList)
-        //前端填充2或重新加载后端数据
-        // this.commentList.unshift(newComment)
+        //
+        // if (pIndexId !== undefined) {
+        //   if (cIndexId !== undefined) {
+        //     // const time = new Date().getTime()
+        //     // const userStore = useUserStore()
+        //     // const t = `回复@${replyUserCommentName}：` + text
+        //     // // clog(t)
+        //     // let commentSerialNumber = 1
+        //     // //todo 使用后端返回数据
+        //     // const childComments = this.commentList[pIndexId].childComments
+        //     // if (childComments.length > 0) {
+        //     //   commentSerialNumber = childComments[childComments.length - 1].commentSerialNumber + 1
+        //     // }
+        //     // let newComment: CommentContent = {
+        //     //   childCommentNum: 0,
+        //     //   childCommentPage: 0,
+        //     //   childCommentTotalPages: 0,
+        //     //   childComments: undefined,
+        //     //   createTime: time,
+        //     //   deleted: false,
+        //     //   downNum: 0,
+        //     //   id: ReplyCommentRetData.data,
+        //     //   lastModifiedTime: time,
+        //     //   parentCommentId: parentCommentId,
+        //     //   parentUser: replyUserId,
+        //     //   parentUserId: replyUserId,
+        //     //   replyCommentText: '',
+        //     //   replyUserCommentId: replyUserCommentId,
+        //     //   showCommentBox: false,
+        //     //   text: t,
+        //     //   ua: navigator.userAgent,
+        //     //   upNum: 0,
+        //     //   user: {
+        //     //     following: false,
+        //     //     id: userStore.user.id,
+        //     //     nickname: userStore.user.nickname,
+        //     //     level: userStore.userInfo.level,
+        //     //   },
+        //     //   commentSerialNumber,
+        //     //   // replyCommentId: 1,
+        //     //   userAction: undefined,
+        //     // }
+        //     this.commentList[pIndexId].childComments.push(ReplyCommentRetData.data)
+        //   } else {
+        //     this.commentList[pIndexId].childComments.unshift(ReplyCommentRetData.data)
+        //   }
+        // } else {
+        //   this.commentList[pIndexId].unshift(ReplyCommentRetData.data)
+        // }
       }
     },
     getCommentActionIcon(action: CommentType, pIndexId: number, cIndexId?: number) {
@@ -420,59 +428,6 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
   },
 })
 
-// interface Iarticle{
-//     articleField:Ref<ArticleField>;
-//     contentHtml:Ref<string>;
-//     // commentList:Ref<CommentContent[]>;
-// }
-
-interface UserInfo {
-  id: string
-  avatar: string
-  sign: string
-  gender: string
-  birth: any
-}
-
-interface User {
-  id: string
-  nickname: string
-  userInfo: UserInfo
-  level: number
-}
-
-interface ArticleTags {
-  id: string
-  name: string
-  articleNum: number
-  tagInfo: string
-}
-
-interface ArticleGroup {
-  id: string
-  name: string
-  info: string
-  articleNum: number
-}
-
-interface ArticleField {
-  id: string
-  createTime: number
-  lastModifiedTime: number
-  user: User
-  title: string
-  summary: string
-  articleState: string
-  allowComment: boolean
-  viewNum: number
-  collectNum: number
-  upNum: number
-  downNum: number
-  banner: string
-  articleTags: ArticleTags
-  articleGroup: ArticleGroup
-}
-
 //--
 interface UserInfo {
   id: string
@@ -504,7 +459,7 @@ export interface CommentContent {
   userAction: CommentType
   replyCommentText: any
   loadMore?: boolean
-  replayCommentId?: number
+  replyCommentId?: number
   commentSerialNumber?: number
   // fixme ref 2层不需要value然后极会报错 ？ 先用any了
 }

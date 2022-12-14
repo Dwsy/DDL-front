@@ -2,11 +2,11 @@ import { nextTick, ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
   GetMessageParam,
-  UseAxiosGetHistoryMessage,
-  UseAxiosGetMessageByLatestId,
-  UseAxiosGetPrivateMessageList,
-  UseAxiosPostReadMessageById,
-  UseAxiosSendMessage,
+  useAxiosGetHistoryMessage,
+  useAxiosGetMessageByLatestId,
+  useAxiosGetPrivateMessageList,
+  useAxiosPostReadMessageById,
+  useAxiosSendMessage,
 } from '~/composables/Api/messages/chats'
 // import { nextTick, successMsg } from '#imports'
 import { defaultMsg, errorMsg, successMsg, warningMsg } from '~~/composables/utils/toastification'
@@ -58,7 +58,7 @@ export const useChatsStore = defineStore('chats', {
         }
       }
 
-      let { data: response } = await UseAxiosGetPrivateMessageList()
+      let { data: response } = await useAxiosGetPrivateMessageList()
       if (response.code === 0) {
         this.chatsList = response.data.content
       } else {
@@ -92,7 +92,7 @@ export const useChatsStore = defineStore('chats', {
       if (init) {
         this.msg = ''
         this.chatMsgUnreadNum.set(toUserId, 0)
-        let { data: response } = await UseAxiosGetMessageByLatestId(toUserId)
+        let { data: response } = await useAxiosGetMessageByLatestId(toUserId)
         if (response.code === 0) {
           let ra: Array<ChatRecord> = []
           ra = response.data.content
@@ -124,7 +124,7 @@ export const useChatsStore = defineStore('chats', {
             page: (this.chatRecordPage += 1),
           }
           // clog('this.chatsToUserId', this.chatsToUserId)
-          let { data: response } = await UseAxiosGetHistoryMessage(this.chatsToUserId, params)
+          let { data: response } = await useAxiosGetHistoryMessage(this.chatsToUserId, params)
           if (response.code === 0) {
             let ra: Array<ChatRecord> = []
             ra = response.data.content
@@ -228,7 +228,7 @@ export const useChatsStore = defineStore('chats', {
     //             latest, page: this.chatRecordPage + 1,
     //         }
     //     }
-    //     let {data: response} = await UseAxiosGetHistoryMessage(toUserId, body)
+    //     let {data: response} = await useAxiosGetHistoryMessage(toUserId, body)
     //     if (response.code === 0) {
     //         let ra: Array<ChatRecord> = []
     //         ra = response.data.content
@@ -263,7 +263,7 @@ export const useChatsStore = defineStore('chats', {
         content = this.msg
       }
 
-      let { data: response } = await UseAxiosSendMessage(content, this.chatsToUserId)
+      let { data: response } = await useAxiosSendMessage(content, this.chatsToUserId)
       if (response.code === 0) {
         await this.scrollBottom()
       } else {
@@ -274,7 +274,7 @@ export const useChatsStore = defineStore('chats', {
     },
     async sendImg(url: string) {
       let content = `img||${url}`
-      let { data: response } = await UseAxiosSendMessage(content, this.chatsToUserId)
+      let { data: response } = await useAxiosSendMessage(content, this.chatsToUserId)
       if (response.code === 0) {
         successMsg('发送成功')
         return true
@@ -348,7 +348,7 @@ export const useChatsStore = defineStore('chats', {
       }
     },
     async readMsg(id: string) {
-      if (!(await UseAxiosPostReadMessageById(id))) {
+      if (!(await useAxiosPostReadMessageById(id))) {
         errorMsg('标记已读失败')
         return
       }

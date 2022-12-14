@@ -38,10 +38,9 @@
             <v-list-item-title v-text="item.formUserNickname"></v-list-item-title>
             <!--            <v-list-item-subtitle v-text="item.toContent"></v-list-item-subtitle>-->
             <div>
-              <span class="text-subtitle-1">
-                {{ NotifyType[item.notifyType] }}
-              </span>
-              {{ item.toContent }}
+              <span class="text-subtitle-1 text-grey"> {{ titlePrefix(item) }}:</span>
+
+              <span class=""> {{ item.toContent }}</span>
             </div>
             <span class="text-grey">{{ dateFilter(item.lastModifiedTime) }}</span>
             <v-divider></v-divider>
@@ -55,15 +54,16 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import { definePageMeta, dateFilter } from '#imports'
-import { useThumbStore } from '~/stores/messages/article/thumbStore'
-import { NotifyState, NotifyType } from '~/types/message'
+import { useArticleThumbStore } from '~/stores/messages/article/thumbStore'
+import { NotifyMsg, NotifyState, NotifyType } from '~/types/message'
 import { clog } from '~/utils/clog'
+import { useInfinityThumbStore } from '~/stores/messages/infinity/thumbStore'
 
 definePageMeta({
   keepalive: false,
 })
 
-let thumbStore = useThumbStore()
+let thumbStore = useInfinityThumbStore()
 
 onMounted(async () => {
   clog('thumbonMounted')
@@ -75,6 +75,14 @@ onUnmounted(() => {
   thumbStore.page = 1
   thumbStore.totalPages = null
 })
+
+const titlePrefix = (msg: NotifyMsg) => {
+  if (msg.replyInfinityId) {
+    return '点赞了你的回复'
+  } else {
+    return '点赞了你的动态'
+  }
+}
 const loadingWin = async () => {
   //文档内容实际高度（包括超出视窗的溢出部分）
   let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)

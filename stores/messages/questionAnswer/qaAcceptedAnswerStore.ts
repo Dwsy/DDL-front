@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { UseAxiosGetReplyMeNotify } from '~/composables/Api/messages/reply'
+import { useAxiosGetArticleReplyMeNotify } from '~/composables/Api/messages/article/reply'
 import { errorMsg } from '~/composables/utils/toastification'
 import { NotifyMsg, NotifyType } from '~/types/message'
 import {
   useAxiosGetQaAcceptedAnswerNotify,
-  UseAxiosGetQaAnswerNotify,
+  useAxiosGetQaAnswerNotify,
   useAxiosGetQaInvitationAnswerNotify,
 } from '~/composables/Api/messages/qa/answer'
 

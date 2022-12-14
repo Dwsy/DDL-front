@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { useAxiosGetArticleReplyMeNotify } from '~/composables/Api/messages/article/reply'
 import { errorMsg } from '~/composables/utils/toastification'
-import { NotifyMsg, NotifyType } from '~/types/message'
+import { NotifyMsg, NotifyType, NotifyTypeEn } from '~/types/message'
+import { useAxiosGetInfinityReplyMeNotify } from '~/composables/Api/messages/infinity/reply'
 
 interface ReplyState {
   replyNotifyList: NotifyMsg[]
@@ -9,7 +10,7 @@ interface ReplyState {
   totalPages: number
 }
 
-export const useArticleReplyStore = defineStore('replyNotify', {
+export const useInfinityReplyStore = defineStore('infinityReplyNotify', {
   state: (): ReplyState => {
     return {
       replyNotifyList: [],
@@ -20,7 +21,7 @@ export const useArticleReplyStore = defineStore('replyNotify', {
   getters: {},
   actions: {
     async loadReplyNotifyList(scroll?: boolean) {
-      let { data: response } = await useAxiosGetArticleReplyMeNotify(this.page)
+      let { data: response } = await useAxiosGetInfinityReplyMeNotify(this.page)
       if (response.code == 0) {
         if (scroll) {
           this.replyNotifyList = this.replyNotifyList.concat(response.data.content)
@@ -33,12 +34,14 @@ export const useArticleReplyStore = defineStore('replyNotify', {
       }
     },
     getGoToLink(notify: NotifyMsg) {
-      if (notify.notifyType == NotifyType['回复了你的评论:']) {
-        return '/article/' + notify.articleId + '#comment-' + notify.replyCommentId
-        // return '/article/' + notify.articleId
+      if (notify.notifyType == NotifyTypeEn.comment_tweet) {
+        return '/infinity/status/' + notify.infinityId
       }
-      if (notify.notifyType == NotifyType['评论了文章:']) {
-        return '/article/' + notify.articleId
+      if (notify.notifyType == NotifyTypeEn.reply_reply_comment_tweet) {
+        return '/infinity/status/' + notify.infinityId
+      }
+      if (notify.notifyType == NotifyTypeEn.reply_comment_tweet) {
+        return '/infinity/status/' + notify.infinityId
       }
     },
   },

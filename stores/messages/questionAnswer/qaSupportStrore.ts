@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { UseAxiosGetReplyMeNotify } from '~/composables/Api/messages/reply'
+import { useAxiosGetArticleReplyMeNotify } from '~/composables/Api/messages/article/reply'
 import { errorMsg } from '~/composables/utils/toastification'
 import { NotifyMsg, NotifyType } from '~/types/message'
-import { QaCommentType, UseAxiosGetQaCommentNotify } from '~/composables/Api/messages/qa/comment'
-import { QaSupportType, UseAxiosGetQaSupportNotify } from '~/composables/Api/messages/qa/support'
+import { QaCommentType, useAxiosGetQaCommentNotify } from '~/composables/Api/messages/qa/comment'
+import { QaSupportType, useAxiosGetQaSupportNotify } from '~/composables/Api/messages/qa/support'
 
 interface State {
   qaSupportNotifyList: NotifyMsg[]
@@ -22,7 +22,7 @@ export const useQaSupportStore = defineStore('QaSupportStore', {
   getters: {},
   actions: {
     async loadQaSupportNotifyList(type: QaSupportType, scroll?: boolean) {
-      let { data: response } = await UseAxiosGetQaSupportNotify(this.page, type)
+      let { data: response } = await useAxiosGetQaSupportNotify(this.page, type)
       if (response.code == 0) {
         if (scroll) {
           this.qaSupportNotifyList = this.qaSupportNotifyList.concat(response.data.content)
@@ -36,7 +36,7 @@ export const useQaSupportStore = defineStore('QaSupportStore', {
     },
     getGoToLink(notify: NotifyMsg) {
       if (notify.notifyType == NotifyType['回复了你的评论:']) {
-        return '/article/' + notify.articleId + '#comment-' + notify.replayCommentId
+        return '/article/' + notify.articleId + '#comment-' + notify.replyCommentId
         // return '/article/' + notify.articleId
       }
       if (notify.notifyType == NotifyType['评论了文章:']) {

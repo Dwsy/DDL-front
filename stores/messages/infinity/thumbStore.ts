@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { errorMsg, successMsg } from '~/composables/utils/toastification'
 import { useAxiosGetArticleThumbMeNotify } from '~/composables/Api/messages/article/thumb'
-import { NotifyMsg, NotifyType } from '~/types/message'
+import { NotifyMsg, NotifyType, NotifyTypeEn } from '~/types/message'
 import { useArticleReplyStore } from '~/stores/messages/article/replyStrore'
+import { useAxiosGetInfinityThumbMeNotify } from '~/composables/Api/messages/infinity/thumb'
 
 interface ReplyState {
   ThumbNotifyList: NotifyMsg[]
@@ -10,7 +11,7 @@ interface ReplyState {
   totalPages: number
 }
 
-export const useArticleThumbStore = defineStore('thumbStore', {
+export const useInfinityThumbStore = defineStore('infinityThumbStore', {
   state: (): ReplyState => {
     return {
       ThumbNotifyList: [],
@@ -21,7 +22,7 @@ export const useArticleThumbStore = defineStore('thumbStore', {
   getters: {},
   actions: {
     async loadThumbNotifyList(scroll?: boolean) {
-      let { data: response } = await useAxiosGetArticleThumbMeNotify(this.page)
+      let { data: response } = await useAxiosGetInfinityThumbMeNotify(this.page)
       if (response.code == 0) {
         if (scroll) {
           this.ThumbNotifyList = this.ThumbNotifyList.concat(response.data.content)
@@ -34,11 +35,8 @@ export const useArticleThumbStore = defineStore('thumbStore', {
       }
     },
     getGoToLink(notify: NotifyMsg) {
-      if (notify.notifyType == NotifyType['点赞了你的评论:']) {
-        return '/article/' + notify.articleId + '#comment-' + notify.commentId
-      }
-      if (notify.notifyType == NotifyType['点赞了你的文章:']) {
-        return '/article/' + notify.articleId
+      if (notify.notifyType == NotifyTypeEn.thumbTweet) {
+        return '/infinity/status/' + notify.infinityId
       }
     },
   },

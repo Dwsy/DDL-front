@@ -8,13 +8,16 @@ export interface NotifyMsg {
   commentId: string
   questionId: string
   answerId: string
-  notifyType: NotifyType
+  notifyType: NotifyType | NotifyTypeEn
   formContent: string
   toContent: string
-  replayCommentId: string
+  replyCommentId: string
   notifyState: NotifyState
   formUserAvatar: string
   formUserNickname: string
+
+  infinityId: string
+  replyInfinityId: any
 }
 
 export enum NotifyType {
@@ -32,6 +35,13 @@ export enum NotifyType {
   '被采纳',
   '回答 通知',
   '被采纳 通知',
+  '点赞了你的动态',
+
+  '回复了你的动态',
+
+  '回复了你',
+
+  '回复了你回复',
 }
 
 export enum NotifyTypeEn {
@@ -50,6 +60,13 @@ export enum NotifyTypeEn {
   ///
   watch_answer,
   watch_accepted_question_answer,
+  thumbTweet,
+
+  comment_tweet,
+
+  reply_comment_tweet,
+
+  reply_reply_comment_tweet,
 }
 
 export enum NotifyState {

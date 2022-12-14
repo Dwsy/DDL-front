@@ -149,3 +149,19 @@ code ul li {
 .vel-modal {
   background: rgb(0 0 0 / 70%)!important;
 }
+
+.towLine{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+
+.oneLine{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:1;
+}

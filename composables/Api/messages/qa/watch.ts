@@ -8,7 +8,7 @@ export enum QaWatchType {
   accepted,
 }
 
-export const UseAxiosGetQaWatchNotify = (page: number, type: QaWatchType) => {
+export const useAxiosGetQaWatchNotify = (page: number, type: QaWatchType) => {
   return useGet<ResponseData<PageData<NotifyMsg>>>('message/notify/qa/watch', {
     page,
     type,

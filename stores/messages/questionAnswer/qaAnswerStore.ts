@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { UseAxiosGetReplyMeNotify } from '~/composables/Api/messages/reply'
+import { useAxiosGetArticleReplyMeNotify } from '~/composables/Api/messages/article/reply'
 import { errorMsg } from '~/composables/utils/toastification'
 import { NotifyMsg, NotifyType } from '~/types/message'
-import { UseAxiosGetQaAnswerNotify } from '~/composables/Api/messages/qa/answer'
+import { useAxiosGetQaAnswerNotify } from '~/composables/Api/messages/qa/answer'
 
 interface State {
   qaAnswerNotifyList: NotifyMsg[]
@@ -21,7 +21,7 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
   getters: {},
   actions: {
     async loadQaAnswerNotifyList(scroll?: boolean) {
-      let { data: response } = await UseAxiosGetQaAnswerNotify(this.page)
+      let { data: response } = await useAxiosGetQaAnswerNotify(this.page)
       if (response.code == 0) {
         if (scroll) {
           this.qaAnswerNotifyList = this.qaAnswerNotifyList.concat(response.data.content)
@@ -35,7 +35,7 @@ export const useQaAnswerStore = defineStore('qaAnswerStore', {
     },
     getGoToLink(notify: NotifyMsg) {
       if (notify.notifyType == NotifyType['回复了你的评论:']) {
-        return '/article/' + notify.articleId + '#comment-' + notify.replayCommentId
+        return '/article/' + notify.articleId + '#comment-' + notify.replyCommentId
         // return '/article/' + notify.articleId
       }
       if (notify.notifyType == NotifyType['评论了文章:']) {
@@ -56,7 +56,7 @@ export interface replyNotify {
   notifyType: NotifyType
   formContent: string
   toContent: string
-  replayCommentId: string
+  replyCommentId: string
   notifyState: number
   formUserAvatar: string
   formUserNickname: string

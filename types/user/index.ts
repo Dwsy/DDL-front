@@ -42,8 +42,8 @@ interface UserTags {
 export interface User {
   id: string
   nickname: string
-  userTags: UserTags[]
-  userInfo: UserInfo
-  level: number
-  following: boolean
+  userTags?: UserTags[]
+  userInfo?: UserInfo
+  level?: number
+  following?: boolean
 }

@@ -24,7 +24,6 @@
 <script setup lang="ts">
 import { clog } from '~/utils/clog'
 import useTailwindConfig from '~/composables/useTailwindConfig'
-import { defineEmits, defineProps } from 'vue'
 const { twitterBorderColor, defaultTransition } = useTailwindConfig()
 
 const emits = defineEmits(['showMore'])

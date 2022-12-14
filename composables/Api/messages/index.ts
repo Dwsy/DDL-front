@@ -7,34 +7,21 @@ export const useAxiosGetUnreadMessageCount = (type: CountType) => {
 
 export interface unreadNotifyI {
   unreadNotifyCount: number
-
   unreadNotifyReplyCommentCount: number
-
   unreadNotifyArticleOrCommentThumbCount: number
-
-  QuestionOrAnswerThumbCount: number
-
-  unreadNotifyAnswerCount: number
-
-  unreadNotifyAnswerCommentCount: number
-
-  unreadNotifyQuestionCommentCount: number
-
-  unreadPrivateMessageCount: number
-
-  unreadSystemMessageCount: number
-
-  unreadAtMeCount: number
-
-  unreadInvitationAnswerCount: number
-
-  unreadAcceptedAnswerCount: number
-
   unreadNotifyQuestionOrAnswerThumbCount: number
-
+  unreadNotifyAnswerCount: number
+  unreadNotifyAnswerCommentCount: number
+  unreadNotifyQuestionCommentCount: number
+  unreadPrivateMessageCount: number
+  unreadSystemMessageCount: number
+  unreadAtMeCount: number
+  unreadInvitationAnswerCount: number
+  unreadAcceptedAnswerCount: number
   unreadWatchAnswer: number
-
   unreadWatchAcceptedQuestionAnswer: number
+  unreadTweetThumb: number
+  unreadTweetComment: number
 }
 
 export enum unreadNotifyEnum {

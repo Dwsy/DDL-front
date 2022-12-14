@@ -40,7 +40,9 @@
               <span class="text-grey">
                 {{ NotifyType[item.notifyType] }}
               </span>
-              {{ item.toContent }}
+              <div class="oneLine text-grey" :title="item.toContent">
+                {{ item.toContent }}
+              </div>
               <div>
                 {{ item.formContent }}
               </div>
@@ -58,15 +60,16 @@
 import { clog } from '~/utils/clog'
 import { definePageMeta, dateFilter } from '#imports'
 import { onActivated, onDeactivated, onMounted, onUnmounted } from 'vue'
-import { useReplyStore } from '~/stores/messages/article/replyStrore'
+import { useArticleReplyStore } from '~/stores/messages/article/replyStrore'
 import { useLoadingWin } from '~/composables/useTools'
 import { NotifyState, NotifyType } from '~/types/message'
+import { useInfinityReplyStore } from '~/stores/messages/infinity/replyStrore'
 
 definePageMeta({
   keepalive: false,
 })
 
-let replyStore = useReplyStore()
+let replyStore = useInfinityReplyStore()
 
 onMounted(async () => {
   clog('reply mounted')

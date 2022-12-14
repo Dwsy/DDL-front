@@ -1,7 +1,7 @@
 import { useGet, usePost, usePut } from '~/composables/useAxios'
 import { ResponseData } from '~/types/utils/axios'
 
-export const UseAxiosGetPrivateMessageList = () => {
+export const useAxiosGetPrivateMessageList = () => {
   return useGet<ResponseData<any>>('message/private/message/list')
 }
 
@@ -12,18 +12,18 @@ export interface GetMessageParam {
   size?: number
 }
 
-export const UseAxiosGetHistoryMessage = (toUserId: string, params?: GetMessageParam) => {
+export const useAxiosGetHistoryMessage = (toUserId: string, params?: GetMessageParam) => {
   return useGet<ResponseData<any>>('message/private/message/pull/' + toUserId, params)
 }
-export const UseAxiosGetMessageByLatestId = (toUserId: string, params?: GetMessageParam) => {
+export const useAxiosGetMessageByLatestId = (toUserId: string, params?: GetMessageParam) => {
   return useGet<ResponseData<any>>('message/private/message/pull/' + toUserId, params)
 }
 
-export const UseAxiosPostReadMessageById = (id: string) => {
+export const useAxiosPostReadMessageById = (id: string) => {
   return usePost<ResponseData<any>>('message/private/message/read/' + id)
 }
 
-export const UseAxiosSendMessage = (content: string, toUserId: string) => {
+export const useAxiosSendMessage = (content: string, toUserId: string) => {
   const body = {
     content,
     toUserId,

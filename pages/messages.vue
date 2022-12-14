@@ -6,29 +6,35 @@
 
         <v-col class="d-messages-aside" cols="2">
           <v-list>
-            <v-list-subheader>消息中心</v-list-subheader>
-            <v-list-item
-              v-for="(item, i) in items"
-              :key="i"
-              :value="item"
-              :to="item.to"
-              active-color="primary"
-              rounded="xl"
-              @click="changeTitle(item.text)"
-            >
-              <template v-slot:prepend>
-                <v-badge
-                  :content="item.unreadCount"
-                  :model-value="!!item.unreadCount"
-                  color="red"
-                  class="mr-3"
-                  :floating="true"
-                >
-                  <v-icon :icon="item.icon"></v-icon>
-                </v-badge>
+            <v-card-title>消息中心</v-card-title>
+            <template v-for="(item, i) in items" :key="i">
+              <template v-if="item.subtitle">
+                <v-list-subheader> {{ item.text }}消息</v-list-subheader>
+                <v-divider class="mr-10 ml-3"></v-divider>
               </template>
-              <v-list-item-title v-text="item.text"></v-list-item-title>
-            </v-list-item>
+
+              <v-list-item
+                v-else
+                :value="item"
+                :to="item.to"
+                active-color="primary"
+                rounded="xl"
+                @click="changeTitle(item.text)"
+              >
+                <template v-slot:prepend>
+                  <v-badge
+                    :content="item.unreadCount"
+                    :model-value="!!item.unreadCount"
+                    color="red"
+                    class="mr-3"
+                    :floating="true"
+                  >
+                    <v-icon :icon="item.icon"></v-icon>
+                  </v-badge>
+                </template>
+                <v-list-item-title v-text="item.text"></v-list-item-title>
+              </v-list-item>
+            </template>
           </v-list>
         </v-col>
 
@@ -66,25 +72,33 @@ const unReadCount = ref<unreadNotifyI>()
 const layout = useLayout()
 
 interface items {
-  text: string
-  icon: string
-  to: string
-  unreadCount: number
+  text?: string
+  icon?: string
+  to?: string
+  unreadCount?: number
+  subtitle?: boolean
 }
 
 let items = ref<items[]>([
   {
+    text: '文章',
+    subtitle: true,
+  },
+  {
     text: '回复我的',
     icon: 'mdi-reply',
-    to: '/messages/reply',
+    to: '/messages/article/reply',
     unreadCount: null,
   },
-  { text: ' @ 我的', icon: 'mdi-at', to: '/messages/at', unreadCount: null },
   {
     text: '受到的赞',
     icon: 'mdi-thumb-up-outline',
-    to: '/messages/thumb',
+    to: '/messages/article/thumb',
     unreadCount: null,
+  },
+  {
+    text: '问答',
+    subtitle: true,
   },
   {
     text: '问题回答',
@@ -105,6 +119,44 @@ let items = ref<items[]>([
     unreadCount: null,
   },
   {
+    text: '被采纳',
+    icon: 'mdi-human-greeting-variant',
+    to: '/messages/qa/accepted',
+    unreadCount: null,
+  },
+  {
+    text: '跟踪问题',
+    icon: 'mdi-eye',
+    to: '/messages/qa/watch',
+    unreadCount: null,
+  },
+  {
+    text: '邀请回答',
+    icon: 'mdi-human-greeting-variant',
+    to: '/messages/qa/invitation',
+    unreadCount: null,
+  },
+  {
+    text: '圈子',
+    subtitle: true,
+  },
+  {
+    text: '受到的赞',
+    icon: 'mdi-human-greeting-variant',
+    to: '/messages/infinity/thumb',
+    unreadCount: null,
+  },
+  {
+    text: '受到的回复',
+    icon: 'mdi-human-greeting-variant',
+    to: '/messages/infinity/reply',
+    unreadCount: null,
+  },
+  {
+    text: '其他',
+    subtitle: true,
+  },
+  {
     text: '系统通知',
     icon: 'mdi-message-cog-outline',
     to: '/messages/notifications',
@@ -117,28 +169,15 @@ let items = ref<items[]>([
     unreadCount: null,
   },
   {
-    text: '邀请回答',
-    icon: 'mdi-human-greeting-variant',
-    to: '/messages/qa/invitation',
-    unreadCount: null,
-  },
-  {
-    text: '被采纳',
-    icon: 'mdi-human-greeting-variant',
-    to: '/messages/qa/accepted',
-    unreadCount: null,
-  },
-  {
-    text: '跟踪问题',
-    icon: 'mdi-eye',
-    to: '/messages/qa/watch',
+    text: ' @ 我的',
+    icon: 'mdi-at',
+    to: '/messages/at',
     unreadCount: null,
   },
 ])
-//todo read --
 onMounted(async () => {
   layout.showFooter = false
-  clog('11Messsage mounted')
+  // clog('11Messsage mounted')
 
   const { data: axiosResponse } = await useAxiosGetUnreadMessageCount(CountType.Detail)
 
@@ -146,20 +185,24 @@ onMounted(async () => {
     const unreadNotify = axiosResponse.data
 
     provide('unreadNotify', unreadNotify)
-    items.value[0].unreadCount = unreadNotify.unreadNotifyReplyCommentCount || 0
-    items.value[1].unreadCount = unreadNotify.unreadAtMeCount || 0
+    //article
+    items.value[1].unreadCount = unreadNotify.unreadNotifyReplyCommentCount || 0
     items.value[2].unreadCount = unreadNotify.unreadNotifyArticleOrCommentThumbCount || 0
-    items.value[3].unreadCount = unreadNotify.unreadNotifyAnswerCount || 0
-    items.value[4].unreadCount =
+    //qa
+    items.value[4].unreadCount = unreadNotify.unreadNotifyAnswerCount || 0
+    items.value[5].unreadCount =
       unreadNotify.unreadNotifyAnswerCommentCount + unreadNotify.unreadNotifyQuestionCommentCount ||
       0
-    items.value[5].unreadCount = unreadNotify.unreadNotifyQuestionOrAnswerThumbCount || 0
-    items.value[6].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
-    items.value[7].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
-    items.value[8].unreadCount = unreadNotify.unreadInvitationAnswerCount || 0
-    items.value[9].unreadCount = unreadNotify.unreadAcceptedAnswerCount || 0
-    items.value[10].unreadCount =
+    items.value[6].unreadCount = unreadNotify.unreadNotifyQuestionOrAnswerThumbCount || 0
+    items.value[7].unreadCount = unreadNotify.unreadAcceptedAnswerCount || 0
+    items.value[8].unreadCount =
       unreadNotify.unreadWatchAnswer + unreadNotify.unreadWatchAcceptedQuestionAnswer || 0
+    items.value[9].unreadCount = unreadNotify.unreadInvitationAnswerCount || 0
+    //infinity
+    items.value[11].unreadCount = unreadNotify.unreadTweetThumb || 0
+    items.value[12].unreadCount = unreadNotify.unreadTweetComment || 0
+    //other
+    items.value[15].unreadCount = unreadNotify.unreadPrivateMessageCount || 0
   } else {
     warningMsg('获取未读消息数量失败')
   }
