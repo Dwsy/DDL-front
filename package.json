@@ -45,13 +45,13 @@
     "babel-node": "^0.0.1-security",
     "base64-js": "^1.5.1",
     "bytemd": "^1.17.2",
+    "chart.js": "^4.0.1",
     "codemirror": "5.65.9",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.6",
     "dom-to-code": "^1.5.4",
     "dotenv": "^16.0.2",
     "highlight.js": "^11.6.0",
-    "i": "^0.3.7",
     "juejin-markdown-themes": "^1.29.3",
     "marked": "^4.2.2",
     "mdi": "^2.2.43",
@@ -60,10 +60,11 @@
     "nuxi": "3.0.0-rc.14",
     "pinia": "^2.0.22",
     "timeago.js": "^4.0.2",
+    "vue-chartjs": "^5.0.1",
     "vue-easy-lightbox": "^1.9.0",
     "vue-img-cutter": "3",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-emoji-picker": "^1.1.7",
-    "vuetify": "^3.0.1"
+    "vuetify": "^3.0.5"
   }
 }

@@ -62,3 +62,20 @@ export const useAxiosGetHistoryVersionTitleList = (
 export const useAxiosDeleteArticleById = (id) => {
   return useDel<ResponseData<any>>('article/article/manage/' + id)
 }
+
+export const useAxiosGetArticleStatisticsData = (daysAgo = 7) => {
+  return useGet<ResponseData<any>>('data/user/article/', {
+    daysAgo,
+  })
+}
+
+export interface ArticleStatisticsDataI {
+  serial: number;
+  viewNum: number;
+  upNum: number;
+  downNum: number;
+  commentNum: number;
+  collectNum: number;
+}
+
+
