@@ -75,6 +75,12 @@ let items = reactive([
     active: false,
   },
   {
+    icon: 'mdi-history',
+    text: '历史',
+    link: '/history',
+    active: false,
+  },
+  {
     icon: '',
     text: '通知',
     link: '/messages',

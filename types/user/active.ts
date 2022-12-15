@@ -30,6 +30,7 @@ export enum UserActiveTypeEn {
   Reply_Reply_Comment_Tweet = 'Reply_Reply_Comment_Tweet', //回复推文二级回复
 
   Thumb_Tweet = 'Thumb_Tweet', //点赞tweet
+  Browse_Infinity = 'Browse_Infinity',
 }
 
 export enum UserActiveTypeZh {
@@ -62,16 +63,15 @@ export enum UserActiveTypeZh {
   Reply_Reply_Comment_Tweet = '回复推文二级回复', //回复推文二级回复
 
   Thumb_Tweet = '点赞tweet', //点赞tweet
+  Browse_Infinity = '浏览动态', //
 }
-
 
 export interface UserThumbActiveI {
-  id: string;
-  createTime: number;
-  user: User;
-  title: string;
-  summary: string;
-  banner: string;
-  userActiveType: UserActiveTypeEn;
+  id: string
+  createTime: number
+  user: User
+  title: string
+  summary: string
+  banner: string
+  userActiveType: UserActiveTypeEn
 }
-

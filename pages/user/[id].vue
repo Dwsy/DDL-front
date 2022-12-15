@@ -263,6 +263,7 @@ import {
 import { UserAnswerI } from '~/types/question/answer'
 import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
 import { LevelExp } from '~/constant/user/level'
+import UserThumbCardList from '~/components/user/userThumbCardList.vue'
 
 const userStore = useUserStore()
 let userInfo = ref<UserInfo>()

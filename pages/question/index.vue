@@ -13,6 +13,7 @@
           <v-tab value="RESOLVED">以解决</v-tab>
           <v-tab value="hot">最热</v-tab>
         </v-tabs>
+        <v-divider></v-divider>
         <v-card-text>
           <v-window v-model="selectTab">
             <QuestionListCard :question-data-list="questionIndexStore.dataList"></QuestionListCard>
@@ -26,7 +27,11 @@
         </v-alert-title>
       </v-alert>
     </v-col>
-    <v-col cols="4"></v-col>
+    <v-col cols="4" class="mt-3">
+      <div class="text-bold text-2xl text-center">热议</div>
+      <v-divider></v-divider>
+      <HotQuestionSideBar />
+    </v-col>
   </v-row>
 </template>
 
@@ -37,6 +42,7 @@ import { useRouter, useState } from '#app'
 import QuestionListCard from '~~/components/question/questionListCard.vue'
 import { useLoadingWin } from '~/composables/useTools'
 import { QuestionState } from '~/types/question'
+import HotQuestionSideBar from '~/components/question/index/hotQuestionSideBar.vue'
 
 const questionIndexStore = useQuestionIndexStore()
 definePageMeta({
