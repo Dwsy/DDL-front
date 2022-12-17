@@ -1,33 +1,46 @@
 <template>
-  <template v-for="active in userHistoryDataList">
-    <v-card target="_blank" :href="getHref(active)" class="pa-4 my-2">
-      <div class="text-bold text-lg">
-        {{ active.title }}
-      </div>
+  <v-card
+    v-for="active in userHistoryDataList"
+    target="_blank"
+    :href="getHref(active)"
+    class="pa-4 my-2"
+  >
+    <div class="text-bold text-lg">
+      {{ active.title }}
+    </div>
+    <a target="_blank" :href="`/user/${active.user.id}`">
       <p class="">
+        <v-avatar>
+          <v-img :src="active.user.userInfo.avatar"></v-img>
+        </v-avatar>
+        <span>
+          {{ active.user.nickname }}
+        </span>
         <v-chip class="mb-1" :color="getColor(active)">
-          {{ UserActiveTypeZh[active.userActiveType] }} </v-chip
-        >{{ timeAgoFilter(active.createTime) }}
+          {{ UserActiveTypeZh[active.userActiveType] }}
+        </v-chip>
       </p>
-      <v-divider></v-divider>
-      <v-row style="max-height: 200px">
-        <v-col cols="8">
-          <p class="py-2 text-neutral-500">
-            {{ active.summary }}
-          </p></v-col
-        >
-        <v-col cols="4" class="">
-          <v-img
-            v-if="active.banner"
-            :src="active.banner"
-            class="rounded-lg"
-            alt=""
-            style="height: 195px"
-        /></v-col>
-      </v-row>
-    </v-card>
+    </a>
+    <div></div>
     <v-divider></v-divider>
-  </template>
+    <v-row style="max-height: 200px">
+      <v-col cols="8">
+        <p class="py-2 text-neutral-500">
+          {{ active.summary }}
+        </p></v-col
+      >
+      <v-col cols="4" class="">
+        <v-img
+          v-if="active.banner"
+          :src="active.banner"
+          class="rounded-lg"
+          alt=""
+          style="height: 195px"
+        />
+      </v-col>
+    </v-row>
+    {{ timeAgoFilter(active.createTime) }}
+  </v-card>
 </template>
 
 <script setup lang="ts">

@@ -1,6 +1,10 @@
 import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useAxiosGetUserInfo, useAxiosPostCheck } from '~/composables/Api/user'
+import { usePost } from '~/composables/useAxios'
+import { ResponseData } from '~/types/utils/axios'
+import { successMsg } from '~/composables/utils/toastification'
+import { User } from '@icon-park/svg'
 
 // const token = useCookie<{ token: string }>("token");
 export interface user {
@@ -63,6 +67,22 @@ export const useUserStore = defineStore('user', {
     },
     async CheckIn() {
       return await useAxiosPostCheck()
+    },
+    logout() {
+      usePost<ResponseData<boolean>>('auth/logout').then((r) => {
+        const data = r.data
+        if (data.code === 0) {
+          if (data.data) {
+            useUserStore().$reset()
+            // this.$reset()
+            localStorage.clear()
+            successMsg('退出成功')
+            navigateTo('/')
+          } else {
+            successMsg(data.msg)
+          }
+        }
+      })
     },
   },
 })

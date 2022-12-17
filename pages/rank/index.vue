@@ -12,7 +12,8 @@
         <v-chip @click="changeArticleGroup(2)">前端</v-chip>
         <v-chip @click="changeArticleGroup(1)">后端</v-chip>
       </v-chip-group>
-      <ArticleRankList :data="articleRankDataList" />
+      <div v-if="articleRankDataList?.length === 0">暂无数据</div>
+      <ArticleRankList :data="articleRankDataList" v-else />
     </v-col>
 
     <v-col cols="6">
@@ -28,7 +29,8 @@
         <v-chip @click="changeQuestionGroup(1)">前端</v-chip>
         <v-chip @click="changeQuestionGroup(3)">后端</v-chip>
       </v-chip-group>
-      <QuestionRankList :data="questionRankDataList" />
+      <div v-if="questionRankDataList?.length === 0">暂无数据</div>
+      <QuestionRankList :data="questionRankDataList" v-else />
     </v-col>
   </v-row>
 </template>
@@ -44,12 +46,13 @@ import {
 } from '~/composables/Api/article/rank'
 import { QuestionRankDataI, useAxiosGetQuestionRank } from '~/composables/Api/question/rank'
 import { definePageMeta } from '#imports'
+
 const articleTab = ref()
 const questionTab = ref()
 const articleRankParams = ref<rankParamsI>({ daysAgo: 1, size: 30, groupId: null })
-const articleRankDataList = ref<ArticleRankDataI[]>()
+const articleRankDataList = ref<ArticleRankDataI[]>([])
 const questionRankParams = ref<rankParamsI>({ daysAgo: 1, size: 30, groupId: null })
-const questionRankDataList = ref<QuestionRankDataI[]>()
+const questionRankDataList = ref<QuestionRankDataI[]>([])
 const articleGroup = ref()
 onMounted(async () => {
   loadArticleRank().then()
@@ -74,7 +77,7 @@ onBeforeUnmount(() => {
 const loadArticleRank = async () => {
   const { data: articleRankDataR } = await useAxiosGetArticleRank(articleRankParams.value)
   if (articleRankDataR.code == 0) {
-    articleRankDataList.value = articleRankDataR.data
+    articleRankDataList.value = articleRankDataR.data || []
   } else {
     errorMsg(articleRankDataR.msg)
   }
@@ -82,7 +85,7 @@ const loadArticleRank = async () => {
 const loadQuestionRank = async () => {
   const { data: questionRankR } = await useAxiosGetQuestionRank(questionRankParams.value)
   if (questionRankR.code == 0) {
-    questionRankDataList.value = questionRankR.data
+    questionRankDataList.value = questionRankR.data || []
   } else {
     errorMsg(questionRankR.msg)
   }

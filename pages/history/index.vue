@@ -2,6 +2,7 @@
   <v-row>
     <v-col cols="8">
       <UserHistoryCardList :user-history-data-list="historyDataList" />
+      <div v-if="Null" class="text-center text-h1 mt-16">空</div>
     </v-col>
     <!--    <v-divider :vertical="true"></v-divider>-->
     <v-divider :vertical="true"></v-divider>
@@ -50,10 +51,17 @@ import UserHistoryCardList from '~/components/user/history/userhistoryCardList.v
 
 const type = ref<getHistoryType>('all')
 const historyDataList = ref<UserHistoryI[]>([])
+const Null = ref()
 const page = ref(1)
 onMounted(async () => {
   const { data: axiosResponse } = await useAxiosGetUserHistory(type.value, page.value)
   if (axiosResponse.code === 0) {
+    if (axiosResponse.data == null) {
+      historyDataList.value = []
+      Null.value = true
+      return
+    }
+    Null.value = false
     historyDataList.value = axiosResponse.data.content
   } else {
     warningMsg(axiosResponse.msg)
@@ -62,6 +70,12 @@ onMounted(async () => {
     page.value = 1
     const { data: axiosResponse } = await useAxiosGetUserHistory(type.value, page.value)
     if (axiosResponse.code === 0) {
+      if (axiosResponse.data == null) {
+        historyDataList.value = []
+        Null.value = true
+        return
+      }
+      Null.value = false
       historyDataList.value = axiosResponse.data.content
     } else {
       warningMsg(axiosResponse.msg)

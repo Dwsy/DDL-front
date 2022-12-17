@@ -63,8 +63,10 @@ import {
   ChartData,
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import { Ref } from 'vue'
+import { Ref, ref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { useLayout } from '~/stores/layout'
+import { useTheme } from 'vuetify'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
@@ -77,9 +79,12 @@ useHead({
   //   },
   // ],
 })
+const theme = useTheme()
+const borderColor = ref('rgba(206,206,206,0.37)')
 const options: ChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  borderColor: borderColor.value,
 }
 const dateList = ref<string[]>([])
 // {

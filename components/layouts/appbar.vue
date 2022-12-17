@@ -84,20 +84,18 @@
               </v-row>
               <v-divider> </v-divider>
               <v-list>
-                <v-list-item @click="layout.switchDrawer()" prepend-icon="mdi-account-outline">
+                <v-list-item prepend-icon="mdi-account-outline">
                   <nuxt-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
                     <v-list-item-title>个人中心</v-list-item-title>
                   </nuxt-link>
                 </v-list-item>
-                <v-list-item @click="layout.switchDrawer()" prepend-icon="mdi-account-cog-outline">
+                <v-list-item prepend-icon="mdi-account-cog-outline">
                   <nuxt-link v-if="userStore.userInfo" to="/user/settings">
                     <v-list-item-title>设置</v-list-item-title>
                   </nuxt-link>
                 </v-list-item>
-                <v-list-item @click="layout.switchDrawer()" prepend-icon="mdi-logout">
-                  <nuxt-link to="/auth/logout">
-                    <v-list-item-title>退出</v-list-item-title>
-                  </nuxt-link>
+                <v-list-item prepend-icon="mdi-logout" @click="userStore.logout()">
+                  <v-list-item-title>退出</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-card>
