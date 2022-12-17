@@ -56,14 +56,17 @@
     "marked": "^4.2.2",
     "mdi": "^2.2.43",
     "medium-zoom": "^1.0.6",
+    "ml-heatmap": "^0.0.6",
     "npm": "^8.19.2",
     "nuxi": "3.0.0-rc.14",
     "pinia": "^2.0.22",
     "timeago.js": "^4.0.2",
     "vue-chartjs": "^5.0.1",
     "vue-easy-lightbox": "^1.9.0",
+    "vue-hm-calendar": "^2.1.4",
     "vue-img-cutter": "3",
     "vue-toastification": "^2.0.0-rc.5",
+    "vue3-calendar-heatmap": "^2.0.0",
     "vue3-emoji-picker": "^1.1.7",
     "vuetify": "^3.0.5"
   }
