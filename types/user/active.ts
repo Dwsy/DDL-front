@@ -3,6 +3,8 @@ import { User } from '~/types/user/index'
 export enum UserActiveTypeEn {
   Check_In = 'Check_In', //签到
 
+  Visit_Site = 'Visit_Site',
+
   Browse_Article = 'Browse_Article', //浏览文章
 
   Browse_QA = 'Browse_QA', //浏览问题
@@ -35,6 +37,8 @@ export enum UserActiveTypeEn {
 
 export enum UserActiveTypeZh {
   Check_In = '签到', //签到
+
+  Visit_Site = '访问网站',
 
   Browse_Article = '浏览文章', //浏览文章
 

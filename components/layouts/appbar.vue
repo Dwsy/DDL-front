@@ -75,14 +75,38 @@
                     <v-img :src="userStore.userInfo?.avatar"></v-img>
                   </v-avatar>
                 </v-col>
-                <v-col cols="6">
+                <v-col cols="5">
                   <span class="text-lg">
                     {{ userStore.user.nickname }}
                   </span>
                   <div class="text-sm text-neutral-600">@{{ userStore.user.username }}</div>
                 </v-col>
               </v-row>
-              <v-divider> </v-divider>
+              <div v-if="userStore?.userInfo" class="pa-2">
+                <div>Level：{{ userStore.userInfo.level }}</div>
+                <v-progress-linear
+                  :color="getRandomColor()"
+                  :model-value="
+                    getExpProgressVal(userStore.userInfo.experience, userStore.userInfo.level)
+                  "
+                ></v-progress-linear>
+                <p class="text-neutral-500">
+                  {{ userStore.userInfo.experience }} / {{ LevelExp[userStore.userInfo.level + 1] }}
+                </p>
+                <v-btn
+                  style="margin-left: 70%"
+                  variant="tonal"
+                  color="#5c940d"
+                  v-if="!userStore.check"
+                  @click="userStore.checkIn()"
+                >
+                  签到
+                </v-btn>
+                <v-btn style="margin-left: 70%" v-else variant="tonal" color="#e03131">
+                  已签到
+                </v-btn>
+              </div>
+              <v-divider></v-divider>
               <v-list>
                 <v-list-item prepend-icon="mdi-account-outline">
                   <nuxt-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
@@ -134,27 +158,24 @@ import { warningMsg } from '~/composables/utils/toastification'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { useRoute } from '#app'
 import { PencilSquareIcon } from '@heroicons/vue/24/outline/esm/index.js'
+import { getExpProgressVal } from '~/composables/useTools'
+import { LevelExp } from '~/constant/user/level'
 
 let theme = useTheme()
 let layout = useLayout()
 let userStore = useUserStore()
 const route = useRoute()
 const isArticlePage = ref(true)
-// if (route.path === '/question/howtoask') {
-//   layout.drawer = false
-// }
 
 onMounted(async () => {
   clog('onMounted')
   watchEffect(() => {
-    // clog('route.path', route.path)
     isArticlePage.value = route.path.startsWith('/article')
   })
   await layout.getUnreadCount()
 })
 const appBarColor = computed(() => {
   return theme.global.name.value === 'dark' ? '#000000ab' : '#ffffffaa'
-  // return theme.global.name.value === 'dark' ? '#2228' : '#ffffffaa'
 })
 </script>
 

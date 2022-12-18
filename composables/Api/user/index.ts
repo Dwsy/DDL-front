@@ -5,14 +5,14 @@ import { InfinityI } from '~/types/infinity'
 import { UserActiveTypeEn } from '~/types/user/active'
 
 export const useAxiosGetUserInfo = () => {
-  return useGet<ResponseData<any>>('user/info')
+  return useGet<ResponseData<any>>('user/info', null, true)
 }
 export const useAxiosGetUserInfoByUid = (uid: string) => {
   return useGet<ResponseData<any>>('user/info/' + uid)
 }
 
 export const useAxiosPostCheck = () => {
-  return usePost<ResponseData<any>>('user/active/check')
+  return usePost<ResponseData<string>>('user/active/check')
 }
 
 export const useAxiosGetArticleListByUserId = (

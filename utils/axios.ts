@@ -15,26 +15,13 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
   const Axios = axios.create({
     baseURL,
   })
+  const userStore = useUserStore()
   Axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const User = useUserStore()
-      const token = User.token
-      // clog("++++interceptors++++");
-      // let token = window.localStorage.getItem("token")
-      // clog(appConfig)
+      const token = userStore.token
       const flag: any = config || {}
-      // flag.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.NjA0NzhmNGFhNjk5MGQwYmQwMGUyNTJj.LHSChktNbIzMo8BtdGr7olGIDNbFE3e8A4V9ZhB6GSE"
-
       if (Boolean(token) && !config.url.includes('qiniu.dwsy.link')) {
         flag.headers['Authorization'] = token
-        // if (!useUser.IsLogin) {
-        //   clog("ads");
-        //   useUser.setIsLogn(true);
-        // } else {
-        //   clog("ads");
-        //   useUser.setIsLogn(false);
-        // }
-        // conflg.headers["Authorization"] = "Bearer" + token;
       }
 
       return config
@@ -46,15 +33,10 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
 
   Axios.interceptors.response.use(
     async (response) => {
-      // clog("response");
-      // clog(response);
-
-      // clog("response");
       if (response.data.code == 104) {
         warningMsg('用户信息验证失效，请重新登录')
         await useRouter().push('/user/login')
       }
-
       if (response.status == 200 || response.status == 201) {
         return Promise.resolve(response)
       } else {
@@ -68,8 +50,10 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
         warningMsg('服务器内部错误')
       }
       if (error.response.status == 401) {
-        clog('no token')
-        //   message({ type: "error", message: String(error.response.data.message) });
+        errorMsg('用户信息验证失效，请重新登录')
+        useUserStore().$reset()
+        localStorage.clear()
+        navigateTo('/user/login')
       }
       // clog(error.response.data);
 

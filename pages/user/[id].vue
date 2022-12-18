@@ -18,15 +18,21 @@
                 <v-img :src="userInfo.avatar"></v-img>
               </v-avatar>
             </v-col>
+
             <v-col cols="6">
               <div class="ml-1">
                 <span class="text-h4">{{ user.nickname }}</span>
                 <div>Level：{{ user.level }}</div>
                 <v-progress-linear
                   :color="getRandomColor()"
-                  :model-value="getExpProgressVal()"
+                  :model-value="
+                    getExpProgressVal(userStore.userInfo.experience, userStore.userInfo.level)
+                  "
                   v-if="userStore.user?.id === uid"
                 ></v-progress-linear>
+                <p v-if="userStore.user?.id === uid">
+                  {{ userStore.userInfo.experience }} / {{ LevelExp[userStore.userInfo.level + 1] }}
+                </p>
                 <span>签名：{{ userInfo.sign }}</span>
                 <div class="mt-4">UID:{{ user.id }}</div>
               </div>
@@ -261,7 +267,12 @@ import {
   useAxiosGetUserAnswerPageByUserId,
 } from '~/composables/Api/user/qa'
 import { UserAnswerI } from '~/types/question/answer'
-import { dateFilter, getRandomColor, timeAgoFilter } from '~/composables/useTools'
+import {
+  dateFilter,
+  getExpProgressVal,
+  getRandomColor,
+  timeAgoFilter,
+} from '~/composables/useTools'
 import { LevelExp } from '~/constant/user/level'
 import UserThumbCardList from '~/components/user/userThumbCardList.vue'
 
@@ -409,12 +420,12 @@ const getTweetGotoId = (tweet: InfinityI): string => {
   }
 }
 
-const getExpProgressVal = () => {
-  const experience = userStore.userInfo.experience
-  const level = userStore.userInfo.level
-  const nextLevelExp = LevelExp[level + 1]
-  return (experience / nextLevelExp) * 100
-}
+// const getExpProgressVal = () => {
+//   const experience = userStore.userInfo.experience
+//   const level = userStore.userInfo.level
+//   const nextLevelExp = LevelExp[level + 1]
+//   return (experience / nextLevelExp) * 100
+// }
 </script>
 
 <style scoped></style>

@@ -8,6 +8,7 @@
     <v-divider :vertical="true"></v-divider>
     <v-col>
       <div class="test">
+        {{ historyDataList.length }}
         <v-radio-group v-model="type" class="pa-5">
           <v-radio value="all" class="my-2">
             <template v-slot:label>
@@ -48,12 +49,24 @@ import {
 import { warningMsg } from '~/composables/utils/toastification'
 import { watch, ref } from 'vue'
 import UserHistoryCardList from '~/components/user/history/userhistoryCardList.vue'
+import { useFetchGetArticleList } from '~/composables/Api/article'
+import { useLoadingWin } from '~/composables/useTools'
 
 const type = ref<getHistoryType>('all')
 const historyDataList = ref<UserHistoryI[]>([])
 const Null = ref()
 const page = ref(1)
+const totalPages = ref(0)
 onMounted(async () => {
+  await loadHistory()
+  watch(type, async () => {
+    page.value = 1
+    await loadHistory()
+  })
+  document.body.onscroll = useLoadingWin(loadingMore)
+})
+
+const loadHistory = async () => {
   const { data: axiosResponse } = await useAxiosGetUserHistory(type.value, page.value)
   if (axiosResponse.code === 0) {
     if (axiosResponse.data == null) {
@@ -61,27 +74,28 @@ onMounted(async () => {
       Null.value = true
       return
     }
-    Null.value = false
-    historyDataList.value = axiosResponse.data.content
+    if (page.value == 1) {
+      totalPages.value = axiosResponse.data.totalPages
+      historyDataList.value = axiosResponse.data.content
+    } else {
+      historyDataList.value.push(...axiosResponse.data.content)
+    }
   } else {
     warningMsg(axiosResponse.msg)
   }
-  watch(type, async () => {
-    page.value = 1
-    const { data: axiosResponse } = await useAxiosGetUserHistory(type.value, page.value)
-    if (axiosResponse.code === 0) {
-      if (axiosResponse.data == null) {
-        historyDataList.value = []
-        Null.value = true
-        return
-      }
-      Null.value = false
-      historyDataList.value = axiosResponse.data.content
-    } else {
-      warningMsg(axiosResponse.msg)
+}
+
+const loadingMore = async () => {
+  if (page.value >= Number(totalPages.value)) {
+    if (historyDataList.value.length > 8) {
+      // alert.value = true
+      document.body.onscroll = null
     }
-  })
-})
+    return
+  }
+  page.value += 1
+  await loadHistory()
+}
 </script>
 
 <style scoped>

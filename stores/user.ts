@@ -12,6 +12,7 @@ export interface user {
   token: Ref<string>
   user: tokenMsg
   userInfo: UserInfo
+  check: boolean
 }
 
 export interface UserInfo {
@@ -22,7 +23,6 @@ export interface UserInfo {
   sign: string
   gender: string
   birth: any
-
   experience?: number
 }
 
@@ -40,6 +40,7 @@ export const useUserStore = defineStore('user', {
       user: null,
       token: ref<string>(''),
       userInfo: null,
+      check: false,
     }
   },
   actions: {
@@ -55,12 +56,13 @@ export const useUserStore = defineStore('user', {
       if (user != null) this.user = user
     },
     async getUserInfo(refresh = false) {
-      clog('getUserInfo', this.userInfo === null)
+      // clog('getUserInfo', this.userInfo === null)
       if (refresh || this.userInfo === null) {
         if (this.user) {
           let { data } = await useAxiosGetUserInfo()
           if (data.code === 0) {
             this.userInfo = data.data
+            this.check = data.data.checkIn
           }
         }
       }
@@ -68,21 +70,25 @@ export const useUserStore = defineStore('user', {
     async CheckIn() {
       return await useAxiosPostCheck()
     },
-    logout() {
-      usePost<ResponseData<boolean>>('auth/logout').then((r) => {
-        const data = r.data
+    async logout() {
+      try {
+        const axiosResponse = await usePost<ResponseData<boolean>>('auth/logout')
+        console.log(axiosResponse)
+        useUserStore().$reset()
+        localStorage.clear()
+        navigateTo('/')
+        successMsg('退出成功')
+      } catch (e) {
+        console.log('logout', e)
+      }
+    },
+    async checkIn() {
+      if (!this.check) {
+        const { data } = await useAxiosPostCheck()
         if (data.code === 0) {
-          if (data.data) {
-            useUserStore().$reset()
-            // this.$reset()
-            localStorage.clear()
-            successMsg('退出成功')
-            navigateTo('/')
-          } else {
-            successMsg(data.msg)
-          }
+          this.check = true
         }
-      })
+      }
     },
   },
 })

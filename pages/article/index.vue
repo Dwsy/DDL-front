@@ -92,19 +92,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.body.onscroll = null
 })
-// onUnmounted(() => {
-// clog('index unmounted')
-// document.body.onscroll = document.documentElement.scrollTop=0
-// })
-// onActivated(() => {
-//   clog("onActivated")
-//   document.documentElement.scrollTop = indexTop.value || 0
-// })
-// onBeforeRouteLeave((to, from, next) => {
-//   indexTop.value = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-// indexTop.value = document.getElementById('__nuxt').scrollTop || 0
-// next()
-// })
 
 const selectTag = async (tagID) => {
   clog('selectTag')
