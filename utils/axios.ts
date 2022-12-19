@@ -12,6 +12,7 @@ import { useAppConfig, useFetch, useRouter, useRuntimeConfig } from '#app'
 export const CreateAxios = (url, method, config): AxiosPromise => {
   const runtimeConfig = useRuntimeConfig()
   const baseURL = runtimeConfig.public.baseURL
+
   const Axios = axios.create({
     baseURL,
   })
@@ -23,7 +24,6 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
       if (Boolean(token) && !config.url.includes('qiniu.dwsy.link')) {
         flag.headers['Authorization'] = token
       }
-
       return config
     },
     (error) => {
@@ -33,6 +33,13 @@ export const CreateAxios = (url, method, config): AxiosPromise => {
 
   Axios.interceptors.response.use(
     async (response) => {
+      if (baseURL.startsWith('https://mock.apifox.cn')) {
+        response.data = {
+          code: 0,
+          msg: '',
+          data: response.data,
+        }
+      }
       if (response.data.code == 104) {
         warningMsg('用户信息验证失效，请重新登录')
         await useRouter().push('/user/login')

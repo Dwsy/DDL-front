@@ -37,7 +37,15 @@ const fetch = (url: string, options?: any): Promise<any> => {
           })
         } else {
           if (!url.endsWith('.min.css.map')) {
-            resolve(value)
+            let R = value
+            if (baseURL.startsWith('https://mock.apifox.cn')) {
+              R = {
+                code: 0,
+                msg: '',
+                data: value,
+              }
+            }
+            resolve(R)
           }
         }
       })

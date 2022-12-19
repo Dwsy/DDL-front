@@ -3,7 +3,7 @@
   <div>
     <MainSection title="推文" :loading="infinityStatusStore.loading" back-to="/infinity/home">
       <Head>
-        <Title>{{title}}}</Title>
+        <Title>{{ title }}</Title>
       </Head>
       <!--        {{count}}-->
       <!--        <v-btn @click="count++">++</v-btn>-->

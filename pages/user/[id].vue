@@ -6,11 +6,11 @@
       <v-divider></v-divider>
       <!--      {{ user }}-->
     </div>
-    <v-row v-if="user">
+    <v-row v-if="user" class="ml-4 mr-8">
       <Head>
         <Title> {{ user.nickname }}的个人主页 </Title>
       </Head>
-      <v-col offset="1" cols="8">
+      <v-col cols="10">
         <v-card class="pa-4">
           <v-row>
             <v-col cols="2">
@@ -19,7 +19,7 @@
               </v-avatar>
             </v-col>
 
-            <v-col cols="6">
+            <v-col cols="2" class="ml-n12">
               <div class="ml-1">
                 <span class="text-h4">{{ user.nickname }}</span>
                 <div>Level：{{ user.level }}</div>
@@ -38,7 +38,31 @@
               </div>
             </v-col>
             <v-col>
-              <div class="mx-6 mt-6 text-end">
+              <!--              heatmapData: {{ heatmapData.length !== 0 }}-->
+              <ClientOnly>
+                <v-row class="ml-n8">
+                  <v-col cols="10" class="mt-5">
+                    <MlHeatmap
+                      v-if="heatmapData.length !== 0"
+                      :data="heatmapData"
+                      locale="cn"
+                      :year="new Date().getFullYear() - minusYears"
+                      :tip1="tip1"
+                      :tip2="tip2"
+                      :dark="useTheme().global.name.value === 'dark'"
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-tabs direction="vertical" v-model="minusYears">
+                      <v-tab value="0">{{ new Date().getFullYear() }}</v-tab>
+                      <v-tab value="1">{{ new Date().getFullYear() - 1 }}</v-tab>
+                      <v-tab value="2">{{ new Date().getFullYear() - 2 }}</v-tab>
+                    </v-tabs>
+                  </v-col>
+                </v-row>
+              </ClientOnly>
+
+              <div class="mx-6 text-end mt-n12">
                 <v-btn v-if="userStore.user?.id === uid" to="/user/settings">
                   <div>编辑个人资料</div>
                 </v-btn>
@@ -240,7 +264,7 @@
 <script setup lang="ts">
 import QuestionAsked from '~/components/user/questionCard/index.vue'
 import { clog } from '~/utils/clog'
-import { useRoute } from '#imports'
+import { useGet, useRoute } from '#imports'
 import { user, UserInfo, useUserStore } from '~/stores/user'
 import { onMounted, ref, watch, watchEffect } from 'vue'
 import {
@@ -275,8 +299,14 @@ import {
 } from '~/composables/useTools'
 import { LevelExp } from '~/constant/user/level'
 import UserThumbCardList from '~/components/user/userThumbCardList.vue'
-
+import { MlHeatmap } from '~/components/ml-heatmap/dist/heatmap.es'
+import '~/components/ml-heatmap/dist/style.css'
+import Tab from '~/components/Tcomponents/Sidebar/Left/Tab.vue'
+import { useTheme } from 'vuetify'
+// import { MlHeatmap } from 'ml-heatmap'
+// import 'ml-heatmap/dist/style.css'
 const userStore = useUserStore()
+const theme = useTheme()
 let userInfo = ref<UserInfo>()
 let user = ref<userData>()
 const route = useRoute()
@@ -293,8 +323,19 @@ const userFollowingList = ref<userData[]>()
 const UserFollowerList = ref<userData[]>()
 
 const InfinityList = ref<InfinityI[]>()
+
+interface HeatmapDataI {
+  date: string
+  count: number
+}
+
+const tip1 = '获得{0}积分在: {1}'
+const tip2 = '未获得积分: {1}'
+const heatmapData = ref<HeatmapDataI[]>([])
+
 onMounted(async () => {
   clog('user id onMounted')
+
   setTimeout(async () => {
     const { data: axiosResponse } = await useAxiosGetUserInfoByUid(uid)
     if (axiosResponse.code === 0) {
@@ -306,6 +347,8 @@ onMounted(async () => {
       userNotFount.value = true
     }
   }, 200)
+  // const { data: axiosResponse } = await useGet('user/points/heatmap/' + uid)
+  // heatmapData.value = axiosResponse['data']
   watch(tab, async (newTab) => {
     // clog('watch tab', newTab)
     await router.push({
@@ -389,8 +432,16 @@ onMounted(async () => {
       // clog('follow')
     }
   })
+  watch(minusYears, async () => {
+    // console.log('minusYears', typeof minusYears.value)
+    heatmapData.value = []
+    const { data: axiosResponse } = await useGet('user/points/heatmap/' + uid, {
+      minusYears: minusYears.value,
+    })
+    heatmapData.value = axiosResponse['data']
+  })
 })
-
+const minusYears = ref()
 const subscribe = (user: userData) => {
   followUser(user.id)
   user.following = !user.following
@@ -428,4 +479,30 @@ const getTweetGotoId = (tweet: InfinityI): string => {
 // }
 </script>
 
-<style scoped></style>
+<style>
+.heat-map .container .right-side .column-wrapper .column .square-wrapper .square[data-v-347af1f8] {
+  border: v-bind(
+    'theme.global.name.value === "dark" ? "1px solid #404040" : "1px solid #e5e5e5"'
+  ) !important;
+}
+
+.heat-map .illustration .legend .level-1[data-v-347af1f8] {
+  background: v-bind('theme.global.name.value === "dark" ? "#0d1117" : "#EBEDF0"') !important;
+}
+
+.heat-map .illustration .legend .level-2[data-v-347af1f8] {
+  background: v-bind('theme.global.name.value ==="dark" ?  "#0d1117" : "#9BE9A8"') !important;
+}
+
+.heat-map .illustration .legend .level-3[data-v-347af1f8] {
+  background: v-bind('theme.global.name.value ==="dark" ?  "#006d32" : "#40C463"') !important;
+}
+
+.heat-map .illustration .legend .level-4[data-v-347af1f8] {
+  background: v-bind('theme.global.name.value ==="dark" ?  "#29a743" : "#30A14E"') !important;
+}
+
+.heat-map .illustration .legend .level-5[data-v-347af1f8] {
+  background: v-bind('theme.global.name.value === "dark" ? "#39d353" : "#216E39"') !important;
+}
+</style>
