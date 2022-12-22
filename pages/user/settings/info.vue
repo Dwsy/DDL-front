@@ -53,7 +53,6 @@ import { clog } from '~/utils/clog'
 import {
   definePageMeta,
   successMsg,
-  useAxiosPostUploadAvatar,
   useAxiosPutUpdateUserInfo,
   useRoute,
   warningMsg,
@@ -62,6 +61,8 @@ import { defaultMsg } from '~~/composables/utils/toastification'
 import { user, UserInfo, useUserStore } from '~/stores/user'
 import { onMounted, ref, watch } from 'vue'
 import ImgCutter from 'vue-img-cutter/src/components/ImgCutter'
+import { useAxiosPostUploadPicture } from '~/composables/Api/user/settings'
+import { FileType } from '~/types/other/file'
 
 definePageMeta({
   keepalive: true,
@@ -104,7 +105,7 @@ const submitFile = async () => {
   if (avatarFile.value === null) {
     defaultMsg('请选择文件')
   }
-  const { data: response } = await useAxiosPostUploadAvatar(avatarFile.value)
+  const { data: response } = await useAxiosPostUploadPicture(avatarFile.value, FileType.avatar)
   if (response.code === 0) {
     const reader = new FileReader()
     reader.readAsDataURL(avatarFile.value)

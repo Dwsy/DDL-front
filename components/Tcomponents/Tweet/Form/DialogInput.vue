@@ -202,12 +202,13 @@ import useTailwindConfig from '~/composables/useTailwindConfig'
 import EmojiPicker from '~~/components/common/emojiPicker.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '~/stores/user'
-import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
+import { useAxiosPostUploadPicture } from '~/composables/Api/user/settings'
 import { defaultMsg, warningMsg } from '~/composables/utils/toastification'
 import { ReplyInfinityRB } from '~/composables/Api/infinity'
 import { rules } from '~/utils/rules'
 import { useRoute } from '#app'
 import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
+import { FileType } from '~/types/other/file'
 
 const infinityStatusStore = useInfinityStatusStore()
 const { twitterBorderColor } = useTailwindConfig()
@@ -238,7 +239,7 @@ const addEmoji = (emoji) => {
   clog(emoji)
 }
 const changeImgFile = async (file) => {
-  const { data: response } = await useAxiosPostUploadAvatar(file)
+  const { data: response } = await useAxiosPostUploadPicture(file, FileType.infinity_image)
   if (response.code === 0) {
     const url = 'http://' + response.data + '?imageMogr2'
     imgUrlList.value.push(url)

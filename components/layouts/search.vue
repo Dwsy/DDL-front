@@ -64,7 +64,7 @@ onMounted(async () => {
   )
 })
 const getSearchType = () => {
-  console.log(route)
+  // console.log(route)
   if (route.path.startsWith('/search')) {
     if (route.path.startsWith('/search/question')) {
       searchLabelText.value = '搜索问题'

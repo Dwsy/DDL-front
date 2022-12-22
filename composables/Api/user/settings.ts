@@ -1,13 +1,14 @@
 import { useGet, usePost, usePut } from '~/composables/useAxios'
 import { AxiosRequestConfig } from 'axios'
 import { ResponseData } from '~/types/utils/axios'
+import { FileType } from '~/types/other/file'
 
-export const useAxiosPostUploadAvatar = (file) => {
+export const useAxiosPostUploadPicture = (file, type: FileType) => {
   let config: AxiosRequestConfig = {}
   config.headers = {
     'Content-Type': 'multipart/form-data',
   }
-  return usePost<ResponseData<any>>('file/upload', { file }, config)
+  return usePost<ResponseData<any>>('file/upload', { file, type }, config)
 }
 
 export const useAxiosPutUpdateUserInfo = (body) => {
