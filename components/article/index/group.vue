@@ -17,11 +17,10 @@
         <span class="text-body-1 px-4 pt-3">标签:</span>
         <v-chip-group v-bind:model-value="selectionTag" mandatory>
           <v-chip @click="emit('selectTag', 0)"> 推荐</v-chip>
-          <template v-for="tag in tags" :key="tag.id">
-            <v-chip @click="emit('selectTag', tag.id)">
-              {{ tag.name }}
-            </v-chip>
-          </template>
+
+          <v-chip v-for="tag in tags" :key="tag.id" @click="emit('selectTag', tag.id)">
+            {{ tag.name }}
+          </v-chip>
         </v-chip-group>
       </v-row>
     </div>

@@ -35,7 +35,12 @@ import { clog } from '~/utils/clog'
 import List from '~~/components/article/index/list.vue'
 import Group from '~~/components/article/index/group.vue'
 import { onActivated, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue'
-import { definePageMeta, useFetchGetArticleList, useLoadingWin } from '#imports'
+import {
+  definePageMeta,
+  useAxiosGetArticleList,
+  useFetchGetArticleList,
+  useLoadingWin,
+} from '#imports'
 import { articleListData } from '~/types/article'
 import { onBeforeRouteLeave } from 'vue-router'
 import { useHead } from '#head'
@@ -87,7 +92,7 @@ onMounted(() => {
   // clog('index mounted')
   // clog(indexTop.value)
   // document.documentElement.scrollTop = 0
-  document.body.onscroll = useLoadingWin(loadingMore)
+  // document.body.onscroll = useLoadingWin(loadingMore)
 })
 onBeforeUnmount(() => {
   document.body.onscroll = null
@@ -95,6 +100,7 @@ onBeforeUnmount(() => {
 
 const selectTag = async (tagID) => {
   clog('selectTag')
+  console.log('selectTag', tagID)
   if (tagID == 0) {
     params.value.tagId = null
   } else {
@@ -103,9 +109,10 @@ const selectTag = async (tagID) => {
   params.value.page = 1
   // page.value = 1
   alert.value = false
-  const data = (await useFetchGetArticleList(params.value)).data
-  listContent.value = data.content
-  totalPages.value = data.totalPages
+  const { data: r } = await useAxiosGetArticleList(params.value)
+  listContent.value = r.data.content
+  totalPages.value = r.data.totalPages
+  console.log('selectTag-end', r)
 }
 
 const loadingMore = async () => {
