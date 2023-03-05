@@ -686,7 +686,7 @@
               </v-card-title>
               <div v-for="group in collectionGroupList" :key="group.id" class="d-flex my-n6 px-4">
                 {{ group.select }}
-                /* :model-value="group.select" */
+                <!--                /* :model-value="group.select" */-->
                 <v-checkbox
                   v-model="group.select"
                   :label="group.groupName"

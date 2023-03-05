@@ -35,7 +35,7 @@
                 tweet.type === InfinityType.Tweet || tweet.type === InfinityType.TweetCommentOrReply
               "
             >
-              {{ props.tweet.content }}
+              <div v-html="urlToLink(props.tweet.content)"></div>
             </template>
             <template v-else>
               <div v-if="InfinityType.Article === tweet.type">
@@ -249,7 +249,7 @@ import useTailwindConfig from '~/composables/useTailwindConfig'
 import { computed, onMounted, ref } from 'vue'
 import TweetItemActions from '~/components/Tcomponents/Tweet/Item/Actions/index.vue'
 import { InfinityI, InfinityType, TwShowStatus } from '~/types/infinity'
-import { timeAgoFilter } from '~/composables/useTools'
+import { timeAgoFilter, urlToLink } from '~/composables/useTools'
 import { useInfinityStore } from '~/stores/infinity/infinityStore'
 import { useInfinityStatusStore } from '~/stores/infinity/infinityStatusStore'
 import A from '~/pages/messages/chats/a.vue'
@@ -383,6 +383,9 @@ const onHide = () => {
 </script>
 
 <style scoped>
+a {
+  color: #1da1f2;
+}
 .d-img-next {
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA8CAYAAAADm2gpAAAAAXNSR0IArs4c6QAAAhNJREFUaAXtmb9OwlAUxttLiYkV0plB4sgLODC5QRTiYqIbcXDyHXwMEyMMbg7GBfmzEBISIDHdGYU3KLQQEwp4LvHE5oJJIfTS4XQ5vdDe+/V3Ttp+PaoCW7PZ1BzHuY1Go2fz+bwfiUSKmUzmi/8na1Or1eoBY8w0DOMkkUjo4/HY7ff737PZrJDL5d5lCVFAyINpms7Csw2Hw0W9Xh+Xy+UrWUIYpOEimUzq3gXj8biSTqcPIVUvssQwVVWt6XTq1bHcj8ViUsUwEPHY6/UcqIm9i1FqtdpTq9VyXNf1VMrf7mg0klMzsKQKxVkiMWJREBmRCI6JDJIQI5ERieA4dGTgDlwMzU2PxGCdeCOvGSLjJYL7RAZJiJHIiERwTGSQhBg3JHPOz1fFSXY15mLghfxZ1/UbMGs6GLmVqS3LUrrdrgWG7pit/LujH8C4LbLZ7B146dd2uz1c55vAbyvcyNm2fRqYEH49XIzf69L8HrjNcfx5BKm5htQc/ZcaoKFAaj63md/XOb8PRduHe1wWq69JNz1oAxHBffYgEZg2IkEkkABGqgkigQQwUk0QCSSAkWqCSCABjGGpCd4m8fOiG9w7ZqVSuWw0GvsVAWlhmqbdp1Kptb6De45OpzOBLlchn8+/YRqDiLynZ0ATcWVumSL44gwM0MdgMJh4lcgWwdcOTQN6+VlCaMl/gU8tyW7J/wCJLeOSU2dAQgAAAABJRU5ErkJggg==),
     pointer;

@@ -1,11 +1,10 @@
 <template>
   <div>
-    12312
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="2">
         <v-list>
-          <v-list-subheader>消息中心</v-list-subheader>
+          <v-list-subheader>信息修改</v-list-subheader>
           <v-list-item
             v-for="(item, i) in settingList"
             :key="i"
@@ -71,12 +70,12 @@ const settingList: setting[] = [
     link: '/user/settings/account',
   },
   {
-    title: '个人资料',
+    title: '消息通知设置',
     icon: 'mdi-account-outline',
     link: '',
   },
   {
-    title: '个人资料',
+    title: '隐私设置',
     icon: 'mdi-account-outline',
     link: '',
   },

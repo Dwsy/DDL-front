@@ -5,8 +5,10 @@
 
       <v-col xl="10" lg="10" md="10" sm="12" xs="12">
         <div>
+          <!--          <div style="position: sticky; top: 5%; z-index: 100; background-color: #00a0d8">-->
           <Group @select-tag="selectTag"></Group>
           <v-divider class="my-4"></v-divider>
+          <!--          </div>-->
 
           <List v-for="data in listContent" :key="data.id" v-bind="data"></List>
 
@@ -92,7 +94,7 @@ onMounted(() => {
   // clog('index mounted')
   // clog(indexTop.value)
   // document.documentElement.scrollTop = 0
-  // document.body.onscroll = useLoadingWin(loadingMore)
+  document.body.onscroll = useLoadingWin(loadingMore)
 })
 onBeforeUnmount(() => {
   document.body.onscroll = null
