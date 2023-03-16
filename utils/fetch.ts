@@ -28,6 +28,7 @@ const fetch = (url: string, options?: any): Promise<any> => {
         // clog("data",data)
         // clog("value",value)
         if (!value) {
+          console.log('value is null', data)
           // 这里处理错你自定义的错误，例如code !== 1
 
           throw createError({

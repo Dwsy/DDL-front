@@ -102,7 +102,7 @@ export const useFetchGetArticleTagListByGroupId = (
   id?,
   params?: { order?: string; properties?: string }
 ) => {
-  return http.GET<ResponsePageData<any>>('article/tag/group/list' + id, params)
+  return http.GET<ResponsePageData<any>>('article/tag/group/list/' + id, params)
 }
 
 export const useFetchGetArticleTagList = (params?: { order?: string; properties?: string }) => {

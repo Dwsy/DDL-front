@@ -163,7 +163,7 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
         //     // const t = `回复@${replyUserCommentName}：` + text
         //     // // clog(t)
         //     // let commentSerialNumber = 1
-        //     // //todo 使用后端返回数据
+        //     // 使用后端返回数据
         //     // const childComments = this.commentList[pIndexId].childComments
         //     // if (childComments.length > 0) {
         //     //   commentSerialNumber = childComments[childComments.length - 1].commentSerialNumber + 1
@@ -204,6 +204,8 @@ export const useArticleCommentStore = defineStore('ArticleCommentStore', {
         // } else {
         //   this.commentList[pIndexId].unshift(ReplyCommentRetData.data)
         // }
+      } else {
+        errorMsg(ReplyCommentRetData.msg)
       }
     },
     getCommentActionIcon(action: CommentType, pIndexId: number, cIndexId?: number) {

@@ -3,7 +3,7 @@
     <client-only>
       <v-toolbar density="compact" multiple>
         <emoji-picker @addEmoji="addEmoji">
-          <template v-slot="{activator}">
+          <template v-slot="{ activator }">
             <v-btn v-bind="activator" icon size="small">
               <v-icon> mdi-sticker-emoji</v-icon>
               <v-tooltip activator="parent" location="top"> 表情</v-tooltip>
@@ -81,12 +81,12 @@ import { useChatsStore } from '~/stores/messages/chatsStore'
 import EmojiPicker from '~~/components/common/emojiPicker.vue'
 import { onMounted, ref, watch } from 'vue'
 import { defaultMsg, successMsg, warningMsg } from '~/composables/utils/toastification'
-import { useAxiosPostUploadAvatar } from '~/composables/Api/user/settings'
-import mediumZoom from 'medium-zoom'
+import { useAxiosPostUploadPicture } from '~/composables/Api/user/settings'
 import { changeThemes, themes } from '~/constant/markdownThemeList'
 import { changeHighlightStyle } from '~/constant/highlightStyleList'
 import { marked } from 'marked'
 import { useTheme } from 'vuetify'
+import { FileType } from '~/types/other/file'
 
 const theme = useTheme()
 const imgFile = ref()
@@ -125,7 +125,7 @@ const openChangeFile = () => {
 }
 const changeImgFile = async (e) => {
   const file = e.target.files[0]
-  const { data: response } = await useAxiosPostUploadAvatar(file)
+  const { data: response } = await useAxiosPostUploadPicture(file, FileType.chat_image)
   if (response.code === 0) {
     const url = 'http://' + response.data + '?imageMogr2'
     await chatsStore.sendImg(url)

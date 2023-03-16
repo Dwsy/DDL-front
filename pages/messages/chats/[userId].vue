@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div style="height: 90%">
+    <div style="height: 90%" v-if="userStore.userInfo">
       <div style="height: 80%">
         <v-divider class="mb-4"></v-divider>
         <v-row class="">
@@ -103,13 +103,13 @@
                     style="position: sticky; bottom: 4%"
                   >
                     <v-avatar size="large">
-                      <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                      <v-img :src="userStore.userInfo.avatar"></v-img>
                     </v-avatar>
                     <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
                   <template v-else>
                     <v-avatar size="large">
-                      <v-img :src="useUserStore().userInfo.avatar"></v-img>
+                      <v-img :src="userStore.userInfo.avatar"></v-img>
                     </v-avatar>
                     <span class="d-time mt-n5 mb-3">{{ timeAgoFilter(i.createTime) }}</span>
                   </template>
@@ -157,7 +157,7 @@ useHead({
   // ]
 })
 const route = useRoute()
-
+const userStore = useUserStore()
 const chatsStore = useChatsStore()
 
 const uid = ref('')
@@ -211,7 +211,7 @@ onMounted(async () => {
     }
   })
 
-  let user = useUserStore()
+  let user = userStore
   //todo 拦截器
   if (user.token === '') {
     warningMsg('请先登录')
@@ -222,6 +222,7 @@ onMounted(async () => {
   chatsStore.chatRecord = []
   if (isNumber(userId)) {
     await chatsStore.pullLastMessage(true, userId)
+
     loading.value = false
     document.title = '私信:' + chatsStore.chatRecord[0].chatUserNickname
     chatsStore.load = false

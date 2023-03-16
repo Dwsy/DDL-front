@@ -69,19 +69,21 @@
             </template>
 
             <v-card width="300px" style="overflow: hidden" elevation="1">
-              <v-row class="pa-2">
-                <v-col cols="3">
-                  <v-avatar size="x-large" class="mr-2">
-                    <v-img :src="userStore.userInfo?.avatar"></v-img>
-                  </v-avatar>
-                </v-col>
-                <v-col cols="5">
-                  <span class="text-lg">
-                    {{ userStore.user.nickname }}
-                  </span>
-                  <div class="text-sm text-neutral-600">@{{ userStore.user.username }}</div>
-                </v-col>
-              </v-row>
+              <nuxt-link v-if="userStore.userInfo" :to="`/user/${userStore.user?.id}`">
+                <v-row class="pa-2">
+                  <v-col cols="3">
+                    <v-avatar size="x-large" class="mr-2">
+                      <v-img :src="userStore.userInfo?.avatar"></v-img>
+                    </v-avatar>
+                  </v-col>
+                  <v-col cols="5">
+                    <span class="text-lg">
+                      {{ userStore.user.nickname }}
+                    </span>
+                    <div class="text-sm text-neutral-600">@{{ userStore.user.username }}</div>
+                  </v-col>
+                </v-row>
+              </nuxt-link>
               <div v-if="userStore?.userInfo" class="pa-2">
                 <div>Level：{{ userStore.userInfo.level }}</div>
                 <v-progress-linear

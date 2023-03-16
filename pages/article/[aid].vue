@@ -5,6 +5,11 @@
       <Meta :content="title" name="description" />
       <Style id="highlightStyle" :children="articleStore.HighlightStyleStr" type="text/css" />
       <Style id="markdownTheme" :children="articleStore.MarkdownThemeStr" type="text/css" />
+      <Link
+        href="https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.css"
+        type="text/css"
+        rel="stylesheet"
+      ></Link>
     </Head>
     <v-row class="article-content">
       <v-col class="ml-md-2 ml-lg-6 ml-0" lg="10" md="10" sm="10" xl="10" xs="12">
@@ -757,6 +762,14 @@ import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline/esm/index.js'
 definePageMeta({
   keepalive: false,
 })
+useHead({
+  script: [
+    {
+      src: 'https://cdn.bootcdn.net/ajax/libs/tocbot/4.18.2/tocbot.js',
+      body: true,
+    },
+  ],
+})
 useLayout().showFooter = true
 const theme = useTheme()
 //todo 移动端适配
@@ -1056,7 +1069,7 @@ onMounted(() => {
     }, 900)
   }
   // window.addEventListener('scroll', )
-  if (document.documentElement.clientWidth > 1280) document.onscroll = autoOverflow
+  // if (document.documentElement.clientWidth > 1280) document.onscroll = autoOverflow
 })
 </script>
 
