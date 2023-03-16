@@ -809,16 +809,15 @@ const getHighlightStyleName = () => {
 if (typeof window == 'undefined') {
   articleStore.HighlightStyleStr = await changeHighlightStyle(getHighlightStyleName(), true)
   articleStore.MarkdownThemeStr = await changeThemes(themes[getMarkdownThemeName()], true)
-}
+}//服务端添加主题样式文件
 onBeforeMount(async () => {
   let highlightStyle = document.querySelector('#highlightStyle')
   let markdownTheme = document.querySelector('#markdownTheme')
-
   if (highlightStyle == null || markdownTheme == null) {
     await changeHighlightStyle(getHighlightStyleName())
     await changeThemes(themes[getMarkdownThemeName()])
   }
-})
+})//客户端渲染添加样式文件
 onMounted(async () => {
   //
   if (user.token === '') {
@@ -1234,10 +1233,8 @@ onMounted(() => {
 }
 
 .d-tip-success {
-  /*background: #f0f8e5 !important;*/
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
-  border-left-color: #1aad19 !important;
-  /*color: black!important;*/
+  border-left-color: #1aad19 !important;//使用v-bind切换样式
 }
 
 .d-tip-warning {

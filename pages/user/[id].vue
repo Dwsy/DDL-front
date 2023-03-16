@@ -42,15 +42,15 @@
               <ClientOnly>
                 <v-row class="ml-n8">
                   <v-col cols="10" class="mt-5">
-                    <MlHeatmap
-                      v-if="heatmapData.length !== 0"
-                      :data="heatmapData"
-                      locale="cn"
-                      :year="new Date().getFullYear() - minusYears"
-                      :tip1="tip1"
-                      :tip2="tip2"
-                      :dark="useTheme().global.name.value === 'dark'"
-                    />
+<!--                    <MlHeatmap-->
+<!--                      v-if="heatmapData.length !== 0"-->
+<!--                      :data="heatmapData"-->
+<!--                      locale="cn"-->
+<!--                      :year="new Date().getFullYear() - minusYears"-->
+<!--                      :tip1="tip1"-->
+<!--                      :tip2="tip2"-->
+<!--                      :dark="useTheme().global.name.value === 'dark'"-->
+<!--                    />-->
                   </v-col>
                   <v-col>
                     <v-tabs direction="vertical" v-model="minusYears">
@@ -299,8 +299,9 @@ import {
 } from '~/composables/useTools'
 import { LevelExp } from '~/constant/user/level'
 import UserThumbCardList from '~/components/user/userThumbCardList.vue'
-import { MlHeatmap } from '~/components/ml-heatmap/dist/heatmap.es'
-import '~/components/ml-heatmap/dist/style.css'
+// import { MlHeatmap } from '~/components/ml-heatmap/dist/heatmap.es'
+// import {MlHeatmap} from  "ml-heatmap/dist/heatmap.umd"
+// import '~/components/ml-heatmap/dist/style.css'
 import Tab from '~/components/Tcomponents/Sidebar/Left/Tab.vue'
 import { useTheme } from 'vuetify'
 // import { MlHeatmap } from 'ml-heatmap'

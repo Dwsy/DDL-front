@@ -13,7 +13,7 @@
 // import '~/components/ml-heatmap/dist/style.css'
 import { MlHeatmap } from 'ml-heatmap'
 import 'ml-heatmap/dist/style.css'
-import '~/components/ml-heatmap/dist/style.css'
+// import '~/components/ml-heatmap/dist/style.css'
 import { ref } from 'vue'
 import { ResponseData } from '~/types/utils/axios'
 import { useGet } from '~/composables/useAxios'

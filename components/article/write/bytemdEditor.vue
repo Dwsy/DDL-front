@@ -1,7 +1,5 @@
 <template>
   <div class="main">
-    <!--    <v-btn @click="changeThemes(themes[themeNameList[0]])">test</v-btn>-->
-    <!--    <v-btn @click="changeThemes(themes.jzman)">test1</v-btn>-->
     <Editor
       id="d-Editor"
       :locale="zhHans"
