@@ -16,8 +16,7 @@ Mock地址：https://ddlmock.dwsy.link/
 
 ApiFox地址：https://ddlddlddl.apifox.cn
 
-#### 开发截图
-
+#### 页面截图
 ![](./doc/img/index.png)
 ![](./doc/img/indexDark.png)
 ![](./doc/img/article.png)

@@ -2,6 +2,7 @@
   <div>
     {{ userStore.user?.nickname }}
   </div>
+  
 </template>
 
 <script setup lang="ts">
