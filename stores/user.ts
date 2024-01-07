@@ -13,6 +13,7 @@ export interface user {
   user: tokenMsg
   userInfo: UserInfo
   check: boolean
+  admin: boolean
 }
 
 export interface UserInfo {
@@ -24,6 +25,8 @@ export interface UserInfo {
   gender: string
   birth: any
   experience?: number
+
+  tagStr: string
 }
 
 interface tokenMsg {

@@ -85,7 +85,7 @@
                       tag.name === 'C++'
                         ? 'mdi-language-cpp'
                         : `mdi-language-${tag.name.toLocaleLowerCase()}`
-                    }} -->
+       }} -->
 </template>
 
 <script setup lang="ts">

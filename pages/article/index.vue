@@ -48,6 +48,8 @@ import { onBeforeRouteLeave } from 'vue-router'
 import { useHead } from '#head'
 import { useLayout } from '~/stores/layout'
 import { useTheme } from 'vuetify'
+import { useUserStore } from '~/stores/user'
+import { useAxiosGetRecommendArticle } from '~/composables/Api/article'
 //todo 因为做了瀑布流需要加一个 seo 隐藏分页
 // import { useWindowScroll } from '@vueuse/core'
 // const { x, y } = useWindowScroll()
@@ -58,10 +60,14 @@ definePageMeta({
 const theme = useTheme()
 useLayout().showFooter = true
 const showText = ref(false)
-onMounted(() => {
+onMounted(async () => {
   if (showText.value) return
-  setTimeout(() => {
+  setTimeout(async () => {
     showText.value = true
+    if (userStore.userInfo != null) {
+      const { data: axiosResponse } = await useAxiosGetRecommendArticle(userStore.userInfo.tagStr)
+      listContent.value.unshift(...axiosResponse.data)
+    }
   }, 1000)
 })
 let a = ref(0)
@@ -90,11 +96,13 @@ const alert = ref(false)
 useHead({
   title: '文章',
 })
-onMounted(() => {
+const userStore = useUserStore()
+onMounted(async () => {
   // clog('index mounted')
   // clog(indexTop.value)
   // document.documentElement.scrollTop = 0
   document.body.onscroll = useLoadingWin(loadingMore)
+  await nextTick()
 })
 onBeforeUnmount(() => {
   document.body.onscroll = null
@@ -112,6 +120,10 @@ const selectTag = async (tagID) => {
   // page.value = 1
   alert.value = false
   const { data: r } = await useAxiosGetArticleList(params.value)
+  if (userStore.userInfo != null && tagID == 0) {
+    const { data: axiosResponse } = await useAxiosGetRecommendArticle(userStore.userInfo.tagStr)
+    r.data.content.unshift(...axiosResponse.data)
+  }
   listContent.value = r.data.content
   totalPages.value = r.data.totalPages
   console.log('selectTag-end', r)
@@ -127,6 +139,13 @@ const loadingMore = async () => {
   }
   params.value.page += 1
   const { data: listDataNew } = await useFetchGetArticleList(params.value)
+  listDataNew.content.filter((item) => {
+    if (listContent.value.find((item2) => item2.id == item.id)) {
+      return false
+    } else {
+      return true
+    }
+  })
   listContent.value.push(...listDataNew.content)
 }
 </script>

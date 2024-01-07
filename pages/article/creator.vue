@@ -44,7 +44,11 @@
               <v-divider class="ml-6"></v-divider>
               <v-list-item title="专栏管理"></v-list-item>
               <v-divider class="ml-6"></v-divider>
-              <v-list-item title="文章管理"></v-list-item>
+              <v-list-item
+                v-if="userStore.userInfo?.admin"
+                title="管理员文章管理"
+                to="/article/creator/content/adminManageArticle?state=all"
+              ></v-list-item>
             </v-list-group>
           </v-list>
         </v-card>

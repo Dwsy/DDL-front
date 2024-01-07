@@ -190,7 +190,7 @@ const github = () => {
   const baseURL = runtimeConfig.public.baseURL
   const state = Math.floor(Math.random() * 10000)
   // window.location.href = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=${baseURL}http://localhost:9001/api/auth/github&scope=user:email&state=${state}`
-  window.location.href = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=${baseURL}/auth/github&scope=user:email&state=${state}`
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=9b86caa6024f777670f4&redirect_uri=${baseURL}auth/github&scope=user:email&state=${state}`
   successMsg('登录成功')
   navigateTo('/')
 }

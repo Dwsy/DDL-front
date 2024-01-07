@@ -2,6 +2,8 @@ console.log(process.env.NUXT_PUBLIC_API_BASE_URL)
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  rootDir: '',
+  hooks: undefined,
   // ssr: Boolean(process.env.NUXT_SSR),
   app: {
     head: {
@@ -40,7 +42,7 @@ export default defineNuxtConfig({
     },
   },
   css: ['vuetify/lib/styles/main.sass'],
-  modules: [['@pinia/nuxt'], '@vueuse/nuxt', '@nuxtjs/tailwindcss'],
+  modules: [['@pinia/nuxt'], '@vueuse/nuxt', '@nuxtjs/tailwindcss', '@nuxtjs/robots'],
   imports: {
     dirs: ['composables', 'composables/*/index.{ts,js,mjs,mts}', 'composables/**'],
   },
@@ -67,4 +69,8 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify', 'vue-toastification', '@heroicons/vue'],
   },
+  // routeRules: {
+  //   // use the `index` shortcut for simple rules
+  //   '/**': { index: true },
+  // },
 })

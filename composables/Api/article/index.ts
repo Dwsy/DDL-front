@@ -1,12 +1,22 @@
 import http from '~~/utils/fetch'
 import { useDel, useGet, useGetT, usePost } from '~/composables/useAxios'
-import { collectionData, collectionGroupData, collectionType } from '~/types/article'
+import {
+  articleListData,
+  collectionData,
+  collectionGroupData,
+  collectionType,
+} from '~/types/article'
 import { ResponseData, ResponsePageData } from '~/types/utils/axios'
 import { PageParam } from '~/types/common'
 import { CommentContent } from '~/stores/article/articleCommentStore'
+import { ArticleField } from '~/stores/article/articleStore'
 
 export const useFetchGetArticleGroupList = (params?: { size?: number; page?: number }) => {
   return http.GET<ResponseData<any>>('article/group/list', params)
+}
+
+export const useAxiosGetRecommendArticle = (tag: string) => {
+  return useGet<ResponseData<articleListData[]>>('search/article/recommend/' + tag, null)
 }
 
 export const useFetchGetArticleList = (params?: {

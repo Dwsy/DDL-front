@@ -39,8 +39,16 @@ export const useAxiosGetUserArticleList = (params?: GetUserArticleListParams) =>
   return useGet<ResponseData<any>>('article/article/manage/field/list', params)
 }
 
+export const useAxiosGetAdminArticleList = (params?: GetUserArticleListParams) => {
+  return useGet<ResponseData<any>>('article/article/manage/field/admin/list', params)
+}
+
 export const useAxiosGetArticleCountByState = () => {
   return useGet<ResponseData<any>>('article/article/manage/field/num')
+}
+
+export const useAxiosGetAdminArticleCountByState = () => {
+  return useGet<ResponseData<any>>('article/article/manage/field/admin/num')
 }
 
 export const useAxiosGetArticleField = (id: string, version: number) => {
@@ -63,6 +71,13 @@ export const useAxiosDeleteArticleById = (id) => {
   return useDel<ResponseData<any>>('article/article/manage/' + id)
 }
 
+export const useAxiosAdminDeleteArticleById = (id) => {
+  return useDel<ResponseData<any>>('article/article/manage/admin/' + id)
+}
+
+export const useAxiosAdminAuditingArticleById = (body: ArticleAuditingRB) => {
+  return usePost<ResponseData<void>>('article/article/manage/admin/auditing', body)
+}
 export const useAxiosGetArticleStatisticsData = (daysAgo = 7) => {
   return useGet<ResponseData<any>>('data/user/article/', {
     daysAgo,
@@ -70,12 +85,17 @@ export const useAxiosGetArticleStatisticsData = (daysAgo = 7) => {
 }
 
 export interface ArticleStatisticsDataI {
-  serial: number;
-  viewNum: number;
-  upNum: number;
-  downNum: number;
-  commentNum: number;
-  collectNum: number;
+  serial: number
+  viewNum: number
+  upNum: number
+  downNum: number
+  commentNum: number
+  collectNum: number
 }
 
+export interface ArticleAuditingRB {
+  pass: boolean
+  reason: string
 
+  articleId: string
+}

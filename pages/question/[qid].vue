@@ -191,7 +191,6 @@
                                   <v-tab value="recommended">推荐</v-tab>
                                   <v-tab value="search">搜索</v-tab>
                                 </v-tabs>
-
                                 <v-card-text>
                                   <v-window v-model="invitationTab">
                                     <v-window-item value="following">
@@ -317,9 +316,8 @@
                                         <v-divider></v-divider>
                                       </v-list>
                                     </v-window-item>
-
-                                    <v-window-item value="search"
-                                      >{{ invitationSearchUserList }}
+                                    {{ invitationSearchUserList }}
+                                    <v-window-item value="search">
                                       <v-list v-for="(u, index) in invitationSearchUserList">
                                         <v-list-item>
                                           <nuxt-link :href="`/user/${u.userId}`" target="_blank">
@@ -766,12 +764,19 @@
                             <!--                          </v-tooltip>-->
                             <!--                          回复-->
                             <!--                        </v-btn>-->
-                            <!--                        <v-btn class="mx-4" variant="outlined" color="#b7282e">-->
-                            <!--                          关注-->
-                            <!--                          <v-tooltip activator="parent" location="top">-->
-                            <!--                            关注跟踪这个问题，当有新的回答时会收到通知-->
-                            <!--                          </v-tooltip>-->
-                            <!--                        </v-btn>-->
+                            <v-btn
+                              class="mx-4"
+                              variant="outlined"
+                              color="red"
+                              v-if="
+                                answer.user.id === userStore.user.id ||
+                                questionStore.filed.user.id === userStore.user.id
+                              "
+                              @click="delAnswer(answer.id)"
+                            >
+                              删除
+                              <v-tooltip activator="parent" location="top"> 删除 </v-tooltip>
+                            </v-btn>
                           </div>
                           <div class="text-end">
                             <nuxt-link :href="`/user/${answer.user.id}`" target="_blank">
@@ -1435,6 +1440,12 @@ const complementRet = (ret: AnswerData) => {
   ret.user.id = userStore.user.id
   ret.user.nickname = userStore.user.nickname
   clog('ret.user', ret.user)
+}
+
+const delAnswer = (answerId: string) => {
+  // answerStore.dataLis()
+  console.log('del answer')
+  answerStore.dataList = answerStore.dataList.filter((item) => item.id !== answerId)
 }
 </script>
 
