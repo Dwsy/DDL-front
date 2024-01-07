@@ -35,7 +35,6 @@ export const useArticleReplyStore = defineStore('replyNotify', {
     getGoToLink(notify: NotifyMsg) {
       if (notify.notifyType == NotifyType['回复了你的评论:']) {
         return '/article/' + notify.articleId + '#comment-' + notify.replyCommentId
-        // return '/article/' + notify.articleId
       }
       if (notify.notifyType == NotifyType['评论了文章:']) {
         return '/article/' + notify.articleId

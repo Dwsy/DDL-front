@@ -761,13 +761,14 @@ export const changeHighlightStyle = async (name: string, ssr?: boolean) => {
       css = await import('~~/constant/highlightCJs/xcode')
   }
   if (ssr === true) {
-    return css.default
+    return css.default//服务端渲染直接返回Css代码进行生成Style代码块
   }
   let markdownThemeStyleElement = document.querySelector('#highlightStyle')
   // clog(css)
+  //客户端渲染复用Style标签替换Css代码
   if (markdownThemeStyleElement) {
     markdownThemeStyleElement.innerHTML = css.default
-  } else {
+  } else {//客户端渲染添加Style标签
     markdownThemeStyleElement = document.createElement('style')
     markdownThemeStyleElement.id = 'highlightStyle'
     markdownThemeStyleElement.innerHTML = css.default

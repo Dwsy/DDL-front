@@ -10,14 +10,16 @@
 
 后端地址：[https://github.com/Dwsy/DDL](https://github.com/Dwsy/DDL)
 
+拉取后修改env.example文件为.env可直接通过mock地址运行
+
 ---
 
 Mock地址：https://ddlmock.dwsy.link/
 
 ApiFox地址：https://ddlddlddl.apifox.cn
 
-#### 开发截图
-
+#### 页面截图
+![](./doc/img/%E5%8A%9F%E8%83%BD.png)
 ![](./doc/img/index.png)
 ![](./doc/img/indexDark.png)
 ![](./doc/img/article.png)
