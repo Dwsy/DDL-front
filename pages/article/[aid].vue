@@ -1247,7 +1247,7 @@ onMounted(() => {
 
 .d-tip-success {
   background: v-bind('theme.global.name.value === "dark" ? "#09250d" : "#f0f8e5"') !important;
-  border-left-color: #1aad19 !important;//使用v-bind切换样式
+  border-left-color: #1aad19 !important;/*使用v-bind切换样式*/
 }
 
 .d-tip-warning {
