@@ -12,6 +12,10 @@
 
 拉取后修改env.example文件为.env可直接通过mock地址运行
 
+ps: nuxi 与nuxt的版本必须为3.0.0 如果使用包工具安装为最新版本需要手动卸载在通过指定版本号安装
+Nuxi 3.0.0                                                                                                                                                                                               00:24:24
+Nuxt 3.0.0 with Nitro 1.0.0    
+
 ---
 
 Mock地址：https://ddlmock.dwsy.link/
